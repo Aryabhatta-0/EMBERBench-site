@@ -1,11 +1,37 @@
 // Pure operations shared by the UI and its Node tests. Missing values stay missing.
 export const finite = (v) => typeof v === "number" && Number.isFinite(v);
+export const PROVIDER_BRANDS = Object.freeze({
+  typesafe: { name: "TypeSafe", mark: "T", color: "#b94f2c" },
+  "nace-ai": { name: "Nace.AI", mark: "N", color: "#536b84" },
+  liquid: { name: "Liquid AI", mark: "L", color: "#5666d8" },
+  openai: { name: "OpenAI", mark: "O", color: "#14715e" },
+  perplexity: { name: "Perplexity", mark: "P", color: "#20727d" },
+  subq: { name: "SubQ", mark: "S", color: "#a43b32" },
+  respan: { name: "Respan", mark: "R", color: "#7740b8" },
+  cloudflare: { name: "Cloudflare", mark: "C", color: "#c95706" },
+  microsoft: { name: "Microsoft", mark: "M", color: "#0078d4" },
+  inception: { name: "Inception", mark: "I", color: "#ad4059" },
+  togethercomputer: { name: "Together AI", mark: "T", color: "#5945a5" },
+  upstage: { name: "Upstage", mark: "U", color: "#525bc3" },
+  Reference: { name: "Reference agent", mark: "R", color: "#8798aa" },
+});
 export function provider(m) {
   return m.kind === "Decision model"
     ? m.name.includes("/") && m.name.split("/")[0]
       ? m.name.split("/")[0]
       : "Unknown provider"
     : "Reference";
+}
+export function providerInfo(value) {
+  const rawId = typeof value === "string" ? value : provider(value);
+  const id = rawId === "Reference" ? rawId : rawId.toLowerCase();
+  return (
+    PROVIDER_BRANDS[id] ?? {
+      name: id.replaceAll("-", " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+      mark: id.slice(0, 1).toUpperCase() || "?",
+      color: "#64748b",
+    }
+  );
 }
 export const METRICS = {
   score: {
@@ -104,7 +130,7 @@ export function filterModels(
   return models.filter(
     (m) =>
       (kind === "all" || m.kind === kind) &&
-      (creator === "all" || provider(m) === creator) &&
+      (creator === "all" || provider(m).toLowerCase() === creator.toLowerCase()) &&
       terms.every((t) =>
         `${m.name} ${m.id} ${provider(m)}`.toLowerCase().includes(t),
       ),

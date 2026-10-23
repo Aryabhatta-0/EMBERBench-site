@@ -11,12 +11,20 @@ import {
   section,
   table,
   kindBadge,
+  providerChip,
   provenance,
   errorPage,
   isDecision,
 } from "./common.js";
 import { sortModels, finite, leaderboardOrder } from "./analytics.js";
-import { scoreBars, scatter, heatmap, legend } from "./charts.js";
+import {
+  scoreBars,
+  scatter,
+  heatmap,
+  legend,
+  providerComparison,
+  scenarioRangeChart,
+} from "./charts.js";
 
 async function main() {
   const data = await loadResults();
@@ -90,6 +98,7 @@ async function main() {
   <div class="pack-strip"><span>EnvironmentPack <b>${esc(data.pack_id)}</b></span><a href="methodology.html#provenance">${esc(data.pack_digest.slice(0, 16))}… ↗</a></div>
   <section><div class="section-head"><h2>Leaders at a glance</h2><span class="muted">Descriptive best values, not significance claims</span></div><div class="leaders">${leaderCards}</div></section>
   <div class="grid2 overview-analysis">${section("EMBER Score by model", "Higher is better. All evaluated entries; reference agents are not LLMs.", `<div class="toolbar"><label class="field">Show<select id="top-kind"><option value="all">All entries</option><option value="Decision model">Decision models</option><option value="Reference agent">Reference agents</option></select></label></div><div id="top-chart"></div>${legend()}<a class="link" href="leaderboard.html">Open full leaderboard</a>`)}${section("Explore the trade-offs", "Use actual outcomes to understand score differences.", `<div class="toolbar"><label class="field">Relationship<select id="analysis-metric"><option value="quality">Safety vs Quality</option><option value="casualties">EMBER vs avoidable casualties</option><option value="congestion">EMBER vs congestion block rate</option><option value="latency">EMBER vs mean decision latency</option><option value="cost">EMBER vs API cost</option></select></label><label class="field">Highlight model<select id="highlight-model"><option value="">None</option>${models.map((m) => `<option value="${esc(m.id)}">${esc(m.name)}</option>`).join("")}</select></label></div><div id="scatter-chart"></div><p class="note">Cost and latency are run metadata, never score inputs. ≈ costs are list-price estimates; resumed runs may record only the final invocation.</p>`)}</div>
+  <div class="grid2 overview-providers">${section("Company scorecard", "Logo-inspired hues keep each provider easy to track. Select a company to filter the leaderboard.", `<div class="toolbar"><label class="field">Compare by<select id="provider-metric"><option value="score">Best EMBER Score</option><option value="cost">Lowest recorded API cost</option><option value="latency">Lowest mean decision latency</option></select></label></div><div id="provider-chart"></div>`)}${section("Scenario consistency", "See which models stay steady across the frozen public scenarios.", scenarioRangeChart(decisions))}</div>
   ${section("Scenario × model", "A compact view of strengths and weaknesses. Scenario scores, 0–100; higher is better.", heatmap(models))}
   ${section(
     "Evaluated decision models",
@@ -97,7 +106,7 @@ async function main() {
     table(
       ["Model", "Type", "EMBER Score", "Avoidable deaths", "API cost"],
       decisions.map((m) => [
-        modelLink(m),
+        `${modelLink(m)}<span class="model-provider">${providerChip(m)}</span>`,
         kindBadge(m),
         fmt(m.score),
         count(m.totals.avoidable_casualties),
@@ -127,15 +136,25 @@ async function main() {
       document.getElementById("highlight-model").value,
     );
   };
+  const renderProviderChart = () => {
+    document.getElementById("provider-chart").innerHTML = providerComparison(
+      decisions,
+      document.getElementById("provider-metric").value,
+    );
+  };
   document.getElementById("top-kind").addEventListener("change", renderTop);
   document
     .getElementById("analysis-metric")
     .addEventListener("change", renderScatter);
+  document
+    .getElementById("provider-metric")
+    .addEventListener("change", renderProviderChart);
   document.getElementById("highlight-model").addEventListener("change", () => {
     renderTop();
     renderScatter();
   });
   renderTop();
   renderScatter();
+  renderProviderChart();
 }
 main().catch(errorPage);

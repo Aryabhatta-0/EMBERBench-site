@@ -16,7 +16,7 @@ import {
   provenance,
   COMPONENTS,
   rankOf,
-  provider,
+  providerChip,
   scenarioName,
   errorPage,
 } from "./common.js";
@@ -73,7 +73,7 @@ async function main() {
     ...(a ? [["api", "API efficiency"]] : []),
     ["provenance", "Provenance"],
   ];
-  const hero = `<header class="profile-head"><div><a class="breadcrumb" href="leaderboard.html">Leaderboard / Model profile</a><h1>${esc(m.name)}</h1><p>${esc(provider(m))} ${kindBadge(m)}</p><p class="muted">Overall rank <b>${rankOf(models, m)} of ${models.length}</b> · Rank ${rankOf(withinKind, m)} of ${withinKind.length} ${esc(m.kind.toLowerCase())}s · ${count(t.trials)} trial</p><div class="toolbar"><label class="field">Browse models<select id="browse-model">${models.map((x) => `<option value="${esc(x.id)}" ${x.id === m.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label><a class="button" href="compare.html?models=${encodeURIComponent(m.id)}">Compare this model</a></div></div><div class="score-hero"><span>EMBER Score ↑</span><strong>${fmt(m.score)}</strong><small>95% CI ${ciText(m)}</small><small>Benchmark points / 100</small></div></header>`;
+  const hero = `<header class="profile-head"><div><a class="breadcrumb" href="leaderboard.html">Leaderboard / Model profile</a><h1>${esc(m.name)}</h1><p class="profile-meta">${providerChip(m)} ${kindBadge(m)}</p><p class="muted">Overall rank <b>${rankOf(models, m)} of ${models.length}</b> · Rank ${rankOf(withinKind, m)} of ${withinKind.length} ${esc(m.kind.toLowerCase())}s · ${count(t.trials)} trial</p><div class="toolbar"><label class="field">Browse models<select id="browse-model">${models.map((x) => `<option value="${esc(x.id)}" ${x.id === m.id ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label><a class="button" href="compare.html?models=${encodeURIComponent(m.id)}">Compare this model</a></div></div><div class="score-hero"><span>EMBER Score ↑</span><strong>${fmt(m.score)}</strong><small>95% CI ${ciText(m)}</small><small>Benchmark points / 100</small></div></header>`;
   const apiContent = a
     ? `<div class="metrics">${metricCard("API requests", count(a.requests), "Sent in the recorded invocation")}${metricCard("Input tokens", count(a.input_tokens), "API-reported")}${metricCard("Output tokens", count(a.output_tokens), "API-reported")}${metricCard("API cost", costText(m), a.cost_source ?? "Not reported")}${metricCard("Mean decision latency", duration(a.mean_act_latency_s), "Per recorded act call")}${metricCard("Recorded wall time", duration(a.wall_clock_s), "May be final resumed segment only")}</div><p class="note">API usage comes from run metadata, not scoring. Cached answers may be untimed. A resumed run can report only its last invocation, including provider waits. Mean decision latency is not measured streaming time to first token. ≈ means an estimate at published token prices.</p>${table(
         ["Field", "Recorded value"],

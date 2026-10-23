@@ -658,6 +658,46 @@ tbody tr:hover td {
   color: var(--text-muted);
   margin-top: 3px;
 }
+.provider-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 2px 7px 2px 3px;
+  border: 1px solid color-mix(in srgb, var(--provider-color) 28%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--provider-color) 8%, var(--surface-1));
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.35;
+  vertical-align: middle;
+}
+.provider-mark {
+  display: inline-grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--provider-color, var(--ref-bar));
+  color: #fff;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: -0.03em;
+}
+.provider-chip .provider-mark {
+  width: 15px;
+  height: 15px;
+  font-size: 9px;
+}
+.profile-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
 .num {
   font-variant-numeric: tabular-nums;
   text-align: right;
@@ -680,7 +720,7 @@ tbody tr:hover td {
 .score-fill {
   display: block;
   height: 100%;
-  background: var(--series-1);
+  background: var(--provider-color, var(--series-1));
 }
 .reference .score-fill,
 .ref .score-fill {
@@ -698,15 +738,15 @@ tbody tr:hover td {
   position: absolute;
   top: 7px;
   height: 6px;
-  background: color-mix(in srgb, var(--series-1) 35%, var(--surface-1));
-  border-inline: 1px solid var(--series-1);
+  background: color-mix(in srgb, var(--provider-color, var(--series-1)) 35%, var(--surface-1));
+  border-inline: 1px solid var(--provider-color, var(--series-1));
 }
 .ci-dot {
   position: absolute;
   top: 6px;
   width: 8px;
   height: 8px;
-  background: var(--series-1);
+  background: var(--provider-color, var(--series-1));
   border: 1px solid var(--surface-1);
   border-radius: 50%;
   transform: translateX(-50%);
@@ -726,6 +766,143 @@ tbody tr:hover td {
 }
 .selection-bar .button:first-of-type {
   margin-left: auto;
+}
+.provider-chart {
+  display: grid;
+  gap: 4px;
+}
+.provider-row {
+  display: grid;
+  grid-template-columns: 24px minmax(94px, 128px) minmax(50px, 1fr) minmax(66px, auto);
+  gap: 8px;
+  align-items: center;
+  min-height: 31px;
+  padding: 3px 5px;
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 12px;
+}
+.provider-row:hover,
+.provider-row:focus-visible {
+  background: color-mix(in srgb, var(--provider-color) 7%, var(--surface-1));
+}
+.provider-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.provider-name small {
+  display: block;
+  margin-top: 1px;
+  font-size: 10px;
+  line-height: 1.2;
+}
+.provider-track,
+.range-track {
+  position: relative;
+  display: block;
+  height: 13px;
+  overflow: hidden;
+  background: var(--track);
+  border-radius: 2px;
+}
+.provider-track > i {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  background: var(--provider-color);
+  border-radius: 0 2px 2px 0;
+}
+.provider-row > b,
+.range-row > b {
+  text-align: right;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.range-chart {
+  display: grid;
+  gap: 2px;
+}
+.range-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.2fr) minmax(75px, 1fr) 42px;
+  gap: 8px;
+  align-items: center;
+  min-height: 25px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 11px;
+}
+.range-row:hover .range-name,
+.range-row:focus-visible .range-name {
+  color: var(--link);
+  text-decoration: underline;
+}
+.range-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.company-swatch {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--provider-color, var(--ref-bar));
+}
+.range-track {
+  height: 16px;
+  overflow: visible;
+  background: linear-gradient(to right, transparent calc(25% - .5px), var(--border) 25%, transparent calc(25% + .5px), transparent calc(50% - .5px), var(--border) 50%, transparent calc(50% + .5px), transparent calc(75% - .5px), var(--border) 75%, transparent calc(75% + .5px)), var(--track);
+}
+.range-span {
+  position: absolute;
+  top: 6px;
+  height: 4px;
+  background: var(--provider-color, var(--ref-bar));
+  border-radius: 3px;
+}
+.range-mean {
+  position: absolute;
+  top: 3px;
+  width: 10px;
+  height: 10px;
+  transform: translateX(-50%);
+  border: 2px solid var(--surface-1);
+  border-radius: 50%;
+  background: var(--provider-color, var(--ref-bar));
+  box-shadow: 0 0 0 1px var(--provider-color, var(--ref-bar));
+}
+.range-axis {
+  margin: 6px 50px 0 min(35%, 235px);
+}
+.bar-row.decision .bar-label::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0 6px 1px 1px;
+  border-radius: 50%;
+  background: var(--provider-color, var(--series-1));
+  vertical-align: middle;
+}
+.bar-row.reference .bar-label::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0 6px 1px 1px;
+  background: var(--ref-bar);
+  vertical-align: middle;
 }
 .chart-scroll {
   width: 100%;
@@ -773,7 +950,7 @@ tbody tr:hover td {
 .bar-fill {
   display: block;
   height: 100%;
-  background: var(--series-1);
+  background: var(--provider-color, var(--series-1));
   border-radius: 0 2px 2px 0;
   min-width: 1px;
 }
@@ -1388,7 +1565,7 @@ tbody tr:hover th[scope="row"] {
   border-radius: 1px;
 }
 .chart-point.decision {
-  fill: var(--series-1);
+  fill: var(--provider-color, var(--series-1));
 }
 .chart-point.reference {
   fill: var(--ref-bar);
@@ -1434,6 +1611,9 @@ tbody tr:hover th[scope="row"] {
 }
 .series-3 {
   background: var(--ref-bar);
+}
+.component-bar .bar-fill {
+  background: var(--provider-color, var(--series-1));
 }
 .diff-row {
   display: grid;

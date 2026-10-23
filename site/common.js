@@ -1,5 +1,6 @@
 import {
   provider,
+  providerInfo,
   rankOf,
   selectedIds,
   leaderboardOrder,
@@ -31,6 +32,10 @@ export const isDecision = (m) => m.kind === "Decision model";
 export const ratio = (v) => (Number.isFinite(v) ? fmt(v, 3) : "—");
 export const modelLink = (m) =>
   `<a class="model-name" href="model.html?id=${encodeURIComponent(m.id)}">${esc(m.name)}</a>`;
+export const providerChip = (m) => {
+  const info = providerInfo(m);
+  return `<span class="provider-chip" style="--provider-color:${info.color}"><span class="provider-mark" aria-hidden="true">${esc(info.mark)}</span><span>${esc(info.name)}</span></span>`;
+};
 export const kindBadge = (m) =>
   `<span class="badge ${isDecision(m) ? "decision" : "reference"}">${esc(m.kind)}</span>`;
 export const ciText = (m) =>
@@ -251,4 +256,4 @@ export function errorPage(error) {
   document.querySelector("main").innerHTML =
     `<div class="empty"><h1>Results unavailable</h1><p>${esc(error.message)}</p><a href="index.html">Return to overview</a></div>`;
 }
-export { provider, rankOf };
+export { provider, providerInfo, rankOf };
