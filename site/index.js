@@ -1,6 +1,7 @@
 import { loadResults, shell, esc, fmt, count, section, provenance, errorPage, isDecision, providerChip } from './common.js';
 import { leaderboardOrder } from './analytics.js';
 import { scoreBars, scatter, heatmap, legend, providerComparison, metricBars, scoreCostQuadrant } from './charts.js';
+import { animateCosmos } from './cosmos.js';
 
 const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';
 async function main() {
@@ -11,7 +12,7 @@ async function main() {
   document.getElementById('main').innerHTML = `
   <section class="anantam-hero" aria-labelledby="hero-title">
     <div class="hero-copy"><h1 id="hero-title">Intelligence,<br>measured.</h1><p>Explore how AI makes decisions<br class="desktop-break"> when every move matters.</p><div class="hero-actions"><a class="button primary" href="leaderboard.html">Explore the benchmark ${arrow}</a><a class="quiet-link" href="methodology.html">How it works</a></div></div>
-    <div class="hero-art"><img src="assets/anantam-logo.png" width="1254" height="1254" alt="Anantam’s star-filled infinity emblem" fetchpriority="high"><span class="art-caption">Anantam <span lang="sa">अनन्तम्</span><span>Boundless possibilities.</span></span></div>
+    <div class="hero-art"><div class="cosmos-emblem"><img src="assets/anantam-logo.png" width="1254" height="1254" alt="Anantam’s star-filled infinity emblem" fetchpriority="high"><canvas class="cosmos-sky" aria-hidden="true" hidden></canvas></div><span class="art-caption">Anantam <span lang="sa">अनन्तम्</span><span>Boundless possibilities.</span></span><button class="cosmos-toggle" type="button" hidden>Pause motion</button></div>
     <div class="hero-facts" aria-label="Benchmark coverage"><span><b>${count(decisions.length)}</b> decision models</span><span><b>${count(models.length - decisions.length)}</b> reference agents</span><span><b>${count(worlds)}</b> shared worlds</span><span>Powered by <a href="methodology.html">EMBERBench</a></span></div>
   </section>
   <section class="benchmark-stage" id="explore" aria-labelledby="explore-title">
@@ -24,6 +25,7 @@ async function main() {
     <details class="analysis-disclosure extended-analysis"><summary>More analysis &amp; provenance</summary><div class="grid2">${section('Company scorecard', 'Compare providers using recorded results.', '<div class="toolbar"><label class="field">Compare by<select id="provider-metric"><option value="score">Best EMBER Score</option><option value="cost">Lowest recorded API cost</option><option value="latency">Lowest mean decision latency</option></select></label></div><div id="provider-chart"></div>')}${section('Mean decision latency', 'Recorded mean time to return one action.', metricBars(decisions, 'latency'))}${section('Recorded run time', 'End-to-end time for the recorded invocation.', metricBars(decisions, 'wall'))}${section('Score vs API cost', 'Missing costs remain unavailable.', scoreCostQuadrant(decisions))}</div>${section('Reproducible by construction', 'Generated from official score reports.', provenance(data))}</details>
   </section>
   <section class="research-note" aria-labelledby="research-title"><div><h2 id="research-title">Real pressure.<br>Reproducible evidence.</h2><a class="button" href="methodology.html">Meet EMBERBench ${arrow}</a></div><div class="research-copy"><p>Fire spreads. Corridors fill. Every decision changes what happens next.</p><p>EMBERBench tests how models guide people through dynamic evacuations. Anantam makes those outcomes easier to explore, compare, and understand.</p><details><summary>What the results mean</summary><p>EMBER Score combines safety and execution quality. It is not the percentage of people saved. These public worlds support development; they do not establish hidden-suite generalization. Reference agents use fixed strategies and are not language models.</p><a href="methodology.html#public-development">Read the evaluation scope</a></details><a class="quiet-link" href="compare.html">Compare models ${arrow}</a></div></section>`;
+  animateCosmos(document.querySelector('.cosmos-emblem'));
   const highlight = () => document.getElementById('highlight-model').value;
   const renderTop = () => { document.getElementById('top-chart').innerHTML = scoreBars(models.filter(m => document.getElementById('top-kind').value === 'all' || m.kind === document.getElementById('top-kind').value), highlight()); };
   const renderScatter = () => { const key = document.getElementById('analysis-metric').value; document.getElementById('scatter-chart').innerHTML = scatter(models, key, key === 'quality' ? 'safety' : 'score', highlight()); };

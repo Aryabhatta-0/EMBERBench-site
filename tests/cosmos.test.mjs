@@ -1,0 +1,68 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {resolve} from 'node:path';
+const require = createRequire(import.meta.url);
+const {chromium} = require(process.env.ANANTAM_PLAYWRIGHT_PATH || 'playwright');
+const base = process.env.ANANTAM_BASE_URL || 'http://127.0.0.1:8917/';
+const out = resolve(process.env.ANANTAM_QA_DIR || 'work/browser');
+await mkdir(out,{recursive:true});
+const browser = await chromium.launch();
+const page = await browser.newPage({viewport:{width:1440,height:1000}});
+const checks = [], errors = [];
+const check = (name,ok) => {assert.ok(ok,name);checks.push(name);};
+const state = value => page.waitForFunction(value=>document.querySelector('.cosmos-emblem')?.dataset.motion===value,value);
+const pixels = () => page.locator('.cosmos-sky').evaluate(el=>el.toDataURL());
+page.on('pageerror',e=>errors.push(e.message));
+await page.addInitScript(()=> {
+  window.motionTrails=[];
+  const move=CanvasRenderingContext2D.prototype.moveTo, line=CanvasRenderingContext2D.prototype.lineTo;
+  CanvasRenderingContext2D.prototype.moveTo=function(x,y){this.trailStart=[x,y];return move.call(this,x,y);};
+  CanvasRenderingContext2D.prototype.lineTo=function(x,y){if(this.trailStart && window.motionTrails.length<200) window.motionTrails.push([...this.trailStart,x,y]);return line.call(this,x,y);};
+});
+try {
+  await page.goto(base); await state('running');
+  check('Flight paths share one vanishing point',await page.locator('.cosmos-emblem').evaluate(el=> {
+    const cx=el.clientWidth*.5,cy=el.clientWidth*.46;
+    return window.motionTrails.length>50 && window.motionTrails.every(([tx,ty,x,y])=>Math.abs((tx-cx)*(y-cy)-(ty-cy)*(x-cx))<.01 && Math.hypot(x-cx,y-cy)>Math.hypot(tx-cx,ty-cy));
+  }));
+  check('Light theme preserves original artwork colour',await page.locator('.cosmos-emblem img').evaluate(el=>getComputedStyle(el).filter==='none'));
+  await page.getByRole('button',{name:'Switch to dark theme',exact:true}).click();
+  check('Dark theme preserves original artwork colour',await page.locator('.cosmos-emblem img').evaluate(el=>getComputedStyle(el).filter==='none'));
+  check('Dark theme does not recolour moving space',await page.locator('.cosmos-sky').evaluate(el=>getComputedStyle(el).filter==='none'));
+  await page.getByRole('button',{name:'Switch to light theme',exact:true}).click();
+  const first = await pixels(); await page.waitForTimeout(350);
+  check('Cosmos moves through the stationary emblem',first !== await pixels());
+  const box = await page.locator('.cosmos-emblem').boundingBox(); await page.waitForTimeout(350);
+  const next = await page.locator('.cosmos-emblem').boundingBox();
+  check('Emblem outline stays in place',Math.abs(box.x-next.x)<.1 && Math.abs(box.y-next.y)<.1 && box.width===next.width);
+  await page.getByRole('button',{name:'Pause motion',exact:true}).click(); await state('paused');
+  const paused = await pixels(); await page.waitForTimeout(350);
+  check('Pause stops rendering',paused === await pixels());
+  await page.getByRole('button',{name:'Play motion',exact:true}).focus(); await page.keyboard.press('Enter'); await state('running');
+  await page.waitForTimeout(350);
+  check('Keyboard resumes motion',paused !== await pixels());
+  await page.locator('.research-note').scrollIntoViewIfNeeded(); await state('idle');
+  const offscreen = await pixels(); await page.waitForTimeout(350);
+  check('Offscreen emblem stops rendering',offscreen === await pixels());
+  await page.evaluate(()=>scrollTo(0,0)); await state('running');
+  await page.emulateMedia({reducedMotion:'reduce'}); await state('reduced');
+  check('Reduced motion uses original artwork',await page.locator('.cosmos-sky').isHidden() && await page.locator('.cosmos-emblem img').isVisible());
+  check('Reduced motion hides unnecessary toggle',await page.locator('.cosmos-toggle').isHidden());
+  await page.emulateMedia({reducedMotion:'no-preference'}); await state('running');
+  check('Preference changes can restore motion',await page.getByRole('button',{name:'Pause motion',exact:true}).isVisible());
+  await page.setViewportSize({width:390,height:844});
+  await page.locator('.cosmos-emblem').scrollIntoViewIfNeeded(); await state('running');
+  check('Phone emblem retains square proportions',await page.locator('.cosmos-emblem').evaluate(el=>Math.abs(el.clientWidth-el.clientHeight)<=1));
+  check('Phone has no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  const noCanvas = await browser.newContext();
+  await noCanvas.addInitScript(()=>{HTMLCanvasElement.prototype.getContext=()=>null;});
+  const fallback = await noCanvas.newPage(); await fallback.goto(base); await fallback.locator('.site-footer').waitFor();
+  check('Unavailable canvas retains original emblem',await fallback.locator('.cosmos-emblem img').isVisible() && await fallback.locator('.cosmos-sky').isHidden());
+  await noCanvas.close();
+  check('No motion JavaScript errors',errors.length===0);
+} finally {
+  await writeFile(resolve(out,'cosmos-report.json'),JSON.stringify({checks,errors},null,2));
+  await browser.close();
+}
+console.log(`${checks.length} cosmos motion checks passed.`);

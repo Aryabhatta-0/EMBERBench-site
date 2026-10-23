@@ -78,7 +78,9 @@ Loading uses route-specific static headings and a branded skeleton while the act
 
 ## Motion and accessibility
 
-Motion personality: calm corporate. A single 600ms emblem entrance introduces the brand; interactions use explicit-property transitions at 150ms, with a 0.96 press scale. Frequent tab and data changes remain immediate. The loading skeleton alone pulses while data is pending. Reduced motion disables movement. No Lottie runtime is necessary.
+Motion personality: calm corporate, with a user-requested continuous space-flight signature inside the homepage emblem. The supplied PNG remains the visible base in its original colours in both themes; a transparent, alpha-masked canvas adds perspective trails sharing one vanishing point. It does not replace the artwork with another coloured sky. Stars retain fixed spatial directions; camera depth advances at a constant velocity, so nearer stars grow and pass faster. No random wandering or twinkle cycle is used.
+
+The flight runs at a maximum 30 frames per second, pauses offscreen or in a hidden tab, and has a visible Pause/Play motion control. Reduced motion and unavailable canvas retain the original still image. A single 600ms emblem entrance introduces the brand; interactions use explicit-property transitions at 150ms, with a 0.96 press scale. Frequent tab and data changes remain immediate. The loading skeleton pulses only while data is pending. No Lottie runtime is necessary.
 
 Native selects and disclosures retain keyboard behavior. Tabs follow the tablist/tab/tabpanel pattern, roving focus, Arrow keys, Home and End. Escape closes the mobile menu and restores focus. Empty tooltips are hidden from assistive technology. Color is supplemented by labels and values.
 

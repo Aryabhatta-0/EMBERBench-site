@@ -80,3 +80,13 @@ The final local verification passes all 16 analytics/data tests, 64 original bro
 The shared-style Hallmark scan reports zero floor failures. Scanning workspace.css alone reports a missing-focus false positive because the global focus rule lives in anantam.css; both stylesheets are loaded together. The rendered comparison scan and screenshots were reviewed. Generic spacing and other heuristic findings remain subordinate to the pinned design and existing chart geometry.
 
 Independent review returned `ship` after fixing comparison-view persistence and scenario catalogue navigation. The final browser checks verify that selected evidence survives a model change and catalogue navigation places the updated summary below the sticky header. Review used source and supplied screenshots; the browser suites provide the behavioral evidence.
+
+## Infinity motion
+
+At the user's request, the homepage emblem now contains continuous forward space flight. The supplied image stays visible with its original colours in light and dark themes; a transparent canvas adds perspective trails clipped to its alpha. Every trail shares one vanishing point, with nearer stars moving faster. The animation uses no drifting direction changes, twinkle cycle, replacement sky colour, or logo rotation.
+
+The LottieFiles Motion Design skill informed the depth narrative and layered flight. Emil Kowalski's guidance informed uninterrupted constant travel, immediate pause/resume, and restrained controls. Rendering is capped at 30fps and stops offscreen or in a background tab. Reduced motion and unavailable canvas preserve the still artwork.
+
+Sixteen additional browser checks cover the shared vanishing point, original colours in both themes, moving frames, stationary outline, pause/resume by pointer and keyboard, offscreen rendering suspension, reduced motion, phone layout and canvas fallback. They run alongside the existing suites in CI.
+
+The shared loading animation capture shows the real leaderboard skeleton, followed by the real results. Its data response was deliberately held for 3.6 seconds for the recording; the application has no artificial loading delay. GIF and WebM captures are supplied as deliverables.
