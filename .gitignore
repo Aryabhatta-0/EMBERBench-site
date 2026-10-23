@@ -1,0 +1,6 @@
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.venv/
+# A local EMBERBench checkout for the tests (CI puts one here too).
+/emberbench/

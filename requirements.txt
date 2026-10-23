@@ -1,0 +1,5 @@
+# The benchmark package: official scoring constants, digests and report types.
+# Pinned to an EMBERBench commit; update it together with the reports you build from.
+emberbench @ git+https://github.com/Aryabhatta-0/EMBERBench@29fdbce76f2111847b41576f5c12dc1df0338627
+pytest
+mypy

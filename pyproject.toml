@@ -1,0 +1,8 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tools"]
+
+[tool.mypy]
+strict = true
+files = ["tools/build_results_site.py", "tests/test_results_site.py"]
+mypy_path = "tools"
