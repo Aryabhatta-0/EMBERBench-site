@@ -996,6 +996,31 @@ tbody tr:hover td {
   stroke: var(--grid);
   stroke-width: 1;
 }
+.quadrant-ideal {
+  fill: color-mix(in srgb, var(--series-1) 10%, var(--surface-1));
+  stroke: color-mix(in srgb, var(--series-1) 28%, var(--border));
+}
+.quadrant-cut {
+  stroke: var(--text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 5 4;
+  opacity: 0.75;
+}
+.quadrant-label {
+  font-size: 10px !important;
+  fill: var(--text-muted) !important;
+}
+.ideal-label {
+  font-weight: 700 !important;
+  fill: var(--series-1) !important;
+}
+.legend-zone {
+  width: 11px;
+  height: 11px;
+  border: 1px solid color-mix(in srgb, var(--series-1) 36%, var(--border));
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--series-1) 10%, var(--surface-1));
+}
 .chart-point {
   cursor: pointer;
   stroke: var(--surface-1);

@@ -41,18 +41,67 @@ export function providerComparison(models, key = "score") {
   }).join("")}</div><p class="note">${key === "score" ? "Higher is better." : "Lower is better; bars show the recorded value on a shared scale."} Best recorded model per provider in this public snapshot. Provider counts and coverage differ; this is not a provider-wide estimate.</p>`;
 }
 
-export function scenarioRangeChart(models) {
-  const rows = models.map((m) => {
-    if (m.kind !== "Decision model") return null;
-    const values = m.scenarios.map((scenario) => scenario.score).filter(finite);
-    if (!values.length) return null;
-    const average = values.reduce((sum, value) => sum + value, 0) / values.length;
-    return { model: m, min: Math.min(...values), max: Math.max(...values), average, brand: providerInfo(m) };
-  }).filter(Boolean).sort((a, b) => b.average - a.average || a.model.id.localeCompare(b.model.id));
-  return `<div class="range-chart" role="list" aria-label="Model score range across scenarios">${rows.map(({ model, min, max, average, brand }) => {
-    const tip = `${model.name}: scenario scores ${fmt(min)} to ${fmt(max)}; mean ${fmt(average)} across ${model.scenarios.length} scenarios.`;
-    return `<a class="range-row ${model.kind === "Reference agent" ? "reference" : "decision"}" role="listitem" href="model.html?id=${encodeURIComponent(model.id)}" style="--provider-color:${brand.color}" data-tip="${esc(tip)}"><span class="range-name"><i class="company-swatch" aria-hidden="true"></i>${esc(model.name)}</span><span class="range-track"><i class="range-span" style="left:${min}%;width:${Math.max(0.7, max - min)}%"></i><i class="range-mean" style="left:${average}%"></i></span><b>${fmt(average)}</b></a>`;
-  }).join("")}</div><div class="bar-axis range-axis"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div><p class="note">Each line spans the model’s lowest to highest scenario score; the dot marks its unweighted scenario mean. This shows spread, not statistical uncertainty.</p>`;
+export function metricBars(models, key) {
+  const metric = {
+    latency: {
+      label: "Mean decision latency",
+      get: (m) => m.api?.mean_act_latency_s,
+      format: (value) => value < 1 ? `${Math.round(value * 1000)} ms` : `${fmt(value, 2)} s`,
+      note: "Mean time for one API act call. Lower is faster; this is not total run time.",
+    },
+    wall: {
+      label: "Recorded wall time",
+      get: (m) => m.api?.wall_clock_s,
+      format: (value) => {
+        const seconds = Math.round(value);
+        const minutes = Math.floor(seconds / 60);
+        return minutes ? `${minutes}m ${String(seconds % 60).padStart(2, "0")}s` : `${seconds}s`;
+      },
+      note: "End-to-end time recorded for the run. It can include provider waits; resumed runs may cover only the final segment.",
+    },
+  }[key];
+  if (!metric) return "";
+  const rows = models
+    .filter((m) => finite(metric.get(m)))
+    .sort((a, b) => metric.get(a) - metric.get(b) || a.id.localeCompare(b.id));
+  if (!rows.length) return '<p class="empty">No recorded values for this metric.</p>';
+  const max = Math.max(...rows.map(metric.get), 1e-9);
+  return `<div class="bar-chart metric-bars" role="list" aria-label="${esc(metric.label)} ranked from lowest to highest">${rows.map((m) => {
+    const value = metric.get(m);
+    const tip = `${m.name}: ${metric.format(value)} ${metric.note}`;
+    return `<a class="bar-row decision" role="listitem" style="--provider-color:${providerInfo(m).color}" href="model.html?id=${encodeURIComponent(m.id)}" data-tip="${esc(tip)}"><span class="bar-label">${esc(m.name)}</span><span class="bar-track"><i class="bar-fill" style="width:${Math.max(1, (value / max) * 100)}%"></i></span><strong class="bar-value">${metric.format(value)}</strong></a>`;
+  }).join("")}</div><p class="note">${esc(metric.note)} Bars share a linear scale.</p>`;
+}
+
+export function scoreCostQuadrant(models) {
+  const rows = models.filter((m) => finite(m.score) && finite(m.api?.cost_usd));
+  if (!rows.length) return '<p class="empty">No models have both a score and a recorded API cost.</p>';
+  const median = (values) => {
+    const sorted = [...values].sort((a, b) => a - b);
+    const middle = Math.floor(sorted.length / 2);
+    return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+  };
+  const xMax = Math.max(...rows.map((m) => m.api.cost_usd)) * 1.08;
+  const yMin = 0;
+  const yMax = 100;
+  const xLeft = 76, xRight = 628, yTop = 46, yBottom = 278;
+  const medianCost = median(rows.map((m) => m.api.cost_usd));
+  const medianScore = median(rows.map((m) => m.score));
+  const X = (v) => xLeft + (v / xMax) * (xRight - xLeft);
+  const Y = (v) => yBottom - ((v - yMin) / (yMax - yMin)) * (yBottom - yTop);
+  const midX = X(medianCost), midY = Y(medianScore);
+  let body = `<rect class="quadrant-ideal" x="${xLeft}" y="${yTop}" width="${midX - xLeft}" height="${midY - yTop}" rx="5"/><line class="chart-grid" x1="${xLeft}" x2="${xRight}" y1="${yBottom}" y2="${yBottom}"/><line class="chart-grid" x1="${xLeft}" x2="${xRight}" y1="${yTop}" y2="${yTop}"/><line class="quadrant-cut" x1="${midX}" x2="${midX}" y1="${yTop}" y2="${yBottom}"/><line class="quadrant-cut" x1="${xLeft}" x2="${xRight}" y1="${midY}" y2="${midY}"/><text class="quadrant-label ideal-label" text-anchor="middle" x="${(xLeft + midX) / 2}" y="${yTop + 18}"><tspan x="${(xLeft + midX) / 2}">IDEAL</tspan><tspan x="${(xLeft + midX) / 2}" dy="12">higher score</tspan><tspan x="${(xLeft + midX) / 2}" dy="12">lower cost</tspan></text><text class="quadrant-label" text-anchor="middle" x="${(midX + xRight) / 2}" y="${yTop + 18}"><tspan x="${(midX + xRight) / 2}">HIGHER SCORE</tspan><tspan x="${(midX + xRight) / 2}" dy="12">higher cost</tspan></text><text class="quadrant-label" text-anchor="middle" x="${(xLeft + midX) / 2}" y="${yBottom - 18}"><tspan x="${(xLeft + midX) / 2}">LOWER SCORE</tspan><tspan x="${(xLeft + midX) / 2}" dy="12">lower cost</tspan></text><text class="quadrant-label" text-anchor="middle" x="${(midX + xRight) / 2}" y="${yBottom - 18}"><tspan x="${(midX + xRight) / 2}">LOWER SCORE</tspan><tspan x="${(midX + xRight) / 2}" dy="12">higher cost</tspan></text>`;
+  for (let i = 0; i <= 4; i++) {
+    const x = xLeft + (i / 4) * (xRight - xLeft);
+    const y = yBottom - (i / 4) * (yBottom - yTop);
+    body += `<text class="chart-axis" x="${x}" y="${yBottom + 18}" text-anchor="middle">$${fmt((xMax * i) / 4, 2)}</text><text class="chart-axis" x="${xLeft - 10}" y="${y + 4}" text-anchor="end">${fmt((yMax * i) / 4, 0)}</text>`;
+  }
+  body += rows.map((m) => {
+    const x = X(m.api.cost_usd), y = Y(m.score), brand = providerInfo(m);
+    const tip = `${m.name}: EMBER Score ${fmt(m.score)}; API cost $${fmt(m.api.cost_usd, 4)}${m.api.cost_source === "list price" ? " (estimated from list price)" : ""}.`;
+    return `<a class="chart-point decision" style="--provider-color:${brand.color}" href="model.html?id=${encodeURIComponent(m.id)}" data-tip="${esc(tip)}" aria-label="${esc(tip)}"><circle cx="${x}" cy="${y}" r="6"/></a>`;
+  }).join("");
+  return `<div class="chart-scroll"><svg class="chart-svg quadrant-svg" viewBox="0 0 680 340" role="group" aria-label="Four quadrant comparison of EMBER score versus API cost; upper left is ideal for high score and low cost">${body}<text class="chart-axis axis-title" x="352" y="326" text-anchor="middle">API cost per recorded run · lower is better</text><text class="chart-axis axis-title" transform="translate(17 158) rotate(-90)" text-anchor="middle">EMBER Score · higher is better</text></svg></div><div class="chart-legend"><span><i class="legend-dot decision"></i>Decision model, colored by provider</span><span><i class="legend-zone"></i>Ideal quadrant</span><span>Dashed dividers show the median score and cost for this snapshot.</span></div><p class="note">${rows.length} models with both values. ≈ marks costs estimated from list prices; API cost reflects recorded usage and may cover only a resumed run’s final segment.</p>`;
 }
 
 const chartValue = (v, key) =>

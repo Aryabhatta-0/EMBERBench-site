@@ -23,7 +23,8 @@ import {
   heatmap,
   legend,
   providerComparison,
-  scenarioRangeChart,
+  metricBars,
+  scoreCostQuadrant,
 } from "./charts.js";
 
 async function main() {
@@ -98,7 +99,8 @@ async function main() {
   <div class="pack-strip"><span>EnvironmentPack <b>${esc(data.pack_id)}</b></span><a href="methodology.html#provenance">${esc(data.pack_digest.slice(0, 16))}… ↗</a></div>
   <section><div class="section-head"><h2>Leaders at a glance</h2><span class="muted">Descriptive best values, not significance claims</span></div><div class="leaders">${leaderCards}</div></section>
   <div class="grid2 overview-analysis">${section("EMBER Score by model", "Higher is better. All evaluated entries; reference agents are not LLMs.", `<div class="toolbar"><label class="field">Show<select id="top-kind"><option value="all">All entries</option><option value="Decision model">Decision models</option><option value="Reference agent">Reference agents</option></select></label></div><div id="top-chart"></div>${legend()}<a class="link" href="leaderboard.html">Open full leaderboard</a>`)}${section("Explore the trade-offs", "Use actual outcomes to understand score differences.", `<div class="toolbar"><label class="field">Relationship<select id="analysis-metric"><option value="quality">Safety vs Quality</option><option value="casualties">EMBER vs avoidable casualties</option><option value="congestion">EMBER vs congestion block rate</option><option value="latency">EMBER vs mean decision latency</option><option value="cost">EMBER vs API cost</option></select></label><label class="field">Highlight model<select id="highlight-model"><option value="">None</option>${models.map((m) => `<option value="${esc(m.id)}">${esc(m.name)}</option>`).join("")}</select></label></div><div id="scatter-chart"></div><p class="note">Cost and latency are run metadata, never score inputs. ≈ costs are list-price estimates; resumed runs may record only the final invocation.</p>`)}</div>
-  <div class="grid2 overview-providers">${section("Company scorecard", "Logo-inspired hues keep each provider easy to track. Select a company to filter the leaderboard.", `<div class="toolbar"><label class="field">Compare by<select id="provider-metric"><option value="score">Best EMBER Score</option><option value="cost">Lowest recorded API cost</option><option value="latency">Lowest mean decision latency</option></select></label></div><div id="provider-chart"></div>`)}${section("Scenario consistency", "See which models stay steady across the frozen public scenarios.", scenarioRangeChart(decisions))}</div>
+  <div class="grid2 overview-providers">${section("Company scorecard", "Logo-inspired hues keep each provider easy to track. Select a company to filter the leaderboard.", `<div class="toolbar"><label class="field">Compare by<select id="provider-metric"><option value="score">Best EMBER Score</option><option value="cost">Lowest recorded API cost</option><option value="latency">Lowest mean decision latency</option></select></label></div><div id="provider-chart"></div>`)}${section("Mean decision latency", "How long each model takes to return one action, ranked fastest first.", metricBars(decisions, "latency"))}</div>
+  <div class="grid2 overview-speed">${section("Recorded run time", "End-to-end time for the recorded run, ranked shortest first.", metricBars(decisions, "wall"))}${section("Score vs API cost", "Find models with strong outcomes at lower recorded cost. The shaded upper-left quadrant is ideal.", scoreCostQuadrant(decisions))}</div>
   ${section("Scenario × model", "A compact view of strengths and weaknesses. Scenario scores, 0–100; higher is better.", heatmap(models))}
   ${section(
     "Evaluated decision models",
