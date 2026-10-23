@@ -31,3 +31,22 @@ jobs:
       - run: python -m pip install -r requirements.txt
       - run: python -m mypy
       - run: python -m pytest -q
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - name: Start static preview
+        run: python -m http.server 8917 --bind 127.0.0.1 --directory site > /tmp/anantam-preview.log 2>&1 &
+      - run: npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: anantam-browser-evidence
+          path: work/browser/

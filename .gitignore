@@ -6,3 +6,7 @@ __pycache__/
 /emberbench/
 
 .vercel
+
+node_modules/
+/work/
+.hallmark/
