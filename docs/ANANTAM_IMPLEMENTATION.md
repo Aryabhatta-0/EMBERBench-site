@@ -48,3 +48,35 @@ Open `http://127.0.0.1:8917/`. No application build or production npm dependenci
 For browser checks, run `npm ci --ignore-scripts`, `npx playwright install chromium`, and `npm run test:browser` while the preview is running. Output goes to `work/browser/`. Override the preview URL with `ANANTAM_BASE_URL` and the evidence directory with `ANANTAM_QA_DIR`.
 
 The Python builder/scoring implementation was not changed or independently rerun locally for this frontend-only work. Its pinned checks remain in CI. Merging the review branch triggers the existing GitHub Pages deployment workflow.
+
+## Secondary-page redesign
+
+The approved homepage composition is preserved. Every analytical route now has a different structure suited to its task, rather than a reskinned stack of panels:
+
+- **Leaderboard:** one explorer, four measurement lenses, a shareable selected view, and a comparison tray. Phone layouts prioritize names and scores.
+- **Comparison:** directly juxtaposed scores and outcomes, optional third/fourth selectors, and Outcomes / Scenarios & worlds / Diagnostics views. Changing a model preserves the evidence view.
+- **Model:** a score-led introduction, concise facts, and four evidence views. Deep links reveal the relevant tab and disclosure.
+- **Scenarios:** a challenge navigator and working canvas, focused rankings, and a separate full matrix. Detailed columns and the catalogue open on demand.
+- **Methodology:** a continuous reading column with contents navigation and disclosed technical tables.
+- **Loading:** route-specific headings and a branded skeleton, actual pending-data behavior, reduced-motion support, and a reload action after eight seconds. No percentage or minimum display delay.
+
+The same ten installed skills were used again, with these concrete applications:
+
+| Skill | Application in this revision |
+| --- | --- |
+| Impeccable 4.7 | Distinguished Operate and Read modes; restructured all five routes; documented the system and requested an independent finish review. |
+| Hallmark v2 | Removed repeated card framing and decorative dividers; used task-specific structures and progressive detail; ran rendered and shared-style scans. |
+| Emil Kowalski | Immediate evidence switches, keyboard interactions, retained context during model changes, and restrained loading feedback. |
+| Applecn | Consistent control geometry and semantic surfaces across the focused data tools and both themes. |
+| Apple HIG | Native selectors/disclosures, visible focus, navigable content, touch controls, and accessible loading/recovery states. |
+| Anthropic Frontend Design | Editorial headings, juxtaposed comparison scores, and five distinct compositions within the existing navy identity. |
+| Jakub Krehel Interfaces | Reduced surface noise, aligned controls and measurement typography, and compact mobile presentation. |
+| UI/UX Pro Max | Responsive task flows and the phone/desktop/light/dark validation matrix, with automated accessibility scans. |
+| LottieFiles Motion Design | A quiet opacity pulse only while data is pending, immediate completion, and reduced-motion behavior. No animation runtime added. |
+| Official shadcn | Reused shared primitives; implemented segmented views with proper tab semantics and progressive disclosures in the existing vanilla stack. |
+
+The final local verification passes all 16 analytics/data tests, 64 original browser checks, and 61 workspace/loading checks. Twenty-four automated accessibility scans report zero violations, covering light/dark, phone/desktop, and alternate evidence views. All five routes were checked with data deliberately held pending, then released; slow-load recovery was also checked. Both browser suites run in CI. Automated accessibility checks remain bounded evidence, not a conformance certification.
+
+The shared-style Hallmark scan reports zero floor failures. Scanning workspace.css alone reports a missing-focus false positive because the global focus rule lives in anantam.css; both stylesheets are loaded together. The rendered comparison scan and screenshots were reviewed. Generic spacing and other heuristic findings remain subordinate to the pinned design and existing chart geometry.
+
+Independent review returned `ship` after fixing comparison-view persistence and scenario catalogue navigation. The final browser checks verify that selected evidence survives a model change and catalogue navigation places the updated summary below the sticky header. Review used source and supplied screenshots; the browser suites provide the behavioral evidence.

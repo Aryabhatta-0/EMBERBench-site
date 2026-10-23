@@ -92,7 +92,7 @@ python -m http.server 8917 --bind 127.0.0.1 --directory site
 npm run test:browser
 ```
 
-Set `ANANTAM_BASE_URL` for a different HTTP preview. Screenshots and the JSON verification report go to `work/browser/` by default; override with `ANANTAM_QA_DIR`. CI runs the same checks and uploads evidence on success or failure. Four axe-core scans complement manual checks; they do not certify WCAG conformance.
+Set `ANANTAM_BASE_URL` for a different HTTP preview. Screenshots and JSON verification reports go to `work/browser/` by default; override with `ANANTAM_QA_DIR`. CI runs the original regression checks plus the analytical workspace/loading checks, and uploads evidence on success or failure. Accessibility scans cover all five analytical routes in desktop/mobile light mode and desktop dark mode, plus their alternate evidence views and the homepage. Automated scans complement manual checks; they do not certify WCAG conformance.
 
 ## Browser verification inventory
 

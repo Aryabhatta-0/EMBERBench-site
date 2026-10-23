@@ -16,13 +16,20 @@
     />
     <title>Compare models | Anantam</title>
     <script src="theme-init.js"></script>
+    <script src="boot.js" defer></script>
     <link rel="icon" type="image/png" href="assets/anantam-logo.png" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="anantam.css" />
+    <link rel="stylesheet" href="workspace.css" />
   </head>
   <body data-page="compare">
     <main id="main" tabindex="-1">
-      <p class="empty">Loading official public development results...</p>
+      <section class="loading-shell" aria-label="Loading compare">
+        <a class="loading-brand" href="index.html"><img src="assets/anantam-logo.png" width="38" height="38" alt="">Anantam</a>
+        <h1>Decisions, side by side.</h1><p class="loading-copy" role="status">Preparing the evidence.</p>
+        <div class="loading-canvas" aria-hidden="true"><div class="skeleton-line skeleton-search"></div><div class="skeleton-toolbar"><i></i><i></i><i></i></div><div class="skeleton-rows"><div><i></i><i></i><i></i></div><div><i></i><i></i><i></i></div><div><i></i><i></i><i></i></div><div><i></i><i></i><i></i></div><div><i></i><i></i><i></i></div></div></div>
+        <button class="button loading-retry" type="button" hidden>Reload page</button>
+      </section>
     </main>
     <noscript
       >This portal needs JavaScript to display generated results. Read the

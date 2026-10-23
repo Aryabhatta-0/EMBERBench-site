@@ -66,9 +66,19 @@ Homepage mode: Persuade. Three sections: the introduction with the supplied embl
 
 Leaderboard, comparison, model, and scenario modes: Operate. Methodology mode: Read. Existing filtering, sorting, selection, chart tooltips, query strings, data provenance, and relative routes remain available. Model details are contextual destinations rather than a global navigation item.
 
+The analytical routes use distinct task structures inside the shared identity:
+
+- Leaderboard: an editorial introduction and one explorer canvas. Scores, People, API usage, and All metrics change the measurements displayed; the selected lens is shareable in the URL. Mobile defaults keep names and scores together. Selection creates a floating comparison tray.
+- Compare: directly juxtaposed policy scores and a three-view evidence workspace. Extra model selectors are disclosed on demand. Outcome tables remain available without dominating the initial view.
+- Model profile: a score-led specimen page, concise outcome band, and Overview / Scenarios / Diagnostics / Sources tabs. Repeated coverage and people tables are disclosed. Existing hash anchors reveal the correct view and open its disclosure.
+- Scenarios: a challenge navigator beside the scenario's actual description and population/world evidence, followed by Rankings and Across all scenarios views. Mobile offers a focused ranking and an explicit More columns control.
+- Methodology: a continuous reading column with a navigable table of contents, rather than a grid of independent panels. Technical reference tables are disclosed; source wording and scientific qualifications remain intact.
+
+Loading uses route-specific static headings and a branded skeleton while the actual data import is pending. It has no minimum display time or percentage. A slow load exposes a reload action after eight seconds. Resolved or failed content clears the busy state and the loading observer. Skeleton animation respects reduced motion.
+
 ## Motion and accessibility
 
-Motion personality: calm corporate. A single 600ms emblem entrance introduces the brand; interactions use explicit-property transitions at 150ms, with a 0.96 press scale. Frequent tab and data changes remain immediate. Reduced motion disables movement. No continuous animation or Lottie runtime is necessary.
+Motion personality: calm corporate. A single 600ms emblem entrance introduces the brand; interactions use explicit-property transitions at 150ms, with a 0.96 press scale. Frequent tab and data changes remain immediate. The loading skeleton alone pulses while data is pending. Reduced motion disables movement. No Lottie runtime is necessary.
 
 Native selects and disclosures retain keyboard behavior. Tabs follow the tablist/tab/tabpanel pattern, roving focus, Arrow keys, Home and End. Escape closes the mobile menu and restores focus. Empty tooltips are hidden from assistive technology. Color is supplemented by labels and values.
 

@@ -3,53 +3,105 @@
   "title": "Anantam design system",
   "extensions": {
     "typographyMeta": {
-      "display": { "displayName": "Instrument Serif", "purpose": "Introduction and editorial section headings." },
-      "body": { "displayName": "DM Sans", "purpose": "Reading, data and controls." }
+      "display": {
+        "displayName": "Instrument Serif",
+        "purpose": "Introduction and editorial section headings."
+      },
+      "body": {
+        "displayName": "DM Sans",
+        "purpose": "Reading, data and controls."
+      }
     },
     "motion": [
-      { "name": "ease-out", "value": "cubic-bezier(.2,0,0,1)", "purpose": "Calm state changes." },
-      { "name": "quick", "value": "150ms", "purpose": "Press response." },
-      { "name": "entrance", "value": "600ms", "purpose": "One emblem entrance; disabled under reduced motion." }
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(.2,0,0,1)",
+        "purpose": "Calm state changes."
+      },
+      {
+        "name": "quick",
+        "value": "150ms",
+        "purpose": "Press response."
+      },
+      {
+        "name": "entrance",
+        "value": "600ms",
+        "purpose": "One emblem entrance; disabled under reduced motion."
+      }
     ],
     "breakpoints": [
-      { "name": "mobile", "value": "700px" },
-      { "name": "navigation", "value": "1100px" }
+      {
+        "name": "mobile",
+        "value": "700px"
+      },
+      {
+        "name": "navigation",
+        "value": "1100px"
+      }
     ]
   },
   "components": [
     {
-      "name": "Primary button", "kind": "button", "refersTo": "button-primary",
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
       "description": "Primary route action.",
       "html": "<button class=\"ds-button\">Explore the benchmark</button>",
       "css": ".ds-button{font-family:var(--font-body);font-size:13px;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 21px;border-radius:999px;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent)}.ds-button:focus-visible{outline:2px solid var(--focus);outline-offset:4px}@media(hover:hover){.ds-button:hover{background:color-mix(in srgb,var(--accent) 88%,var(--surface-0))}}@media(prefers-reduced-motion:no-preference){.ds-button{transition:transform 150ms ease-out}.ds-button:active{transform:scale(.96)}}"
     },
     {
-      "name": "Search input", "kind": "input", "description": "Always visibly labelled.",
+      "name": "Search input",
+      "kind": "input",
+      "description": "Always visibly labelled.",
       "html": "<label class=\"ds-field\">Search models<input class=\"ds-input\" type=\"search\" placeholder=\"Model name or provider\"></label>",
       "css": ".ds-field{font-family:var(--font-body);font-size:12px;color:var(--text-primary);display:grid;gap:6px}.ds-input{font:inherit;min-height:44px;padding:7px 10px;border:1px solid var(--input-border);border-radius:8px;background:var(--surface-1);color:var(--text-primary)}.ds-input:focus-visible{outline:2px solid var(--focus);outline-offset:4px}"
     },
     {
-      "name": "Navigation", "kind": "nav", "description": "Current-page cue stays visible.",
+      "name": "Navigation",
+      "kind": "nav",
+      "description": "Current-page cue stays visible.",
       "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a aria-current=\"page\" href=\"#\">Home</a><a href=\"#\">Leaderboard</a></nav>",
       "css": ".ds-nav{display:flex;gap:27px}.ds-nav a{font-family:var(--font-body);font-size:13px;color:var(--text-primary);padding:8px 0;text-decoration:none}.ds-nav a[aria-current]{font-weight:650;text-decoration:underline;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--focus);outline-offset:4px}"
     },
     {
-      "name": "Provider chip", "kind": "chip", "description": "Text complements provider color.",
+      "name": "Provider chip",
+      "kind": "chip",
+      "description": "Text complements provider color.",
       "html": "<span class=\"ds-chip\">Provider</span>",
       "css": ".ds-chip{font-family:var(--font-body);font-size:10px;color:var(--text-primary);display:inline-flex;padding:2px 7px;border-radius:999px;background:var(--surface-2)}"
     },
     {
-      "name": "Result surface", "kind": "card", "description": "One evidence workspace.",
+      "name": "Result surface",
+      "kind": "card",
+      "description": "One evidence workspace.",
       "html": "<section class=\"ds-surface\"><h3>Who leads the way?</h3><p>Leading decision models by EMBER Score.</p></section>",
       "css": ".ds-surface{font-family:var(--font-body);color:var(--text-primary);padding:32px;border-radius:16px;background:var(--surface-1)}.ds-surface h3{font-size:18px;font-weight:500}.ds-surface p{font-size:12px;color:var(--text-muted)}"
     }
   ],
   "narrative": {
     "northStar": "Intelligence, measured.",
-    "overview": "A spacious introduction leads to reproducible benchmark evidence. The supplied star-filled infinity emblem carries the brand. Three principal sections keep the homepage concise.",
-    "keyCharacteristics": ["Navy emblem", "Serif display and practical sans", "One evidence workspace", "Native disclosures"],
-    "rules": [{ "name": "Evidence before claims", "body": "All numbers come from generated official reports.", "section": "components" }],
-    "dos": ["Keep scope and uncertainty visible.", "Use semantic color roles."],
-    "donts": ["Do not invent metrics or trust logos.", "Do not edit generated results by hand."]
+    "overview": "The spacious three-section homepage leads to task-specific evidence tools: a focused leaderboard, juxtaposed comparisons, tabbed model profiles, a challenge navigator, and a continuous methodology guide. The supplied star-filled infinity emblem carries the brand.",
+    "keyCharacteristics": [
+      "Navy emblem",
+      "Serif display and practical sans",
+      "Task-specific evidence workspaces",
+      "Native disclosures",
+      "Real pending-data skeletons"
+    ],
+    "rules": [
+      {
+        "name": "Evidence before claims",
+        "body": "All numbers come from generated official reports.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Keep scope and uncertainty visible.",
+      "Use semantic color roles."
+    ],
+    "donts": [
+      "Do not invent metrics or trust logos.",
+      "Do not edit generated results by hand."
+    ]
   }
 }

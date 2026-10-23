@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/site.test.mjs",
-    "test:browser": "node tests/browser.mjs",
+    "test:browser": "node tests/browser.mjs && node tests/workspace.test.mjs",
     "preview": "python -m http.server 8917 --bind 127.0.0.1 --directory site"
   },
   "devDependencies": { "playwright": "1.62.1", "axe-core": "4.14.0" }

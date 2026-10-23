@@ -87,7 +87,7 @@ export function setSelection(ids) {
 }
 export function selectionBar(data) {
   const ids = getSelection(data);
-  return `<div class="selection-bar" aria-live="polite"><span><b>${ids.length} of 4</b> selected for comparison</span><a class="button primary" href="compare.html?models=${encodeURIComponent(ids.join(","))}" ${ids.length < 2 ? 'aria-disabled="true" tabindex="-1"' : ""}>Compare models</a><button class="button small" id="clear-selection" type="button">Clear</button><span class="muted">Select 2–4. Ranks refer to this public pack.</span></div>`;
+  return `<div class="selection-bar" data-count="${ids.length}" aria-live="polite"><span><b>${ids.length} of 4</b> selected for comparison</span><a class="button primary" href="compare.html?models=${encodeURIComponent(ids.join(","))}" ${ids.length < 2 ? 'aria-disabled="true" tabindex="-1"' : ""}>Compare models</a><button class="button small" id="clear-selection" type="button">Clear</button><span class="muted">Select 2–4. Ranks refer to this public pack.</span></div>`;
 }
 export function bindSelection(data, rerender = () => {}) {
   for (const input of document.querySelectorAll("[data-select-model]"))
@@ -140,6 +140,7 @@ export function provenance(data, m = null) {
   return `<dl class="provenance">${fields.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd><code>${esc(v ?? "—")}</code></dd></div>`).join("")}</dl><p class="note">Generated official report data. Missing fields are shown as —. No evaluation timestamp is recorded in this data snapshot. Scoring and benchmark results are unchanged.</p>`;
 }
 export function shell(data, active) {
+  if (active === "model") active = "leaderboard";
   const pages = [
     ["overview", "index.html", "Home"],
     ["leaderboard", "leaderboard.html", "Leaderboard"],
@@ -151,7 +152,7 @@ export function shell(data, active) {
   main.classList.add("container");
   document.body.insertAdjacentHTML(
     "afterbegin",
-    `<a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="index.html" class="brand" aria-label="Anantam home"><img class="brand-logo" src="assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation">${pages.map(([id, url, label]) => `<a href="${url}" class="${id === active ? "active" : ""}" ${id === active ? 'aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="header-actions"><a class="repo-link" href="${REPO}">GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a><button class="theme-toggle button small" type="button" aria-label="Switch color theme">Dark</button></div></header><div class="status-banner"><span class="status-copy">${esc(data.label)}</span><a href="methodology.html#public-development">Read the scope</a></div>`,
+    `<a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="index.html" class="brand" aria-label="Anantam home"><img class="brand-logo" src="assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation">${pages.map(([id, url, label]) => `<a href="${url}" class="${id === active ? "active" : ""}" ${id === active ? 'aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="header-actions"><a class="repo-link" href="${REPO}">GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a><button class="theme-toggle button small" type="button" aria-label="Switch color theme">Dark</button></div></header><div class="status-banner"><span class="status-copy">Public development results</span><a href="methodology.html#public-development">Read the scope</a></div>`,
   );
   main.insertAdjacentHTML(
     "afterend",
