@@ -217,7 +217,7 @@ main.container {
   place-items: center;
   border-radius: 7px 7px 12px 7px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-provider);
   font-size: 21px;
   font-weight: 800;
   letter-spacing: -0.05em;
@@ -480,12 +480,12 @@ main.container {
   text-decoration: none;
 }
 .button.primary {
-  color: #fff;
-  background: #a94725;
-  border-color: #a94725;
+  color: var(--on-provider);
+  background: var(--accent);
+  border-color: var(--accent);
 }
 .button.primary:hover {
-  background: #8f3b1f;
+  background: var(--accent);
 }
 .button.small {
   min-height: 30px;
@@ -557,7 +557,7 @@ input[type="checkbox"] {
 .segmented button.active {
   background: var(--surface-1);
   color: var(--text-primary);
-  box-shadow: 0 1px 3px #15304615;
+  box-shadow: var(--shadow);
 }
 .table-wrap {
   overflow: auto;
@@ -616,7 +616,7 @@ tbody tr:hover td {
 }
 .leaderboard-table thead th {
   position: sticky;
-  top: 0;
+  inset-block-start: 0;
   z-index: 3;
 }
 .leaderboard-table th:first-child,
@@ -681,7 +681,7 @@ tbody tr:hover td {
   flex: 0 0 auto;
   border-radius: 50%;
   background: var(--provider-color, var(--ref-bar));
-  color: #fff;
+  color: var(--on-provider);
   font-size: 10px;
   font-weight: 750;
   letter-spacing: -0.03em;
@@ -2172,8 +2172,8 @@ caption {
     display: none;
   }
   body {
-    background: #fff;
-    color: #000;
+    background: var(--print-background);
+    color: var(--print-text);
   }
   main {
     padding: 0;

@@ -87,7 +87,7 @@ export function setSelection(ids) {
 }
 export function selectionBar(data) {
   const ids = getSelection(data);
-  return `<div class="selection-bar" aria-live="polite"><span><b>${ids.length} of 4</b> selected for comparison</span><a class="button primary" href="compare.html?models=${encodeURIComponent(ids.join(","))}" ${ids.length < 2 ? 'aria-disabled="true" tabindex="-1"' : ""}>Compare models</a><button class="button small" id="clear-selection" type="button">Clear</button><span class="muted">Select 2–4. Ranks refer to this public pack.</span></div>`;
+  return `<div class="selection-bar" data-count="${ids.length}" aria-live="polite"><span><b>${ids.length} of 4</b> selected for comparison</span><a class="button primary" href="compare.html?models=${encodeURIComponent(ids.join(","))}" ${ids.length < 2 ? 'aria-disabled="true" tabindex="-1"' : ""}>Compare models</a><button class="button small" id="clear-selection" type="button">Clear</button><span class="muted">Select 2–4. Ranks refer to this public pack.</span></div>`;
 }
 export function bindSelection(data, rerender = () => {}) {
   for (const input of document.querySelectorAll("[data-select-model]"))
@@ -140,11 +140,11 @@ export function provenance(data, m = null) {
   return `<dl class="provenance">${fields.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd><code>${esc(v ?? "—")}</code></dd></div>`).join("")}</dl><p class="note">Generated official report data. Missing fields are shown as —. No evaluation timestamp is recorded in this data snapshot. Scoring and benchmark results are unchanged.</p>`;
 }
 export function shell(data, active) {
+  if (active === "model") active = "leaderboard";
   const pages = [
-    ["overview", "index.html", "Overview"],
+    ["overview", "index.html", "Home"],
     ["leaderboard", "leaderboard.html", "Leaderboard"],
-    ["compare", "compare.html", "Compare models"],
-    ["model", "model.html", "Model details"],
+    ["compare", "compare.html", "Compare"],
     ["scenarios", "scenarios.html", "Scenarios"],
     ["methodology", "methodology.html", "Methodology"],
   ];
@@ -152,30 +152,29 @@ export function shell(data, active) {
   main.classList.add("container");
   document.body.insertAdjacentHTML(
     "afterbegin",
-    `<a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="index.html" class="brand" aria-label="EMBERBench overview"><span class="brand-mark" aria-hidden="true">E<span>↗</span></span><span>EMBER<span class="brand-light">Bench</span><small class="brand-sub">Decision intelligence / V1</small></span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation">${pages.map(([id, url, label]) => `<a href="${url}" class="${id === active ? "active" : ""}" ${id === active ? 'aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="header-actions"><a class="repo-link" href="${REPO}">Repository ↗</a><button class="theme-toggle button small" type="button" aria-label="Switch color theme">Dark</button></div></header><div class="status-banner"><span class="status-dot" aria-hidden="true"></span><span class="status-copy">${esc(data.label)}</span><a href="methodology.html#public-development">Read the scope</a></div>`,
+    `<a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="index.html" class="brand" aria-label="Anantam home"><img class="brand-logo" src="assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation">${pages.map(([id, url, label]) => `<a href="${url}" class="${id === active ? "active" : ""}" ${id === active ? 'aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="header-actions"><a class="repo-link" href="${REPO}">GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a><button class="theme-toggle button small" type="button" aria-label="Switch color theme">Dark</button></div></header><div class="status-banner"><span class="status-copy">Public development results</span><a href="methodology.html#public-development">Read the scope</a></div>`,
   );
   main.insertAdjacentHTML(
     "afterend",
-    `<footer class="site-footer container"><div><a href="index.html" class="footer-brand">EMBERBench</a><p>Decision-making under dynamic fire evacuation.</p><p class="muted">Public development results. Generated from official score reports.</p></div><div><span>Pack <code>${esc(data.pack_digest.slice(0, 12))}…</code></span><span>Scoring ${esc(data.scoring_version)} · ${esc(data.suite_id)}</span><a href="methodology.html#provenance">Data provenance</a><a href="${REPO}/blob/main/docs/scoring.md">Scoring specification ↗</a></div></footer>`,
+    `<footer class="site-footer container"><div><a href="index.html" class="footer-brand"><img src="assets/anantam-logo.png" width="30" height="30" alt="">Anantam</a><p>Intelligence, measured.</p><p class="muted">Public development results from EMBERBench.</p></div><div><a href="leaderboard.html">Leaderboard</a><a href="scenarios.html">Scenarios</a><a href="methodology.html#provenance">Data provenance</a><a href="${REPO}/blob/main/docs/scoring.md">Scoring specification <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></footer>`,
   );
   const themeButton = document.querySelector(".theme-toggle");
   const applyTheme = (theme) => {
     document.documentElement.dataset.theme = theme;
-    themeButton.textContent = theme === "dark" ? "Light" : "Dark";
+    themeButton.innerHTML = '<svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.4 14A8.5 8.5 0 0 1 10 3.6 8.5 8.5 0 1 0 20.4 14Z"/></svg><svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>';
     themeButton.setAttribute(
       "aria-label",
       `Switch to ${theme === "dark" ? "light" : "dark"} theme`,
     );
   };
-  applyTheme(
-    safeStorage("ember-theme") ??
-      (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"),
-  );
+  applyTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
   themeButton.addEventListener("click", () => {
+    document.documentElement.classList.add("theme-changing");
     const theme =
       document.documentElement.dataset.theme === "dark" ? "light" : "dark";
     safeStorage("ember-theme", theme);
     applyTheme(theme);
+    requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.remove("theme-changing")));
   });
   const navButton = document.querySelector(".nav-toggle");
   const updateOffset = () =>
@@ -191,6 +190,15 @@ export function shell(data, active) {
   navButton.addEventListener("click", () =>
     toggleNav(navButton.getAttribute("aria-expanded") !== "true"),
   );
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && navButton.getAttribute("aria-expanded") === "true") {
+      toggleNav(false);
+      navButton.focus();
+    }
+  });
+  document.getElementById("site-nav").addEventListener("click", e => {
+    if (e.target.closest("a")) toggleNav(false);
+  });
   document
     .querySelector(".skip-link")
     .addEventListener("click", () => toggleNav(false));
@@ -204,6 +212,7 @@ export function installTooltip() {
   const tip = document.createElement("div");
   tip.id = "tip";
   tip.role = "tooltip";
+  tip.hidden = true;
   document.body.append(tip);
   let target = null;
   let hideTimer = null;
@@ -212,6 +221,7 @@ export function installTooltip() {
     target?.removeAttribute("aria-describedby");
     target = null;
     tip.classList.remove("on");
+    tip.hidden = true;
   };
   const scheduleHide = () => {
     clearTimeout(hideTimer);
@@ -222,6 +232,7 @@ export function installTooltip() {
     if (target !== el) target?.removeAttribute("aria-describedby");
     target = el;
     tip.textContent = el.dataset.tip;
+    tip.hidden = false;
     el.setAttribute("aria-describedby", "tip");
     tip.classList.add("on");
     tip.style.left = `${Math.max(8, Math.min(x + 12, innerWidth - tip.offsetWidth - 8))}px`;

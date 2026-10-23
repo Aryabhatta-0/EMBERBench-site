@@ -1,4 +1,4 @@
-# EMBERBench results portal
+# Anantam — EMBERBench results explorer
 
 A dependency-free, GitHub Pages-compatible explorer of official **public development** score reports from [EMBERBench](https://github.com/Aryabhatta-0/EMBERBench). The portal does not present a hidden-suite leaderboard.
 
@@ -24,7 +24,7 @@ If EMBERBench changes its scoring or report format, update the `emberbench` pin 
 
 ## Pages
 
-- `index.html`: overview, leaders, interactive EMBER bars, relationship selector, scenario heatmap, provenance.
+- `index.html`: Anantam introduction, tabbed rankings/trade-offs/scenarios, expandable analytical charts and provenance.
 - `leaderboard.html`: searchable, sortable table with type/provider filters, score CIs, API metrics and comparison selection. Query parameters preserve filters and sorting.
 - `compare.html?models=ID,ID`: 2–4 model profiles, components, scenarios, world scores, robustness, congestion and API metrics. Exactly two entries also show descriptive paired world differences.
 - `model.html?id=ID`: model profile with nine evidence sections and reproducibility metadata.
@@ -69,15 +69,30 @@ EMBERBENCH_ROOT=../EMBERBench python -m pytest -q
 python -m mypy
 ```
 
-Open `http://127.0.0.1:8765/`. The site must be served over HTTP because it uses JavaScript modules. No application build step, external fonts, analytics, CDNs, or production JavaScript dependencies are required.
+Open `http://127.0.0.1:8765/`. The site must be served over HTTP because it uses JavaScript modules. No application build step, external font requests, analytics, CDNs, or production JavaScript dependencies are required. The fonts and supplied Anantam logo are served locally.
 
 The builder tests need the public suite of an EMBERBench checkout: set `EMBERBENCH_ROOT`, or clone EMBERBench into `./emberbench` (ignored by Git). CI checks out the pinned commit there. CI runs the Node tests and the builder tests as separate jobs.
 
-## Design research
+## Anantam design
 
-The live Artificial Analysis leaderboard, model catalogue and model profile informed analytical hierarchy, filter discoverability, consistent chart controls and explicit unavailable values. EMBERBench uses its own content, structure, slate/teal/copper palette, typography, CSS and mark. No reference assets, branding, text or styles were copied.
+The live [Sarvam](https://www.sarvam.ai/) and [Gnani](https://www.gnani.ai/) sites informed concise introductions, clear actions, and evidence-first exploration. Anantam uses the supplied infinity emblem, locally hosted Instrument Serif / DM Sans, and three principal homepage sections. No reference assets, branding, text, or styles were copied. See `PRODUCT.md`, `DESIGN.md`, and `docs/ANANTAM_IMPLEMENTATION.md` for the design and requested skill usage.
 
-Reference pages inspected: https://artificialanalysis.ai/leaderboards/models, https://artificialanalysis.ai/models, https://artificialanalysis.ai/models/muse-wonder-full.
+The existing analytical tools retain the hierarchy originally informed by Artificial Analysis, along with explicit unavailable values and scientific qualifications.
+
+## Automated browser checks
+
+Development-only tooling is pinned in `package-lock.json`. Start a static preview in another terminal, then run:
+
+```bash
+npm ci --ignore-scripts
+npx playwright install chromium
+# Preview, in a separate terminal:
+python -m http.server 8917 --bind 127.0.0.1 --directory site
+# While the preview is running:
+npm run test:browser
+```
+
+Set `ANANTAM_BASE_URL` for a different HTTP preview. Screenshots and JSON verification reports go to `work/browser/` by default; override with `ANANTAM_QA_DIR`. CI runs the original regression checks plus the analytical workspace/loading checks, and uploads evidence on success or failure. Accessibility scans cover all five analytical routes in desktop/mobile light mode and desktop dark mode, plus their alternate evidence views and the homepage. Automated scans complement manual checks; they do not certify WCAG conformance.
 
 ## Browser verification inventory
 

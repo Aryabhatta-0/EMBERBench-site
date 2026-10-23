@@ -3,16 +3,33 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#15283f" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Anantam" />
+    <meta property="og:description" content="EMBERBench public development evaluation: decision models and reference agents on frozen fire evacuation worlds." />
+    <meta property="og:title" content="Model profile | Anantam" />
     <meta
       name="description"
       content="EMBERBench public development evaluation: decision models and reference agents on frozen fire evacuation worlds."
     />
-    <title>Model profile | EMBERBench</title>
+    <title>Model profile | Anantam</title>
+    <script src="theme-init.js"></script>
+    <script src="boot.js" defer></script>
+    <link rel="icon" type="image/png" href="assets/anantam-logo.png" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="anantam.css" />
+    <link rel="stylesheet" href="workspace.css" />
   </head>
   <body data-page="model">
     <main id="main" tabindex="-1">
-      <p class="empty">Loading official public development results...</p>
+      <section class="loading-shell" aria-label="Loading model">
+        <a class="loading-brand" href="index.html"><img src="assets/anantam-logo.png" width="38" height="38" alt="">Anantam</a>
+        <h1>A closer look.</h1><p class="loading-copy" role="status">Preparing the evidence.</p>
+        <div class="loading-canvas" aria-hidden="true"><div class="skeleton-line skeleton-search"></div><div class="skeleton-toolbar"><i></i><i></i><i></i></div><div class="skeleton-rows"><div><i></i><i></i><i></i></div><div><i></i><i></i><i></i></div><div><i></i><i></i><i></i></div><div><i></i><i></i><i></i></div><div><i></i><i></i><i></i></div></div></div>
+        <button class="button loading-retry" type="button" hidden>Reload page</button>
+      </section>
     </main>
     <noscript
       >This portal needs JavaScript to display generated results. Read the

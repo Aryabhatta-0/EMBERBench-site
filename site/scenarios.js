@@ -1,3 +1,4 @@
+import { editorHeader, workspaceTabs, disclosure } from "./workspace.js";
 import {
   loadResults,
   shell,
@@ -138,11 +139,9 @@ async function main() {
   };
 
   document.getElementById("main").innerHTML = `
-    <header class="page-head"><div>
-      <p class="eyebrow">Diagnostic scenarios</p><h1>Where models succeed and struggle</h1>
-      <p class="muted">Explore individual public challenges, then compare performance across the same frozen worlds.</p>
-    </div><a class="button" href="${REPO}/blob/main/docs/scenario-suite.md">Scenario documentation ↗</a></header>
-    <section class="panel" aria-labelledby="explore-title">
+    ${editorHeader('Every world is a test.', 'Explore the challenges behind the headline score.', '<a class="quiet-link" href="methodology.html">Understand the evaluation</a>')}
+    <div class="scenario-studio"><nav class="challenge-nav" aria-label="Choose a challenge">${ids.map((id,i) => `<button type="button" data-challenge="${esc(id)}" aria-pressed="${id === state.scenario}"><span>${String(i+1).padStart(2,'0')}</span>${esc(metadata(id).title)}</button>`).join('')}</nav><div class="scenario-canvas">
+    <section class="scenario-introduction" aria-labelledby="explore-title">
       <div class="section-head"><h2 id="explore-title">Explore a scenario</h2><span class="badge">Public development suite</span></div>
       <div class="toolbar">
         <label class="field">Scenario<select id="scenario-select">${ids.map((id) => `<option value="${esc(id)}">${esc(metadata(id).title)}</option>`).join("")}</select></label>
@@ -170,8 +169,24 @@ async function main() {
       <div class="section-head"><div><h2 id="catalogue-title">The public diagnostic suite</h2><p class="muted">Descriptions and fire-model labels follow the public scenario documentation. Populations and scheduled world counts come from generated episode evidence.</p></div></div>
       <div id="scenario-catalogue"></div>
       <p class="note">Population counts people once within each scenario, not once per world, trial, or model. Several fire worlds reuse the same starting population. A deterministic environment does not imply that a model’s actions are deterministic.</p>
-    </section>`;
+    </section></div></div>`;
 
+  const canvas = document.querySelector(".scenario-canvas");
+  const ranking = canvas.querySelector("[aria-labelledby=ranking-title]");
+  ranking.querySelector('.section-head').insertAdjacentHTML('beforeend', '<button type="button" class="button scenario-columns" aria-pressed="false">More columns</button>');
+  document.querySelector('.scenario-columns').addEventListener('click', e => {
+    const expanded = e.currentTarget.getAttribute('aria-pressed') !== 'true';
+    e.currentTarget.setAttribute('aria-pressed',String(expanded)); e.currentTarget.textContent = expanded ? 'Fewer columns' : 'More columns';
+    document.getElementById('scenario-ranking').dataset.expanded = String(expanded);
+  });
+  const matrix = canvas.querySelector("[aria-labelledby=matrix-title]");
+  const catalogue = canvas.querySelector("[aria-labelledby=catalogue-title]");
+  workspaceTabs(canvas, [["ranking","Rankings",[ranking]],["matrix","Across all scenarios",[matrix]]], "scenario");
+  canvas.append(disclosure(catalogue,"The full diagnostic suite"));
+  document.querySelectorAll("[data-challenge]").forEach(button => button.addEventListener("click", () => {
+    document.getElementById("scenario-select").value = button.dataset.challenge;
+    document.getElementById("scenario-select").dispatchEvent(new Event("change",{bubbles:true}));
+  }));
   document.getElementById("scenario-select").value = state.scenario;
   document.getElementById("scenario-kind").value = state.kind;
 
@@ -216,19 +231,18 @@ async function main() {
       kind: state.kind,
     });
     const selected = metadata(state.scenario);
+    document.querySelectorAll('[data-challenge]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.challenge === state.scenario)));
     const byScore = sortByScenario(models);
     const best = byScore.find((m) =>
       finite(scenarioScore(m, state.scenario)?.score),
     );
     document.getElementById("scenario-summary").innerHTML = `
-      <div class="section-head"><h3>${esc(selected.title)}</h3><span class="badge">${esc(selected.fire)} fire</span></div>
+      <div class="section-head"><h2>${esc(selected.title)}</h2><span class="badge">${esc(selected.fire)} fire</span></div>
       <p>${esc(selected.description)}</p>
       <p class="note"><code>${esc(state.scenario)}</code> · <a href="${sourceLink(state.scenario)}">Source description and layout ↗</a></p>
       <div class="metrics">
         ${metricCard("Population", populationText(state.scenario), "People at the start of this scenario")}
         ${metricCard("Frozen worlds", count(worldCount(state.scenario)), "Distinct scheduled worlds in the published pack")}
-        ${metricCard("Entries displayed", count(models.length), `${count(data.models.length)} entries in the full evaluation`)}
-        ${metricCard("Highest displayed score", best ? fmt(scenarioScore(best, state.scenario)?.score) : "—", best?.name ?? "No matching recorded score")}
       </div>`;
 
     document.getElementById("ranking-description").textContent =
@@ -371,7 +385,7 @@ async function main() {
           .getElementById("scenario-select")
           .focus({ preventScroll: true });
         document
-          .getElementById("explore-title")
+          .getElementById("scenario-summary")
           .scrollIntoView({ block: "start" });
       }),
     );

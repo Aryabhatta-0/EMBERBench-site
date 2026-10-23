@@ -1,3 +1,4 @@
+import { editorHeader, workspaceTabs, disclosure } from "./workspace.js";
 import {
   loadResults,
   shell,
@@ -94,9 +95,15 @@ async function main() {
       .slice(0, 2)
       .map((m) => m.id);
   const render = () => {
+    const keepPickerOpen = document.querySelector(".optional-models")?.open;
+    const keepView = document.querySelector('[data-workspace="comparison"] [aria-selected="true"]')?.dataset.view;
     const models = ids.map((id) => all.find((m) => m.id === id));
     document.getElementById("main").innerHTML =
-      `<header class="page-head"><div><p class="eyebrow">Side-by-side analysis</p><h1>Compare models</h1><p class="muted">Trace overall differences down to components, scenarios, and shared worlds.</p></div><a class="button" href="leaderboard.html">Select from leaderboard</a></header><section class="panel"><div class="toolbar compare-picker">${Array.from({ length: 4 }, (_, i) => `<label class="field">Model ${i + 1}${i > 1 ? " (optional)" : ""}<select data-model-slot="${i}"><option value="">Choose a model</option>${all.map((m) => `<option value="${esc(m.id)}" ${ids[i] === m.id ? "selected" : ""} ${ids.includes(m.id) && ids[i] !== m.id ? "disabled" : ""}>${esc(m.name)}</option>`).join("")}</select></label>`).join("")}</div><p class="note">Choose 2–4 entries. Comparison links preserve your selection. ${models.length} selected.</p><p class="note">Public-development comparison only. These are descriptive differences; no official paired inference or significance result is present in this snapshot.</p></section><div id="comparison-content"></div>`;
+      `${editorHeader('Decisions, side by side.', 'Start with the outcomes. Follow the differences into the evidence.', '<a class="quiet-link" href="leaderboard.html">Select from leaderboard</a>')}<section class="comparison-controls"><div class="comparison-selection"><h2>Your comparison</h2><span>Choose 2–4 models</span></div><div class="toolbar compare-picker">${Array.from({ length: 4 }, (_, i) => `<label class="field">Model ${i + 1}${i > 1 ? " (optional)" : ""}<select data-model-slot="${i}"><option value="">Choose a model</option>${all.map((m) => `<option value="${esc(m.id)}" ${ids[i] === m.id ? "selected" : ""} ${ids.includes(m.id) && ids[i] !== m.id ? "disabled" : ""}>${esc(m.name)}</option>`).join("")}</select></label>`).join("")}</div><p class="note">Your selection is saved in this link. ${models.length} selected.</p><p class="note">Public-development comparison only. These are descriptive differences; no official paired inference or significance result is present in this snapshot.</p></section><div id="comparison-content"></div>`;
+    const picker = document.querySelector('.compare-picker');
+    const extra = document.createElement('details'); extra.className = 'optional-models'; extra.open = keepPickerOpen || ids.length > 2;
+    extra.innerHTML = '<summary>Add more models</summary><div class="optional-model-fields"></div>';
+    [...picker.children].slice(2).forEach(label => extra.querySelector('div').append(label)); picker.append(extra);
     for (const el of document.querySelectorAll("[data-model-slot]"))
       el.addEventListener("change", () => {
         const next = Array.from(document.querySelectorAll("[data-model-slot]"))
@@ -124,8 +131,8 @@ async function main() {
     const cards = `<div class="compare-grid">${models
       .map(
         (m, i) =>
-          `<article class="compare-card series-card-${i}"><span class="eyebrow">${esc(m.kind)}</span><h2>${modelLink(m)}</h2><span class="muted">Overall rank ${rankOf(all, m)} / ${all.length}</span><strong class="metric-value">${fmt(m.score)}</strong><span class="metric-note">EMBER points · 95% CI ${ciText(m)}</span><dl class="metric-list">${fields
-            .slice(0, 6)
+          `<article class="compare-card series-card-${i}"><span class="compare-kind">${esc(m.kind)}</span><h2>${modelLink(m)}</h2><span class="muted">Overall rank ${rankOf(all, m)} / ${all.length}</span><strong class="metric-value">${fmt(m.score)}</strong><span class="metric-note">EMBER points · 95% CI ${ciText(m)}</span><dl class="metric-list">${fields
+            .slice(0, 3)
             .map(
               ([label, get]) =>
                 `<div class="metric-row"><dt>${label}</dt><dd>${esc(get(m))}</dd></div>`,
@@ -229,6 +236,17 @@ async function main() {
         congestion,
       ) +
       `<p class="note">95% intervals do not establish paired significance. ${esc([...new Set(models.map((m) => m.totals.trials))].join(", "))} trial per model in this selection. API cost may be a list-price estimate (≈); request/token/latency totals may cover only the final invocation of a resumed run. Missing API metrics are —.</p>`;
+    const panels = [...content.querySelectorAll(':scope > .panel')];
+    const note = content.querySelector(':scope > .note');
+    if (note) note.classList.add('workspace-caveat');
+    const metricTable = panels[0];
+    if (metricTable) disclosure(metricTable, 'All outcome & API measurements');
+    workspaceTabs(content, [
+      ['outcomes','Outcomes',[panels[1], metricTable?.parentElement]],
+      ['worlds','Scenarios & worlds',[panels[2], panels[3], disclosure(panels[4], 'Per-world score table')]],
+      ['diagnostics','Diagnostics',[panels[5], panels[6]]]
+    ], 'comparison', keepView);
+    if (note) content.append(note);
   };
   render();
 }
