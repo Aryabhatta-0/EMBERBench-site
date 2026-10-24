@@ -80,9 +80,9 @@
     {
       "name": "Anantam logo loader",
       "kind": "custom",
-      "description": "One supplied infinity emblem with transparent forward-space trails while actual route data is pending. This static preview shows its wordmark, status and native motion control; site/loader.css, boot.js and the shared cosmos.js own the artwork and lifecycle.",
-      "html": "<section class=\"ds-loading\" aria-label=\"Loading Anantam\"><h2 class=\"ds-loading-name\">Anantam</h2><p class=\"ds-loading-copy\" role=\"status\">Opening Anantam.</p><button class=\"ds-loading-toggle\" type=\"button\">Pause motion</button></section>",
-      "css": ".ds-loading{font-family:var(--font-body);display:grid;justify-items:center;text-align:center;padding:40px 24px;background:var(--loading-ground,var(--surface-0));color:var(--text-primary)}.ds-loading-name{font:500 28px/1.2 var(--font-body);letter-spacing:-.025em;margin:0}.ds-loading-copy{font-size:13px;line-height:1.6;color:var(--text-muted);max-width:32ch;min-height:42px;margin:12px 0 0}.ds-loading-toggle{min-height:44px;border:0;background:transparent;color:var(--text-muted);font:inherit;font-size:11px;padding:10px 16px;cursor:pointer}.ds-loading-toggle:hover{color:var(--text-primary)}.ds-loading-toggle:focus-visible{outline:2px solid var(--focus);outline-offset:4px}@media(prefers-reduced-motion:no-preference){.ds-loading-toggle{transition:transform 150ms ease-out}.ds-loading-toggle:active{transform:scale(.96)}}"
+      "description": "One supplied infinity emblem with transparent forward-space trails while actual route data is pending. This static preview shows its wordmark and status; site/loader.css, boot.js and the shared cosmos.js own the artwork and lifecycle.",
+      "html": "<section class=\"ds-loading\" aria-label=\"Loading Anantam\"><h2 class=\"ds-loading-name\">Anantam</h2><p class=\"ds-loading-copy\" role=\"status\">Opening Anantam.</p></section>",
+      "css": ".ds-loading{font-family:var(--font-body);display:grid;justify-items:center;text-align:center;padding:40px 24px;background:var(--loading-ground,var(--surface-0));color:var(--text-primary)}.ds-loading-name{font:500 28px/1.2 var(--font-body);letter-spacing:-.025em;margin:0}.ds-loading-copy{font-size:13px;line-height:1.6;color:var(--text-muted);max-width:32ch;min-height:42px;margin:12px 0 0}"
     }
   ],
   "narrative": {

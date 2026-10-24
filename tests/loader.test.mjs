@@ -22,20 +22,15 @@ try {
     await page.waitForFunction(reduced=>document.querySelector('.loading-emblem')?.dataset.motion===(reduced?'reduced':'running'),reduced);
     await page.evaluate(()=>document.fonts.ready);
     check(`${name}: real emblem and concise identity`,await page.locator('.loading-emblem img').getAttribute('src')==='assets/anantam-logo.png' && await page.locator('h1').textContent()==='Anantam');
-    check(`${name}: no skeleton or card`,await page.locator('.loading-shell .skeleton-rows,.loading-shell .panel,.loading-shell .loading-canvas').count()===0);
+    check(`${name}: no skeleton, card or motion control`,await page.locator('.loading-shell .skeleton-rows,.loading-shell .panel,.loading-shell .loading-canvas').count()===0 && await page.getByRole('button',{name:/^(Pause|Play) motion$/}).count()===0);
     check(`${name}: original artwork colour`,await page.locator('.loading-emblem img').evaluate(el=>getComputedStyle(el).filter==='none'));
     check(`${name}: fits viewport`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth && document.documentElement.scrollHeight<=innerHeight+1));
     check(`${name}: loading state described`,await page.getByRole('status').textContent()==='Opening Anantam.');
-    if (reduced) check('Reduced motion keeps still logo and status',await page.locator('.cosmos-sky').isHidden() && await page.locator('.cosmos-toggle').isHidden());
+    if (reduced) check('Reduced motion keeps still logo and status',await page.locator('.cosmos-sky').isHidden() && await page.locator('.loading-emblem img').isVisible());
     if (name==='desktop') {
       const pixels=()=>page.locator('.loading-emblem canvas').evaluate(el=>el.toDataURL());
       const initial=await pixels(); await page.waitForTimeout(180);
       check('Logo loading has moving depth',initial!==await pixels());
-      await page.getByRole('button',{name:'Pause motion',exact:true}).click();
-      const still=await pixels(); await page.waitForTimeout(180);
-      check('Loading motion can pause',still===await pixels());
-      await page.getByRole('button',{name:'Play motion',exact:true}).press('Enter');
-      await page.waitForTimeout(180); check('Keyboard resumes loading motion',still!==await pixels());
       await page.locator('.loading-emblem canvas').evaluate(el=>{window.detachedLoader=el;});
     }
     await page.screenshot({path:resolve(out,`logo-loader-${name}.png`),animations:'disabled'});
@@ -49,7 +44,7 @@ try {
       const frozen=await page.evaluate(()=>window.detachedLoader.toDataURL()); await page.waitForTimeout(180);
       check('Detached loader stops rendering',frozen===await page.evaluate(()=>window.detachedLoader.toDataURL()));
       await page.waitForFunction(()=>document.querySelector('.hero-art .cosmos-emblem')?.dataset.motion==='running');
-      check('Home logo animation starts after loader cleanup',await page.getByRole('button',{name:'Pause motion',exact:true}).isVisible());
+      check('Home logo animation starts after loader cleanup',await page.locator('.hero-art canvas').isVisible());
     }
     await context.close();
   }

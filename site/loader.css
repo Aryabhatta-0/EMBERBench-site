@@ -9,12 +9,10 @@ body #main:has(> .loading-shell) { width: 100%; max-width: none; margin: 0; padd
 .loading-emblem img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; }
 .loading-name { font-family: var(--font-body); font-size: 28px; font-weight: 500; line-height: 1.2; letter-spacing: -.025em; margin: 32px 0 0; color: var(--text-primary); }
 .loading-copy { font-size: 13px; line-height: 1.6; color: var(--text-muted); max-width: 32ch; min-height: 42px; margin: 12px 0 0; }
-.loading-actions { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px; min-height: 52px; margin-top: 12px; }
-.loading-actions .cosmos-toggle { min-height: 44px; font-size: 11px; padding: 10px 16px; }
-.loading-actions .loading-retry { min-height: 44px; font-size: 12px; }
-.loading-actions button:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+.loading-retry { min-height: 44px; font-size: 12px; margin-top: 12px; }
+.loading-retry:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
 @media (prefers-reduced-motion:no-preference) {
-  .loading-actions button { transition: transform 150ms ease-out; }
-  .loading-actions button:not(:disabled):active { transform: scale(.96); }
+  .loading-retry { transition: transform 150ms ease-out; }
+  .loading-retry:not(:disabled):active { transform: scale(.96); }
 }
 @media (max-height:480px) { .loading-shell { padding-block: 24px; } .loading-emblem.cosmos-emblem { width: 120px; } .loading-name { margin-top: 16px; } }

@@ -2,15 +2,14 @@
 // The original image remains the no-JS, reduced-motion and canvas fallback.
 export function animateCosmos(root) {
   const canvas = root?.querySelector('canvas');
-  const toggle = root?.parentElement.querySelector('.cosmos-toggle');
-  if (!canvas || !toggle || !CSS.supports('mask-image', 'url("assets/anantam-logo.png")')) return;
+  if (!canvas || !CSS.supports('mask-image', 'url("assets/anantam-logo.png")')) return;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   // One fixed field, one vanishing point, one camera velocity. No wandering
   // or randomly changing direction: nearer stars pass faster and leave trails.
   const stars = Array.from({length:480}, () => ({x:Math.random()*2-1, y:Math.random()*2-1, z:.12+Math.random()*1.6, size:.35+Math.random()*.45}));
-  let paused = false, visible = false, frame = 0, previous = 0, size = 405;
+  let visible = false, frame = 0, previous = 0, size = 405;
   const listeners = new AbortController();
   const resize = () => {
     size = root.getBoundingClientRect().width;
@@ -49,12 +48,9 @@ export function animateCosmos(root) {
   const sync = () => {
     cancelAnimationFrame(frame); frame = 0; previous = 0;
     canvas.hidden = preference.matches;
-    toggle.hidden = preference.matches;
-    toggle.textContent = paused ? 'Play motion' : 'Pause motion';
-    root.dataset.motion = preference.matches ? 'reduced' : paused ? 'paused' : visible && !document.hidden ? 'running' : 'idle';
-    if (!preference.matches && !paused && visible && !document.hidden) frame = requestAnimationFrame(tick);
+    root.dataset.motion = preference.matches ? 'reduced' : visible && !document.hidden ? 'running' : 'idle';
+    if (!preference.matches && visible && !document.hidden) frame = requestAnimationFrame(tick);
   };
-  toggle.addEventListener('click', () => { paused = !paused; sync(); }, {signal:listeners.signal});
   preference.addEventListener('change',sync, {signal:listeners.signal});
   document.addEventListener('visibilitychange',sync, {signal:listeners.signal});
   const sizing = new ResizeObserver(resize);
