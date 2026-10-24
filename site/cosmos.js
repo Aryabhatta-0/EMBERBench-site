@@ -11,6 +11,7 @@ export function animateCosmos(root) {
   // or randomly changing direction: nearer stars pass faster and leave trails.
   const stars = Array.from({length:480}, () => ({x:Math.random()*2-1, y:Math.random()*2-1, z:.12+Math.random()*1.6, size:.35+Math.random()*.45}));
   let paused = false, visible = false, frame = 0, previous = 0, size = 405;
+  const listeners = new AbortController();
   const resize = () => {
     size = root.getBoundingClientRect().width;
     const density = Math.min(devicePixelRatio || 1, 2);
@@ -53,10 +54,12 @@ export function animateCosmos(root) {
     root.dataset.motion = preference.matches ? 'reduced' : paused ? 'paused' : visible && !document.hidden ? 'running' : 'idle';
     if (!preference.matches && !paused && visible && !document.hidden) frame = requestAnimationFrame(tick);
   };
-  toggle.addEventListener('click', () => { paused = !paused; sync(); });
-  preference.addEventListener('change',sync);
-  document.addEventListener('visibilitychange',sync);
-  new ResizeObserver(resize).observe(root);
-  new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, {threshold:.05}).observe(root);
+  toggle.addEventListener('click', () => { paused = !paused; sync(); }, {signal:listeners.signal});
+  preference.addEventListener('change',sync, {signal:listeners.signal});
+  document.addEventListener('visibilitychange',sync, {signal:listeners.signal});
+  const sizing = new ResizeObserver(resize);
+  const visibility = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, {threshold:.05});
+  sizing.observe(root); visibility.observe(root);
   resize(); sync();
+  return () => { cancelAnimationFrame(frame); listeners.abort(); sizing.disconnect(); visibility.disconnect(); };
 }

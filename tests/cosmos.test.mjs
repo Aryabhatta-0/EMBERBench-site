@@ -11,14 +11,14 @@ const browser = await chromium.launch();
 const page = await browser.newPage({viewport:{width:1440,height:1000}});
 const checks = [], errors = [];
 const check = (name,ok) => {assert.ok(ok,name);checks.push(name);};
-const state = value => page.waitForFunction(value=>document.querySelector('.cosmos-emblem')?.dataset.motion===value,value);
+const state = value => page.waitForFunction(value=>document.querySelector('.hero-art .cosmos-emblem')?.dataset.motion===value,value);
 const pixels = () => page.locator('.cosmos-sky').evaluate(el=>el.toDataURL());
 page.on('pageerror',e=>errors.push(e.message));
 await page.addInitScript(()=> {
   window.motionTrails=[];
   const move=CanvasRenderingContext2D.prototype.moveTo, line=CanvasRenderingContext2D.prototype.lineTo;
   CanvasRenderingContext2D.prototype.moveTo=function(x,y){this.trailStart=[x,y];return move.call(this,x,y);};
-  CanvasRenderingContext2D.prototype.lineTo=function(x,y){if(this.trailStart && window.motionTrails.length<200) window.motionTrails.push([...this.trailStart,x,y]);return line.call(this,x,y);};
+  CanvasRenderingContext2D.prototype.lineTo=function(x,y){if(this.canvas.closest('.hero-art') && this.trailStart && window.motionTrails.length<200) window.motionTrails.push([...this.trailStart,x,y]);return line.call(this,x,y);};
 });
 try {
   await page.goto(base); await state('running');
