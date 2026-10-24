@@ -24,6 +24,7 @@ import {
   modelLink,
   selectionBar,
   provenance,
+  evaluatedModelName,
 } from "../site/common.js";
 import {
   scoreBars,
@@ -33,6 +34,20 @@ import {
   differenceChart,
 } from "../site/charts.js";
 import data from "../site/data/results.js";
+
+test("Jev labels identify the evaluated version while preserving aliases and IDs", () => {
+  const old = data.models.find(m=>m.id === 'typesafe-jev-latest-choice-r1');
+  const current = data.models.find(m=>m.id === 'openrouter-typesafe_jev-1.14-choice-r1');
+  assert.equal(evaluatedModelName(old),'typesafe/jev-1.13');
+  assert.equal(evaluatedModelName(current),'typesafe/jev-1.14');
+  assert.equal(old.api.resolved_models[0],'jev-1.13.0');
+  assert.equal(current.api.resolved_models[0],'typesafe/jev-1.14-20261014');
+  assert.equal(old.score,48.2662); assert.equal(current.score,51.704);
+  assert.equal(current.episodes.length,19);
+  assert.equal(evaluatedModelName({...old,api:{resolved_models:[]}}),old.name);
+  assert.equal(evaluatedModelName({...old,api:{resolved_models:['jev-1.13.0','jev-1.14.0']}}),old.name);
+  assert.equal(evaluatedModelName({...old,api:{resolved_models:['jev-1.13.1']}}),'typesafe/jev-1.13.1');
+});
 
 const model = (id, extra = {}) => ({
   id,

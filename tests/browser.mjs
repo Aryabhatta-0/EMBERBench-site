@@ -95,6 +95,17 @@ try {
   const fallback = await nojs.newPage(); await fallback.goto(base);
   check('No-JavaScript introduction visible', await fallback.locator('h1').isVisible());
   await nojs.close();
+  await go('index.html');
+  check('Home shows JEV 1.14 as leading decision model',await page.locator('.featured-result').first().innerText().then(t=>t.includes('typesafe/jev-1.14')));
+  await go('leaderboard.html?q=jev');
+  check('Both evaluated JEV versions are searchable',await page.locator('[data-select-model]').count() === 2);
+  check('Leaderboard replaces latest alias with evaluated 1.13',await page.locator('#leaderboard').innerText().then(t=>t.includes('typesafe/jev-1.13') && !t.includes('jev-latest')));
+  await go('compare.html?models=typesafe-jev-latest-choice-r1,openrouter-typesafe_jev-1.14-choice-r1');
+  check('Version comparison retains both reports',await page.locator('.compare-card h2').allTextContents().then(names=>names.join('|') === 'typesafe/jev-1.13|typesafe/jev-1.14'));
+  await go('model.html?id=typesafe-jev-latest-choice-r1');
+  check('Legacy JEV profile link shows 1.13',await page.locator('h1').textContent().then(t=>t.includes('typesafe/jev-1.13')));
+  await go('model.html?id=openrouter-typesafe_jev-1.14-choice-r1');
+  check('JEV 1.14 profile exposes imported score',await page.locator('.score-hero').innerText().then(t=>t.includes('51.70')));
   await go('model.html?id=unknown-model');
   check('Unknown model recovery', /not found|unknown|unavailable|choose/i.test(await page.locator('main').innerText()));
   check('No browser JavaScript or resource errors', errors.length === 0);
