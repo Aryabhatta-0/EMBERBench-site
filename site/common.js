@@ -58,8 +58,17 @@ export const COMPONENTS = {
 };
 export const REPO = "https://github.com/Aryabhatta-0/EMBERBench";
 
+export function evaluatedModelName(model) {
+  if (!/^(?:typesafe\/)?jev-latest$/.test(model.name)) return model.name;
+  const resolved = model.api?.resolved_models;
+  const version = resolved?.length === 1 && typeof resolved[0] === 'string'
+    ? resolved[0].match(/^(?:typesafe\/)?(jev-\d+\.\d+)(?:\.(\d+))?$/) : null;
+  return version ? `typesafe/${version[1]}${version[2] && version[2] !== '0' ? `.${version[2]}` : ''}` : model.name;
+}
 export async function loadResults() {
-  const data = (await import("./data/results.js")).default;
+  const snapshot = (await import("./data/results.js")).default;
+  // Legacy run aliases remain in source evidence and IDs; show the resolved version.
+  const data = {...snapshot, models:snapshot.models?.map(m=>({...m,name:evaluatedModelName(m)}))};
   if (!data.models?.length || !data.pack_digest || !data.scoring_version)
     throw new Error("Results data is incomplete.");
   // New builds carry full-precision report ranks. Legacy snapshots predate

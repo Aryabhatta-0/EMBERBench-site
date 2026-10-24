@@ -41,6 +41,20 @@ def remote_summary(report: dict[str, Any], **api: Any) -> dict[str, Any]:
     }
 
 
+@pytest.mark.parametrize("resolved,expected", [
+    (["jev-1.13.0"], "typesafe/jev-1.13"),
+    (["jev-1.13.1"], "typesafe/jev-1.13.1"),
+    ([], "typesafe/jev-latest"),
+    (["jev-1.13.0", "jev-1.14.0"], "typesafe/jev-latest"),
+])
+def test_jev_display_uses_single_resolved_version(official_report: dict[str, Any], resolved: list[str], expected: str) -> None:
+    summary = remote_summary(official_report)
+    summary.update(requested_model="typesafe/jev-latest", resolved_models=resolved)
+    entry = model_entry(official_report, summary)
+    assert entry["name"] == expected
+    assert entry["id"] == official_report["model_id"]
+
+
 def test_official_failed_report_preserves_missing_outcomes_and_provenance(tmp_path: Path, official_report: dict[str, Any]) -> None:
     run = write_run(tmp_path / "run", official_report)
     data = build([run])
