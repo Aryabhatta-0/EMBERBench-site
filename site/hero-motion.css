@@ -1,9 +1,18 @@
-/* Particle alternative: fine suspended dust with a quiet center for reading. */
-:root{--particle-ink:#142e51;}
+/* One-time emblem assembly with companion side-line motion. */
+:root{--particle-ink:#142e51;--ribbon-ink:#9aafca;--ribbon-current:#385c86;}
 body[data-page='company'] main.container{width:100%;max-width:none;margin:0;padding:0;}
 body[data-page='company'] .site-header{background:var(--hero-surface);}
 .company-hero{position:relative;isolation:isolate;overflow:hidden;height:calc(100svh - var(--site-header-height,0px));min-height:0;border-radius:0;}
 .hero-particles{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;mask-image:linear-gradient(to bottom,transparent,var(--particle-ink) 10%,var(--particle-ink) 88%,transparent);}
+.brand-ribbon{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:hidden;mask-image:linear-gradient(to bottom,transparent,var(--ribbon-current) 10%,var(--ribbon-current) 88%,transparent);}
+.brand-ribbon path,.brand-ribbon use{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round;}
+.ribbon-contour{stroke:var(--ribbon-ink);stroke-width:1;stroke-dasharray:1;opacity:.66;animation:hero-line-draw 1.9s var(--ease-out) both;}
+.ribbon-contour:nth-of-type(2){animation-delay:.12s;}
+.ribbon-current{stroke:var(--ribbon-current);stroke-width:1.7;stroke-dasharray:.065 .935;opacity:.7;animation:hero-line-flow 3.8s linear both;}
+.ribbon-current:nth-of-type(4){animation-delay:.35s;}
+.company-hero[data-animation-visible='false'] .brand-ribbon use{animation-play-state:paused;}
+@keyframes hero-line-draw{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}
+@keyframes hero-line-flow{from{stroke-dashoffset:0;}to{stroke-dashoffset:-1;}}
 .particle-canvas{display:block;width:100%;height:100%;position:absolute;inset:0;}
 .particles-ready .hero-emblem{visibility:hidden;}
 .company-hero .hero-emblem{width:156px;height:156px;}
@@ -11,4 +20,4 @@ body[data-page='company'] .site-header{background:var(--hero-surface);}
 @media(max-height:600px){.company-hero .hero-emblem{width:48px;height:48px;}}
 @media(max-width:700px){.company-hero{padding-bottom:40px;}}
 @media(max-height:600px){.company-hero{padding-top:20px;padding-bottom:52px;}.company-signature{flex-direction:row;gap:14px;}.hero-emblem{width:48px;height:48px;}.company-hero h1{font-size:80px;line-height:1;}.company-hero>p{font-size:16px;margin:16px 0 20px;}}
-@media(prefers-reduced-motion:reduce){.hero-emblem{transform:none;}}
+@media(prefers-reduced-motion:reduce){.hero-emblem{transform:none;}.brand-ribbon use{animation:none;}}

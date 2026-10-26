@@ -64,13 +64,17 @@ try{
  const formed=await page.locator('.particle-canvas').evaluate(el=>el.toDataURL());
  check('Particles visibly assemble into the supplied emblem',await page.locator('.hero-emblem').isHidden()&&await page.locator('.company-hero').getAttribute('data-particle-phase')==='assembled');
  check('Assembled particles are confined to the emblem bounds',await page.locator('.particle-canvas').evaluate(el=>{const c=el.getContext('2d'),a=c.getImageData(0,0,el.width,el.height).data,r=el.getBoundingClientRect(),m=document.querySelector('.hero-emblem').getBoundingClientRect(),scale=el.width/r.width;let inside=0,outside=0;for(let y=0;y<el.height;y++)for(let x=0;x<el.width;x++){if(a[(y*el.width+x)*4+3]<20)continue;if(x>=(m.left-r.left)*scale-2&&x<=(m.right-r.left)*scale+2&&y>=(m.top-r.top)*scale-2&&y<=(m.bottom-r.top)*scale+2)inside++;else outside++;}return inside>500&&outside<10;}));
- await page.waitForFunction(()=>document.querySelector('.company-hero').dataset.particlePhase==='releasing',{},{timeout:7000});await page.waitForTimeout(700);
- check('The emblem releases into particles and continues its cycle',await page.locator('.particle-canvas').evaluate(el=>el.toDataURL())!==formed);
+ await page.waitForTimeout(7200);
+ check('The completed particle logo stays assembled beyond the former loop',await page.locator('.company-hero').getAttribute('data-motion')==='complete'&&await page.locator('.particle-canvas').evaluate(el=>el.toDataURL())===formed);
+ await page.locator('.site-footer').scrollIntoViewIfNeeded();await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.waitForTimeout(250);
+ check('Returning to the hero does not replay the assembly',await page.locator('.company-hero').getAttribute('data-motion')==='complete'&&await page.locator('.particle-canvas').evaluate(el=>el.toDataURL())===formed);
+ await page.setViewportSize({width:1200,height:800});await page.waitForTimeout(100);
+ check('Resizing keeps the completed logo assembled',await page.locator('.company-hero').getAttribute('data-motion')==='complete'&&await page.locator('.company-hero').getAttribute('data-particle-phase')==='assembled');
  const fallback=await browser.newPage();await fallback.route('**/gsap.min.js*',r=>r.abort());await fallback.goto(new URL('index.html',base).href);
  check('Without GSAP the logo, particles and action remain',await fallback.locator('.hero-action').isVisible()&&await fallback.locator('.hero-particles').isVisible()&&await fallback.locator('[data-motion-toggle]').count()===0);
  const noCanvas=await browser.newPage();await noCanvas.addInitScript(()=>{HTMLCanvasElement.prototype.getContext=()=>null;});await noCanvas.goto(new URL('index.html',base).href);await noCanvas.locator('.site-footer').waitFor();
  check('Canvas failure preserves the original static emblem',await noCanvas.locator('.hero-emblem').isVisible()&&await noCanvas.locator('.particle-canvas').isHidden()&&await noCanvas.locator('.hero-action').isVisible());
- check('Particle alternative contains no ribbon paths',await page.locator('.brand-ribbon,.ribbon-contour,.ribbon-current').count()===0);
+ check('Side-line animation accompanies the one-time logo assembly',await page.locator('.brand-ribbon').isVisible()&&await page.locator('.ribbon-contour').count()===2&&await page.locator('.ribbon-current').count()===2);
  check('No runtime errors in dashboard and motion journeys',errors.length===0);
 }finally{await writeFile(resolve(out,'report.json'),JSON.stringify({checks,audits,errors},null,2));await browser.close();}
 console.log(`${checks.length} dashboard and hero checks passed; ${audits.length} accessibility scans.`);

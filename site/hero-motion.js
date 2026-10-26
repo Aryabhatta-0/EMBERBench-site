@@ -26,10 +26,9 @@ export function mountHeroMotion(hero) {
     canvas.dataset.particles=String(points.length);
   }
   function paint(time){
-    const cycle=time%10;
-    let amount=cycle<3?cycle/3:cycle<7?1:cycle<9?1-(cycle-7)/2:0;
+    let amount=Math.min(1,time/3);
     if(reduced.matches)amount=1;
-    hero.dataset.particlePhase=amount>=.999?'assembled':amount<=0?'released':cycle<3?'assembling':'releasing';
+    hero.dataset.particlePhase=amount===1?'assembled':'assembling';
     context.clearRect(0,0,width,height);context.fillStyle=ink;
     for(let bucket=0;bucket<4;bucket++){
       context.globalAlpha=.62+bucket*.12;context.beginPath();
@@ -48,10 +47,11 @@ export function mountHeroMotion(hero) {
     canvas.width=Math.round(width*density);canvas.height=Math.round(height*density);context.setTransform(density,0,0,density,0,0);
     particles();paint(elapsed);
   }
-  const tick=now=>{if(disposed)return;if(previous)elapsed+=Math.min((now-previous)/1000,.08);previous=now;if(now-lastPaint>=1000/30){paint(elapsed);lastPaint=now;}frame=requestAnimationFrame(tick);};
+  const tick=now=>{if(disposed)return;if(previous)elapsed+=Math.min((now-previous)/1000,.08);previous=now;if(elapsed>=3){elapsed=3;paint(3);frame=0;hero.dataset.motion='complete';return;}if(now-lastPaint>=1000/30){paint(elapsed);lastPaint=now;}frame=requestAnimationFrame(tick);};
   function sync(){
-    cancelAnimationFrame(frame);frame=0;previous=0;if(!ready)return;
-    if(reduced.matches){paint(0);hero.dataset.motion='reduced';}
+    cancelAnimationFrame(frame);frame=0;previous=0;hero.dataset.animationVisible=String(!document.hidden&&visible);if(!ready)return;
+    if(reduced.matches){elapsed=3;paint(3);hero.dataset.motion='reduced';}
+    else if(elapsed>=3){paint(3);hero.dataset.motion='complete';}
     else if(document.hidden||!visible)hero.dataset.motion='paused';
     else{hero.dataset.motion='playing';frame=requestAnimationFrame(tick);}
   }

@@ -282,8 +282,8 @@
       },
       {
         "name": "particle-emblem-assembly",
-        "value": "10s cycle:3s assembly,4s hold,2s release,1s rest",
-        "purpose": "Fine particles form the original emblem alpha silhouette. Text remains fixed. Reduced motion renders complete; offscreen pauses; original image is fallback."
+        "value": "Once:3s emblem assembly;4.15s side-line entrance",
+        "purpose": "Particles permanently form the supplied emblem. Side ribbons animate once and hold. No replay on return/resize, no pointer tracking or pause button. Reduced motion is static."
       }
     ],
     "breakpoints": [
