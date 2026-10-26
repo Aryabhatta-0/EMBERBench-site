@@ -17,7 +17,7 @@ import {
   providerChip,
   rankOf,
   errorPage,
-} from "./common.js";
+} from "./common.js?v=20261027-benchmark-2";
 import {
   METRICS,
   filterModels,
@@ -25,7 +25,7 @@ import {
   finite,
   leaderboardOrder,
 } from "./analytics.js";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js';
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-benchmark-2';
 
 const columns = [
   ["score", "EMBER"],

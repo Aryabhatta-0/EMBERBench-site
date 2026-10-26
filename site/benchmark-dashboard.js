@@ -1,4 +1,4 @@
-import {esc,fmt,count,scenarioName,isDecision} from './common.js';
+import {esc,fmt,count,scenarioName,isDecision} from './common.js?v=20261027-benchmark-2';
 import {METRICS,finite,leaderboardOrder} from './analytics.js';
 
 export const PAGE_SIZE=5;

@@ -539,7 +539,7 @@ test("all portal entry points use local modules, viewport metadata and an access
     assert.match(html, /<html lang="en">/);
     assert.match(html, /name="viewport"/);
     assert.match(html, /<main id="main" tabindex="-1">/);
-    assert.match(html, /type="module" src="[^" ]+\.js"/);
+    assert.match(html, /type="module" src="[^" ]+\.js(?:\?[^" ]+)?"/);
     assert.match(html, /<noscript\s*>/);
     for (const [, src] of html.matchAll(/(?:src|href)="([^"#]+)"/g))
       if (!/^https?:/.test(src)) await access(new URL(src, url));
