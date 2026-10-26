@@ -19,9 +19,9 @@ The complete overview fits within the initial 1280×800, 1440×900 and 1920×108
 
 ## Hero
 
-Two continuous ribbons frame the centered Anantam identity. Their contours draw on entry, with traveling accents along the paths. Fine-pointer input shifts the ribbon within a bounded 16px/9px range and turns the original emblem by at most seven degrees. Text and the benchmark action stay fixed and readable.
+The header and hero form one edge-to-edge mist-blue first screen. Its height subtracts the actual navigation height. There are no inherited side gutters or inset panel. Both the hero and the ribbon SVG clip overflow; the artwork fades before its boundaries and cannot extend into the contribution section.
 
-The explicit Pause motion control stops playback. Reduced motion presents the static linework and original identity. Hidden/offscreen documents pause the timelines, and navigation releases observers, listeners and GSAP context. Without GSAP, static content and the direct benchmark link remain available. No evacuation map or reference replay UI is restored.
+The original logo and centered identity remain. Side artwork does not follow the pointer. The entrance and traveling accents finish within 4.15 seconds and settle; there is no pause-motion control or repeating timeline. Reduced motion and the no-GSAP fallback show static content. Visibility/intersection state suspends an unfinished entrance, and navigation releases its context and listeners.
 
 ## Skills
 
@@ -32,12 +32,12 @@ Exactly one agent handled skill discovery and installation, as requested. It mad
 | [Official GSAP Performance](https://github.com/greensock/gsap-skills/tree/main/skills/gsap-performance) | Newly installed into `~/.codex/skills/gsap-performance` | Reused `quickTo` tweens for pointer response; batched geometry reads; bounded work; offscreen/hidden pausing and cleanup. |
 | [Official GSAP Utils](https://github.com/greensock/gsap-skills/tree/main/skills/gsap-utils) | Newly installed into `~/.codex/skills/gsap-utils` | `clamp` and `mapRange` turn pointer position into controlled movement and rotation. |
 | Official GSAP Core and Timeline | Existing skills reused | Finite entry choreography and a reusable flow timeline. Fractional SVG stroke offsets disable pixel rounding for continuous movement. |
-| LottieFiles Motion Design | Existing skill reused | Staged primary/secondary motion, restrained easing, uninterrupted reading, an explicit pause control and reduced-motion behavior. No Lottie runtime needed. |
+| LottieFiles Motion Design | Existing skill reused | Staged primary/secondary motion, restrained easing, uninterrupted reading, an a finite entrance and reduced-motion behavior. No Lottie runtime needed. |
 | UI/UX Pro Max | Existing skill reused | Matched comparison, relationship, proportion and scenario questions to appropriate charts; preserved labels, scales, keyboard access and a table alternative. |
 | Emil Kowalski Design Engineering | Existing skill reused | Immediate analytical selection, responsive feedback, interruption handling, restrained motion and preserving the accepted identity. |
 
 ## Validation and limits
 
-19 Node checks and 306 browser checks pass, including pagination coverage, exact people counts, synchronized selection, URL restoration, scenario links, missing API values, actual changing animation offsets, pause, offscreen behavior, pointer response and reduced-motion fallback. All 57 automated accessibility scans report zero violations in the WCAG A/AA rules checked. Native in-app-browser use confirms the pause control, direct hero action and ranking pagination.
+19 Node checks and 312 browser checks pass, including pagination coverage, exact people counts, synchronized selection, URL restoration, scenario links, missing API values, actual changing animation offsets, pause, offscreen behavior, pointer response and reduced-motion fallback. All 57 automated accessibility scans report zero violations in the WCAG A/AA rules checked. Native in-app-browser use confirms the pause control, direct hero action and ranking pagination.
 
 The implementation was inspected in desktop and phone captures. Browser tests use Chromium; physical phones, other engines and the protected deployed preview were not runtime-verified. This is engineering and heuristic validation, not a recruited user study. Published score/rank definitions and the one-trial public-development qualifications remain unchanged.

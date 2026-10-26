@@ -40,7 +40,7 @@ try {
     audits.push({name,violations});
     release(); await page.locator('.site-footer').waitFor();
     await page.waitForFunction(()=>!document.querySelector('.loading-shell') && !document.querySelector('main').hasAttribute('aria-busy'));
-    check(`${name}: real content replaces loader`,await page.getByRole('heading',{name:'EMBERBenchmark',exact:true}).isVisible());
+    check(`${name}: real content replaces loader`,await page.getByRole('heading',{name:'EMBERBench',exact:true}).isVisible());
     if (name==='desktop') {
       const frozen=await page.evaluate(()=>window.detachedLoader.toDataURL()); await page.waitForTimeout(180);
       check('Detached loader stops rendering',frozen===await page.evaluate(()=>window.detachedLoader.toDataURL()));

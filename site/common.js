@@ -153,7 +153,7 @@ export function shell(data, active) {
   const company = active === 'company';
   const pages = [
     ['company', 'index.html#contributions', 'Our work'],
-    ['leaderboard', 'benchmark.html', 'EMBERBenchmark'],
+    ['leaderboard', 'benchmark.html', 'EMBERBench'],
     ['methodology', 'methodology.html', 'Methodology'],
   ];
   const main = document.querySelector("main");

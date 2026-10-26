@@ -1,6 +1,6 @@
-import {shell,loadResults,esc,fmt} from './common.js';
+import {shell,loadResults,esc,fmt} from './common.js?v=20261027-brand-3';
 import {mountEvaluationLoop} from './evaluation-loop.js';
-import {mountHeroMotion} from './hero-motion.js';
+import {mountHeroMotion} from './hero-motion.js?v=20261027-hero-3';
 
 shell(null,'company');
 const destroyHero=mountHeroMotion(document.querySelector('.company-hero'));

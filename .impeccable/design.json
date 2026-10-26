@@ -282,8 +282,8 @@
       },
       {
         "name": "brand-ribbon",
-        "value": "1.9s contour entry; 7s traveling accents; fixed side geometry",
-        "purpose": "Full-window hero below the measured header. Side ribbons do not follow pointer movement. Pause, reduced motion, visibility and intersection control playback; cleanup on navigation."
+        "value": "1.9s contour entry; finite accents complete within 4.15s",
+        "purpose": "Edge-to-edge full-window hero and header. Fixed side positions, clipped artwork, no pause button or looping motion. Reduced motion and no-GSAP fallback stay static."
       }
     ],
     "breakpoints": [
@@ -334,7 +334,7 @@
       "name": "Shared navigation",
       "kind": "nav",
       "description": "The same global destinations on all routes, with a visible current-page cue. This is a link specimen; common.js owns the logo, menu and analytical subnavigation.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"index.html#contributions\">Our work</a><a href=\"benchmark.html\" aria-current=\"page\">EMBERBenchmark</a><a href=\"methodology.html\">Methodology</a></nav>",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"index.html#contributions\">Our work</a><a href=\"benchmark.html\" aria-current=\"page\">EMBERBench</a><a href=\"methodology.html\">Methodology</a></nav>",
       "css": ".ds-nav{display:flex;flex-wrap:wrap;gap:10px 27px;background:var(--surface-0,#f8f9fc)}.ds-nav a{display:inline-flex;align-items:center;min-height:44px;color:var(--text-primary,#172c46);font:450 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);text-decoration:none}.ds-nav a[aria-current]{font-weight:650;text-decoration:underline;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-nav a:hover{text-decoration:underline;text-underline-offset:8px}}"
     },
     {

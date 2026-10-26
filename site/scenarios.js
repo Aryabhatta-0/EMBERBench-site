@@ -13,7 +13,7 @@ import {
   errorPage,
   REPO,
   scenarioName,
-} from "./common.js";
+} from "./common.js?v=20261027-brand-3";
 import { filterModels, finite, worldKey } from "./analytics.js";
 import { heatmap } from "./charts.js";
 

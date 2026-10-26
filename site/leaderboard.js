@@ -17,7 +17,7 @@ import {
   providerChip,
   rankOf,
   errorPage,
-} from "./common.js?v=20261027-benchmark-2";
+} from "./common.js?v=20261027-brand-3";
 import {
   METRICS,
   filterModels,
@@ -25,7 +25,7 @@ import {
   finite,
   leaderboardOrder,
 } from "./analytics.js";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-benchmark-2';
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-brand-3';
 
 const columns = [
   ["score", "EMBER"],
@@ -69,7 +69,7 @@ async function main() {
   if (!Object.hasOwn(METRICS, state.sort)) state.sort = "score";
   if (!["asc", "desc"].includes(state.direction)) state.direction = "desc";
   document.getElementById("main").innerHTML =
-    `<header class="benchmark-heading"><div><h1>EMBERBenchmark</h1><p>Can AI guide people to safety as a fire spreads?</p></div><p class="benchmark-scope">${esc(data.world_count)} worlds · ${data.models.filter(m=>m.kind==='Decision model').length} AI models · ${data.models.filter(m=>m.kind==='Reference agent').length} reference agents<span>Public development snapshot · 1 trial per model</span></p></header>
+    `<header class="benchmark-heading"><div><h1>EMBERBench</h1><p>Can AI guide people to safety as a fire spreads?</p></div><p class="benchmark-scope">${esc(data.world_count)} worlds · ${data.models.filter(m=>m.kind==='Decision model').length} AI models · ${data.models.filter(m=>m.kind==='Reference agent').length} reference agents<span>Public development snapshot · 1 trial per model</span></p></header>
     <section class="leaderboard-workspace" aria-label="Model explorer">
       <div class="explorer-search"><label class="field search-field">Search the evaluation<input id="search" type="search" placeholder="Model name or provider" value="${esc(state.query)}"></label><label class="field">Entry type<select id="kind"><option value="all">All entries</option><option>Decision model</option><option>Reference agent</option></select></label><label class="field">Provider<select id="provider"><option value="all">All providers</option>${[...new Set(data.models.map(provider))].sort().map(p => `<option value="${esc(p)}">${esc(providerInfo(p).name)}</option>`).join('')}</select></label><button class="button small" id="reset-filters" type="button">Reset filters</button></div>
       <div class="explorer-views"><div class="metric-views" role="group" aria-label="Metrics displayed">${[['scores','Scores'],['people','People'],['api','API usage'],['all','All metrics']].map(([id,label]) => `<button type="button" data-metric-view="${id}" aria-pressed="${state.view === id}">${label}</button>`).join('')}</div><label class="field sort-field">Sort by<select id="metric">${columns.map(([key,label]) => `<option value="${key}">${label}</option>`).join('')}</select></label></div>

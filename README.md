@@ -1,6 +1,6 @@
 # Anantam
 
-An experimental AI company. **EMBERBenchmark** is its first and only published contribution.
+An experimental AI company. **EMBERBench** is its first and only published contribution.
 
 The light-only company homepage presents a centered identity, a mist-blue hero with flowing brand ribbons and direct benchmark access, exact people-outcome pictographs and a connected explanation. The benchmark opens a four-chart overview with bounded ranking pages and an optional exact data table. Worlds, profiles, comparisons and methodology share context and navigation.
 

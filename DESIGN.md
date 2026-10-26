@@ -62,13 +62,13 @@ All active marketing colors and fonts use root tokens in anantam.css and experie
 
 The centered identity stacks the original 76px emblem over Anantam at clamp(112px,10vw,144px). It sits directly on a full-width flat mist-blue field, without gradient, fabricated illustration, decorative grid or extra slogan. Infinity-informed ribbon linework frames the identity; see the motion specification below. One sentence identifies the company and one primary action opens benchmark.html directly. Content is capped within the hero; the colored field spans the viewport.
 
-Desktop hero padding is 44px above and 52px below. The first contribution follows with 54px top padding, within a centered 1328px measure and 44px gutters. On phones the emblem is 64px, title clamp(82px,17vw,112px), gutters 20px, hero padding 35px/40px and contribution top spacing 34px. The action stays visible in the first screen. The hero uses min-height: calc(100svh - measured header height), with a compact identity arrangement in short landscape windows. The layout remains two main sections, respecting the user's preference for fewer layouts and less copy.
+Desktop hero padding is 44px above and 52px below. The first contribution follows with 54px top padding, within a centered 1328px measure and 44px gutters. On phones the emblem is 64px, title clamp(82px,17vw,112px), gutters 20px, hero padding 35px/40px and contribution top spacing 34px. The action stays visible in the first screen. The hero uses height: calc(100svh - measured header height), with a compact identity arrangement in short landscape windows. The layout remains two main sections, respecting the user's preference for fewer layouts and less copy.
 
 The contribution contains its title and direct action, existing published outcome comparisons and the connected evaluation explanation. There is no map, reference agent selector, playback timeline, player readout or replay download. Scenario routes preserve source definitions, population/world counts, descriptions, model evidence, rankings and the matrix. Selecting a scenario keeps model context and URL state. Profiles return to the selected scenario/model.
 
 ## Motion and interactions
 
-The ribbon contours draw over 1.9 seconds while the original emblem settles and the title rises 20px. Traveling accents loop over seven seconds, with fractional SVG offsets. The side ribbons stay in fixed positions and do not react to pointer movement or hover. Pause motion, reduced motion, document visibility and offscreen state stop the timelines. GSAP context and observers are released on navigation. The hero action's arrow moves 4px on fine-pointer hover. Reduced motion skips the entrance and hover transition. Content remains visible without JavaScript.
+The ribbon contours draw over 1.9 seconds while the original emblem settles and the title rises 20px. Traveling accents run once over 4.15 seconds, with fractional SVG offsets, then settle. The side ribbons stay in fixed positions and do not react to pointer movement or hover. There is no pause button. Reduced motion presents static art; document visibility and offscreen state suspend the short entrance. GSAP context and observers are released on navigation. The hero action's arrow moves 4px on fine-pointer hover. Reduced motion skips the entrance and hover transition. Content remains visible without JavaScript.
 
 The existing outcome pictographs encode exact published people counts, with visible numeric labels. Hover regroups the same people through interruptible CSS transforms over 580ms; the explicit Separate outcomes button serves touch and keyboard. Keyboard and reduced motion are immediate. These are labeled statistical charts, not evacuation simulation maps or invented marketing counts.
 
@@ -76,7 +76,7 @@ The evaluation loop uses immediate selection and a small pointer-only explanatio
 
 ## Data and scope
 
-Anantam is an experimental AI company; EMBERBenchmark is its sole published contribution. Do not invent launches, testimonials, customer metrics or future products. Published results, ranks, scoring definitions and model identities are unchanged. Scores are composite results, not survival percentages. Keep one-trial, public-development and descriptive-comparison qualifications visible.
+Anantam is an experimental AI company; EMBERBench is its sole published contribution. Do not invent launches, testimonials, customer metrics or future products. Published results, ranks, scoring definitions and model identities are unchanged. Scores are composite results, not survival percentages. Keep one-trial, public-development and descriptive-comparison qualifications visible.
 
 The removed reference player, geometry data, replay records, animation exports and generator are no longer shipped. Scientific simulation remains part of the underlying benchmark and its methodology; removing its website visualization does not change that research process.
 
@@ -87,3 +87,5 @@ White controls and white labels on navy remain for legibility. Existing optical 
 ## Four-chart benchmark overview
 
 The leaderboard uses a compact 2x2 grid on desktop: five-entry vertical ranking columns; safety versus execution quality; a selected-model outcome donut; paired scenario scores in five-scenario pages. All four fit 1280x800 and larger tested desktop viewports without horizontal chart scrolling. Phones stack the four charts and combine search/filter access in one row. Native model selection, ranking bars and scatter points update all views. The table and full selected-model evidence follow. Page/model/scenario state survives reload through URL parameters. Scales, labels, exact counts and missing-value states are explicit.
+
+The company main wrapper has width 100%, no side margins and no maximum width. Header and hero share mist blue, eliminating an inset rectangular panel. Hero and ribbon SVG both clip overflow; a vertical mask fades linework before its boundaries. Ribbons never extend into the contribution section. The displayed contribution name is EMBERBench everywhere.

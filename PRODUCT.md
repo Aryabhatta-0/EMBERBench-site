@@ -1,6 +1,6 @@
 # Anantam
 
-Anantam is an experimental AI company. EMBERBenchmark (the underlying research project is named EMBERBench) is its sole published contribution. Future work may happen, but do not invent products, launches, customers or achievements.
+Anantam is an experimental AI company. EMBERBench (the underlying research project is named EMBERBench) is its sole published contribution. Future work may happen, but do not invent products, launches, customers or achievements.
 
 The user rejected the earlier split hero, dark mode, navy stats card, duplicate benchmark hero, and future-outlook filler. Their explicit current direction wins over any older design notes. The whole site is light only.
 
@@ -21,3 +21,5 @@ The hero uses the supplied navy logo on a flat mist-blue field, with porcelain p
 The latest leaderboard replaces the long horizontal ranking with five-entry vertical columns, a safety/quality scatter, exact outcome donut and paired scenario heatmap. Chart pages are bounded, model selection coordinates all views, and all four fit a 1280x800 desktop screen. The hero adds infinity-informed ribbon motion, pause and reduced-motion support, with side ribbons fixed during pointer movement. See docs/MOTION_AND_CHARTS.md.
 
 The latest hero correction fills the visible window below the measured header. Contributions begin after the first screen. Pointer-follow translation and emblem hover rotation are removed; the established independent ribbon flow, pause control and reduced-motion behavior remain.
+
+The latest correction removes the motion control and makes the ribbon entrance finite (under five seconds). The header and hero share a full-width background without side gutters; artwork is clipped within the first screen. Use EMBERBench as the product name.

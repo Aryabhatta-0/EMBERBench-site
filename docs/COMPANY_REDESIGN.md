@@ -16,7 +16,7 @@ The user rejected the sparse company hero and concealed accordion as an insuffic
 - Scenario → selected model → scenario links preserve context. The scenario’s own action reveals results in place instead of reloading itself.
 - Methodology uses a connected observation–decision–simulation loop followed by verification and scoring. Profiles and comparisons retain useful charts while shedding oversized enclosing panels.
 
-The site remains light only. Anantam is an experimental AI company and EMBERBenchmark is its sole current contribution. There are no invented future products, customer claims or achievements.
+The site remains light only. Anantam is an experimental AI company and EMBERBench is its sole current contribution. There are no invented future products, customer claims or achievements.
 
 ## Reference methods applied
 

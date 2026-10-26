@@ -22,7 +22,7 @@ import {
   scenarioName,
   errorPage,
   isDecision,
-} from "./common.js";
+} from "./common.js?v=20261027-brand-3";
 import {
   selectedIds,
   pairedDifferences,

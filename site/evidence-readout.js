@@ -1,4 +1,4 @@
-import {esc,fmt,scenarioName} from './common.js';
+import {esc,fmt,scenarioName} from './common.js?v=20261027-brand-3';
 import {finite} from './analytics.js';
 import {peopleReadout} from './result-explorer.js';
 

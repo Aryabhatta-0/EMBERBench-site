@@ -20,6 +20,7 @@ try{
   check(`${width}px centered company identity and action`,await page.locator('.company-hero').evaluate(el=>{const h=el.getBoundingClientRect(),s=el.querySelector('.company-signature').getBoundingClientRect(),a=el.querySelector('a').getBoundingClientRect();return Math.abs(s.x+s.width/2-h.x-h.width/2)<2&&Math.abs(a.x+a.width/2-h.x-h.width/2)<2;}));
   check(`${width}px hero action fits the first screen`,await page.locator('.hero-action').evaluate(el=>el.getBoundingClientRect().bottom<innerHeight));
   check(`${width}px hero fills the window below navigation`,await page.locator('.company-hero').evaluate(el=>Math.abs(el.getBoundingClientRect().bottom-innerHeight)<2&&document.querySelector('#contributions').getBoundingClientRect().top>=innerHeight-1));
+  check(`${width}px hero has no empty side gutters`,await page.locator('.company-hero').evaluate(el=>{const r=el.getBoundingClientRect();return r.left===0&&Math.abs(r.right-document.documentElement.clientWidth)<2;}));
   check(`${width}px all product substance visible without rails`,await page.locator('.world-map,.demo-controls,#ember-demo').count()===0&&await page.locator('.outcome-card').count()===2&&await page.locator('.benchmark-showcase').count()===0);
   check(`${width}px no horizontal overflow`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await audit(page,`Home ${width}px`);
@@ -55,7 +56,7 @@ try{
  await go(page,'methodology.html');await page.getByRole('button',{name:'Verify',exact:true}).click();
  check('Methodology teaches the connected evaluation loop',(await page.locator('.loop-explanation').textContent()).includes('reproduce exactly'));
  await audit(page,'Methodology loop');
- const noGSAP=await browser.newPage();await noGSAP.route('**/gsap.min.js',r=>r.abort());await go(noGSAP);await noGSAP.locator('[data-group-outcomes]').first().click();
+ const noGSAP=await browser.newPage();await noGSAP.route('**/gsap.min.js*',r=>r.abort());await go(noGSAP);await noGSAP.locator('[data-group-outcomes]').first().click();
  check('Without GSAP, grouping and navigation still work',await noGSAP.locator('.outcome-card').first().getAttribute('data-grouped')==='true');
  const nojs=await browser.newContext({javaScriptEnabled:false});const fallback=await nojs.newPage();await fallback.goto(base);
  check('No-JavaScript company and source remain available',await fallback.getByRole('heading',{name:'Anantam',exact:true}).isVisible()&&await fallback.locator('.hero-action').isVisible());await nojs.close();
