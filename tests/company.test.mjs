@@ -19,6 +19,7 @@ try{
   check(`${width}px light only`,await page.locator('html').getAttribute('data-theme')==='light'&&await page.locator('.theme-toggle').count()===0);
   check(`${width}px centered company identity and action`,await page.locator('.company-hero').evaluate(el=>{const h=el.getBoundingClientRect(),s=el.querySelector('.company-signature').getBoundingClientRect(),a=el.querySelector('a').getBoundingClientRect();return Math.abs(s.x+s.width/2-h.x-h.width/2)<2&&Math.abs(a.x+a.width/2-h.x-h.width/2)<2;}));
   check(`${width}px hero action fits the first screen`,await page.locator('.hero-action').evaluate(el=>el.getBoundingClientRect().bottom<innerHeight));
+  check(`${width}px hero fills the window below navigation`,await page.locator('.company-hero').evaluate(el=>Math.abs(el.getBoundingClientRect().bottom-innerHeight)<2&&document.querySelector('#contributions').getBoundingClientRect().top>=innerHeight-1));
   check(`${width}px all product substance visible without rails`,await page.locator('.world-map,.demo-controls,#ember-demo').count()===0&&await page.locator('.outcome-card').count()===2&&await page.locator('.benchmark-showcase').count()===0);
   check(`${width}px no horizontal overflow`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await audit(page,`Home ${width}px`);

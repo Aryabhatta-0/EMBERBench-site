@@ -282,8 +282,8 @@
       },
       {
         "name": "brand-ribbon",
-        "value": "1.9s contour entry; 7s traveling accents; 800ms bounded pointer response",
-        "purpose": "Infinity-informed linework frames the supplied emblem. Pause, reduced motion, document visibility and intersection control playback; context cleanup on navigation."
+        "value": "1.9s contour entry; 7s traveling accents; fixed side geometry",
+        "purpose": "Full-window hero below the measured header. Side ribbons do not follow pointer movement. Pause, reduced motion, visibility and intersection control playback; cleanup on navigation."
       }
     ],
     "breakpoints": [
@@ -371,7 +371,7 @@
   ],
   "narrative": {
     "northStar": "The supplied identity, direct access to research.",
-    "overview": "Original navy identity on porcelain and mist blue, with interactive brand ribbons. The benchmark opens a bounded four-chart overview: ranking columns, safety/quality scatter, published people outcomes and scenario scores. No evacuation grid or replay UI.",
+    "overview": "Original navy identity on porcelain and mist blue, with flowing brand ribbons in fixed positions and a full-window hero. The benchmark opens a bounded four-chart overview: ranking columns, safety/quality scatter, published people outcomes and scenario scores. No evacuation grid or replay UI.",
     "keyCharacteristics": [
       "Light only",
       "Original navy emblem and local fonts",

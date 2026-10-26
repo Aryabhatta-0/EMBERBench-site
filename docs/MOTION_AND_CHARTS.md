@@ -1,5 +1,7 @@
 # Hero motion and a four-chart leaderboard
 
+The latest correction makes the hero fill the visible window below the header and removes all pointer-follow motion from the side ribbons and emblem. The prior pointer-utility implementation described below is historical; the independent flow animation and its controls remain.
+
 The latest revision replaces the long horizontal ranking list with a bounded analytical overview. The company hero keeps the accepted light palette and original emblem, adding ribbon linework informed by its infinity form.
 
 ## Leaderboard
@@ -36,6 +38,6 @@ Exactly one agent handled skill discovery and installation, as requested. It mad
 
 ## Validation and limits
 
-19 Node checks and 301 browser checks pass, including pagination coverage, exact people counts, synchronized selection, URL restoration, scenario links, missing API values, actual changing animation offsets, pause, offscreen behavior, pointer response and reduced-motion fallback. All 57 automated accessibility scans report zero violations in the WCAG A/AA rules checked. Native in-app-browser use confirms the pause control, direct hero action and ranking pagination.
+19 Node checks and 306 browser checks pass, including pagination coverage, exact people counts, synchronized selection, URL restoration, scenario links, missing API values, actual changing animation offsets, pause, offscreen behavior, pointer response and reduced-motion fallback. All 57 automated accessibility scans report zero violations in the WCAG A/AA rules checked. Native in-app-browser use confirms the pause control, direct hero action and ranking pagination.
 
 The implementation was inspected in desktop and phone captures. Browser tests use Chromium; physical phones, other engines and the protected deployed preview were not runtime-verified. This is engineering and heuristic validation, not a recruited user study. Published score/rank definitions and the one-trial public-development qualifications remain unchanged.

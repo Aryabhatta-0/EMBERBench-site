@@ -176,11 +176,14 @@ export function shell(data, active) {
     document.querySelector('.status-banner').outerHTML = `<nav class="benchmark-subnav" aria-label="Benchmark navigation">${links.map(([id,href,label]) => `<a href="${href}" ${id === active ? 'aria-current="page"' : ''}>${label}</a>`).join('')}</nav>`;
   }
   const navButton = document.querySelector(".nav-toggle");
-  const updateOffset = () =>
+  const updateOffset = () => {
+    const height = Math.ceil(document.querySelector('.site-header').getBoundingClientRect().height);
     document.documentElement.style.setProperty(
       "--header-offset",
-      `${Math.ceil(document.querySelector(".site-header").getBoundingClientRect().height + 14)}px`,
+      `${height + 14}px`,
     );
+    document.documentElement.style.setProperty('--site-header-height', `${height}px`);
+  };
   const toggleNav = (expanded) => {
     navButton.setAttribute("aria-expanded", String(expanded));
     document.getElementById("site-nav").classList.toggle("open", expanded);

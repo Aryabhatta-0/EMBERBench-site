@@ -2,10 +2,8 @@
 /* Critique: remove the rejected simulation UI; let the centered company identity and published evidence carry the page. */
 /* Hallmark · waive 7b · surface: absolute white for controls, labels and print · Benchmark actions retain white text on navy for legibility, with porcelain canvas and blue hero providing the brand tint. */
 /* Hallmark · waive 24b · Existing controls and analytical layouts have established optical spacing · Preserve benchmark table alignment and tested touch targets rather than round every inherited gap during a hero and palette revision. */
-/* Hallmark · waive 44c · hero: compact centered brand signature · Anantam has one contribution; the compact hero keeps the benchmark visible on arrival instead of adding empty viewport height. */
 /* Hallmark · waive 82 · Exact published outcomes are labeled statistical pictographs · Each marker encodes one person in benchmark evidence; these charts retain counts and touch-accessible grouping rather than decorate a marketing number. */
 /* Waiver: preserve the user's centered hero and two-section structure; user requested fewer layouts. Retired: evacuation maps, player controls, routing-rule selectors and replay downloads across all routes. */
-/* Hero-review: ship; finish-review: fresh subagent, current desktop and phone captures, no material fixes. */
 :root{--hero-surface:#e9eff7;--hero-ink:#142e51;--hero-emblem-size:76px;--company-measure:1328px;--company-gutter:44px;--outcome-safe:#376f61;--outcome-death:#b75b3f;--outcome-stranded:#b18d34;}
 html{scroll-behavior:smooth;scroll-padding-top:100px;}
 body[data-page='company'] main.container{max-width:none;padding:0;}

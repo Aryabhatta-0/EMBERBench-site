@@ -55,7 +55,7 @@ try{
  check('Pause holds the animation state',await current.evaluate(el=>getComputedStyle(el).strokeDashoffset)===paused&&await page.locator('.company-hero').getAttribute('data-motion')==='paused');
  await page.getByRole('button',{name:'Play motion',exact:true}).click();
  await page.mouse.move(2,2);await page.waitForTimeout(150);const before=await page.locator('.brand-ribbon').evaluate(el=>getComputedStyle(el).transform);await page.mouse.move(1100,300);await page.waitForTimeout(450);
- check('Fine pointer input changes the hero ribbon position',await page.locator('.brand-ribbon').evaluate(el=>getComputedStyle(el).transform)!==before);
+ check('Side ribbons stay fixed when the pointer moves',await page.locator('.brand-ribbon').evaluate(el=>getComputedStyle(el).transform)===before);
  await page.locator('.site-footer').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('.company-hero').dataset.motion==='paused');
  check('Hero animation pauses offscreen',await page.locator('.company-hero').getAttribute('data-motion')==='paused');
  await page.emulateMedia({reducedMotion:'reduce'});await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));

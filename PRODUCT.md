@@ -18,4 +18,6 @@ Local fonts, the supplied navy emblem and a locally served GSAP distribution rem
 
 The hero uses the supplied navy logo on a flat mist-blue field, with porcelain page surfaces and slate text. It remains centered, uses a larger stacked identity and links directly to benchmark.html. UI/UX Pro Max, Taste and Hallmark guided this correction.
 
-The latest leaderboard replaces the long horizontal ranking with five-entry vertical columns, a safety/quality scatter, exact outcome donut and paired scenario heatmap. Chart pages are bounded, model selection coordinates all views, and all four fit a 1280x800 desktop screen. The hero adds infinity-informed ribbon motion, pointer response, pause and reduced-motion support. See docs/MOTION_AND_CHARTS.md.
+The latest leaderboard replaces the long horizontal ranking with five-entry vertical columns, a safety/quality scatter, exact outcome donut and paired scenario heatmap. Chart pages are bounded, model selection coordinates all views, and all four fit a 1280x800 desktop screen. The hero adds infinity-informed ribbon motion, pause and reduced-motion support, with side ribbons fixed during pointer movement. See docs/MOTION_AND_CHARTS.md.
+
+The latest hero correction fills the visible window below the measured header. Contributions begin after the first screen. Pointer-follow translation and emblem hover rotation are removed; the established independent ribbon flow, pause control and reduced-motion behavior remain.

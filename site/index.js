@@ -40,4 +40,3 @@ loadResults().then(data=>{
     reduced.addEventListener('change',()=>setGrouping(card,card.dataset.grouped==='true',true));
   }
 }).catch(()=>{document.getElementById('outcome-cards').innerHTML='<p class="result-preview-error">The preview could not load. <a href="benchmark.html">Open the benchmark</a> to try again.</p>';});
-
