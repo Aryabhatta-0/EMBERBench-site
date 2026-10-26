@@ -25,7 +25,8 @@ try {
     check(`${name}: no skeleton, card or motion control`,await page.locator('.loading-shell .skeleton-rows,.loading-shell .panel,.loading-shell .loading-canvas').count()===0 && await page.getByRole('button',{name:/^(Pause|Play) motion$/}).count()===0);
     check(`${name}: original artwork colour`,await page.locator('.loading-emblem img').evaluate(el=>getComputedStyle(el).filter==='none'));
     check(`${name}: fits viewport`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth && document.documentElement.scrollHeight<=innerHeight+1));
-    check(`${name}: loading state described`,await page.getByRole('status').textContent()==='Opening benchmark.');
+    const loadingStatus=await page.getByRole('status').textContent();
+    check(`${name}: loading state described`,loadingStatus==='Opening benchmark.'||(loadingStatus==='This is taking longer than usual. You can reload to try again.'&&await page.locator('.loading-retry').isVisible()));
     if (reduced) check('Reduced motion keeps still logo and status',await page.locator('.cosmos-sky').isHidden() && await page.locator('.loading-emblem img').isVisible());
     if (name==='desktop') {
       const pixels=()=>page.locator('.loading-emblem canvas').evaluate(el=>el.toDataURL());

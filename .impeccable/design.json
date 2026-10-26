@@ -1,177 +1,503 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-26T07:34:11.106070Z",
+  "generatedAt": "2026-10-26T12:45:12.138Z",
   "title": "Anantam design system",
   "extensions": {
     "colorMeta": {
       "primary": {
         "role": "primary",
-        "displayName": "Navy action and brand"
+        "displayName": "Navy action and brand",
+        "tonalRamp": [
+          "oklch(15% 0.0713 256.56)",
+          "oklch(26% 0.0713 256.56)",
+          "oklch(38% 0.0713 256.56)",
+          "oklch(49% 0.0713 256.56)",
+          "oklch(61% 0.0713 256.56)",
+          "oklch(72% 0.0713 256.56)",
+          "oklch(84% 0.0713 256.56)",
+          "oklch(95% 0.0713 256.56)"
+        ]
       },
       "canvas": {
         "role": "neutral",
-        "displayName": "Paper canvas"
+        "displayName": "Paper canvas",
+        "tonalRamp": [
+          "oklch(15% 0.0040 106.47)",
+          "oklch(26% 0.0040 106.47)",
+          "oklch(38% 0.0040 106.47)",
+          "oklch(49% 0.0040 106.47)",
+          "oklch(61% 0.0040 106.47)",
+          "oklch(72% 0.0040 106.47)",
+          "oklch(84% 0.0040 106.47)",
+          "oklch(95% 0.0040 106.47)"
+        ]
       },
       "surface": {
         "role": "neutral",
-        "displayName": "White workspace"
+        "displayName": "White controls and outcome cards",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(38% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(72% 0.0000 89.88)",
+          "oklch(84% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
       },
       "surface-subtle": {
         "role": "neutral",
-        "displayName": "Subtle control surface"
+        "displayName": "Subtle inspector surface",
+        "tonalRamp": [
+          "oklch(15% 0.0025 228.78)",
+          "oklch(26% 0.0025 228.78)",
+          "oklch(38% 0.0025 228.78)",
+          "oklch(49% 0.0025 228.78)",
+          "oklch(61% 0.0025 228.78)",
+          "oklch(72% 0.0025 228.78)",
+          "oklch(84% 0.0025 228.78)",
+          "oklch(95% 0.0025 228.78)"
+        ]
       },
       "text": {
         "role": "neutral",
-        "displayName": "Primary ink"
+        "displayName": "Primary ink",
+        "tonalRamp": [
+          "oklch(15% 0.0498 254.10)",
+          "oklch(26% 0.0498 254.10)",
+          "oklch(38% 0.0498 254.10)",
+          "oklch(49% 0.0498 254.10)",
+          "oklch(61% 0.0498 254.10)",
+          "oklch(72% 0.0498 254.10)",
+          "oklch(84% 0.0498 254.10)",
+          "oklch(95% 0.0498 254.10)"
+        ]
       },
       "secondary": {
         "role": "neutral",
-        "displayName": "Secondary ink"
+        "displayName": "Secondary ink",
+        "tonalRamp": [
+          "oklch(15% 0.0367 254.52)",
+          "oklch(26% 0.0367 254.52)",
+          "oklch(38% 0.0367 254.52)",
+          "oklch(49% 0.0367 254.52)",
+          "oklch(61% 0.0367 254.52)",
+          "oklch(72% 0.0367 254.52)",
+          "oklch(84% 0.0367 254.52)",
+          "oklch(95% 0.0367 254.52)"
+        ]
       },
       "muted": {
         "role": "neutral",
-        "displayName": "Evidence notes"
+        "displayName": "Evidence notes",
+        "tonalRamp": [
+          "oklch(15% 0.0288 252.10)",
+          "oklch(26% 0.0288 252.10)",
+          "oklch(38% 0.0288 252.10)",
+          "oklch(49% 0.0288 252.10)",
+          "oklch(61% 0.0288 252.10)",
+          "oklch(72% 0.0288 252.10)",
+          "oklch(84% 0.0288 252.10)",
+          "oklch(95% 0.0288 252.10)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Structural border",
+        "tonalRamp": [
+          "oklch(15% 0.0068 233.65)",
+          "oklch(26% 0.0068 233.65)",
+          "oklch(38% 0.0068 233.65)",
+          "oklch(49% 0.0068 233.65)",
+          "oklch(61% 0.0068 233.65)",
+          "oklch(72% 0.0068 233.65)",
+          "oklch(84% 0.0068 233.65)",
+          "oklch(95% 0.0068 233.65)"
+        ]
+      },
+      "grid": {
+        "role": "neutral",
+        "displayName": "Analytical grid",
+        "tonalRamp": [
+          "oklch(15% 0.0051 228.82)",
+          "oklch(26% 0.0051 228.82)",
+          "oklch(38% 0.0051 228.82)",
+          "oklch(49% 0.0051 228.82)",
+          "oklch(61% 0.0051 228.82)",
+          "oklch(72% 0.0051 228.82)",
+          "oklch(84% 0.0051 228.82)",
+          "oklch(95% 0.0051 228.82)"
+        ]
       },
       "focus": {
         "role": "primary",
-        "displayName": "Keyboard focus blue"
+        "displayName": "Keyboard focus blue",
+        "tonalRamp": [
+          "oklch(15% 0.1359 255.71)",
+          "oklch(26% 0.1359 255.71)",
+          "oklch(38% 0.1359 255.71)",
+          "oklch(49% 0.1359 255.71)",
+          "oklch(61% 0.1359 255.71)",
+          "oklch(72% 0.1359 255.71)",
+          "oklch(84% 0.1359 255.71)",
+          "oklch(95% 0.1359 255.71)"
+        ]
       },
-      "map-floor": {
+      "input-border": {
         "role": "neutral",
-        "displayName": "Scenario floor"
+        "displayName": "Visible field edge",
+        "tonalRamp": [
+          "oklch(15% 0.0258 250.20)",
+          "oklch(26% 0.0258 250.20)",
+          "oklch(38% 0.0258 250.20)",
+          "oklch(49% 0.0258 250.20)",
+          "oklch(61% 0.0258 250.20)",
+          "oklch(72% 0.0258 250.20)",
+          "oklch(84% 0.0258 250.20)",
+          "oklch(95% 0.0258 250.20)"
+        ]
       },
-      "map-wall": {
+      "accent-soft": {
         "role": "neutral",
-        "displayName": "Scenario walls"
+        "displayName": "Selected evidence accent",
+        "tonalRamp": [
+          "oklch(15% 0.0114 252.09)",
+          "oklch(26% 0.0114 252.09)",
+          "oklch(38% 0.0114 252.09)",
+          "oklch(49% 0.0114 252.09)",
+          "oklch(61% 0.0114 252.09)",
+          "oklch(72% 0.0114 252.09)",
+          "oklch(84% 0.0114 252.09)",
+          "oklch(95% 0.0114 252.09)"
+        ]
       },
-      "map-person": {
+      "series-1": {
+        "role": "secondary",
+        "displayName": "Analytical teal",
+        "tonalRamp": [
+          "oklch(15% 0.0715 206.73)",
+          "oklch(26% 0.0715 206.73)",
+          "oklch(38% 0.0715 206.73)",
+          "oklch(49% 0.0715 206.73)",
+          "oklch(61% 0.0715 206.73)",
+          "oklch(72% 0.0715 206.73)",
+          "oklch(84% 0.0715 206.73)",
+          "oklch(95% 0.0715 206.73)"
+        ]
+      },
+      "series-2": {
+        "role": "tertiary",
+        "displayName": "Analytical rust",
+        "tonalRamp": [
+          "oklch(15% 0.1176 40.72)",
+          "oklch(26% 0.1176 40.72)",
+          "oklch(38% 0.1176 40.72)",
+          "oklch(49% 0.1176 40.72)",
+          "oklch(61% 0.1176 40.72)",
+          "oklch(72% 0.1176 40.72)",
+          "oklch(84% 0.1176 40.72)",
+          "oklch(95% 0.1176 40.72)"
+        ]
+      },
+      "series-3": {
+        "role": "tertiary",
+        "displayName": "Analytical blue",
+        "tonalRamp": [
+          "oklch(15% 0.0824 251.34)",
+          "oklch(26% 0.0824 251.34)",
+          "oklch(38% 0.0824 251.34)",
+          "oklch(49% 0.0824 251.34)",
+          "oklch(61% 0.0824 251.34)",
+          "oklch(72% 0.0824 251.34)",
+          "oklch(84% 0.0824 251.34)",
+          "oklch(95% 0.0824 251.34)"
+        ]
+      },
+      "experiment-ground": {
+        "role": "neutral",
+        "displayName": "Experiment ground",
+        "tonalRamp": [
+          "oklch(15% 0.0095 119.58)",
+          "oklch(26% 0.0095 119.58)",
+          "oklch(38% 0.0095 119.58)",
+          "oklch(49% 0.0095 119.58)",
+          "oklch(61% 0.0095 119.58)",
+          "oklch(72% 0.0095 119.58)",
+          "oklch(84% 0.0095 119.58)",
+          "oklch(95% 0.0095 119.58)"
+        ]
+      },
+      "world-floor": {
+        "role": "neutral",
+        "displayName": "Traversable floor",
+        "tonalRamp": [
+          "oklch(15% 0.0079 106.55)",
+          "oklch(26% 0.0079 106.55)",
+          "oklch(38% 0.0079 106.55)",
+          "oklch(49% 0.0079 106.55)",
+          "oklch(61% 0.0079 106.55)",
+          "oklch(72% 0.0079 106.55)",
+          "oklch(84% 0.0079 106.55)",
+          "oklch(95% 0.0079 106.55)"
+        ]
+      },
+      "world-wall": {
+        "role": "neutral",
+        "displayName": "World walls",
+        "tonalRamp": [
+          "oklch(15% 0.0092 134.88)",
+          "oklch(26% 0.0092 134.88)",
+          "oklch(38% 0.0092 134.88)",
+          "oklch(49% 0.0092 134.88)",
+          "oklch(61% 0.0092 134.88)",
+          "oklch(72% 0.0092 134.88)",
+          "oklch(84% 0.0092 134.88)",
+          "oklch(95% 0.0092 134.88)"
+        ]
+      },
+      "world-grid": {
+        "role": "neutral",
+        "displayName": "World cell grid",
+        "tonalRamp": [
+          "oklch(15% 0.0096 119.58)",
+          "oklch(26% 0.0096 119.58)",
+          "oklch(38% 0.0096 119.58)",
+          "oklch(49% 0.0096 119.58)",
+          "oklch(61% 0.0096 119.58)",
+          "oklch(72% 0.0096 119.58)",
+          "oklch(84% 0.0096 119.58)",
+          "oklch(95% 0.0096 119.58)"
+        ]
+      },
+      "world-person": {
         "role": "primary",
-        "displayName": "Initial person markers"
+        "displayName": "Active person",
+        "tonalRamp": [
+          "oklch(15% 0.0643 244.79)",
+          "oklch(26% 0.0643 244.79)",
+          "oklch(38% 0.0643 244.79)",
+          "oklch(49% 0.0643 244.79)",
+          "oklch(61% 0.0643 244.79)",
+          "oklch(72% 0.0643 244.79)",
+          "oklch(84% 0.0643 244.79)",
+          "oklch(95% 0.0643 244.79)"
+        ]
       },
-      "map-exit": {
-        "role": "secondary",
-        "displayName": "Scenario exit"
-      },
-      "map-route": {
-        "role": "secondary",
-        "displayName": "Corridor highlight"
-      },
-      "map-fire": {
+      "world-fire": {
         "role": "tertiary",
-        "displayName": "Initial fire"
+        "displayName": "Fire apricot",
+        "tonalRamp": [
+          "oklch(15% 0.1031 70.78)",
+          "oklch(26% 0.1031 70.78)",
+          "oklch(38% 0.1031 70.78)",
+          "oklch(49% 0.1031 70.78)",
+          "oklch(61% 0.1031 70.78)",
+          "oklch(72% 0.1031 70.78)",
+          "oklch(84% 0.1031 70.78)",
+          "oklch(95% 0.1031 70.78)"
+        ]
       },
-      "map-halo": {
+      "world-fire-ink": {
         "role": "tertiary",
-        "displayName": "Finite fire halo"
+        "displayName": "Flame rust",
+        "tonalRamp": [
+          "oklch(15% 0.1291 41.04)",
+          "oklch(26% 0.1291 41.04)",
+          "oklch(38% 0.1291 41.04)",
+          "oklch(49% 0.1291 41.04)",
+          "oklch(61% 0.1291 41.04)",
+          "oklch(72% 0.1291 41.04)",
+          "oklch(84% 0.1291 41.04)",
+          "oklch(95% 0.1291 41.04)"
+        ]
+      },
+      "world-exit": {
+        "role": "secondary",
+        "displayName": "Exit green",
+        "tonalRamp": [
+          "oklch(15% 0.0343 157.57)",
+          "oklch(26% 0.0343 157.57)",
+          "oklch(38% 0.0343 157.57)",
+          "oklch(49% 0.0343 157.57)",
+          "oklch(61% 0.0343 157.57)",
+          "oklch(72% 0.0343 157.57)",
+          "oklch(84% 0.0343 157.57)",
+          "oklch(95% 0.0343 157.57)"
+        ]
+      },
+      "world-exit-ink": {
+        "role": "secondary",
+        "displayName": "Exit arrow ink",
+        "tonalRamp": [
+          "oklch(15% 0.0683 162.46)",
+          "oklch(26% 0.0683 162.46)",
+          "oklch(38% 0.0683 162.46)",
+          "oklch(49% 0.0683 162.46)",
+          "oklch(61% 0.0683 162.46)",
+          "oklch(72% 0.0683 162.46)",
+          "oklch(84% 0.0683 162.46)",
+          "oklch(95% 0.0683 162.46)"
+        ]
       },
       "outcome-safe": {
         "role": "secondary",
-        "displayName": "Evacuated people"
+        "displayName": "Evacuated people",
+        "tonalRamp": [
+          "oklch(15% 0.0639 175.25)",
+          "oklch(26% 0.0639 175.25)",
+          "oklch(38% 0.0639 175.25)",
+          "oklch(49% 0.0639 175.25)",
+          "oklch(61% 0.0639 175.25)",
+          "oklch(72% 0.0639 175.25)",
+          "oklch(84% 0.0639 175.25)",
+          "oklch(95% 0.0639 175.25)"
+        ]
       },
       "outcome-death": {
         "role": "tertiary",
-        "displayName": "Avoidable deaths"
+        "displayName": "Avoidable deaths",
+        "tonalRamp": [
+          "oklch(15% 0.1264 37.65)",
+          "oklch(26% 0.1264 37.65)",
+          "oklch(38% 0.1264 37.65)",
+          "oklch(49% 0.1264 37.65)",
+          "oklch(61% 0.1264 37.65)",
+          "oklch(72% 0.1264 37.65)",
+          "oklch(84% 0.1264 37.65)",
+          "oklch(95% 0.1264 37.65)"
+        ]
       },
       "outcome-stranded": {
         "role": "tertiary",
-        "displayName": "Avoidable stranded people"
+        "displayName": "Avoidable stranded people",
+        "tonalRamp": [
+          "oklch(15% 0.1137 86.35)",
+          "oklch(26% 0.1137 86.35)",
+          "oklch(38% 0.1137 86.35)",
+          "oklch(49% 0.1137 86.35)",
+          "oklch(61% 0.1137 86.35)",
+          "oklch(72% 0.1137 86.35)",
+          "oklch(84% 0.1137 86.35)",
+          "oklch(95% 0.1137 86.35)"
+        ]
       },
       "outcome-unavoidable": {
         "role": "neutral",
-        "displayName": "Unavoidable losses"
+        "displayName": "Unavoidable losses",
+        "tonalRamp": [
+          "oklch(15% 0.0114 248.00)",
+          "oklch(26% 0.0114 248.00)",
+          "oklch(38% 0.0114 248.00)",
+          "oklch(49% 0.0114 248.00)",
+          "oklch(61% 0.0114 248.00)",
+          "oklch(72% 0.0114 248.00)",
+          "oklch(84% 0.0114 248.00)",
+          "oklch(95% 0.0114 248.00)"
+        ]
       },
       "chart-track": {
         "role": "neutral",
-        "displayName": "Unfilled score track"
+        "displayName": "Unfilled metric track",
+        "tonalRamp": [
+          "oklch(15% 0.0067 233.64)",
+          "oklch(26% 0.0067 233.64)",
+          "oklch(38% 0.0067 233.64)",
+          "oklch(49% 0.0067 233.64)",
+          "oklch(61% 0.0067 233.64)",
+          "oklch(72% 0.0067 233.64)",
+          "oklch(84% 0.0067 233.64)",
+          "oklch(95% 0.0067 233.64)"
+        ]
       },
       "chart-selected": {
         "role": "neutral",
-        "displayName": "Inspected result and selected metric"
+        "displayName": "Inspected row and selected metric",
+        "tonalRamp": [
+          "oklch(15% 0.0067 233.64)",
+          "oklch(26% 0.0067 233.64)",
+          "oklch(38% 0.0067 233.64)",
+          "oklch(49% 0.0067 233.64)",
+          "oklch(61% 0.0067 233.64)",
+          "oklch(72% 0.0067 233.64)",
+          "oklch(84% 0.0067 233.64)",
+          "oklch(95% 0.0067 233.64)"
+        ]
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "Centered company display",
-        "purpose": "Instrument Serif company introduction; clamp(52px, 11vw, 70px) below 700px."
+        "displayName": "Compact company signature",
+        "purpose": "Instrument Serif, clamp(80px, 8vw, 96px); 70px at 700px and 62px at 360px."
       },
       "headline": {
-        "displayName": "Contribution heading",
-        "purpose": "Instrument Serif contribution heading; 38px on phones."
+        "displayName": "Contribution headline",
+        "purpose": "Instrument Serif, 44px; contribution heading 36px on phones."
       },
       "body": {
-        "displayName": "DM Sans",
-        "purpose": "Reading, controls and evidence; data uses tabular numerals."
+        "displayName": "DM Sans reading and evidence",
+        "purpose": "Local sans type; data uses tabular numerals."
       },
       "label": {
-        "displayName": "Action label",
-        "purpose": "Shared actions and compact navigation."
+        "displayName": "Shared action label",
+        "purpose": "13px shared actions; dense experiment labels use local 10–12px treatments."
       }
     },
     "shadows": [
       {
         "name": "selected-evidence",
         "value": "0 12px 36px #142e510b",
-        "purpose": "Selected evidence tabs and comparison tray; shared buttons, panels and showcase are flat at rest."
+        "purpose": "Selected shared evidence tabs and comparison tray. Experiment, outcome cards and shared actions remain flat."
       }
     ],
     "motion": [
       {
-        "name": "showcase-expansion",
-        "value": "650ms, power3.out",
-        "purpose": "GSAP interpolates numeric fr weights: active 1, inactive .08 (.11 up to 900px). Fine hover pointers above 700px only; keyboard, touch, phone and reduced-motion track changes are immediate. Replaces interrupted expansion; no pointer tilt."
+        "name": "outcome-grouping",
+        "value": "580ms, cubic-bezier(.2,0,0,1)",
+        "purpose": "Interruptible CSS transforms of exact person markers. Fine hover above 700px; explicit button locks grouping. Keyboard and reduced motion are immediate."
       },
       {
-        "name": "panel-content",
-        "value": "200ms delay; opacity 140ms ease-out; transform 400ms cubic-bezier(.2,0,0,1)",
-        "purpose": "Stage content after desktop pane selection; keyboard, phone and reduced-motion CSS transitions are immediate."
+        "name": "reference-person-movement",
+        "value": "220ms, power2.out",
+        "purpose": "Local GSAP interpolates actual surviving person positions between authenticated illustrative reference frames. Reduced motion skips interpolation."
       },
       {
-        "name": "environment-route",
-        "value": "1300ms, power3.out; starts at 250ms",
-        "purpose": "Finite corridor highlight in the public initial-state map; not an evaluated replay."
+        "name": "reference-frame-cadence",
+        "value": "430ms",
+        "purpose": "Frame updates only after explicit Play; world/policy change, restart, scrub and hidden documents stop playback. No autoplay."
       },
       {
-        "name": "environment-people",
-        "value": "400ms, stagger 55ms; starts at 200ms",
-        "purpose": "Introduce the selected world’s static initial person markers; eight in bottleneck, five in unequal exits."
+        "name": "finite-brand-entry",
+        "value": "800ms, power3.out",
+        "purpose": "Signature rises 18px; the first diagram rises 16px once when visible. Content remains available; reduced motion skips entrances."
       },
       {
-        "name": "environment-fire",
-        "value": "650ms, sine.inOut, repeat 1, yoyo",
-        "purpose": "One finite halo opacity fade from 1 to .2 and back; no looping flight or outcome replay."
+        "name": "loop-explanation",
+        "value": "200ms, cubic-bezier(.2,0,0,1)",
+        "purpose": "Pointer selection updates explanation immediately with a 5px rise. Keyboard and reduced motion stay immediate."
       },
       {
-        "name": "evidence-content",
-        "value": "500ms, power3.out; results stagger 75ms, methodology stagger 110ms",
-        "purpose": "Finite scene entrances; keyboard activation suppresses them and reduced motion keeps static content."
+        "name": "result-selection",
+        "value": "220ms, cubic-bezier(.2,0,0,1)",
+        "purpose": "Pointer inspector selection updates evidence immediately, then rises 6px with opaque text. Keyboard, search, sort and reduced motion stay immediate."
       },
       {
-        "name": "quick",
-        "value": "150ms; press scale .96",
-        "purpose": "Ordinary supported action response; disabled by reduced motion."
-      },
-      {
-        "name": "result-inspector",
-        "value": "220ms, cubic-bezier(.2,0,0,1); translateY(6px) to 0; opacity stays 1",
-        "purpose": "Pointer selection only, after immediate data update; text stays fully opaque throughout. Keyboard selection, sorting, search and reduced motion stay immediate."
-      },
-      {
-        "name": "preview-score-fill",
-        "value": "600ms, power3.out, stagger 75ms",
-        "purpose": "Finite entrance of the four actual homepage score bars; suppressed for keyboard activation and reduced motion."
+        "name": "button-response",
+        "value": "150ms; active scale(.96)",
+        "purpose": "Shared action feedback only where motion is allowed."
       }
     ],
     "breakpoints": [
+      {
+        "name": "small-phone-signature",
+        "value": "360px"
+      },
       {
         "name": "phone",
         "value": "700px"
       },
       {
-        "name": "narrow-showcase",
-        "value": "900px"
-      },
-      {
-        "name": "result-reading",
+        "name": "evidence-reading",
         "value": "1000px"
       },
       {
@@ -185,7 +511,7 @@
       "name": "Primary action",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Navy capsule route action, 44px minimum target; company introduction uses 48px.",
+      "description": "Navy capsule route action, 44px minimum target; home actions use 48px.",
       "html": "<a class=\"ds-primary\" href=\"benchmark.html\">Explore the benchmark</a>",
       "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 21px;border:1px solid var(--accent,#142e51);border-radius:var(--radius-control,999px);background:var(--accent,#142e51);color:var(--on-accent,#fff);font:500 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);text-decoration:none}.ds-primary:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-primary:hover{background:color-mix(in srgb,var(--accent,#142e51) 88%,var(--surface-0,#fafaf7))}}@media(prefers-reduced-motion:no-preference){.ds-primary{transition:transform 150ms ease-out,background-color 150ms cubic-bezier(.2,0,0,1)}.ds-primary:active{transform:scale(.96)}}"
     },
@@ -220,12 +546,28 @@
       "css": ".ds-chip{display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;background:var(--surface-2,#f0f2f3);color:var(--text-primary,#15283f);font:600 10px/1.6 var(--font-body,'DM Sans',system-ui,sans-serif)}"
     },
     {
-      "name": "Benchmark showcase surface",
+      "name": "Reference replay stage",
       "kind": "card",
-      "refersTo": "benchmark-showcase",
-      "description": "White ruled surface with three desktop expanding rails and horizontal phone tabs. Environment switches two actual initial worlds; Results has real score bars. This static specimen shows shape and labels; index.js and world-preview.js own activation, numeric GSAP interpolation and finite scene motion. Production Results rows have a 48px minimum height and route actions keep 44px minimum targets so the bottom action remains inside the pane.",
-      "html": "<section class=\"ds-showcase\" aria-label=\"Benchmark preview\"><div class=\"ds-showcase-active\"><span>Environment</span><h3>Eight people. One way out.</h3><p>Public scenario, initial state.</p><a href=\"scenarios.html?scenario=v1-pub-03-corridor-bottleneck\">Inspect this scenario</a></div><a class=\"ds-showcase-rail\" href=\"benchmark.html\">Results</a><a class=\"ds-showcase-rail\" href=\"methodology.html\">Methodology</a></section>",
-      "css": ".ds-showcase{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.08fr) minmax(0,.08fr);overflow:clip;min-height:300px;border:1px solid var(--border,#dde2e5);border-radius:var(--showcase-radius,18px);background:var(--surface-1,#fff);color:var(--text-primary,#15283f);font-family:var(--font-body,'DM Sans',system-ui,sans-serif)}.ds-showcase-active{min-width:0;padding:28px 32px}.ds-showcase-active>span{color:var(--text-secondary,#455467);font-size:12px}.ds-showcase h3{font-size:23px;font-weight:500;line-height:1.25;margin:32px 0 12px}.ds-showcase p{font-size:13px;color:var(--text-muted,#596675)}.ds-showcase a{color:var(--text-primary,#15283f);font-size:13px;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}.ds-showcase-rail{writing-mode:vertical-rl;transform:rotate(180deg);justify-content:flex-start;padding:24px 12px;border-right:1px solid var(--border,#dde2e5)}.ds-showcase a:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:-4px}@media(hover:hover){.ds-showcase a:hover{background:var(--surface-2,#f0f2f3)}}@media(max-width:700px){.ds-showcase{grid-template-columns:1fr 1fr}.ds-showcase-active{grid-column:1/-1;padding:26px 22px}.ds-showcase-rail{writing-mode:initial;transform:none;justify-content:center;padding:8px;border-top:1px solid var(--border,#dde2e5)}}"
+      "refersTo": "experiment-stage",
+      "description": "Actual bottleneck initial geometry. Static specimen shows the native policy select and directly adjacent player controls; demo-player.js owns the six authenticated reference replays, state clearing, pause/restart/scrub and source-record loading. Illustrative examples are distinct from published AI-model runs.",
+      "html": "<section class=\"ds-stage\"><header><h3>Watch a decision unfold.</h3><p>Choose a world. Compare two simple routing rules.</p></header><label class=\"ds-policy\">Reference agent<select><option>Shortest path</option><option>Avoid current fire</option></select></label><svg class=\"ds-map\" viewBox=\"0 0 480 224\" role=\"img\" aria-label=\"Initial bottleneck layout: eight people, one exit\"><rect x=\"1\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"33\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"65\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"97\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"129\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"161\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"193\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"225\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"257\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"289\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"321\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"353\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"385\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"417\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"449\" y=\"1\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"1\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"33\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"65\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"97\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"129\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"161\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"193\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"225\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"257\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"289\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"321\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"353\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"385\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"417\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"449\" y=\"33\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"1\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"33\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"65\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"97\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"129\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"161\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"193\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"225\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"257\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"289\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"321\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"353\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"385\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"417\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"449\" y=\"65\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"1\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"33\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"65\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"97\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"129\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"161\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"193\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"225\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"257\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"289\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"321\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"353\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"385\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"417\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"449\" y=\"97\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"1\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"33\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"65\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"97\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"129\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"161\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"193\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"225\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"257\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"289\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"321\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"353\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"385\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"417\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"449\" y=\"129\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"1\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"33\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"65\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"97\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"129\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"161\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"193\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-floor\"/><rect x=\"225\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"257\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"289\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"321\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"353\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"385\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"417\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"449\" y=\"161\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"1\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"33\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"65\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"97\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"129\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"161\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"193\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"225\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"257\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"289\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"321\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"353\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"385\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"417\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><rect x=\"449\" y=\"193\" width=\"30\" height=\"30\" rx=\"3\" class=\"ds-world-wall\"/><g transform=\"translate(464 112)\"><rect x=\"-14\" y=\"-14\" width=\"28\" height=\"28\" rx=\"4\" class=\"ds-world-exit\"/><path d=\"M-7 0H7m-5-5 5 5-5 5\" class=\"ds-world-exit-arrow\"/></g><g transform=\"translate(48 112)\"><rect x=\"-13\" y=\"-13\" width=\"26\" height=\"26\" rx=\"4\" class=\"ds-world-fire\"/><path d=\"M0-8C2-3 6-2 6 3A6 6 0 0 1-6 3c0-3 2-5 3-7L0 0z\" class=\"ds-world-flame\"/></g><g transform=\"translate(144 144)\"><circle r=\"8\" class=\"ds-world-person\"/><circle r=\"2\" fill=\"white\"/></g><g transform=\"translate(80 80)\"><circle r=\"8\" class=\"ds-world-person\"/><circle r=\"2\" fill=\"white\"/></g><g transform=\"translate(112 112)\"><circle r=\"8\" class=\"ds-world-person\"/><circle r=\"2\" fill=\"white\"/></g><g transform=\"translate(176 112)\"><circle r=\"8\" class=\"ds-world-person\"/><circle r=\"2\" fill=\"white\"/></g><g transform=\"translate(208 80)\"><circle r=\"8\" class=\"ds-world-person\"/><circle r=\"2\" fill=\"white\"/></g><g transform=\"translate(144 80)\"><circle r=\"8\" class=\"ds-world-person\"/><circle r=\"2\" fill=\"white\"/></g><g transform=\"translate(208 144)\"><circle r=\"8\" class=\"ds-world-person\"/><circle r=\"2\" fill=\"white\"/></g><g transform=\"translate(80 144)\"><circle r=\"8\" class=\"ds-world-person\"/><circle r=\"2\" fill=\"white\"/></g></svg><div class=\"ds-controls\"><button type=\"button\">Play example</button><button type=\"button\" aria-label=\"Restart example\">Restart</button><label>Step<input type=\"range\" min=\"0\" max=\"1\" value=\"0\"><output>0 / —</output></label></div><p class=\"ds-provenance\">Illustrative hand-coded reference replay. Independently generated; not a published AI-model run.</p></section>",
+      "css": ".ds-stage{background:var(--experiment-ground,#f0f2eb);color:var(--text-primary,#15283f);border-radius:16px;overflow:clip;font-family:var(--font-body,\"DM Sans\",system-ui,sans-serif)}.ds-stage header{padding:24px 28px 12px}.ds-stage h3{font-size:20px;font-weight:500;letter-spacing:-.02em;margin:0}.ds-stage p{font-size:12px;color:var(--text-secondary,#455467)}.ds-policy{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:0 28px;font-size:11px}.ds-policy select{min-height:44px;background:var(--surface-1,#fff);border:0;border-radius:8px;padding:8px;font:inherit}.ds-map{display:block;width:calc(100% - 56px);margin:24px 28px;max-height:340px}.ds-world-floor{fill:var(--world-floor,#f6f6f0);stroke:var(--world-grid,#e8eae3);stroke-width:.5}.ds-world-wall{fill:var(--world-wall,#d4d8d2)}.ds-world-person{fill:var(--world-person,#183c58);stroke:#fff;stroke-width:2}.ds-world-exit{fill:var(--world-exit,#c8e1d1)}.ds-world-exit-arrow{stroke:var(--world-exit-ink,#285c45);stroke-width:1.8;fill:none}.ds-world-fire{fill:var(--world-fire,#f2bc7b)}.ds-world-flame{fill:var(--world-fire-ink,#a34925)}.ds-controls{display:flex;align-items:center;gap:10px;padding:18px 28px;background:rgba(255,255,255,.45);flex-wrap:wrap}.ds-controls button{min-height:44px;border:0;border-radius:7px;padding:10px 14px;background:var(--surface-1,#fff);color:inherit;font:inherit;font-size:12px;cursor:pointer}.ds-controls label{display:flex;align-items:center;gap:10px;flex:1;font-size:11px}.ds-controls input{min-width:40px;flex:1;width:80px;height:44px;accent-color:var(--accent,#142e51)}.ds-stage .ds-provenance{font-size:10px;padding:0 28px 18px;line-height:1.7}.ds-stage button:focus-visible,.ds-stage select:focus-visible,.ds-stage input:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-controls button:hover{background:var(--surface-2,#f0f2f3)}}@media(max-width:700px){.ds-controls label{flex-basis:100%}.ds-policy select{font-size:16px}}"
+    },
+    {
+      "name": "Exact published outcome pictograph",
+      "kind": "custom",
+      "refersTo": "outcome-card",
+      "description": "Actual typesafe/jev-1.14 totals: 191 evacuated, 46 avoidable deaths, 4 avoidable stranded; 241 markers. Hover specimen demonstrates interruptible CSS regrouping. Production index.js owns the explicit button lock, aria-pressed and immediate keyboard state.",
+      "html": "<article class=\"ds-outcome\"><h4>typesafe/jev-1.14</h4><p class=\"ds-outcome-score\"><strong>51.70</strong> EMBER / 100</p><div class=\"ds-art\" role=\"img\" aria-label=\"191 evacuated, 46 avoidable deaths, 4 avoidable stranded\"><div class=\"ds-art-inner\"><span class=\"ds-person ds-evacuated\" style=\"--dot-x:0px;--dot-y:0px;--group-x:0px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:12px;--dot-y:0px;--group-x:12px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:24px;--dot-y:0px;--group-x:24px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:36px;--dot-y:0px;--group-x:36px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:48px;--dot-y:0px;--group-x:48px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:60px;--dot-y:0px;--group-x:60px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:72px;--dot-y:0px;--group-x:72px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:84px;--dot-y:0px;--group-x:84px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:96px;--dot-y:0px;--group-x:96px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:108px;--dot-y:0px;--group-x:108px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:120px;--dot-y:0px;--group-x:120px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:132px;--dot-y:0px;--group-x:132px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:144px;--dot-y:0px;--group-x:144px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:156px;--dot-y:0px;--group-x:156px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:168px;--dot-y:0px;--group-x:168px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:180px;--dot-y:0px;--group-x:180px;--group-y:0px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:192px;--dot-y:0px;--group-x:0px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:204px;--dot-y:0px;--group-x:12px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:216px;--dot-y:0px;--group-x:24px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:228px;--dot-y:0px;--group-x:36px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:240px;--dot-y:0px;--group-x:48px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:252px;--dot-y:0px;--group-x:60px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:264px;--dot-y:0px;--group-x:72px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:276px;--dot-y:0px;--group-x:84px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:288px;--dot-y:0px;--group-x:96px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:300px;--dot-y:0px;--group-x:108px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:0px;--dot-y:12px;--group-x:120px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:12px;--dot-y:12px;--group-x:132px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:24px;--dot-y:12px;--group-x:144px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:36px;--dot-y:12px;--group-x:156px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:48px;--dot-y:12px;--group-x:168px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:60px;--dot-y:12px;--group-x:180px;--group-y:12px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:72px;--dot-y:12px;--group-x:0px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:84px;--dot-y:12px;--group-x:12px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:96px;--dot-y:12px;--group-x:24px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:108px;--dot-y:12px;--group-x:36px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:120px;--dot-y:12px;--group-x:48px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:132px;--dot-y:12px;--group-x:60px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:144px;--dot-y:12px;--group-x:72px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:156px;--dot-y:12px;--group-x:84px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:168px;--dot-y:12px;--group-x:96px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:180px;--dot-y:12px;--group-x:108px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:192px;--dot-y:12px;--group-x:120px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:204px;--dot-y:12px;--group-x:132px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:216px;--dot-y:12px;--group-x:144px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:228px;--dot-y:12px;--group-x:156px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:240px;--dot-y:12px;--group-x:168px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:252px;--dot-y:12px;--group-x:180px;--group-y:24px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:264px;--dot-y:12px;--group-x:0px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:276px;--dot-y:12px;--group-x:12px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:288px;--dot-y:12px;--group-x:24px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:300px;--dot-y:12px;--group-x:36px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:0px;--dot-y:24px;--group-x:48px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:12px;--dot-y:24px;--group-x:60px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:24px;--dot-y:24px;--group-x:72px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:36px;--dot-y:24px;--group-x:84px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:48px;--dot-y:24px;--group-x:96px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:60px;--dot-y:24px;--group-x:108px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:72px;--dot-y:24px;--group-x:120px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:84px;--dot-y:24px;--group-x:132px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:96px;--dot-y:24px;--group-x:144px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:108px;--dot-y:24px;--group-x:156px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:120px;--dot-y:24px;--group-x:168px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:132px;--dot-y:24px;--group-x:180px;--group-y:36px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:144px;--dot-y:24px;--group-x:0px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:156px;--dot-y:24px;--group-x:12px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:168px;--dot-y:24px;--group-x:24px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:180px;--dot-y:24px;--group-x:36px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:192px;--dot-y:24px;--group-x:48px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:204px;--dot-y:24px;--group-x:60px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:216px;--dot-y:24px;--group-x:72px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:228px;--dot-y:24px;--group-x:84px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:240px;--dot-y:24px;--group-x:96px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:252px;--dot-y:24px;--group-x:108px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:264px;--dot-y:24px;--group-x:120px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:276px;--dot-y:24px;--group-x:132px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:288px;--dot-y:24px;--group-x:144px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:300px;--dot-y:24px;--group-x:156px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:0px;--dot-y:36px;--group-x:168px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:12px;--dot-y:36px;--group-x:180px;--group-y:48px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:24px;--dot-y:36px;--group-x:0px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:36px;--dot-y:36px;--group-x:12px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:48px;--dot-y:36px;--group-x:24px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:60px;--dot-y:36px;--group-x:36px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:72px;--dot-y:36px;--group-x:48px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:84px;--dot-y:36px;--group-x:60px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:96px;--dot-y:36px;--group-x:72px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:108px;--dot-y:36px;--group-x:84px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:120px;--dot-y:36px;--group-x:96px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:132px;--dot-y:36px;--group-x:108px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:144px;--dot-y:36px;--group-x:120px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:156px;--dot-y:36px;--group-x:132px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:168px;--dot-y:36px;--group-x:144px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:180px;--dot-y:36px;--group-x:156px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:192px;--dot-y:36px;--group-x:168px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:204px;--dot-y:36px;--group-x:180px;--group-y:60px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:216px;--dot-y:36px;--group-x:0px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:228px;--dot-y:36px;--group-x:12px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:240px;--dot-y:36px;--group-x:24px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:252px;--dot-y:36px;--group-x:36px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:264px;--dot-y:36px;--group-x:48px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:276px;--dot-y:36px;--group-x:60px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:288px;--dot-y:36px;--group-x:72px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:300px;--dot-y:36px;--group-x:84px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:0px;--dot-y:48px;--group-x:96px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:12px;--dot-y:48px;--group-x:108px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:24px;--dot-y:48px;--group-x:120px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:36px;--dot-y:48px;--group-x:132px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:48px;--dot-y:48px;--group-x:144px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:60px;--dot-y:48px;--group-x:156px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:72px;--dot-y:48px;--group-x:168px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:84px;--dot-y:48px;--group-x:180px;--group-y:72px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:96px;--dot-y:48px;--group-x:0px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:108px;--dot-y:48px;--group-x:12px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:120px;--dot-y:48px;--group-x:24px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:132px;--dot-y:48px;--group-x:36px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:144px;--dot-y:48px;--group-x:48px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:156px;--dot-y:48px;--group-x:60px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:168px;--dot-y:48px;--group-x:72px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:180px;--dot-y:48px;--group-x:84px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:192px;--dot-y:48px;--group-x:96px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:204px;--dot-y:48px;--group-x:108px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:216px;--dot-y:48px;--group-x:120px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:228px;--dot-y:48px;--group-x:132px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:240px;--dot-y:48px;--group-x:144px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:252px;--dot-y:48px;--group-x:156px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:264px;--dot-y:48px;--group-x:168px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:276px;--dot-y:48px;--group-x:180px;--group-y:84px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:288px;--dot-y:48px;--group-x:0px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:300px;--dot-y:48px;--group-x:12px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:0px;--dot-y:60px;--group-x:24px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:12px;--dot-y:60px;--group-x:36px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:24px;--dot-y:60px;--group-x:48px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:36px;--dot-y:60px;--group-x:60px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:48px;--dot-y:60px;--group-x:72px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:60px;--dot-y:60px;--group-x:84px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:72px;--dot-y:60px;--group-x:96px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:84px;--dot-y:60px;--group-x:108px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:96px;--dot-y:60px;--group-x:120px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:108px;--dot-y:60px;--group-x:132px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:120px;--dot-y:60px;--group-x:144px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:132px;--dot-y:60px;--group-x:156px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:144px;--dot-y:60px;--group-x:168px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:156px;--dot-y:60px;--group-x:180px;--group-y:96px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:168px;--dot-y:60px;--group-x:0px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:180px;--dot-y:60px;--group-x:12px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:192px;--dot-y:60px;--group-x:24px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:204px;--dot-y:60px;--group-x:36px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:216px;--dot-y:60px;--group-x:48px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:228px;--dot-y:60px;--group-x:60px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:240px;--dot-y:60px;--group-x:72px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:252px;--dot-y:60px;--group-x:84px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:264px;--dot-y:60px;--group-x:96px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:276px;--dot-y:60px;--group-x:108px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:288px;--dot-y:60px;--group-x:120px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:300px;--dot-y:60px;--group-x:132px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:0px;--dot-y:72px;--group-x:144px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:12px;--dot-y:72px;--group-x:156px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:24px;--dot-y:72px;--group-x:168px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:36px;--dot-y:72px;--group-x:180px;--group-y:108px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:48px;--dot-y:72px;--group-x:0px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:60px;--dot-y:72px;--group-x:12px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:72px;--dot-y:72px;--group-x:24px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:84px;--dot-y:72px;--group-x:36px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:96px;--dot-y:72px;--group-x:48px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:108px;--dot-y:72px;--group-x:60px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:120px;--dot-y:72px;--group-x:72px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:132px;--dot-y:72px;--group-x:84px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:144px;--dot-y:72px;--group-x:96px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:156px;--dot-y:72px;--group-x:108px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:168px;--dot-y:72px;--group-x:120px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:180px;--dot-y:72px;--group-x:132px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:192px;--dot-y:72px;--group-x:144px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:204px;--dot-y:72px;--group-x:156px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:216px;--dot-y:72px;--group-x:168px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:228px;--dot-y:72px;--group-x:180px;--group-y:120px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:240px;--dot-y:72px;--group-x:0px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:252px;--dot-y:72px;--group-x:12px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:264px;--dot-y:72px;--group-x:24px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:276px;--dot-y:72px;--group-x:36px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:288px;--dot-y:72px;--group-x:48px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:300px;--dot-y:72px;--group-x:60px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:0px;--dot-y:84px;--group-x:72px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:12px;--dot-y:84px;--group-x:84px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:24px;--dot-y:84px;--group-x:96px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:36px;--dot-y:84px;--group-x:108px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:48px;--dot-y:84px;--group-x:120px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:60px;--dot-y:84px;--group-x:132px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:72px;--dot-y:84px;--group-x:144px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:84px;--dot-y:84px;--group-x:156px;--group-y:132px\"></span><span class=\"ds-person ds-evacuated\" style=\"--dot-x:96px;--dot-y:84px;--group-x:168px;--group-y:132px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:108px;--dot-y:84px;--group-x:216px;--group-y:0px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:120px;--dot-y:84px;--group-x:228px;--group-y:0px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:132px;--dot-y:84px;--group-x:240px;--group-y:0px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:144px;--dot-y:84px;--group-x:252px;--group-y:0px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:156px;--dot-y:84px;--group-x:264px;--group-y:0px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:168px;--dot-y:84px;--group-x:276px;--group-y:0px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:180px;--dot-y:84px;--group-x:216px;--group-y:12px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:192px;--dot-y:84px;--group-x:228px;--group-y:12px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:204px;--dot-y:84px;--group-x:240px;--group-y:12px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:216px;--dot-y:84px;--group-x:252px;--group-y:12px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:228px;--dot-y:84px;--group-x:264px;--group-y:12px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:240px;--dot-y:84px;--group-x:276px;--group-y:12px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:252px;--dot-y:84px;--group-x:216px;--group-y:24px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:264px;--dot-y:84px;--group-x:228px;--group-y:24px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:276px;--dot-y:84px;--group-x:240px;--group-y:24px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:288px;--dot-y:84px;--group-x:252px;--group-y:24px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:300px;--dot-y:84px;--group-x:264px;--group-y:24px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:0px;--dot-y:96px;--group-x:276px;--group-y:24px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:12px;--dot-y:96px;--group-x:216px;--group-y:36px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:24px;--dot-y:96px;--group-x:228px;--group-y:36px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:36px;--dot-y:96px;--group-x:240px;--group-y:36px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:48px;--dot-y:96px;--group-x:252px;--group-y:36px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:60px;--dot-y:96px;--group-x:264px;--group-y:36px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:72px;--dot-y:96px;--group-x:276px;--group-y:36px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:84px;--dot-y:96px;--group-x:216px;--group-y:48px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:96px;--dot-y:96px;--group-x:228px;--group-y:48px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:108px;--dot-y:96px;--group-x:240px;--group-y:48px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:120px;--dot-y:96px;--group-x:252px;--group-y:48px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:132px;--dot-y:96px;--group-x:264px;--group-y:48px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:144px;--dot-y:96px;--group-x:276px;--group-y:48px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:156px;--dot-y:96px;--group-x:216px;--group-y:60px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:168px;--dot-y:96px;--group-x:228px;--group-y:60px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:180px;--dot-y:96px;--group-x:240px;--group-y:60px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:192px;--dot-y:96px;--group-x:252px;--group-y:60px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:204px;--dot-y:96px;--group-x:264px;--group-y:60px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:216px;--dot-y:96px;--group-x:276px;--group-y:60px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:228px;--dot-y:96px;--group-x:216px;--group-y:72px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:240px;--dot-y:96px;--group-x:228px;--group-y:72px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:252px;--dot-y:96px;--group-x:240px;--group-y:72px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:264px;--dot-y:96px;--group-x:252px;--group-y:72px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:276px;--dot-y:96px;--group-x:264px;--group-y:72px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:288px;--dot-y:96px;--group-x:276px;--group-y:72px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:300px;--dot-y:96px;--group-x:216px;--group-y:84px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:0px;--dot-y:108px;--group-x:228px;--group-y:84px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:12px;--dot-y:108px;--group-x:240px;--group-y:84px\"></span><span class=\"ds-person ds-casualty\" style=\"--dot-x:24px;--dot-y:108px;--group-x:252px;--group-y:84px\"></span><span class=\"ds-person ds-stranded\" style=\"--dot-x:36px;--dot-y:108px;--group-x:216px;--group-y:96px\"></span><span class=\"ds-person ds-stranded\" style=\"--dot-x:48px;--dot-y:108px;--group-x:228px;--group-y:96px\"></span><span class=\"ds-person ds-stranded\" style=\"--dot-x:60px;--dot-y:108px;--group-x:240px;--group-y:96px\"></span><span class=\"ds-person ds-stranded\" style=\"--dot-x:72px;--dot-y:108px;--group-x:252px;--group-y:96px\"></span></div></div><dl><div><dt>Evacuated</dt><dd>191</dd></div><div><dt>Avoidable deaths</dt><dd>46</dd></div><div><dt>Avoidable stranded</dt><dd>4</dd></div></dl><button type=\"button\" aria-pressed=\"false\">Separate outcomes <span aria-hidden=\"true\">↗</span></button><p class=\"ds-outcome-note\">Published AI-model results · One trial · Descriptive comparison</p></article>",
+      "css": ".ds-outcome{padding:24px 28px;border-radius:14px;background:var(--surface-1,#fff);color:var(--text-primary,#15283f);font-family:var(--font-body,\"DM Sans\",system-ui,sans-serif)}.ds-outcome h4{font-size:17px;font-weight:500;margin:0}.ds-outcome-score{font-size:11px;color:var(--text-secondary,#455467);display:flex;gap:12px;align-items:baseline;margin:16px 0 20px}.ds-outcome-score strong{font-size:38px;line-height:1.1;font-weight:500;letter-spacing:-.03em;color:var(--text-primary,#15283f);font-variant-numeric:tabular-nums}.ds-art{height:165px;display:flex;align-items:center;justify-content:center;margin:26px 0 20px}.ds-art-inner{position:relative;width:310px;height:155px;flex:none}.ds-person{position:absolute;left:0;top:0;width:7px;height:9px;border-radius:3px 3px 2px 2px;transform:translate(var(--dot-x),var(--dot-y));transition:transform 580ms cubic-bezier(.2,0,0,1)}.ds-evacuated{background:var(--outcome-safe,#376f61)}.ds-casualty{background:var(--outcome-death,#b75b3f)}.ds-stranded{background:var(--outcome-stranded,#b18d34)}.ds-outcome dl{display:flex;justify-content:space-between;gap:15px;margin:0}.ds-outcome dt{font-size:11px;color:var(--text-secondary,#455467)}.ds-outcome dd{font-size:22px;line-height:1;margin:12px 0 0;font-variant-numeric:tabular-nums}.ds-outcome button{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;margin-top:28px;padding:10px 0;border:0;background:transparent;color:var(--text-secondary,#455467);font:inherit;font-size:11px;cursor:pointer}.ds-outcome button:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}.ds-outcome:focus-within .ds-person{transition:none;transform:translate(var(--group-x),var(--group-y))}.ds-outcome-note{font-size:10px;color:var(--text-muted,#596675)}@media(hover:hover) and (pointer:fine){.ds-outcome:hover .ds-person{transform:translate(var(--group-x),var(--group-y))}.ds-outcome button:hover{text-decoration:underline;text-underline-offset:4px}}@media(max-width:700px){.ds-outcome{padding:20px}.ds-art-inner{transform:scale(.9)}}@media(prefers-reduced-motion:reduce){.ds-person{transition:none}}"
+    },
+    {
+      "name": "Connected evaluation loop",
+      "kind": "custom",
+      "refersTo": "evaluation-stage-selected",
+      "description": "Five visible stages shared by home and methodology. Static specimen shows Observe selected; evaluation-loop.js owns stage explanations, position count and immediate Left/Right selection. Observe–Decide–Simulate repeats before completed-record verification and scoring.",
+      "html": "<section class=\"ds-loop\"><div class=\"ds-loop-path\" role=\"group\" aria-label=\"How evaluation works\"><button type=\"button\" aria-pressed=\"true\">Observe</button><span aria-hidden=\"true\">→</span><button type=\"button\" aria-pressed=\"false\">Decide</button><span aria-hidden=\"true\">→</span><button type=\"button\" aria-pressed=\"false\">Simulate</button><span aria-hidden=\"true\">→</span><button type=\"button\" aria-pressed=\"false\">Verify</button><span aria-hidden=\"true\">→</span><button type=\"button\" aria-pressed=\"false\">Score</button><p>Observe → Decide → Simulate repeats each step</p></div><div class=\"ds-loop-explanation\"><p>The model sees the map, the people and the fire as they are now. Future fire and evaluator seeds stay hidden.</p><span aria-hidden=\"true\">1 / 5</span></div></section>",
+      "css": ".ds-loop{font-family:var(--font-body,\"DM Sans\",system-ui,sans-serif);color:var(--text-primary,#15283f);padding:30px 0 20px}.ds-loop-path{display:grid;grid-template-columns:1fr 26px 1fr 26px 1fr 26px 1fr 26px 1fr;gap:5px 12px;align-items:center}.ds-loop button{min-height:56px;padding:12px 10px;border:0;border-radius:8px;background:transparent;color:var(--text-secondary,#455467);font:500 15px/1.5 var(--font-body,\"DM Sans\",system-ui,sans-serif);cursor:pointer}.ds-loop button[aria-pressed=\"true\"]{background:var(--surface-1,#fff);color:var(--text-primary,#15283f)}.ds-loop button:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}.ds-loop-path>span{color:var(--text-muted,#596675)}.ds-loop-path>p{grid-column:1/6;grid-row:2;font-size:10px;color:var(--text-muted,#596675);text-align:center;padding-top:12px}.ds-loop-explanation{display:flex;justify-content:space-between;gap:24px;margin-top:26px}.ds-loop-explanation p{font-size:13px;line-height:1.8;max-width:65ch;min-height:48px;color:var(--text-secondary,#455467);margin:0}.ds-loop-explanation>span{font-size:11px;color:var(--text-muted,#596675);white-space:nowrap}@media(hover:hover){.ds-loop button:hover{background:var(--surface-1,#fff);color:var(--text-primary,#15283f)}}@media(max-width:700px){.ds-loop-path{grid-template-columns:1fr 22px 1fr 22px 1fr;gap:7px}.ds-loop button{font-size:12px;padding:12px 5px}.ds-loop-path>span:nth-of-type(3){display:none}.ds-loop-path>button:nth-of-type(4){grid-column:1;grid-row:3}.ds-loop-path>span:nth-of-type(4){grid-column:2;grid-row:3}.ds-loop-path>button:nth-of-type(5){grid-column:3;grid-row:3}.ds-loop-path>p{grid-column:1/-1;grid-row:2;text-align:left;font-size:9px}.ds-loop-explanation p{font-size:12px;min-height:80px}}"
     },
     {
       "name": "Selected visual result",
@@ -236,43 +578,33 @@
       "css": ".ds-result{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;width:100%;min-height:76px;padding:14px 12px 13px 4px;border:0;border-radius:8px;background:var(--chart-selected,#edf2f5);color:var(--text-primary,#15283f);font:400 13px/1.6 var(--font-body,\"DM Sans\",system-ui,sans-serif);text-align:left;cursor:pointer}.ds-result-name{overflow-wrap:anywhere}.ds-result b{font-size:16px;font-weight:500;font-variant-numeric:tabular-nums}.ds-chart-track{grid-column:1/-1;height:7px;background:var(--chart-track,#e9eef1);border-radius:2px;overflow:clip}.ds-chart-track>span{display:block;width:100%;height:100%;background:var(--accent,#142e51);transform-origin:left}.ds-result:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover) and (pointer:fine){.ds-result:hover{background:var(--chart-selected,#edf2f5)}}"
     },
     {
-      "name": "Phone filters disclosure",
-      "kind": "custom",
-      "description": "Native details contains entry type, provider, sort and reset on phones, leaving search and first results exposed.",
-      "html": "<details class=\"ds-filters\"><summary>Filters &amp; sort<svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M3 10h14M10 3v14\"/></svg></summary><p>Entry type, provider, sort and reset controls.</p></details>",
-      "css": ".ds-filters{font:400 12px/1.6 var(--font-body,'DM Sans',system-ui,sans-serif);color:var(--text-secondary,#455467)}.ds-filters>summary{display:flex;align-items:center;min-height:44px;cursor:pointer;list-style:none}.ds-filters svg{width:18px;height:18px;margin-left:auto;fill:none;stroke:currentColor;stroke-width:1.4}.ds-filters[open] svg{transform:rotate(45deg)}.ds-filters>summary:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-filters>summary:hover{color:var(--text-primary,#15283f)}}"
-    },
-    {
-      "name": "Pending analytical loader",
-      "kind": "custom",
-      "description": "Static wordmark/status specimen. boot.js, loader.css and cosmos.js own the original PNG and temporary pending-data canvas. No homepage loader or enforced brand delay.",
-      "html": "<section class=\"ds-loading\" aria-label=\"Loading Anantam\"><h2>Anantam</h2><p role=\"status\">Opening the benchmark.</p></section>",
-      "css": ".ds-loading{display:grid;justify-items:center;text-align:center;padding:40px 24px;background:var(--loading-ground,var(--surface-0,#fafaf7));color:var(--text-primary,#15283f);font-family:var(--font-body,'DM Sans',system-ui,sans-serif)}.ds-loading h2{font-size:28px;font-weight:500;line-height:1.2;letter-spacing:-.025em;margin:0}.ds-loading p{font-size:13px;line-height:1.6;color:var(--text-muted,#596675);max-width:32ch;min-height:42px;margin:12px 0 0}"
-    },
-    {
       "name": "Recorded people outcomes",
       "kind": "custom",
       "refersTo": "result-inspector",
       "description": "Actual counts from the same generated AI-model snapshot as the selected-row specimen. Production reuses this labelled strip/legend in inspector, profile and comparison; outcomes remain distinct from composite scores.",
       "html": "<aside class=\"ds-inspector\"><h3>typesafe/jev-1.14</h3><div class=\"ds-people-strip\" role=\"img\" aria-label=\"191 evacuated, 46 avoidable deaths, 4 avoidable stranded, 0 unavoidable losses\"><span class=\"ds-outcome-safe\" style=\"flex-grow:191\"></span><span class=\"ds-outcome-death\" style=\"flex-grow:46\"></span><span class=\"ds-outcome-stranded\" style=\"flex-grow:4\"></span><span class=\"ds-outcome-unavoidable\" style=\"flex-grow:0\"></span></div><dl class=\"ds-people-legend\"><div><dt><i class=\"ds-outcome-safe\"></i>Evacuated</dt><dd>191</dd></div><div><dt><i class=\"ds-outcome-death\"></i>Avoidable deaths</dt><dd>46</dd></div><div><dt><i class=\"ds-outcome-stranded\"></i>Avoidable stranded</dt><dd>4</dd></div></dl><p class=\"ds-outcome-note\">Summed across evaluated worlds. 241 people were individually escapable under the benchmark’s relaxed reference.</p></aside>",
-      "css": ".ds-inspector{padding:22px 24px;background:var(--surface-2,#f0f2f3);color:var(--text-primary,#15283f);border-radius:12px;font:400 12px/1.6 var(--font-body,\"DM Sans\",system-ui,sans-serif)}.ds-inspector h3{font-size:20px;font-weight:500;margin:0 0 18px;line-height:1.4;overflow-wrap:anywhere}.ds-people-strip{display:flex;gap:2px;height:12px;overflow:clip;border-radius:3px;margin-bottom:14px}.ds-people-strip>span{flex-basis:0;min-width:0}.ds-people-legend{display:grid;gap:7px;margin:0}.ds-people-legend>div{display:flex;justify-content:space-between;gap:12px}.ds-people-legend dt{display:flex;align-items:center;gap:8px;color:var(--text-secondary,#455467)}.ds-people-legend i{width:6px;height:6px;border-radius:1px}.ds-people-legend dd{margin:0;font-variant-numeric:tabular-nums}.ds-outcome-note{font-size:11px;line-height:1.7;color:var(--text-muted,#596675);margin:13px 0 0}.ds-outcome-safe{background:var(--outcome-safe,#376f61)}.ds-outcome-death{background:var(--outcome-death,#b75b3f)}.ds-outcome-stranded{background:var(--outcome-stranded,#c29b43)}.ds-outcome-unavoidable{background:var(--outcome-unavoidable,#8a9096)}"
+      "css": ".ds-inspector{padding:22px 24px;background:var(--surface-2,#f0f2f3);color:var(--text-primary,#15283f);border-radius:12px;font:400 12px/1.6 var(--font-body,\"DM Sans\",system-ui,sans-serif)}.ds-inspector h3{font-size:20px;font-weight:500;margin:0 0 18px;line-height:1.4;overflow-wrap:anywhere}.ds-people-strip{display:flex;gap:2px;height:12px;overflow:clip;border-radius:3px;margin-bottom:14px}.ds-people-strip>span{flex-basis:0;min-width:0}.ds-people-legend{display:grid;gap:7px;margin:0}.ds-people-legend>div{display:flex;justify-content:space-between;gap:12px}.ds-people-legend dt{display:flex;align-items:center;gap:8px;color:var(--text-secondary,#455467)}.ds-people-legend i{width:6px;height:6px;border-radius:1px}.ds-people-legend dd{margin:0;font-variant-numeric:tabular-nums}.ds-outcome-note{font-size:11px;line-height:1.7;color:var(--text-muted,#596675);margin:13px 0 0}.ds-outcome-safe{background:var(--outcome-safe,#376f61)}.ds-outcome-death{background:var(--outcome-death,#b75b3f)}.ds-outcome-stranded{background:var(--outcome-stranded,#b18d34)}.ds-outcome-unavoidable{background:var(--outcome-unavoidable,#8a9096)}"
     }
   ],
   "narrative": {
     "northStar": "Intelligence. An open question.",
-    "overview": "The supplied navy infinity emblem anchors a light, spacious identity. A centered company introduction uses local Instrument Serif; DM Sans keeps controls and evidence clear. The homepage has a centered introduction and one expanding benchmark showcase, with two actual initial worlds and real score bars.\n\nAnalytical routes share the paper/white/navy identity. Visual results and AI models are defaults; a nearby inspector explains recorded people outcomes, scenario evidence and quick comparison. Profiles and comparisons lead with outcomes, with technical measurements disclosed on demand. This records the incumbent static implementation and the authorized UX refinements.",
+    "overview": "The supplied navy infinity emblem anchors a light, spacious identity. Local Instrument Serif gives the company signature and editorial headings their character; DM Sans makes controls, explanations and evidence readable. Compact introductions leave room for the experiment itself.\n\nVisible product proof defines the current expression: a large evacuation player, exact published people-outcome pictographs and a connected evaluation explanation. Analytical routes share the same paper, navy and local type while changing their composition for inspecting results, worlds and research. This records the implementation and the preserved brand; no supplied image composition has been approved.",
     "keyCharacteristics": [
-      "One light paper/white/navy appearance with the supplied emblem",
-      "Local Instrument Serif and DM Sans",
-      "Centered company introduction and one expanding showcase",
-      "Actual initial worlds and real score bars",
-      "Visual AI-model results, nearby outcomes and optional exact table",
-      "Inline phone inspection and shareable workspace state"
+      "One light paper-and-navy identity with the supplied transparent emblem.",
+      "Compact centered company signature and visible contribution substance.",
+      "Real world geometry, explicitly labelled reference replays and published model outcomes.",
+      "Context-preserving analytical navigation and readable exact evidence.",
+      "Purposeful, finite motion with immediate keyboard and reduced-motion states."
     ],
     "rules": [
       {
         "name": "The Light Appearance Rule",
-        "body": "theme-init.js sets data-theme=light and shared CSS declares color-scheme: light. Keep one light palette sitewide.",
+        "body": "Keep the single light palette established by `theme-init.js` and shared `color-scheme: light`.",
+        "section": "colors"
+      },
+      {
+        "name": "The Evidence Color Rule",
+        "body": "Pair outcome colors with visible labels and exact counts. Initial world geometry, illustrative reference behavior and published model outcomes have distinct meanings.",
         "section": "colors"
       },
       {
@@ -282,22 +614,22 @@
       }
     ],
     "dos": [
-      "Do preserve the supplied logo, local fonts and one light appearance.",
-      "Do keep the company introduction and its action centered.",
-      "Do show the actual scenario, labelled metric and visible evidence scope.",
-      "Do open actual results directly from every benchmark action.",
-      "Do preserve generated-data provenance, model IDs, scoring, confidence intervals and shareable selection/filter parameters.",
-      "Do lead result inspection, profiles and comparison with actual outcomes, then disclose technical evidence.",
-      "Do use immediate keyboard and reduced-motion states and native phone disclosures."
+      "Do preserve the supplied transparent navy emblem, local fonts and one light appearance.",
+      "Do keep the company signature centered and the contribution's player, outcomes and evaluation explanation visible.",
+      "Do distinguish authenticated illustrative reference replays from published AI-model results.",
+      "Do retain exact geometry, person counts, labelled metrics, evidence scope and source attribution.",
+      "Do preserve selected world/model context, native phone controls and immediate keyboard states.",
+      "Do use finite, interruptible motion to explain real state changes.",
+      "Do preserve generated results, scoring, confidence intervals, model IDs and shareable analytical state."
     ],
     "donts": [
-      "Don't reintroduce a dark theme, a navy marketing statistics card or an emblem mat.",
-      "Don't add a future-outlook section, speculative product catalogue or invented trust metrics.",
-      "Don't substitute an old benchmark hero for the results destination.",
-      "Don't call the initial-state map an evaluated replay or animate people as fabricated evacuation results.",
-      "Don't add pointer tilt, continuous homepage flight or motion required to understand content.",
-      "Don't edit generated results or scoring definitions by hand.",
-      "Don't invent a new visual world, products, layouts or decorative explanatory copy. Applecn and shadcn may inform interaction guidance; this static site does not run their React components."
+      "Don't restore the sparse viewport-height hero or conceal the homepage contribution behind expanding rails.",
+      "Don't add a dark theme, emblem mat, navy marketing-statistics card or speculative product catalogue.",
+      "Don't autoplay reference replays or present them as the published AI-model runs.",
+      "Don't leave an old source-record link or replay controls attached to a static or newly loading world.",
+      "Don't substitute decorative person counts, fake evacuation movement or a survival percentage for actual evidence.",
+      "Don't wrap every analytical route in the same oversized white panel.",
+      "Don't edit generated results or scientific definitions by hand, or require motion to understand content."
     ]
   }
 }

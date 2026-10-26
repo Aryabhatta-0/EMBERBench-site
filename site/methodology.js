@@ -1,4 +1,5 @@
 import { redesignMethodology } from "./workspace.js";
+import {mountEvaluationLoop} from './evaluation-loop.js';
 import { loadResults, shell, esc, fmt } from "./common.js";
 
 const REPO = "https://github.com/Aryabhatta-0/EMBERBench/blob/main/";
@@ -156,6 +157,11 @@ async function render() {
       <p class="muted">The generated artifact contains no evaluation timestamp. No “last evaluated” date is inferred from model order or page load time.</p>
     </section>`;
   redesignMethodology();
+  const pipeline=document.querySelector('.pipeline');
+  const diagram=document.createElement('div');diagram.id='method-evaluation-loop';
+  pipeline.replaceWith(diagram);mountEvaluationLoop(diagram);
+  const repeated=diagram.nextElementSibling;
+  if(repeated?.textContent.startsWith('Observation →'))repeated.remove();
 }
 
 render().catch(() => {

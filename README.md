@@ -1,8 +1,8 @@
 # Anantam
 
-An experimental AI company. **EMBERBenchmark** is its first and only published contribution; future work is described as experiments ahead, without speculative product launches.
+An experimental AI company. **EMBERBenchmark** is its first and only published contribution.
 
-The light-only company homepage has two sections: a centered introduction and one expanding EMBERBenchmark showcase with Environment / Results / Methodology views. Explore the benchmark opens the actual visual results with an optional exact data table at `site/benchmark.html`, with shared navigation and preserved analytical tools. `leaderboard.html` is a compatibility alias. There is no second benchmark landing page or future-outlook section.
+The light-only company homepage presents a centered identity, a playable public evacuation example, exact people-outcome pictographs and a connected explanation. The benchmark opens real visual results with an optional exact data table. Worlds, profiles, comparisons and methodology share context and navigation.
 
 See [the current skill-by-skill report](docs/COMPANY_REDESIGN.md) for the fifteen requested skills, references, implementation choices, validation, and limits. Earlier implementation notes below describe the benchmark explorer's history.
 
@@ -30,7 +30,7 @@ If EMBERBench changes its scoring or report format, update the `emberbench` pin 
 
 ## Pages
 
-- `index.html`: centered company introduction and expanding Environment / Results / Methodology showcase.
+- `index.html`: centered company identity and visible experiment, outcome and evaluation sequence.
 - `benchmark.html`: visual results, nearby model evidence and quick comparisons, plus the exact searchable/sortable data table.
 - `leaderboard.html`: compatibility URL for the same results workspace. Query parameters preserve reading choices, comparisons, filters and sorting.
 - `compare.html?models=ID,ID`: 2–4 model profiles, components, scenarios, world scores, robustness, congestion and API metrics. Exactly two entries also show descriptive paired world differences.

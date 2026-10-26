@@ -16,6 +16,7 @@ import {
 } from "./common.js";
 import { filterModels, finite, worldKey } from "./analytics.js";
 import { heatmap } from "./charts.js";
+import {mountDemo} from './demo-player.js';
 
 // Descriptions and fire-model labels come from docs/scenario-suite.md.
 // Populations, world counts, scores, and ranks come only from generated results.
@@ -125,6 +126,7 @@ async function main() {
     new Set(episodes.filter((e) => e.scenario_id === id).map(worldKey)).size;
   const params = new URLSearchParams(location.search);
   const state = {
+    model:data.models.some(m=>m.id===params.get('model'))?params.get('model'):null,
     scenario: ids.includes(params.get("scenario"))
       ? params.get("scenario")
       : ids[0],
@@ -172,6 +174,18 @@ async function main() {
     </section></div></div>`;
 
   const canvas = document.querySelector(".scenario-canvas");
+  const intro=canvas.querySelector('.scenario-introduction');
+  const worldStage=document.createElement('div');worldStage.id='scenario-world-stage';
+  document.getElementById('scenario-summary').after(worldStage);
+  const worldPlayer=mountDemo(worldStage,{scenario:state.scenario,chooseWorld:false,onInspect:()=>{
+    canvas.querySelector('#scenario-tab-ranking').click();
+    document.getElementById('ranking-title').scrollIntoView({block:'start',behavior:'instant'});
+  }});
+  const focusResult=document.createElement('div');focusResult.id='world-model-result';worldStage.after(focusResult);
+  intro.append(intro.querySelector('.toolbar'));
+  document.getElementById('scenario-select').closest('.field').classList.add('scenario-phone-choice');
+  document.getElementById('scenario-summary').before(document.getElementById('scenario-select').closest('.field'));
+  addEventListener('pagehide',e=>{if(!e.persisted)worldPlayer.destroy();});
   const ranking = canvas.querySelector("[aria-labelledby=ranking-title]");
   ranking.querySelector('.section-head').insertAdjacentHTML('beforeend', '<button type="button" class="button scenario-columns" aria-pressed="false">More columns</button>');
   document.querySelector('.scenario-columns').addEventListener('click', e => {
@@ -232,18 +246,20 @@ async function main() {
     });
     const selected = metadata(state.scenario);
     document.querySelectorAll('[data-challenge]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.challenge === state.scenario)));
+    const choices=document.querySelector('.challenge-nav'),chosen=choices.querySelector('[aria-pressed="true"]');
+    if(chosen)choices.scrollLeft=Math.max(0,chosen.offsetLeft-choices.offsetLeft-(choices.clientWidth-chosen.offsetWidth)/2);
     const byScore = sortByScenario(models);
     const best = byScore.find((m) =>
       finite(scenarioScore(m, state.scenario)?.score),
     );
+    const focused=data.models.find(m=>m.id===state.model)||byScore.find(m=>m.kind==='Decision model');
     document.getElementById("scenario-summary").innerHTML = `
       <div class="section-head"><h2>${esc(selected.title)}</h2><span class="badge">${esc(selected.fire)} fire</span></div>
-      <p>${esc(selected.description)}</p>
-      <p class="note"><code>${esc(state.scenario)}</code> · <a href="${sourceLink(state.scenario)}">Source description and layout ↗</a></p>
-      <div class="metrics">
-        ${metricCard("Population", populationText(state.scenario), "People at the start of this scenario")}
-        ${metricCard("Frozen worlds", count(worldCount(state.scenario)), "Distinct scheduled worlds in the published pack")}
-      </div>`;
+      <p class="scenario-world-facts">${esc(populationText(state.scenario))} people · ${count(worldCount(state.scenario))} scheduled ${worldCount(state.scenario)===1?'world':'worlds'} · <a href="${sourceLink(state.scenario)}">Source definition</a></p>`;
+    worldPlayer.setWorld(state.scenario);
+    worldStage.querySelector('[data-world-title]').textContent=selected.title;
+    worldStage.querySelector('[data-world-copy]').textContent=selected.description;
+    focusResult.innerHTML=focused?`<div><span>${focused.kind === 'Decision model' ? 'Published AI-model evidence' : 'Published reference-agent evidence'}</span><p>${esc(focused.name)} <strong>${fmt(scenarioScore(focused,state.scenario)?.score)}</strong><span>EMBER / 100 on this scenario</span></p></div><a class="text-action" href="model.html?id=${encodeURIComponent(focused.id)}&scenario=${encodeURIComponent(state.scenario)}">Inspect this result<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>`:'';
 
     document.getElementById("ranking-description").textContent =
       `${selected.title}. Higher scores are better; ranks refer to this scenario and the current filters.`;
@@ -386,13 +402,14 @@ async function main() {
           .focus({ preventScroll: true });
         document
           .getElementById("scenario-summary")
-          .scrollIntoView({ block: "start" });
+          .scrollIntoView({ block: "start", behavior: "instant" });
       }),
     );
   }
 
   function update() {
     const query = new URLSearchParams({ scenario: state.scenario });
+    if(state.model)query.set('model',state.model);
     if (state.kind !== "all") query.set("kind", state.kind);
     if (state.query) query.set("q", state.query);
     history.replaceState(null, "", `?${query}`);

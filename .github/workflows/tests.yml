@@ -49,4 +49,6 @@ jobs:
         if: always()
         with:
           name: anantam-browser-evidence
-          path: work/browser/
+          path: |
+            work/browser/
+            work/experience/

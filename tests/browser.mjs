@@ -80,7 +80,7 @@ try {
   check('Escape closes mobile menu', await page.locator('.nav-toggle').getAttribute('aria-expanded') === 'false');
   check('Escape returns menu focus', await page.locator('.nav-toggle').evaluate(el => el === document.activeElement));
   await page.emulateMedia({reducedMotion:'reduce'});
-  check('Reduced motion disables emblem animation', await page.locator('.benchmark-showcase').evaluate(el=>getComputedStyle(el).transitionDuration === '0s'));
+  check('Reduced motion disables card movement transitions', await page.locator('.group-outcomes svg').first().evaluate(el=>getComputedStyle(el).transitionDuration === '0s'));
   const nojs = await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
   const fallback = await nojs.newPage(); await fallback.goto(base);
   check('No-JavaScript introduction visible', await fallback.locator('h1').isVisible());

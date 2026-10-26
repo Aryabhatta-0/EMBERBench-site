@@ -1,6 +1,6 @@
 ---
 name: Anantam
-description: A centered company introduction and an outcome-first workspace for actual benchmark evidence.
+description: A compact company signature and visible, inspectable experimental evidence.
 colors:
   primary: "#142e51"
   canvas: "#fafaf7"
@@ -17,31 +17,31 @@ colors:
   series-1: "#246d76"
   series-2: "#ab5839"
   series-3: "#416994"
-  map-floor: "#eff2f4"
-  map-wall: "#cbd4de"
-  map-person: "#173b62"
-  map-exit: "#d3e8de"
-  map-exit-ink: "#265746"
-  map-route: "#547b9c"
-  map-fire: "#b45224"
-  map-halo: "#f6d1b6"
-  map-grid: "#e4e9ee"
+  experiment-ground: "#f0f2eb"
+  world-floor: "#f6f6f0"
+  world-wall: "#d4d8d2"
+  world-grid: "#e8eae3"
+  world-person: "#183c58"
+  world-fire: "#f2bc7b"
+  world-fire-ink: "#a34925"
+  world-exit: "#c8e1d1"
+  world-exit-ink: "#285c45"
   outcome-safe: "#376f61"
   outcome-death: "#b75b3f"
-  outcome-stranded: "#c29b43"
+  outcome-stranded: "#b18d34"
   outcome-unavoidable: "#8a9096"
   chart-track: "#e9eef1"
   chart-selected: "#edf2f5"
 typography:
   display:
     fontFamily: "Instrument Serif, Georgia, serif"
-    fontSize: "clamp(58px, 6.5vw, 88px)"
+    fontSize: "clamp(80px, 8vw, 96px)"
     fontWeight: 400
-    lineHeight: 1.01
-    letterSpacing: "-0.025em"
+    lineHeight: 1
+    letterSpacing: "-0.035em"
   headline:
     fontFamily: "Instrument Serif, Georgia, serif"
-    fontSize: "clamp(38px, 4vw, 54px)"
+    fontSize: "44px"
     fontWeight: 400
     lineHeight: 1.1
     letterSpacing: "-0.02em"
@@ -58,16 +58,18 @@ typography:
 rounded:
   field: "8px"
   surface: "16px"
-  showcase: "18px"
+  outcome: "14px"
   control: "999px"
   inspector: "12px"
+  stage-control: "7px"
   chart-track: "2px"
   people-strip: "3px"
 spacing:
   small: "8px"
   medium: "16px"
   large: "32px"
-  company-gutter: "clamp(24px, 5vw, 72px)"
+  company-gutter: "44px"
+  phone-gutter: "20px"
 components:
   button-primary:
     backgroundColor: "{colors.primary}"
@@ -79,10 +81,20 @@ components:
     textColor: "{colors.text}"
     rounded: "{rounded.control}"
     padding: "10px 21px"
-  benchmark-showcase:
+  experiment-stage:
+    backgroundColor: "{colors.experiment-ground}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.surface}"
+  outcome-card:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.text}"
-    rounded: "{rounded.showcase}"
+    rounded: "{rounded.outcome}"
+    padding: "24px 28px"
+  evaluation-stage-selected:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.field}"
+    padding: "12px 10px"
   result-row-selected:
     backgroundColor: "{colors.chart-selected}"
     textColor: "{colors.text}"
@@ -105,119 +117,130 @@ components:
 
 **Creative North Star: "Intelligence. An open question."**
 
-The supplied navy infinity emblem anchors a light, spacious identity. A centered company introduction uses local serif display type; practical sans type keeps controls and evidence clear. The homepage introduces Anantam as an experimental AI company, then presents its first contribution through a single expanding benchmark showcase.
+The supplied navy infinity emblem anchors a light, spacious identity. Local Instrument Serif gives the company signature and editorial headings their character; DM Sans makes controls, explanations and evidence readable. Compact introductions leave room for the experiment itself.
 
-This is a code-led record of the current implementation, not a claim of approval against a supplied visual composition. Sarvam informs the expanding rail interaction. Analytical routes share the same identity with task-specific density, visible scope and native disclosure.
+Visible product proof defines the current expression: a large evacuation player, exact published people-outcome pictographs and a connected evaluation explanation. Analytical routes share the same paper, navy and local type while changing their composition for inspecting results, worlds and research. This records the implementation and the preserved brand; no supplied image composition has been approved.
 
 **Key Characteristics:**
 
-- Light appearance throughout the site.
-- Supplied infinity emblem with its original colors and transparency.
-- Centered company introduction and centered introductory action.
-- One white showcase with Environment, Results and Methodology panes.
-- Real visual results by default, a nearby outcome inspector and an optional exact table.
+- One light paper-and-navy identity with the supplied transparent emblem.
+- Compact centered company signature and visible contribution substance.
+- Real world geometry, explicitly labelled reference replays and published model outcomes.
+- Context-preserving analytical navigation and readable exact evidence.
+- Purposeful, finite motion with immediate keyboard and reduced-motion states.
 
 ## Colors
 
-Navy actions and ink sit on a warm paper canvas with white workspaces and quiet gray dividers. Frontmatter records normative primitives from `site/anantam.css`, durable root `--map-*` tokens in `site/company.css`, and the outcome/chart tokens in `site/result-explorer.css`.
+Navy ink and actions sit on warm paper. White identifies controls and outcome cards; the muted green-gray experiment ground gives the environment its own material. Frontmatter records active primitives from `site/anantam.css`, `site/experience.css` and `site/result-explorer.css`.
 
 ### Primary
 
-- **Navy:** the preserved brand mark and primary route actions.
-- **Focus blue:** a two-pixel keyboard outline with a four-pixel offset; showcase tabs move the outline inside their bounds.
-- **Analytical series:** teal, rust and blue distinguish evidence series; labels and values accompany color.
+- **Navy:** the original brand, primary actions, scores and main evidence marks.
+- **Focus blue:** visible keyboard outlines, normally two pixels with a four-pixel offset.
+- **Analytical series:** teal, rust and blue distinguish evidence series alongside labels and values.
+
+### Secondary
+
+- **Exit green and deep exit ink:** available exits in the world geometry.
+- **Evacuated green:** people who reached an exit in the recorded outcome readout.
+
+### Tertiary
+
+- **Fire apricot and fire rust:** fire cells and their flame symbols.
+- **Avoidable-death rust and stranded ochre:** distinct recorded outcomes. Homepage and analytical readouts share the stranded token.
 
 ### Neutral
 
-- **Paper canvas / white surface / subtle surface:** page ground, workspaces and selected or secondary controls.
-- **Primary / secondary / muted ink:** reading hierarchy, descriptions and evidence notes.
-- **Border / grid / input border:** structural separation, data rows and visible field boundaries.
+- **Paper / white / subtle surface / experiment ground:** page, controls and cards, secondary inspection, and environment stage.
+- **Primary / secondary / muted ink:** identity and evidence, explanations, and provenance.
+- **Border / grid / input border:** structure, data division and field boundaries.
+- **World floor / wall / grid / person:** traversable cells, obstacles, cell boundaries and active person markers.
+- **Chart track / selected:** metric track and inspected row. Unavoidable losses retain their neutral analytical token.
 
-Outcome strips use `outcome-safe` for evacuated people, `outcome-death` for avoidable deaths, `outcome-stranded` for avoidable stranded people and `outcome-unavoidable` for unavoidable losses. Visible labels and counts carry their meaning. `chart-track` is the unfilled score track; `chart-selected` marks the inspected row and selected metric control. Keep initial-map colors distinct from recorded-outcome colors.
+The higher-contrast preference strengthens borders and analytical grid lines to secondary ink.
 
-The scenario uses a cool floor and wall grid, navy people, a green exit, a blue route and rust fire with a pale halo. These colors describe the public initial environment; they do not encode a model's evaluated outcome.
+**The Light Appearance Rule.** Keep the single light palette established by `theme-init.js` and shared `color-scheme: light`.
 
-**The Light Appearance Rule.** `theme-init.js` sets `data-theme="light"` and shared CSS declares `color-scheme: light`. Keep one light palette sitewide.
+**The Evidence Color Rule.** Pair outcome colors with visible labels and exact counts. Initial world geometry, illustrative reference behavior and published model outcomes have distinct meanings.
 
 ## Typography
 
 **Display Font:** locally hosted Instrument Serif, with Georgia and serif fallbacks.
 
-**Body Font:** locally hosted DM Sans, with system-ui and sans-serif fallbacks. Preserve their OFL licenses.
+**Body Font:** locally hosted DM Sans, with system-ui and sans-serif fallbacks. Preserve both OFL licenses.
 
-Instrument Serif carries the centered introduction and editorial headings. DM Sans handles descriptions, navigation, controls and results. Data uses tabular numerals. Headings balance naturally without coloring individual words.
+The serif sets the company signature and editorial hierarchy. The sans carries the interactive experiment and analytical evidence. Scores, steps and counts use tabular numerals; metric units stay visible.
 
-- **Company display:** the frontmatter display role; below 700px use `clamp(52px, 11vw, 70px)`.
-- **Contribution heading:** the frontmatter headline role; 38px on phones.
-- **Benchmark heading:** `clamp(40px, 4vw, 56px)` with the shared serif family; 38px on phones. Compare uses a compact 48px title, reducing to 36px on phones.
-- **Body:** 16px / 1.6 globally; the company introduction uses 17px, reducing to 15px on phones. Analytical descriptions generally use 12–14px.
-- **Labels:** 13px / 1.5 for shared actions; compact showcase labels and scope notes use 11–12px. Longer analytical descriptions stay around 65–72ch.
+- **Company display:** frontmatter display role capped at 96px. Phones use 70px; at 360px and below the signature reduces to 62px.
+- **Contribution headline:** frontmatter headline role; 36px on phones. The outcome editorial heading uses 44px / 1.05, reducing to 37px.
+- **Route headings:** benchmark `clamp(40px,4vw,56px)`, scenarios and methodology 50px, compare 48px. Phone equivalents are 38px, 38px and 36px. Profiles retain their responsive heading and an 84px score.
+- **Experiment title:** 20px caption, 24px world readout and 23px evaluation heading. The readout reduces to 21px on phones.
+- **Body:** 16px / 1.6 base; company description 18px, reducing to 15px. Experiment and analytical prose generally uses 12–14px with 65–72ch reading measures.
+- **Labels:** shared actions use the frontmatter label role. Secondary controls, scope and provenance use 10–12px. Phone selects and search fields use 16px.
 
 ## Layout
 
-`index.html` has two sections: a centered company introduction and one EMBERBenchmark showcase. The main container is at most 1344px with `clamp(24px, 5vw, 72px)` side spacing. The introduction has a 660px minimum height, a 106px emblem and a centered 48px-minimum-height action linking to the contribution. Below 700px it uses a 590px minimum height and a 90px emblem. The contribution heading places its direct benchmark action beside the copy on desktop and below it on phones.
+Home is capped at 1328px with 44px side padding, reducing to 20px at 700px. Its centered signature places an 86px emblem beside the wordmark with a 22px gap. The introduction uses 72px top and 66px bottom padding. Phones use 52px and 48px padding, a 54px emblem and 13px gap.
 
-The desktop showcase is a three-track grid with a minimum height of 490px. The selected pane receives `1fr`; its two collapsed rails receive `.08fr` each, or `.11fr` at widths up to 900px. Content width stays tied to the final active width while its pane expands. Inactive labels are vertical; the selected label becomes a horizontal caption.
+The contribution stays in reading order: heading and direct benchmark action, environment player, published outcome cards, then evaluation explanation. All three artifacts remain visible without choosing a concealed pane. Outcome cards use two columns with a 24px gap and become one column on phones. Metric scope and provenance stay beside the relevant artifact.
 
-At 700px and below, the showcase becomes a native tab layout: a horizontal tab row and one visible panel. Panels use normal document width and a 405px minimum content height; the environment panel uses 450px. Respect safe-area insets in the company container.
+The desktop player uses a flexible map and 260px readout separated by 50px. At 1000px these become 210px and 26px. At 700px the order is choices, map, playback controls directly adjacent to the map, readout, provenance. SVG maximum heights are 340px desktop and 255px phone; actual world dimensions determine its aspect ratio. Timelines receive a full row on phones.
 
-`benchmark.html` opens the actual visual result explorer through `leaderboard.js`; `leaderboard.html` is a compatibility entry into the same workspace. AI decision models are the default cohort; reference agents and all entries are explicit choices. The optional Data table uses the same generated data, query, filters and sort state. Scores, People, API usage and All metrics change the measurement lens; All metrics opens the table. Custom sorts preserve the published rank semantics.
+Scenario pages use horizontal challenge navigation on desktop and a labelled native selector above the map on phones. All ten initial layouts are available; three worlds have two reference replays each. The scenario stage action reveals Rankings in place. Model links preserve the scenario; profile breadcrumbs return to that world and model. Rankings and the cross-scenario matrix remain task views.
 
-The chart and inspector share a desktop grid of `minmax(0,1.45fr) minmax(290px,1fr)` with a 38px gap. At 1000px and below the gap becomes 24px and columns become `minmax(0,1fr) minmax(260px,.8fr)`. The chart initially shows six matching entries; Show all exposes the remainder, while a selected deep-linked entry stays visible. On phones at 700px and below, the inspector moves directly after its selected row. Search remains exposed; entry type, provider, sort and reset move into a native **Filters & sort** disclosure. The metric and format controls remain in the same workspace. The table can scroll horizontally when broader metric lenses require it.
+Benchmark opens actual visual results through `leaderboard.js`; `leaderboard.html` remains a compatibility entry. Chart and inspector use `minmax(0,1.45fr) minmax(290px,1fr)` with a 38px gap. At 1000px these become `minmax(0,1fr) minmax(260px,.8fr)` and 24px. At 700px the inspector follows its selected row. Search stays exposed; native Filters & sort holds secondary controls. Scores, People, API usage and All metrics keep their units; the exact table shares state and data.
 
-Profiles lead with recorded people outcomes and the five lowest scenario scores; seven score components, exact factors and full outcome tables are disclosures. Overview / Scenarios / Diagnostics / Sources remain the profile views. Compare places a compact title, two model selectors and compact score/95% CI summaries before its default Outcomes view; two optional selectors sit in Add more models. This density brings outcome charts into the initial desktop reading area. Compare also offers Scenarios & worlds and Diagnostics. Scenarios retains challenge navigation with actual world/population evidence; methodology retains its reading column, contents and disclosed reference tables. Existing query strings, model IDs and hash links remain meaningful.
+Profiles and comparison place content directly on paper without an enclosing white workspace panel. Profiles lead with people outcomes and the five lowest scenario scores; technical components and per-world evidence remain accessible through native disclosures. Compare places selectors and compact score/95% CI summaries before Outcomes, Scenarios & worlds and Diagnostics. Methodology has a reading column, desktop contents rail and connected loop; the rail disappears on phones.
 
-The global header is generated once by `common.js` on every route: Anantam, Our work, EMBERBenchmark, Methodology and GitHub. Analytical routes add Results / Compare / Scenarios below it. Navigation collapses at 1100px; content layout changes principally at 700px. Mobile menu Escape restores focus to Menu.
+The global header serves Anantam, Our work, EMBERBenchmark, Methodology and GitHub. Analytical subnavigation adds Results, Compare and Scenarios. The menu changes at 1100px; principal evidence layouts change at 1000px and 700px. Preserve skip links, focus restoration, query strings and hashes.
 
 ## Elevation & Depth
 
-Tonal layering, whitespace and thin structural rules provide depth. Shared buttons and panels have no shadow at rest. Selected evidence tabs and the comparison tray use the restrained shared shadow `0 12px 36px #142e510b`. The showcase is white with a thin border; emphasis comes from expansion and its actual contents.
+Tonal layering, whitespace and thin data rules create depth. Shared buttons, the experiment stage and outcome cards are flat at rest. Selected shared evidence tabs and the comparison tray may use `0 12px 36px #142e510b`. Scenario tabs use underlines. Transparent profile and comparison panels let analytical structure provide hierarchy.
 
-Fine hover pointers select showcase panes on entry. Local GSAP interpolates numeric fractional weights for 650ms with `power3.out`; interrupted changes kill the previous expansion. There is no pointer-following tilt. Content enters after a 200ms delay, with opacity at 140ms and a 400ms rise using `cubic-bezier(.2,0,0,1)`. Keyboard, reduced-motion, phone and touch track changes are immediate; keyboard activation also suppresses scene motion.
+Pictographs regroup through interruptible CSS transforms over 580ms with `cubic-bezier(.2,0,0,1)`. Fine-pointer hover separates outcomes; pointer exit restores the grid unless the explicit button has locked grouping. Keyboard activation and reduced motion update immediately. Both arrangements retain exactly one marker per person.
 
-Scene motion is finite: the environment traces its corridor highlight over 1.3 seconds, introduces the eight person markers with a short stagger and fades the fire halo opacity to `.2` once out and back. Results score fills enter over 600ms with a 75ms stagger. Results and methodology use short staged entrances. The environment first plays when the showcase enters view; selecting another pane replaces the current scene. This is an animated initial-state illustration, not an evaluated replay. Reduced motion preserves static artwork and immediate state changes. Pointer selection of a result updates its inspector immediately, then runs a 220ms translateY 6px → 0 entrance with `cubic-bezier(.2,0,0,1)` while text remains fully opaque. Keyboard selection and reduced motion skip that entrance. Search, sorting and native select changes are immediate. Ordinary button response uses 150ms transitions and a 0.96 press scale where motion is allowed.
+Reference frames advance every 430ms only after explicit Play. Local GSAP interpolates actual surviving person positions for 220ms with `power2.out`. Pause, restart, scrub, world/policy changes and hidden documents stop playback. Reduced motion retains user-controlled discrete frames and skips interpolation. The signature and first stage entrance use finite 800ms translations with `power3.out`, without delaying content.
+
+Pointer selection of a loop explanation uses a 200ms, five-pixel rise. Result selection updates its inspector immediately and may use a 220ms, six-pixel entrance with opaque text. Keyboard, search, sorting, native select changes and reduced-motion responses are immediate. Shared buttons use 150ms feedback and a 0.96 press scale where motion is allowed.
 
 ## Shapes
 
-Actions and evidence view selectors use capsules. Analytical surfaces use 16px corners; the showcase uses 18px. Inputs use 8px corners with a stronger semantic border. Phone showcase tabs and chart rows use 8px corners; result inspectors use 12px. Score tracks use 2px corners and people strips use 3px. Controls maintain at least 44px targets; the introductory action is at least 48px tall. Small rounded grid cells describe the map rather than establishing a general card motif.
+Route actions and shared evidence selectors use capsules. The experiment stage uses 16px corners; outcome cards and the scenario stage use 14px. Inputs and loop stages use 8px, player controls 7px, and inspectors 12px. Score tracks use 2px corners and analytical people strips 3px. World cells and tiny person pictographs have local geometry. Main controls maintain 44px minimum targets; home route actions use 48px.
 
 ## Components
 
-### Expanding benchmark showcase
+### Reference replay player
 
-Environment, Results and Methodology are semantic tabs with roving focus, Arrow keys, Home and End. Inactive content is inert and hidden from assistive technology. Hover changes only occur for fine pointers above 700px and do not override a visible keyboard focus inside the showcase. Without GSAP, the CSS-selected state still displays content. Without scripting, the initial environment and its link remain useful.
+World choices, a native reference-agent select, map, counts, source action and playback controls form one stage. Bottleneck, unequal exits and threatened exit each offer Shortest path and Avoid current fire: six independently generated hand-coded reference runs, explicitly illustrative rather than published AI-model results. Some rules produce the same outcome; do not promise a difference.
 
-Environment switches between two actual public initial worlds, loaded from `site/data/preview-worlds.js`: corridor bottleneck (eight people and one exit) and unequal exits (five people and two exits). The map derives obstacles, people, exits and ignition from their actual coordinates. Visible attribution, legend, initial-state caption and exact scenario links accompany the map. The corridor highlight does not claim recorded agent behavior.
+Play/Pause, Restart and a labelled Step range support inspection without autoplay. Switching a world or policy clears the old replay, step, source-record URL and pending metadata before loading. Revision checks prevent stale fetches from replacing the current world. Static initial worlds have no replay controls or source-record download. Failure preserves the initial map and a useful route to evidence.
 
-Results loads the first four AI decision models under the benchmark's existing ordering, with real score bars and the explicit label **EMBER score, 0–100**. Each row opens `benchmark.html?model=…` so the same model is selected in context. Scope states public development results, one trial per model and descriptive ranks. The compact 48px-minimum rows, 44px-minimum link targets and short scope note leave the **View all results** action inside the pane. Its fallback opens `benchmark.html`. Methodology links to the inspectable evaluation and scoring explanation. Keep the contribution focused on this published work.
+The local demo index carries the source commit and record digests. Complete RunRecords and replay frames ship with Apache-2.0 source attribution. Downloads belong to the selected successful load. Maps derive obstacles, people, exits and ignition from actual coordinates; accessible labels distinguish an initial layout from a replay step.
 
-### Visual results and nearby inspector
+### Published outcome pictographs
 
-Each chart row is one full-width button with model identity, the selected metric's value and a proportional bar. The selected row uses `chart-selected`; reference-agent fills use muted ink rather than the AI navy fill. Score uses a fixed 0–100 axis; factor and operational metrics keep their declared units and direction. Missing data is a dash, never zero.
+The two home cards read scores and totals from `site/data/results.js`. Each has exactly 241 person markers across evacuated, avoidable deaths and avoidable stranded outcomes, plus exact numeric legends. Grid and separated arrangements represent the same people. Separate outcomes supports touch and keyboard users and reports its locked state with `aria-pressed`. Inspection and pair comparison open the corresponding published evidence.
 
-Selecting a row updates the nearby inspector with provider, cohort position, EMBER score, 95% CI, people outcomes, best/lowest scenario links and a profile link. Arrow Up/Down, Home and End move selection with focus retained; phones place the inspector after its row. Compare with uses a labelled native select and two compact score tracks, with a descriptive points difference and a link to the full pair comparison. Pointer entrance is brief; keyboard remains instant.
+Scope identifies published AI-model results, one trial and descriptive comparison. Counts sum across worlds while EMBER balances scenario families and includes execution quality. A composite score is not a survival percentage. Never derive marker counts from the score.
 
-The URL preserves `q`, `view`, `kind`, `provider`, `metric`, `direction`, `display`, `model`, `against` and expanded state. Preserve that context across format changes and shared links. Do not reinterpret a family-balanced score as a survival percentage or descriptive differences as significance.
+### Connected evaluation explanation
 
-### People outcomes and disclosed evidence
+Five visible buttons connect Observe → Decide → Simulate → Verify → Score. The return annotation identifies the repeating Observe–Decide–Simulate cycle; verification and scoring follow the completed record. Choosing a stage replaces its explanation and position counter. Left/Right keys move focus and selection immediately. Home and methodology share the component; on phones verification and scoring continue below the first three visible stages.
 
-The same `peopleReadout` appears in the inspector, profile and comparison. A segmented strip uses actual summed outcome counts; the text legend names evacuated people, avoidable deaths, avoidable stranded people and, when present, unavoidable losses. State the individually escapable reference count. Counts summed across worlds are distinct from family-balanced scores.
+### Results and nearby inspector
 
-Profiles and comparisons show these outcomes before technical component detail. Native disclosures retain access to seven score components, exact measurements, diagnostics and per-world tables. Preserve visible one-trial/public-development scope and the distinction between simulation evidence and real evacuation safety.
+Rows carry identity, metric value and a proportional bar. Selection reveals provider, scope, score, 95% CI, people outcomes, scenario evidence, a profile action and quick comparison nearby. Arrow Up/Down, Home and End retain focus. Phones place the inspector after its row. The labelled analytical people strip recurs in profiles and comparison.
 
-### Buttons and fields
+Visual results default to AI decision models; reference agents and all entries are explicit choices. Scores use a fixed 0–100 axis; other metrics keep their units and direction. Missing evidence is a dash. Preserve query, lens, cohort, provider, sort, display, model, comparison and expanded state across shared links and format changes. Custom sorts do not rewrite published rank semantics.
 
-Primary capsules use navy with white text; secondary actions use white with primary ink and a thin border. Hover uses a restrained surface mix only on supported pointers. Use visible focus rings, visible labels and native selects. Disabled actions use their established semantics. Search, filtering, sorting and reset remain immediate.
+### Actions, fields and navigation
 
-### Navigation and evidence controls
+Primary capsules use navy and white; secondary actions use white, ink and a thin border. Player buttons use compact rounded rectangles. Native inputs and selects keep visible labels, semantic disabled states and focus outlines. Provider chips identify providers in text. Shared navigation and current-page cues stay consistent. Technical detail can use native disclosures without concealing the homepage contribution.
 
-Keep the shared header, current-page cues, skip link and mobile Menu behavior consistent. The analytical subnavigation serves research tasks beneath that header. Labels and values supplement provider and chart colors. Empty tooltips are hidden from assistive technology. Selecting 2–4 models creates the comparison tray; fixed published rank remains distinct from a custom sort.
+### Pending analytical loader
 
-### Analytical loader
-
-Benchmark, its leaderboard compatibility route, compare, model, scenarios and methodology show the shared loader only while actual analytical data is pending. The company introduction has no pending-data loader.
-
-The loader centers the supplied infinity emblem, Anantam wordmark and a short status on the paper ground. The still PNG keeps its original colors and transparent outline. `boot.js`, `loader.css` and `cosmos.js` own the temporary alpha-masked canvas flight and lifecycle. Canvas is capped at 30 frames per second and suspended offscreen or in a hidden tab. Reduced motion or unavailable canvas keeps the still artwork. Reload page appears after eight seconds; ready or failed content replaces the loader immediately and teardown releases animation, listeners, observer and timer.
+Analytical routes show the shared loader only while actual data is pending; home has no loader. The supplied still emblem, wordmark and status remain useful when canvas or reduced motion prevents temporary animation. `boot.js`, `loader.css` and `cosmos.js` own the lifecycle. Ready or failed content replaces it immediately and teardown releases its resources.
 
 **The Honest Loading Rule.** Show branded loading only while data is pending; never hold usable content for a brand sequence.
 
@@ -225,20 +248,20 @@ The loader centers the supplied infinity emblem, Anantam wordmark and a short st
 
 ### Do:
 
-- **Do** preserve the supplied logo, local fonts and one light appearance.
-- **Do** keep the company introduction and its action centered.
-- **Do** show the actual scenario, labelled metric and visible evidence scope.
-- **Do** open actual results directly from every benchmark action.
-- **Do** preserve generated-data provenance, model IDs, scoring, confidence intervals and shareable selection/filter parameters.
-- **Do** lead result inspection, profiles and comparison with actual outcomes, then disclose technical evidence.
-- **Do** use immediate keyboard and reduced-motion states and native phone disclosures.
+- Do preserve the supplied transparent navy emblem, local fonts and one light appearance.
+- Do keep the company signature centered and the contribution's player, outcomes and evaluation explanation visible.
+- Do distinguish authenticated illustrative reference replays from published AI-model results.
+- Do retain exact geometry, person counts, labelled metrics, evidence scope and source attribution.
+- Do preserve selected world/model context, native phone controls and immediate keyboard states.
+- Do use finite, interruptible motion to explain real state changes.
+- Do preserve generated results, scoring, confidence intervals, model IDs and shareable analytical state.
 
 ### Don't:
 
-- **Don't** reintroduce a dark theme, a navy marketing statistics card or an emblem mat.
-- **Don't** add a future-outlook section, speculative product catalogue or invented trust metrics.
-- **Don't** substitute an old benchmark hero for the results destination.
-- **Don't** call the initial-state map an evaluated replay or animate people as fabricated evacuation results.
-- **Don't** add pointer tilt, continuous homepage flight or motion required to understand content.
-- **Don't** edit generated results or scoring definitions by hand.
-- **Don't** invent a new visual world, products, layouts or decorative explanatory copy. Applecn and shadcn may inform interaction guidance; this static site does not run their React components.
+- Don't restore the sparse viewport-height hero or conceal the homepage contribution behind expanding rails.
+- Don't add a dark theme, emblem mat, navy marketing-statistics card or speculative product catalogue.
+- Don't autoplay reference replays or present them as the published AI-model runs.
+- Don't leave an old source-record link or replay controls attached to a static or newly loading world.
+- Don't substitute decorative person counts, fake evacuation movement or a survival percentage for actual evidence.
+- Don't wrap every analytical route in the same oversized white panel.
+- Don't edit generated results or scientific definitions by hand, or require motion to understand content.

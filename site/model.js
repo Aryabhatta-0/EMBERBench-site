@@ -130,7 +130,7 @@ async function main() {
         table(
           ["Scenario", "World scores", "EMBER ↑", "Safety ↑", "Worst world ↑"],
           m.scenarios.map((s) => [
-            `<a href="scenarios.html?scenario=${encodeURIComponent(s.name)}">${esc(scenarioName(s.name))}</a>`,
+            `<a href="scenarios.html?scenario=${encodeURIComponent(s.name)}&model=${encodeURIComponent(m.id)}">${esc(scenarioName(s.name))}</a>`,
             count(s.episodes),
             fmt(s.score),
             ratio(s.safety),
@@ -177,6 +177,12 @@ async function main() {
     `<div id="api">${section("API efficiency", a ? "Recorded operational measurements; absent values stay —." : "Reference agent: no remote API.", apiContent)}</div>` +
     `<div id="provenance">${section("Reproducibility / provenance", "Official score reports, generated data, and explicit uncertainty limits.", provenance(data, m) + `<p class="note">${count(t.trials)} trial for this model. Reported 95% CIs resample the evaluated world evidence and cannot measure unobserved between-trial variability with one trial. The current snapshot does not expose all report provenance fields; those are shown as — pending regeneration from the original reports.</p>`)}</div>`;
   redesignProfile(m);
+  const originWorld=new URLSearchParams(location.search).get('scenario');
+  if(m.scenarios.some(s=>s.name===originWorld)){
+    const back=document.querySelector('.profile-head .breadcrumb');
+    back.href=`scenarios.html?scenario=${encodeURIComponent(originWorld)}&model=${encodeURIComponent(m.id)}`;
+    back.textContent=`Back to ${scenarioName(originWorld)}`;
+  }
   document.getElementById("browse-model").addEventListener("change", (e) => {
     location.href = `model.html?id=${encodeURIComponent(e.target.value)}`;
   });
