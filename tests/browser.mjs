@@ -34,6 +34,7 @@ const audit = async label => {
   });
   accessibility.push({ label, violations: result });
 };
+const openFilters=async()=>{if(!(await page.locator('.results-options').getAttribute('open')!==null))await page.locator('.results-options>summary').click();};
 try {
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: width < 700 ? 844 : 1000 });
@@ -53,8 +54,8 @@ try {
   await audit('Leaderboard light');
   await page.locator('#search').fill('no-such-model-anantam');
   check('Search empty state', (await page.locator('#visual-results').innerText()).includes('No matching models'));
-  await page.getByRole('button', { name:'Reset filters',exact:true }).click();
-  check('Filters reset to AI decision models', (await page.locator('#inspect-model option').count()) === data.models.filter(m=>m.kind==='Decision model').length);
+  await openFilters();await page.getByRole('button', { name:'Reset filters',exact:true }).click();
+  check('Filters reset to AI decision models', (await page.locator('[data-plot-select]').count()) === data.models.filter(m=>m.kind==='Decision model').length);
   check('Results do not embed comparison tables or selectors',await page.locator('main table,[data-select-model],.quick-compare').count()===0);
   await go(`compare.html?models=${encodeURIComponent(data.models.slice(0,2).map(m=>m.id).join(','))}`);
   check('Dedicated comparison page opens',await page.locator('.compare-card').count()===2);
@@ -81,8 +82,8 @@ try {
   await go('benchmark.html');
   check('Benchmark shows JEV 1.14 as leading decision model',await page.locator('#visual-results').innerText().then(t=>t.includes('typesafe/jev-1.14')));
   await go('leaderboard.html?q=jev');
-  check('Both evaluated JEV versions are searchable',await page.locator('#inspect-model option').count() === 2);
-  check('Leaderboard replaces latest alias with evaluated 1.13',await page.locator('#visual-results').innerText().then(t=>t.includes('typesafe/jev-1.13') && !t.includes('jev-latest')));
+  check('Both evaluated JEV versions are searchable',await page.locator('[data-plot-select]').count() === 2);
+  check('Leaderboard replaces latest alias with evaluated 1.13',await page.locator('.column-model').evaluateAll(els=>els.map(el=>el.getAttribute('aria-label')).join('|')).then(t=>t.includes('typesafe/jev-1.13')&&!t.includes('jev-latest')));
   await go('compare.html?models=typesafe-jev-latest-choice-r1,openrouter-typesafe_jev-1.14-choice-r1');
   check('Version comparison retains both reports',await page.locator('.compare-card h2').allTextContents().then(names=>names.join('|') === 'typesafe/jev-1.13|typesafe/jev-1.14'));
   await go('model.html?id=typesafe-jev-latest-choice-r1');

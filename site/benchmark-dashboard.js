@@ -1,4 +1,4 @@
-import {esc,fmt,count,scenarioName,isDecision} from './common.js?v=20261027-boundless-1';
+import {esc,fmt,count,scenarioName,isDecision} from './common.js?v=20261027-distill-1';
 import {METRICS,finite,leaderboardOrder} from './analytics.js';
 
 export const PAGE_SIZE=10;
@@ -31,7 +31,7 @@ function scatter(models,selected){
 
 function outcomes(model){
   const parts=outcomeParts(model),total=parts.reduce((a,p)=>a+p[2],0),circle=2*Math.PI*43;let offset=0;
-  return `<section class="dashboard-panel outcome-panel" id="outcomes" aria-labelledby="people-plot-title"><header class="dashboard-panel-head"><div><h2 id="people-plot-title">People outcomes</h2><p>Selected model · Counts across evaluated worlds</p></div></header><div class="outcome-donut"><svg viewBox="0 0 120 120" role="img" aria-label="${esc(model.name)}: ${parts.map(p=>`${p[2]} ${p[1].toLowerCase()}`).join(', ')}"><circle class="donut-track" cx="60" cy="60" r="43"/>${parts.map(([cls,,n])=>{const length=total?n/total*circle:0;const arc=`<circle class="donut-arc ${cls}" cx="60" cy="60" r="43" stroke-dasharray="${length} ${circle-length}" stroke-dashoffset="${-offset}" transform="rotate(-90 60 60)"/>`;offset+=length;return n?arc:'';}).join('')}<text class="donut-total" x="60" y="59">${count(total)}</text><text class="donut-unit" x="60" y="76">people</text></svg><dl class="donut-key">${parts.filter(p=>p[2]||p[0]!=='unavoidable').map(([cls,label,n])=>`<div><dt><i class="${cls}"></i>${label}</dt><dd>${count(n)}</dd></div>`).join('')}</dl></div><p class="panel-caption">Counts describe outcomes; EMBER is a composite score.</p></section>`;
+  return `<section class="dashboard-panel outcome-panel" id="outcomes" aria-labelledby="people-plot-title"><header class="dashboard-panel-head"><div><h2 id="people-plot-title">People outcomes</h2><p>${esc(model.name)} · Counts across evaluated worlds</p></div></header><div class="outcome-donut"><svg viewBox="0 0 120 120" role="img" aria-label="${esc(model.name)}: ${parts.map(p=>`${p[2]} ${p[1].toLowerCase()}`).join(', ')}"><circle class="donut-track" cx="60" cy="60" r="43"/>${parts.map(([cls,,n])=>{const length=total?n/total*circle:0;const arc=`<circle class="donut-arc ${cls}" cx="60" cy="60" r="43" stroke-dasharray="${length} ${circle-length}" stroke-dashoffset="${-offset}" transform="rotate(-90 60 60)"/>`;offset+=length;return n?arc:'';}).join('')}<text class="donut-total" x="60" y="59">${count(total)}</text><text class="donut-unit" x="60" y="76">people</text></svg><dl class="donut-key">${parts.filter(p=>p[2]||p[0]!=='unavoidable').map(([cls,label,n])=>`<div><dt><i class="${cls}"></i>${label}</dt><dd>${count(n)}</dd></div>`).join('')}</dl></div><p class="panel-caption">Counts describe outcomes; EMBER is a composite score.</p></section>`;
 }
 
 function scenarios(selected){
@@ -40,11 +40,10 @@ function scenarios(selected){
 }
 
 export function dashboard(data,models,selected,state,value){
-  return `<nav class="chart-nav" aria-label="Chart sections"><a href="#ranking">Ranking</a><a href="#factors">Safety &amp; quality</a><a href="#outcomes">People outcomes</a><a href="#scenario-results">Scenarios</a></nav><div class="dashboard-selection"><label for="inspect-model">Inspect model</label><select id="inspect-model">${models.map(m=>`<option value="${esc(m.id)}" ${m.id===selected.id?'selected':''}>${esc(m.name)}</option>`).join('')}</select><span><b>${fmt(selected.score)}</b> EMBER / 100</span><a href="model.html?id=${encodeURIComponent(selected.id)}">Model profile</a></div><div class="benchmark-dashboard">${columns(data,models,selected,state,value)}${scatter(models,selected)}${outcomes(selected)}${scenarios(selected)}</div><p class="plot-note">EMBER combines safety and execution quality. It is not the percentage of people saved. Rankings use the scientific tie-breaks. API metadata may cover only a resumed run’s final invocation. Missing data is not zero.</p>`;
+  return `<div class="benchmark-dashboard">${columns(data,models,selected,state,value)}${scatter(models,selected)}${outcomes(selected)}${scenarios(selected)}</div><p class="plot-note">EMBER combines safety and execution quality. It is not the percentage of people saved. Rankings use the scientific tie-breaks. API metadata may cover only a resumed run’s final invocation. Missing data is not zero.</p>`;
 }
 
 export function bindDashboard(root,handlers){
-  root.querySelector('#inspect-model')?.addEventListener('change',e=>handlers.inspect(e.target.value,false,'select'));
   root.querySelectorAll('[data-chart-page]').forEach(b=>b.addEventListener('click',()=>handlers.page(Number(b.dataset.chartPage),b.getAttribute('aria-label').startsWith('Next')?'next':'previous')));
   root.querySelectorAll('[data-plot-select]').forEach(b=>{
     b.addEventListener('click',()=>handlers.inspect(b.dataset.plotSelect,true,'scatter'));

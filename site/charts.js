@@ -6,7 +6,7 @@ import {
   table,
   COMPONENTS,
   ratio,
-} from "./common.js?v=20261027-boundless-1";
+} from "./common.js?v=20261027-distill-1";
 import { finite, METRICS, paretoFrontier, provider, providerInfo } from "./analytics.js";
 
 export const legend = () =>

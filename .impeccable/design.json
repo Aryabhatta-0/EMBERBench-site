@@ -385,7 +385,10 @@
       "Do not embed comparison tables or comparison selectors on results.",
       "Keep results full width with open chart sections.",
       "Documentation links open local complete guides.",
-      "Anantam’s tagline is always Boundless Possibilities. Hero uses pale drifting contours without a darker traveling stroke, on a light mist-blue/porcelain/ivory gradient."
+      "Anantam’s tagline is always Boundless Possibilities. Hero uses pale drifting contours without a darker traveling stroke, on a light mist-blue/porcelain/ivory gradient.",
+      "Results begin with only one compact search and a closed Filters disclosure. Avoid duplicate metric/model controls and chart-navigation rows.",
+      "Do not add a second benchmark CTA or navigation links inside the homepage contribution.",
+      "Methodology has no benchmark sub-navigation or results CTA."
     ],
     "dos": [
       "Use root palette tokens.",

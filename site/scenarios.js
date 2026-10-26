@@ -1,4 +1,4 @@
-import { editorHeader, workspaceTabs, disclosure } from "./workspace.js";
+import { editorHeader, workspaceTabs, disclosure } from "./workspace.js?v=20261027-distill-1";
 import {
   loadResults,
   shell,
@@ -13,7 +13,7 @@ import {
   errorPage,
   REPO,
   scenarioName,
-} from "./common.js?v=20261027-boundless-1";
+} from "./common.js?v=20261027-distill-1";
 import { filterModels, finite, worldKey } from "./analytics.js";
 import { heatmap } from "./charts.js";
 

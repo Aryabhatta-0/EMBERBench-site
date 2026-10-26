@@ -28,6 +28,7 @@ try{
  await page.setViewportSize({width:1440,height:1000});await go(page);
  check('Anantam uses its exact requested tagline',await page.locator('.company-hero>p').textContent()==='Boundless Possibilities'&&await page.title()==='Anantam | Boundless Possibilities');
  check('Light gradient belongs to the hero and no dark runner remains',await page.locator('.company-hero').evaluate(el=>getComputedStyle(el).backgroundImage.includes('gradient'))&&await page.locator('.ribbon-current').count()===0);
+ check('Homepage contribution has no duplicate navigation or CTA',await page.locator('#contributions a').count()===0&&await page.locator('.hero-action').count()===1);
  check('Hero opens actual published results directly',await page.locator('.hero-action').getAttribute('href')==='benchmark.html');
  await page.locator('.hero-action').click();await page.locator('.result-chart').waitFor();
  check('Hero action reaches the benchmark chart',await page.locator('.result-chart').isVisible());

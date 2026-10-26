@@ -14,6 +14,7 @@ page.on('pageerror',e=>errors.push(e.message));
 const go=async route=>{await page.goto(new URL(route,base).href);await page.locator('.site-footer').waitFor();await page.evaluate(()=>document.fonts.ready);};
 const audit=async label=>{await page.evaluate(axe);audits.push({label,violations:await page.evaluate(async()=>(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})).violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})))});};
 const models=leaderboardOrder(data.models.filter(m=>m.kind==='Decision model'));
+const openFilters=async()=>{if(!(await page.locator('.results-options').getAttribute('open')!==null))await page.locator('.results-options>summary').click();};
 try{
  for(const [width,height] of [[1280,800],[1440,900],[1920,1080],[768,1024],[390,844],[320,844]]){
   await page.setViewportSize({width,height});await go('benchmark.html');
@@ -32,23 +33,22 @@ try{
   check('Paging never lengthens the chart',await page.locator('.rank-panel').evaluate(el=>el.getBoundingClientRect().height)===height);
  }while(true);
  check('Every model is reachable without lengthening the chart',seen.size===models.length);
- await page.locator('#inspect-model').selectOption(models[12].id);
+ await page.locator(`[data-plot-select="${models[12].id}"]`).focus();await page.keyboard.press('Enter');
  check('One model selection updates all four charts',await page.locator('.column-model.is-inspected').getAttribute('data-inspect')===models[12].id&&await page.locator('.factor-point.is-selected').getAttribute('data-plot-select')===models[12].id&&(await page.locator('.outcome-donut svg').getAttribute('aria-label')).includes(models[12].name)&&(await page.locator('.scenario-panel .dashboard-panel-head p').textContent()).includes(models[12].name));
  const selected=models[12];
  check('Donut categories preserve exact published counts',(await page.locator('.donut-key dd').allTextContents()).join('|')===[selected.totals.evacuated,selected.totals.avoidable_casualties,selected.totals.avoidable_stranded].join('|'));
  check('All ten scenarios show exact selected-model evidence together',await page.locator('.scenario-bars li').count()===10&&Number(await page.locator('.scenario-bars li').nth(5).locator('b').textContent())===Number(selected.scenarios.find(s=>s.name==='v1-pub-06-threatened-exit').score.toFixed(1)));
  check('Scenario cells preserve both world and model context',(await page.locator('.scenario-bars li').nth(5).locator('a').getAttribute('href')).includes(`scenario=v1-pub-06-threatened-exit&model=${encodeURIComponent(selected.id)}`));
  await page.reload();await page.locator('.benchmark-dashboard').waitFor();
- check('Reload preserves model with all scenarios available',await page.locator('#inspect-model').inputValue()===selected.id&&await page.locator('.scenario-bars li').count()===10);
+ check('Reload preserves model with all scenarios available',await page.locator('#inspector-title').textContent()===selected.name&&await page.locator('.scenario-bars li').count()===10);
  check('Results contain no comparison table or comparison controls',await page.locator('main table,#scenario-compare,#compare-against,.quick-compare,[data-select-model]').count()===0);
  check('Results use the viewport without an enclosing card',await page.locator('main').evaluate(el=>{const r=el.getBoundingClientRect();return r.left===0&&r.width===document.documentElement.clientWidth&&getComputedStyle(document.querySelector('.leaderboard-workspace')).backgroundColor==='rgba(0, 0, 0, 0)'&&getComputedStyle(document.querySelector('.rank-panel')).borderRadius==='0px';}));
- await page.locator('.chart-nav a[href="#factors"]').click();
- await page.waitForFunction(()=>{const r=document.querySelector('.scatter-panel').getBoundingClientRect();return r.top>=0&&r.top<innerHeight/2;});
- check('Chart navigation jumps directly to the large plot',await page.locator('.scatter-panel').evaluate(el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.top<innerHeight/2;}));
- await page.locator('#inspect-model').selectOption(models[1].id);
+ check('Redundant chart tabs and model selector are absent',await page.locator('.chart-nav,.dashboard-selection,#inspect-model,[data-metric-view]').count()===0);
+ check('Filter options are closed by default',!(await page.locator('.results-options').evaluate(el=>el.open))&&await page.locator('#search').isVisible());
+ await page.locator(`[data-plot-select="${models[1].id}"]`).focus();await page.keyboard.press('Enter');
  const point=page.locator(`[data-plot-select="${models[2].id}"]`);await point.focus();await page.keyboard.press('Enter');
- check('A keyboard-activated scatter point updates the whole view',await page.locator('#inspect-model').inputValue()===models[2].id&&await page.locator('.factor-point.is-selected').evaluate(el=>document.activeElement===el));
- await page.getByRole('button',{name:'API usage',exact:true}).click();await page.locator('#kind').selectOption('Reference agent');
+ check('A keyboard-activated scatter point updates the whole view',await page.locator('#inspector-title').textContent()===models[2].name&&await page.locator('.factor-point.is-selected').evaluate(el=>document.activeElement===el));
+ await openFilters();await page.locator('#metric').selectOption('cost');await page.locator('#kind').selectOption('Reference agent');
  check('Missing API costs are omitted rather than plotted as zero',await page.locator('.column-missing').count()===data.models.filter(m=>m.kind==='Reference agent').length&&await page.locator('.column-model b').allTextContents().then(v=>v.every(t=>t==='—')));
  await audit('Reference data missing API values');
  await page.locator('#search').fill('no-such-model');check('Empty chart filters offer recovery',await page.getByRole('heading',{name:'No matching models.',exact:true}).isVisible());
@@ -61,6 +61,7 @@ try{
  await page.locator('.site-footer').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('.company-hero').dataset.motion==='paused');
  check('Particle motion pauses offscreen',await page.locator('.company-hero').getAttribute('data-motion')==='paused');
  await page.emulateMedia({reducedMotion:'reduce'});await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
+ await page.waitForFunction(()=>document.querySelector('.company-hero').dataset.motion==='reduced');
  check('Reduced motion leaves a static visible hero',await page.locator('[data-motion-toggle]').count()===0&&await page.locator('.company-hero').getAttribute('data-motion')==='reduced'&&await page.locator('.hero-action').isVisible());
  await audit('Reduced-motion company hero');
  await page.emulateMedia({reducedMotion:'no-preference'});await go('index.html');

@@ -1,4 +1,4 @@
-import {shell,loadResults,esc,fmt} from './common.js?v=20261027-boundless-1';
+import {shell,loadResults,esc,fmt} from './common.js?v=20261027-distill-1';
 import {mountEvaluationLoop} from './evaluation-loop.js';
 import {mountHeroMotion} from './hero-motion.js?v=20261027-continuous-lines-1';
 
@@ -28,7 +28,7 @@ loadResults().then(data=>{
   const models=['openrouter-typesafe_jev-1.14-choice-r1','openrouter-nace-ai_drex-v2.0-choice-r1'].map(id=>data.models.find(m=>m.id===id)).filter(Boolean);
   document.getElementById('outcome-cards').innerHTML=models.map(m=>{
     const t=m.totals,groups=[['evacuated',t.evacuated],['casualty',t.avoidable_casualties],['stranded',t.avoidable_stranded]];
-    return `<article class="outcome-card"><div class="outcome-card-title"><h4>${esc(m.name)}</h4><a class="outcome-open" href="benchmark.html?model=${encodeURIComponent(m.id)}" aria-label="Inspect ${esc(m.name)}">${arrow}</a></div><div class="outcome-score"><strong>${fmt(m.score)}</strong><span>EMBER / 100</span></div><div class="people-art" role="img" aria-label="${t.evacuated} evacuated, ${t.avoidable_casualties} avoidable deaths and ${t.avoidable_stranded} avoidable stranded"><div class="people-art-inner">${groups.map(([type,n])=>Array.from({length:n},()=>`<span class="outcome-person" data-outcome="${type}"></span>`).join('')).join('')}</div></div><dl class="outcome-key">${groups.map(([type,n])=>`<div><dt><i class="${type}-key"></i>${type==='evacuated'?'Evacuated':type==='casualty'?'Avoidable deaths':'Avoidable stranded'}</dt><dd>${n}</dd></div>`).join('')}</dl><button type="button" class="group-outcomes" data-group-outcomes aria-pressed="false">Separate outcomes${arrow}</button></article>`;
+    return `<article class="outcome-card"><div class="outcome-card-title"><h4>${esc(m.name)}</h4></div><div class="outcome-score"><strong>${fmt(m.score)}</strong><span>EMBER / 100</span></div><div class="people-art" role="img" aria-label="${t.evacuated} evacuated, ${t.avoidable_casualties} avoidable deaths and ${t.avoidable_stranded} avoidable stranded"><div class="people-art-inner">${groups.map(([type,n])=>Array.from({length:n},()=>`<span class="outcome-person" data-outcome="${type}"></span>`).join('')).join('')}</div></div><dl class="outcome-key">${groups.map(([type,n])=>`<div><dt><i class="${type}-key"></i>${type==='evacuated'?'Evacuated':type==='casualty'?'Avoidable deaths':'Avoidable stranded'}</dt><dd>${n}</dd></div>`).join('')}</dl><button type="button" class="group-outcomes" data-group-outcomes aria-pressed="false">Separate outcomes${arrow}</button></article>`;
   }).join('');
   for(const card of document.querySelectorAll('.outcome-card')){
     let locked=false;
@@ -39,4 +39,4 @@ loadResults().then(data=>{
     card.querySelector('[data-group-outcomes]').addEventListener('click',e=>{locked=!locked;e.currentTarget.setAttribute('aria-pressed',String(locked));setGrouping(card,locked,e.detail===0);});
     reduced.addEventListener('change',()=>setGrouping(card,card.dataset.grouped==='true',true));
   }
-}).catch(()=>{document.getElementById('outcome-cards').innerHTML='<p class="result-preview-error">The preview could not load. <a href="benchmark.html">Open the benchmark</a> to try again.</p>';});
+}).catch(()=>{document.getElementById('outcome-cards').innerHTML='<p class="result-preview-error">Results preview unavailable.</p>';});

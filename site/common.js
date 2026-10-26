@@ -167,12 +167,12 @@ export function shell(data, active) {
     "afterend",
     `<footer class="site-footer container"><div><a href="index.html" class="footer-brand"><img src="assets/anantam-logo.png" width="30" height="30" alt="">Anantam</a><p class="muted">Boundless Possibilities</p></div><div><a href="leaderboard.html">Leaderboard</a><a href="scenarios.html">Scenarios</a><a href="methodology.html#provenance">Data provenance</a><a href="docs/scoring.html">Scoring specification <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></footer>`,
   );
-  if (company) document.querySelector('.status-banner')?.remove();
+  if (company || active==='methodology') document.querySelector('.status-banner')?.remove();
   document.querySelector('.site-footer > div:first-child').innerHTML = `<a href="index.html" class="footer-brand"><img src="assets/anantam-logo.png" width="30" height="30" alt="">Anantam</a><p class="muted">Boundless Possibilities</p>`;
   if (company) {
-    document.querySelector('.site-footer > div:last-child').innerHTML = '<a href="docs.html">Docs</a><a href="https://github.com/Aryabhatta-0/EMBERBench">Source code</a>';
+    document.querySelector('.site-footer > div:last-child').remove();
   }
-  if (!company) {
+  if (!company && active!=='methodology') {
     const links = [['leaderboard','benchmark.html','Results'],['compare','compare.html','Compare'],['scenarios','scenarios.html','Scenarios']];
     document.querySelector('.status-banner').outerHTML = `<nav class="benchmark-subnav" aria-label="Benchmark navigation">${links.map(([id,href,label]) => `<a href="${href}" ${id === active ? 'aria-current="page"' : ''}>${label}</a>`).join('')}</nav>`;
   }

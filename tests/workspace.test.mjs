@@ -22,6 +22,7 @@ const audit = async name => {
 };
 const profile = data.models.filter(m=>m.kind === 'Decision model').sort((a,b)=>b.score-a.score)[0];
 const routes = [['leaderboard','leaderboard.html'],['compare','compare.html'],['model',`model.html?id=${encodeURIComponent(profile.id)}`],['scenarios','scenarios.html'],['methodology','methodology.html']];
+const openFilters=async()=>{if(!(await page.locator('.results-options').getAttribute('open')!==null))await page.locator('.results-options>summary').click();};
 try {
   for (const width of [320,390,768,1440]) {
     await page.setViewportSize({width,height:width < 700 ? 844 : 1000});
@@ -34,14 +35,18 @@ try {
   }
   await go('leaderboard.html?display=table');
   check('Legacy table URLs open chart-only results',await page.locator('main table').count()===0&&await page.locator('.column-chart').isVisible());
-  await page.getByRole('button',{name:'API usage',exact:true}).click();
+  await openFilters();await page.locator('#metric').selectOption('cost');
   check('API view plots cost',await page.locator('#metric').inputValue()==='cost'&&await page.locator('#rank-plot-title').textContent()==='API cost');
   check('API view retains people and safety charts',await page.locator('.scatter-panel,.outcome-panel').count()===2);
   await page.reload(); await page.locator('.site-footer').waitFor();
-  check('Measurement lens survives reload',await page.getByRole('button',{name:'API usage',exact:true}).getAttribute('aria-pressed') === 'true');
+  check('Measurement lens survives reload',await page.locator('#metric').inputValue()==='cost');
   check('All eleven measured metrics remain available to plot',await page.locator('#metric option').count()===11);
-  await page.locator('#metric').selectOption('safety');
+  await openFilters();await page.locator('#metric').selectOption('safety');
   check('Metric selection updates the ranking chart',await page.locator('#rank-plot-title').textContent()==='Safety');
+  await page.keyboard.press('Escape');
+  check('Escape closes filter options and restores focus',await page.locator('.results-options').evaluate(el=>!el.open&&document.activeElement===el.querySelector('summary')));
+  await openFilters();await page.locator('.benchmark-heading h1').click();
+  check('Clicking outside dismisses filter options',await page.locator('.results-options').evaluate(el=>!el.open));
   await go('compare.html');
   await page.getByRole('tab',{name:'Outcomes',exact:true}).focus(); await page.keyboard.press('ArrowRight');
   check('Comparison keyboard view navigation',await page.getByRole('tab',{name:'Scenarios & worlds',exact:true}).getAttribute('aria-selected') === 'true');
@@ -78,6 +83,7 @@ try {
   check('Phone can reveal all scenario measurements',await page.locator('#scenario-ranking').getAttribute('data-expanded') === 'true');
   await page.setViewportSize({width:1440,height:1000});
   await go('methodology.html');
+  check('Methodology has no benchmark sub-navigation or results CTA',await page.locator('.benchmark-subnav,.editorial-aside').count()===0&&await page.getByRole('link',{name:'Explore the results',exact:true}).count()===0);
   await page.getByRole('link',{name:'The score',exact:true}).click();
   check('Guide links point to retained source anchors',new URL(page.url()).hash === '#score-title');
   await page.setViewportSize({width:1440,height:1000});

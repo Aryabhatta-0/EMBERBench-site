@@ -21,6 +21,7 @@ const audit=async label=>{
   await page.evaluate(axe);
   audits.push({label,violations:await page.evaluate(async()=>{const r=await window.axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}});return r.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}));})});
 };
+const openFilters=async()=>{if(!(await page.locator('.results-options').getAttribute('open')!==null))await page.locator('.results-options>summary').click();};
 try {
   await go('benchmark.html');
   check('Entry begins with real AI model charts without comparison tables',await page.locator('.result-chart').isVisible() && await page.locator('main table').count()===0 && await page.locator('#kind').inputValue()==='Decision model');
@@ -37,19 +38,19 @@ try {
   check('Comparison tools are absent from results',await page.locator('.quick-compare,#compare-against,#scenario-compare').count()===0);
   await page.reload();await page.locator('#inspector-title').waitFor();
   check('Reload restores selected model',await page.locator('#inspector-title').textContent()===ai[1].name);
-  await page.getByRole('button',{name:'People',exact:true}).click();
+  await openFilters();await page.locator('#metric').selectOption('evacuated');
   const people=sortModels(ai,'evacuated','desc');
   check('People lens displays actual counts and sorts for that question',await page.locator('[data-inspect]').first().getAttribute('data-inspect')===people[0].id && await page.locator('.plot-heading').innerText().then(t=>t.includes('people')));
-  await page.getByRole('button',{name:'API usage',exact:true}).click();
+  await openFilters();await page.locator('#metric').selectOption('cost');
   check('API chart makes measurement limits visible',(await page.locator('.plot-note').textContent()).includes('Missing data is not zero'));
   await page.locator('#kind').selectOption('Reference agent');
   check('Reference agents have no invented zero API cost',await page.locator('.chart-model b').allTextContents().then(v=>v.every(t=>t==='—')));
   await audit('Missing API reference results');
-  await page.getByRole('button',{name:'Reset filters',exact:true}).click();
-  await page.getByRole('button',{name:'Scores',exact:true}).click();
+  await openFilters();await page.getByRole('button',{name:'Reset filters',exact:true}).click();
+  await openFilters();await page.locator('#metric').selectOption('score');
   await page.locator('#search').fill('nothing-matches');
   check('Visual search has a recovery state',await page.getByRole('heading',{name:'No matching models.',exact:true}).isVisible());
-  await page.getByRole('button',{name:'Reset filters',exact:true}).click();
+  await openFilters();await page.getByRole('button',{name:'Reset filters',exact:true}).click();
   const seen=new Set();
   do{
     for(const id of await page.locator('[data-inspect]').evaluateAll(els=>els.map(el=>el.dataset.inspect)))seen.add(id);

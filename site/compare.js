@@ -1,4 +1,4 @@
-import { editorHeader, workspaceTabs, disclosure } from "./workspace.js";
+import { editorHeader, workspaceTabs, disclosure } from "./workspace.js?v=20261027-distill-1";
 import {comparisonReadout} from './evidence-readout.js';
 import {
   loadResults,
@@ -22,7 +22,7 @@ import {
   scenarioName,
   errorPage,
   isDecision,
-} from "./common.js?v=20261027-boundless-1";
+} from "./common.js?v=20261027-distill-1";
 import {
   selectedIds,
   pairedDifferences,

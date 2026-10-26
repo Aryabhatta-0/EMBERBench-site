@@ -6,6 +6,8 @@
 /* Waiver: preserve the user's centered hero and two-section structure; user requested fewer layouts. Retired: evacuation maps, player controls, routing-rule selectors and replay downloads across all routes. */
 :root{--hero-surface:#e9eff7;--hero-ink:#142e51;--hero-emblem-size:76px;--company-measure:1328px;--company-gutter:44px;--outcome-safe:#376f61;--outcome-death:#b75b3f;--outcome-stranded:#b18d34;}
 html{scroll-behavior:smooth;scroll-padding-top:100px;}
+p.outcome-end{font-size:13px;color:var(--text-muted);margin:20px 0 0;padding:0;}
+.outcome-caption{font-size:13px;color:var(--text-secondary);margin:0 0 24px;}
 body[data-page='company'] main.container{max-width:none;padding:0;}
 .company-hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px var(--company-gutter) 52px;background:var(--hero-surface);color:var(--hero-ink);}
 .company-signature{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
