@@ -281,9 +281,9 @@
         "purpose": "Shared action feedback only where motion is allowed."
       },
       {
-        "name": "brand-ribbon",
-        "value": "1.9s contour entry; finite accents complete within 4.15s",
-        "purpose": "Edge-to-edge full-window hero and header. Fixed side positions, clipped artwork, no pause button or looping motion. Reduced motion and no-GSAP fallback stay static."
+        "name": "fine-particle-entrance",
+        "value": "4s finite drift; 30fps; DPR capped at1.5",
+        "purpose": "One batched Canvas field settles around a quiet reading center. Reduced motion is static; hidden/offscreen settles immediately; static SVG fallback; no pointer tracking or pause button."
       }
     ],
     "breakpoints": [
@@ -371,7 +371,7 @@
   ],
   "narrative": {
     "northStar": "The supplied identity, direct access to research.",
-    "overview": "Original navy identity on porcelain and mist blue, with flowing brand ribbons in fixed positions and a full-window hero. The benchmark opens a bounded four-chart overview: ranking columns, safety/quality scatter, published people outcomes and scenario scores. No evacuation grid or replay UI.",
+    "overview": "Original navy identity on porcelain and mist blue, with fine particles and a full-window hero. The benchmark opens a bounded four-chart overview: ranking columns, safety/quality scatter, published people outcomes and scenario scores. No evacuation grid or replay UI.",
     "keyCharacteristics": [
       "Light only",
       "Original navy emblem and local fonts",
