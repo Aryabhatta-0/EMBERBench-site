@@ -1,67 +1,69 @@
-// Fine decorative dust in a continuous, slow upward current.
-function particleField(count) {
-  let seed=271027;
-  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
-  const normal=()=>Math.sqrt(-2*Math.log(Math.max(random(),.000001)))*Math.cos(2*Math.PI*random());
-  const points=[];
-  while(points.length<count){
-    const side=points.length%2,y=.5+normal()*.24,x=(side?.87:.13)+normal()*.105+.035*Math.sin(y*6+(side?2:0));
-    if(x<-.02||x>1.02||y<.025||y>.975||(x>.31&&x<.69&&y>.17&&y<.87))continue;
-    points.push({x,y,r:.55+random()*.55,phase:random()*Math.PI*2,speed:12+random()*14,bucket:Math.floor(random()*5)});
-  }
-  return points;
-}
-
+// Particles assemble into the supplied emblem's actual alpha silhouette.
 export function mountHeroMotion(hero) {
-  const canvas=hero.querySelector('.particle-canvas');
+  const canvas=hero.querySelector('.particle-canvas'),image=hero.querySelector('.hero-emblem');
   let context;
-  try{context=canvas?.getContext('2d',{alpha:true});}catch{/* Static SVG remains available. */}
+  try{context=canvas?.getContext('2d',{alpha:true});}catch{}
   if(!context){hero.dataset.motion='static';return;}
-  const reduced=matchMedia('(prefers-reduced-motion:reduce)');
-  const abort=new AbortController();
-  let width=0,height=0,points=[],frame=0,previous=0,lastPaint=0,elapsed=0,visible=true,disposed=false;
-  let ink=getComputedStyle(hero).getPropertyValue('--particle-ink').trim();
-  const paint=time=>{
-    context.clearRect(0,0,width,height);
-    context.fillStyle=ink;
-    for(let bucket=0;bucket<5;bucket++){
-      context.globalAlpha=.28+bucket*.095;context.beginPath();
-      for(const point of points){
-        if(point.bucket!==bucket)continue;
-        const x=point.x*width+Math.sin(point.phase+time*.45)*18;
-        const span=height+80;
-        const y=((point.y*height-time*point.speed+40)%span+span)%span-40;
-        if(Math.abs(x-width*.5)<width*(width<=700?.29:.21))continue;
-        context.moveTo(x+point.r,y);context.arc(x,y,point.r,0,Math.PI*2);
+  const reduced=matchMedia('(prefers-reduced-motion:reduce)'),abort=new AbortController();
+  let width=0,height=0,points=[],frame=0,previous=0,lastPaint=0,elapsed=0,visible=true,disposed=false,ready=false;
+  const ink=getComputedStyle(hero).getPropertyValue('--particle-ink').trim();
+  function particles(){
+    const sample=document.createElement('canvas');sample.width=sample.height=220;
+    const sampler=sample.getContext('2d',{willReadFrequently:true});sampler.drawImage(image,0,0,220,220);
+    const pixels=sampler.getImageData(0,0,220,220).data,targets=[];
+    for(let y=1;y<220;y+=2)for(let x=1;x<220;x+=2){const p=(y*220+x)*4;if(pixels[p+3]>100&&pixels[p]+pixels[p+1]+pixels[p+2]<650)targets.push({x:x/220,y:y/220});}
+    if(!targets.length)throw new Error('Emblem silhouette unavailable');
+    let seed=271027;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+    const box=hero.getBoundingClientRect(),mark=image.getBoundingClientRect(),cx=mark.x-box.x+mark.width/2,cy=mark.y-box.y+mark.height/2;
+    const short=height<400,rx=short?mark.width*1.3:Math.min(width*.4,480),ry=short?mark.height:Math.min(150,height*.19);
+    const count=Math.min(width<=700?1000:1800,targets.length);points=[];
+    for(let i=0;i<count;i++){
+      const target=targets[Math.floor(i*targets.length/count)],angle=random()*Math.PI*2,distance=.35+random()*.65;
+      points.push({tx:mark.x-box.x+target.x*mark.width,ty:mark.y-box.y+target.y*mark.height,
+        sx:cx+Math.cos(angle)*rx*distance,sy:Math.max(10,cy+Math.sin(angle)*(Math.sin(angle)>0?mark.height*.42:ry)*distance),
+        delay:random()*.35,bend:(random()-.5)*24,r:.52+random()*.18,bucket:Math.floor(random()*4)});
+    }
+    canvas.dataset.particles=String(points.length);
+  }
+  function paint(time){
+    const cycle=time%10;
+    let amount=cycle<3?cycle/3:cycle<7?1:cycle<9?1-(cycle-7)/2:0;
+    if(reduced.matches)amount=1;
+    hero.dataset.particlePhase=amount>=.999?'assembled':amount<=0?'released':cycle<3?'assembling':'releasing';
+    context.clearRect(0,0,width,height);context.fillStyle=ink;
+    for(let bucket=0;bucket<4;bucket++){
+      context.globalAlpha=.62+bucket*.12;context.beginPath();
+      for(const p of points){if(p.bucket!==bucket)continue;
+        const raw=Math.max(0,Math.min(1,(amount-p.delay*.22)/(1-p.delay*.22))),mix=1-(1-raw)**3;
+        const x=p.sx+(p.tx-p.sx)*mix,y=p.sy+(p.ty-p.sy)*mix-Math.sin(mix*Math.PI)*p.bend;
+        context.moveTo(x+p.r,y);context.arc(x,y,p.r,0,Math.PI*2);
       }
       context.fill();
     }
     context.globalAlpha=1;
-  };
-  const resize=()=>{
-    const box=hero.getBoundingClientRect(),density=Math.min(devicePixelRatio||1,1.5);
-    width=box.width;height=box.height;canvas.width=Math.round(width*density);canvas.height=Math.round(height*density);
-    context.setTransform(density,0,0,density,0,0);ink=getComputedStyle(hero).getPropertyValue('--particle-ink').trim();
-    points=particleField(width<=700?360:1100);canvas.dataset.particles=String(points.length);paint(elapsed);
-  };
-  const tick=now=>{
-    if(disposed)return;
-    if(previous)elapsed+=Math.min((now-previous)/1000,.08);
-    previous=now;
-    if(now-lastPaint>=1000/30){paint(elapsed);lastPaint=now;}
-    frame=requestAnimationFrame(tick);
-  };
-  const sync=()=>{
-    cancelAnimationFrame(frame);frame=0;previous=0;
+  }
+  function resize(){
+    if(!ready)return;
+    const box=hero.getBoundingClientRect(),density=Math.min(devicePixelRatio||1,1.5);width=box.width;height=box.height;
+    canvas.width=Math.round(width*density);canvas.height=Math.round(height*density);context.setTransform(density,0,0,density,0,0);
+    particles();paint(elapsed);
+  }
+  const tick=now=>{if(disposed)return;if(previous)elapsed+=Math.min((now-previous)/1000,.08);previous=now;if(now-lastPaint>=1000/30){paint(elapsed);lastPaint=now;}frame=requestAnimationFrame(tick);};
+  function sync(){
+    cancelAnimationFrame(frame);frame=0;previous=0;if(!ready)return;
     if(reduced.matches){paint(0);hero.dataset.motion='reduced';}
     else if(document.hidden||!visible)hero.dataset.motion='paused';
     else{hero.dataset.motion='playing';frame=requestAnimationFrame(tick);}
-  };
-  const sizing=new ResizeObserver(()=>{const box=hero.getBoundingClientRect();if(Math.abs(box.width-width)>.5||Math.abs(box.height-height)>.5)resize();});
+  }
+  function start(){
+    if(ready||disposed)return;
+    try{ready=true;resize();canvas.hidden=false;hero.classList.add('particles-ready');sync();}
+    catch{ready=false;canvas.hidden=true;hero.classList.remove('particles-ready');hero.dataset.motion='static';}
+  }
+  const sizing=new ResizeObserver(()=>{const b=hero.getBoundingClientRect();if(Math.abs(b.width-width)>.5||Math.abs(b.height-height)>.5)resize();});
   const observer=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();},{threshold:.05});
-  resize();canvas.hidden=false;hero.classList.add('particles-ready');
-  sync();
   sizing.observe(hero);observer.observe(hero);
   reduced.addEventListener('change',sync,{signal:abort.signal});document.addEventListener('visibilitychange',sync,{signal:abort.signal});
+  if(image.complete&&image.naturalWidth)start();else image.addEventListener('load',start,{once:true,signal:abort.signal});
   return ()=>{disposed=true;cancelAnimationFrame(frame);abort.abort();sizing.disconnect();observer.disconnect();};
 }

@@ -68,7 +68,7 @@ The contribution contains its title and direct action, existing published outcom
 
 ## Motion and interactions
 
-The fine-particle alternative uses one Canvas field with 1,100 desktop particles or 360 phone particles, capped at 30fps and 1.5 pixel density. Fine particles move continuously upward at12–26px per second, with a gentle lateral current and slightly stronger contrast. There is no pointer tracking, pause control and no cursor interaction. Reduced motion renders the final field immediately; hidden/offscreen state pauses rendering and resumes it on return. Resize redraws without replay, and navigation releases the frame and observers. A static SVG supplies the no-JavaScript and unavailable-Canvas fallback. The original emblem, title and action stay still above it.
+Fine particles assemble into the actual supplied emblem, using sampled alpha/ink targets. The emblem is 156px desktop and112px phone. A10-second cycle assembles for3s, holds for4s, releases for2s and reforms. The title and action stay still. One Canvas renders up to1,800 desktop or1,000 phone particles at30fps and capped1.5 pixel density. Reduced motion shows the completed mark; hidden/offscreen suspends work; resize recalculates targets and navigation cleans up. The original emblem remains the Canvas/sampling/no-JavaScript fallback. No connecting lines, pointer tracking or motion-control button.
 
 The existing outcome pictographs encode exact published people counts, with visible numeric labels. Hover regroups the same people through interruptible CSS transforms over 580ms; the explicit Separate outcomes button serves touch and keyboard. Keyboard and reduced motion are immediate. These are labeled statistical charts, not evacuation simulation maps or invented marketing counts.
 

@@ -281,9 +281,9 @@
         "purpose": "Shared action feedback only where motion is allowed."
       },
       {
-        "name": "fine-particle-current",
-        "value": "Continuous upward drift at12–26px/s; 30fps; DPR capped at1.5",
-        "purpose": "Visible fine-particle motion around a quiet reading center. No pointer tracking or pause button. Offscreen/hidden suspends rendering; reduced motion is static."
+        "name": "particle-emblem-assembly",
+        "value": "10s cycle:3s assembly,4s hold,2s release,1s rest",
+        "purpose": "Fine particles form the original emblem alpha silhouette. Text remains fixed. Reduced motion renders complete; offscreen pauses; original image is fallback."
       }
     ],
     "breakpoints": [
