@@ -15,8 +15,8 @@ const motion = window.gsap?.matchMedia();
 // Static content survives an unavailable animation library or result snapshot.
 motion?.add('(prefers-reduced-motion: no-preference)', () => {
   window.gsap.timeline({defaults: {duration: .55, ease: 'power3.out'}})
-    .from('.company-intro', {opacity: .45, y: 12, clearProps: 'all'})
-    .from('.hero-art', {opacity: .35, scale: .98, clearProps: 'all'}, '<.1');
+    .from('.company-intro', {y: 12, clearProps: 'all'})
+    .from('.company-hero .cosmos-emblem', {opacity: .35, scale: .98, clearProps: 'all'}, '<.1');
 });
 
 // Reversible depth on one product surface, enabled only for a precise pointer.
