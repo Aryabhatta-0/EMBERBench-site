@@ -64,8 +64,10 @@ try{
  const formed=await page.locator('.particle-canvas').evaluate(el=>el.toDataURL());
  check('Particles visibly assemble into the supplied emblem',await page.locator('.hero-emblem').isHidden()&&await page.locator('.company-hero').getAttribute('data-particle-phase')==='assembled');
  check('Assembled particles are confined to the emblem bounds',await page.locator('.particle-canvas').evaluate(el=>{const c=el.getContext('2d'),a=c.getImageData(0,0,el.width,el.height).data,r=el.getBoundingClientRect(),m=document.querySelector('.hero-emblem').getBoundingClientRect(),scale=el.width/r.width;let inside=0,outside=0;for(let y=0;y<el.height;y++)for(let x=0;x<el.width;x++){if(a[(y*el.width+x)*4+3]<20)continue;if(x>=(m.left-r.left)*scale-2&&x<=(m.right-r.left)*scale+2&&y>=(m.top-r.top)*scale-2&&y<=(m.bottom-r.top)*scale+2)inside++;else outside++;}return inside>500&&outside<10;}));
+ const lineBefore=await page.locator('.ribbon-current').first().evaluate(el=>getComputedStyle(el).strokeDashoffset);
  await page.waitForTimeout(7200);
  check('The completed particle logo stays assembled beyond the former loop',await page.locator('.company-hero').getAttribute('data-motion')==='complete'&&await page.locator('.particle-canvas').evaluate(el=>el.toDataURL())===formed);
+ check('Side lines keep moving after the logo has settled',await page.locator('.ribbon-current').first().evaluate((el,before)=>{const style=getComputedStyle(el);return style.animationIterationCount==='infinite'&&style.animationPlayState==='running'&&style.strokeDashoffset!==before;},lineBefore));
  await page.locator('.site-footer').scrollIntoViewIfNeeded();await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.waitForTimeout(250);
  check('Returning to the hero does not replay the assembly',await page.locator('.company-hero').getAttribute('data-motion')==='complete'&&await page.locator('.particle-canvas').evaluate(el=>el.toDataURL())===formed);
  await page.setViewportSize({width:1200,height:800});await page.waitForTimeout(100);

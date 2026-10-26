@@ -282,8 +282,8 @@
       },
       {
         "name": "particle-emblem-assembly",
-        "value": "Once:3s emblem assembly;4.15s side-line entrance",
-        "purpose": "Particles permanently form the supplied emblem. Side ribbons animate once and hold. No replay on return/resize, no pointer tracking or pause button. Reduced motion is static."
+        "value": "Once:3s emblem assembly;continuous 3.8s side-line flow",
+        "purpose": "Particles permanently form the supplied emblem. Side ribbons flow continuously. No replay on return/resize, no pointer tracking or pause button. Reduced motion is static."
       }
     ],
     "breakpoints": [
