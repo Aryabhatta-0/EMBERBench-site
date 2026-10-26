@@ -4,7 +4,7 @@ This branch is an experiment stacked on `codex/anantam-company` (PR #3), startin
 
 The full-window, edge-to-edge light hero and EMBERBench naming remain. Fine blue particles replace the ribbon paths, with a quiet center around the supplied logo, title and action. There are no connecting lines, large glowing dots, pointer tracking or pause control.
 
-One Canvas draws 1,100 small particles on desktop and 360 on phones, in five opacity batches. It caps rendering at 30fps and pixel density at 1.5. A gentle four-second drift resolves into a static field, after which no animation frame remains scheduled. Offscreen or hidden documents settle immediately. Resize redraws the final state without replaying it. Navigation cancels the frame and observers. Reduced motion renders the final frame directly. An authored static SVG provides a no-JavaScript or unavailable-Canvas fallback.
+One Canvas draws 1,100 small particles on desktop and 360 on phones, in five opacity batches. It caps rendering at 30fps and pixel density at 1.5. Particles move continuously in a slow upward current, with a gentle lateral wave. They travel 12–26px per second and remain small (roughly 1–2px across), with stronger contrast than the first experiment. Offscreen or hidden documents pause the loop; returning resumes it. Resize redraws at the existing motion time. Navigation cancels the frame and observers. Reduced motion renders the final frame directly. An authored static SVG provides a no-JavaScript or unavailable-Canvas fallback.
 
 ## Skills used
 
@@ -12,10 +12,10 @@ The dedicated skill-discovery agent checked the installed skills again. No addit
 
 | Skill | Application |
 | --- | --- |
-| Animate, using Emil’s motion principles (`~/.agents/skills/animate/SKILL.md`) | Marketing-only delight, the cheapest fitting tool, a finite entrance, immediate reduced-motion behavior, and no unnecessary framework. |
+| Animate, using Emil’s motion principles (`~/.agents/skills/animate/SKILL.md`) | Marketing-only delight, the cheapest fitting tool, visible ambient motion, immediate reduced-motion behavior, and no unnecessary framework. |
 | Official GSAP Performance (`~/.codex/skills/gsap-performance/SKILL.md`) | Batched work, one animation loop, bounded particle count/pixel density, no per-particle DOM animation, and offscreen/page-exit cleanup. These principles apply to the native Canvas implementation; no GSAP tween is needed for the field. |
-| LottieFiles Motion Design (`~/.codex/skills/motion-design/SKILL.md`) | Calm motion personality, restrained travel, a clear resolution and an undisturbed reading area. |
+| LottieFiles Motion Design (`~/.codex/skills/motion-design/SKILL.md`) | Calm motion personality, coherent drift, restrained scale and an undisturbed reading area. |
 
-The published benchmark data, analytical routes and original PR branch remain unchanged. Chromium tests cover actual changing pixels, final settlement, fixed pointer behavior, reduced motion, unavailable Canvas and no-GSAP behavior. Physical devices and other browser engines are outside the runtime checks.
+The published benchmark data, analytical routes and original PR branch remain unchanged. Chromium tests cover actual changing pixels beyond six seconds, offscreen suspension, fixed pointer behavior, reduced motion, unavailable Canvas and no-GSAP behavior. Physical devices and other browser engines are outside the runtime checks.
 
 Validation completed: 19 Node checks, 314 browser checks and 57 automated WCAG A/AA scans passed, with zero violations in the rules checked. The original base branch still points to 19767d3.

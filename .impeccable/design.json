@@ -281,9 +281,9 @@
         "purpose": "Shared action feedback only where motion is allowed."
       },
       {
-        "name": "fine-particle-entrance",
-        "value": "4s finite drift; 30fps; DPR capped at1.5",
-        "purpose": "One batched Canvas field settles around a quiet reading center. Reduced motion is static; hidden/offscreen settles immediately; static SVG fallback; no pointer tracking or pause button."
+        "name": "fine-particle-current",
+        "value": "Continuous upward drift at12–26px/s; 30fps; DPR capped at1.5",
+        "purpose": "Visible fine-particle motion around a quiet reading center. No pointer tracking or pause button. Offscreen/hidden suspends rendering; reduced motion is static."
       }
     ],
     "breakpoints": [
