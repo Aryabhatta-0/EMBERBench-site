@@ -54,9 +54,9 @@ try {
   const seen=new Set();
   do{
     for(const id of await page.locator('[data-inspect]').evaluateAll(els=>els.map(el=>el.dataset.inspect)))seen.add(id);
-    const next=page.getByRole('button',{name:'Next five models',exact:true});if(await next.isDisabled())break;await next.click();
+    const next=page.getByRole('button',{name:'Next ten models',exact:true});if(await next.isDisabled())break;await next.click();
   }while(true);
-  check('All models can be reached within a fixed-height chart',seen.size===ai.length&&await page.locator('.rank-panel').evaluate(el=>el.getBoundingClientRect().height<=240));
+  check('All models can be reached in a readable full-width chart',seen.size===ai.length&&await page.locator('.rank-panel').evaluate(el=>el.getBoundingClientRect().height>480));
   await go('benchmark.html');
   await page.locator('[data-inspect]').first().focus();await page.keyboard.press('ArrowDown');
   check('Arrow navigation selects and focuses the next model',await page.locator('#inspector-title').textContent()===ai[1].name && await page.locator('[data-inspect]').nth(1).evaluate(el=>el===document.activeElement));

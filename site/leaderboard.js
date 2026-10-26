@@ -1,3 +1,4 @@
+import {PAGE_SIZE} from './benchmark-dashboard.js?v=20261027-charts-3';
 import {
   loadResults,
   shell,
@@ -17,7 +18,7 @@ import {
   providerChip,
   rankOf,
   errorPage,
-} from "./common.js?v=20261027-brand-3";
+} from "./common.js?v=20261027-charts-3";
 import {
   METRICS,
   filterModels,
@@ -25,7 +26,7 @@ import {
   finite,
   leaderboardOrder,
 } from "./analytics.js";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-brand-3';
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-charts-3';
 
 const columns = [
   ["score", "EMBER"],
@@ -63,7 +64,6 @@ async function main() {
     inspect: params.get('model') ?? '',
     against: params.get('against') ?? '',
     page: params.has('page') ? Math.max(0,Number(params.get('page'))||0) : null,
-    scenarioPage: params.get('scenarios')==='1'?1:0,
   };
   if (!['all','Decision model','Reference agent'].includes(state.kind)) state.kind = 'Decision model';
   if (!Object.hasOwn(METRICS, state.sort)) state.sort = "score";
@@ -124,7 +124,7 @@ async function main() {
     };
     const active = document.activeElement;
     const focusInspect = active?.dataset?.inspect;
-    const focusAgainst = active?.id === 'compare-against';
+    const focusAgainst = ['compare-against','scenario-compare'].includes(active?.id) ? active.id : null;
     const focusExpand = active?.id === 'expand-results';
     const focusSort = active?.dataset?.sort;
     const focusModel = active?.hasAttribute("data-select-model")
@@ -146,13 +146,12 @@ async function main() {
     visual.innerHTML = resultExplorer(data,models,state,value);
     bindResultExplorer(visual,{
       inspect:(id,pointer,source)=>{
-        state.inspect=id;state.page=Math.floor(models.findIndex(m=>m.id===id)/5);update();
+        state.inspect=id;state.page=Math.floor(models.findIndex(m=>m.id===id)/PAGE_SIZE);update();
         const target=source==='select'?document.getElementById('inspect-model'):source==='scatter'?document.querySelector(`[data-plot-select="${CSS.escape(id)}"]`):document.querySelector(`[data-inspect="${CSS.escape(id)}"]`);target?.focus({preventScroll:true});
         if (pointer && !matchMedia('(prefers-reduced-motion:reduce)').matches) document.getElementById('result-inspector')?.animate([{transform:'translateY(6px)'},{transform:'translateY(0)'}],{duration:220,easing:'cubic-bezier(.2,0,0,1)'});
       },
       against:id=>{state.against=id;update();},
       page:(page,direction)=>{state.page=page;update();(document.querySelector(`.chart-pagination button[aria-label^="${direction==='next'?'Next':'Previous'}"]:not([disabled])`)||document.querySelector('.chart-pagination button:not([disabled])'))?.focus({preventScroll:true});},
-      scenarioPage:page=>{state.scenarioPage=page;update();document.querySelector(`[data-scenario-page="${page}"]`)?.focus({preventScroll:true});},
     });
     const visibleKeys = {scores:['score','safety','quality'],people:['score','evacuated','casualties','stranded','blocked'],api:['score','cost','latency','requests','input'],all:columns.map(([key]) => key)}[state.view];
     const shownColumns = columns.filter(([key]) => visibleKeys.includes(key));
@@ -188,7 +187,7 @@ async function main() {
         .querySelector(`[data-select-model][value="${CSS.escape(focusModel)}"]`)
         ?.focus({ preventScroll: true });
     if (focusInspect) document.querySelector(`[data-inspect="${CSS.escape(focusInspect)}"]`)?.focus({preventScroll:true});
-    if (focusAgainst) document.getElementById('compare-against')?.focus({preventScroll:true});
+    if (focusAgainst) document.getElementById(focusAgainst)?.focus({preventScroll:true});
     if (focusExpand) document.getElementById('expand-results')?.focus({preventScroll:true});
   };
   const update = () => {
@@ -203,7 +202,6 @@ async function main() {
       ...(state.inspect ? {model:state.inspect} : {}),
       ...(state.against ? {against:state.against} : {}),
       ...(state.page!==null ? {page:String(state.page)} : {}),
-      ...(state.scenarioPage ? {scenarios:'1'} : {}),
     });
     history.replaceState(null, "", `?${p}`);
     render();
