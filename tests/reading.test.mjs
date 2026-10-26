@@ -32,7 +32,7 @@ try {
   await audit('Visual score results desktop');
   await page.screenshot({path:resolve(out,'results-desktop.png'),fullPage:true});
   await page.locator('[data-inspect]').nth(1).click();
-  check('Selecting a row updates the adjacent evidence',await page.locator('#inspector-title').textContent()===ai[1].name);
+  check('Selecting a row updates evidence at full text opacity',await page.locator('#inspector-title').textContent()===ai[1].name && await page.locator('.result-inspector').evaluate(el=>getComputedStyle(el).opacity==='1'));
   check('Reading choice is shareable',new URL(page.url()).searchParams.get('model')===ai[1].id);
   await page.locator('#compare-against').selectOption(data.models.find(m=>m.kind==='Reference agent').id);
   const pair=new URL(await page.locator('.quick-compare a').getAttribute('href'),base).searchParams.get('models').split(',');

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-26T07:28:38.354057Z",
+  "generatedAt": "2026-10-26T07:34:11.106070Z",
   "title": "Anantam design system",
   "extensions": {
     "colorMeta": {
@@ -152,8 +152,8 @@
       },
       {
         "name": "result-inspector",
-        "value": "220ms, cubic-bezier(.2,0,0,1); opacity .5 to 1; translateY(6px) to 0",
-        "purpose": "Pointer selection only, after immediate data update. Keyboard selection, sorting, search and reduced motion stay immediate."
+        "value": "220ms, cubic-bezier(.2,0,0,1); translateY(6px) to 0; opacity stays 1",
+        "purpose": "Pointer selection only, after immediate data update; text stays fully opaque throughout. Keyboard selection, sorting, search and reduced motion stay immediate."
       },
       {
         "name": "preview-score-fill",

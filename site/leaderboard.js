@@ -141,7 +141,7 @@ async function main() {
     bindResultExplorer(visual,{
       inspect:(id,pointer)=>{
         state.inspect=id;update();document.querySelector(`[data-inspect="${CSS.escape(id)}"]`)?.focus({preventScroll:true});
-        if (pointer && !matchMedia('(prefers-reduced-motion:reduce)').matches) document.getElementById('result-inspector')?.animate([{opacity:.5,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:220,easing:'cubic-bezier(.2,0,0,1)'});
+        if (pointer && !matchMedia('(prefers-reduced-motion:reduce)').matches) document.getElementById('result-inspector')?.animate([{transform:'translateY(6px)'},{transform:'translateY(0)'}],{duration:220,easing:'cubic-bezier(.2,0,0,1)'});
       },
       against:id=>{state.against=id;update();},
       expand:()=>{state.expanded=!state.expanded;update();},
