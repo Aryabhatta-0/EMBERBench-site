@@ -1,5 +1,6 @@
 import {shell, loadResults, esc, fmt, isDecision} from './common.js';
 import {leaderboardOrder} from './analytics.js';
+import {setupWorldPreview} from './world-preview.js';
 
 shell(null, 'company');
 const showcase = document.querySelector('.benchmark-showcase');
@@ -31,16 +32,20 @@ const animateScene = id => {
     const tl = window.gsap.timeline({defaults:{ease:'power3.out'}});
     if (id === 'environment') {
       const route = showcase.querySelector('.map-route');
-      tl.fromTo(route, {strokeDasharray:route.getTotalLength(),strokeDashoffset:route.getTotalLength()}, {strokeDashoffset:0,duration:1.3}, .25)
-        .from('.map-person', {scale:.7,transformOrigin:'50% 50%',duration:.4,stagger:.055}, .2)
-        .to('.fire-halo', {scale:1.6,opacity:.2,duration:.65,repeat:1,yoyo:true,ease:'sine.inOut'}, .1);
+      if (route) tl.fromTo(route, {strokeDasharray:route.getTotalLength(),strokeDashoffset:route.getTotalLength()}, {strokeDashoffset:0,duration:1.3}, .25);
+      tl.from('.map-person', {scale:.7,transformOrigin:'50% 50%',duration:.4,stagger:.055}, .2)
+        .to('.fire-halo', {opacity:.2,duration:.65,repeat:1,yoyo:true,ease:'sine.inOut'}, .1);
     } else if (id === 'results') {
-      tl.from('.preview-result', {x:18,duration:.5,stagger:.075,clearProps:'transform'}, .2);
+      tl.from('.preview-result', {x:18,duration:.5,stagger:.075,clearProps:'transform'}, .2)
+        .from('.preview-score-fill',{scaleX:0,duration:.6,stagger:.075},.25);
     } else {
       tl.from('.method-visual > div', {y:14,duration:.5,stagger:.11,clearProps:'transform'}, .2);
     }
   }, showcase);
 };
+setupWorldPreview(showcase,keyboard=>{
+  if (keyboard) {scene?.revert();scene=undefined;} else animateScene('environment');
+});
 
 function activate(id, keyboard = false) {
   if (showcase.dataset.active === id) return;
@@ -86,7 +91,7 @@ observer.observe(showcase);
 
 loadResults().then(data => {
   const models = leaderboardOrder(data.models).filter(isDecision).slice(0,4);
-  document.getElementById('contribution-results').innerHTML = models.map(model => `<a class="preview-result" href="model.html?id=${encodeURIComponent(model.id)}"><span>${esc(model.name)}</span><span>${fmt(model.score)}</span></a>`).join('');
+  document.getElementById('contribution-results').innerHTML = models.map(model => `<a class="preview-result" href="benchmark.html?model=${encodeURIComponent(model.id)}"><span>${esc(model.name)}</span><span class="preview-score">${fmt(model.score)}</span><span class="preview-score-track" aria-hidden="true"><span class="preview-score-fill" style="transform:scaleX(${model.score/100})"></span></span></a>`).join('');
 }).catch(() => {
   document.querySelector('.preview-scope').textContent = 'The preview is unavailable. Open the benchmark to try again.';
 });

@@ -46,6 +46,7 @@ try {
   check('Hover visibly expands a rail into a product view '+JSON.stringify({before,during,after}),before<100 && during>before+50 && after>before*6 && during<after);
   await page.locator('.preview-result').first().waitFor();
   check('Results preview is the actual leading model',/typesafe\/jev-1.14.*51.70/s.test(await page.locator('.preview-result').first().innerText()));
+  check('Results preview action fits with bottom breathing room',await page.locator('#preview-results').evaluate(el=>el.querySelector('.panel-link').getBoundingClientRect().bottom<=el.getBoundingClientRect().bottom-20));
   await audit(page,'Desktop results');
   await page.locator('.benchmark-showcase').screenshot({path:resolve(out,'company-hover-results.png')});
   await resultTab.focus();await page.keyboard.press('ArrowRight');
@@ -54,7 +55,7 @@ try {
   await audit(page,'Desktop methodology');
   await page.keyboard.press('Home');
   await page.getByRole('link',{name:'Explore the benchmark',exact:true}).click();
-  await page.locator('#leaderboard table').waitFor();
+  await page.locator('.result-chart').waitFor();
   check('Explore opens the actual benchmark without another landing page',page.url().endsWith('/benchmark.html') && await page.locator('#search').isVisible() && await page.locator('.anantam-hero,.company-hero').count()===0);
   await page.locator('#search').fill('jev');
   check('Benchmark search immediately works',await page.locator('[data-select-model]').count()===2);
@@ -75,8 +76,8 @@ try {
   await page.getByRole('link',{name:'Our work',exact:true}).click();
   check('Mobile navigation closes and reveals work',await page.locator('.nav-toggle').getAttribute('aria-expanded')==='false' && page.url().endsWith('#contributions'));
   const phone=await browser.newPage({viewport:{width:390,height:844}});
-  await phone.goto(new URL('benchmark.html',base).href);await phone.locator('#leaderboard table').waitFor();
-  const firstRow=await phone.locator('#leaderboard tbody tr').first().boundingBox();
+  await phone.goto(new URL('benchmark.html',base).href);await phone.locator('.result-chart').waitFor();
+  const firstRow=await phone.locator('.chart-model').first().boundingBox();
   check('Phone shows the first complete benchmark result without scrolling',firstRow.y+firstRow.height<844);
   check('Phone keeps secondary controls collapsed',await phone.locator('.mobile-benchmark-filters').getAttribute('open')===null);
   await phone.locator('.mobile-benchmark-filters summary').click();await phone.locator('#kind').selectOption('Decision model');

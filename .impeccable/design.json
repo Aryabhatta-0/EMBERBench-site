@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-26T06:32:02.7293810Z",
+  "generatedAt": "2026-10-26T07:28:38.354057Z",
   "title": "Anantam design system",
   "extensions": {
     "colorMeta": {
@@ -63,6 +63,30 @@
       "map-halo": {
         "role": "tertiary",
         "displayName": "Finite fire halo"
+      },
+      "outcome-safe": {
+        "role": "secondary",
+        "displayName": "Evacuated people"
+      },
+      "outcome-death": {
+        "role": "tertiary",
+        "displayName": "Avoidable deaths"
+      },
+      "outcome-stranded": {
+        "role": "tertiary",
+        "displayName": "Avoidable stranded people"
+      },
+      "outcome-unavoidable": {
+        "role": "neutral",
+        "displayName": "Unavoidable losses"
+      },
+      "chart-track": {
+        "role": "neutral",
+        "displayName": "Unfilled score track"
+      },
+      "chart-selected": {
+        "role": "neutral",
+        "displayName": "Inspected result and selected metric"
       }
     },
     "typographyMeta": {
@@ -109,12 +133,12 @@
       {
         "name": "environment-people",
         "value": "400ms, stagger 55ms; starts at 200ms",
-        "purpose": "Introduce the eight static initial person markers without claiming evacuation outcomes."
+        "purpose": "Introduce the selected world’s static initial person markers; eight in bottleneck, five in unequal exits."
       },
       {
         "name": "environment-fire",
         "value": "650ms, sine.inOut, repeat 1, yoyo",
-        "purpose": "One finite halo pulse out and back; initial scale 1 to 1.6 and opacity to .2."
+        "purpose": "One finite halo opacity fade from 1 to .2 and back; no looping flight or outcome replay."
       },
       {
         "name": "evidence-content",
@@ -125,6 +149,16 @@
         "name": "quick",
         "value": "150ms; press scale .96",
         "purpose": "Ordinary supported action response; disabled by reduced motion."
+      },
+      {
+        "name": "result-inspector",
+        "value": "220ms, cubic-bezier(.2,0,0,1); opacity .5 to 1; translateY(6px) to 0",
+        "purpose": "Pointer selection only, after immediate data update. Keyboard selection, sorting, search and reduced motion stay immediate."
+      },
+      {
+        "name": "preview-score-fill",
+        "value": "600ms, power3.out, stagger 75ms",
+        "purpose": "Finite entrance of the four actual homepage score bars; suppressed for keyboard activation and reduced motion."
       }
     ],
     "breakpoints": [
@@ -135,6 +169,10 @@
       {
         "name": "narrow-showcase",
         "value": "900px"
+      },
+      {
+        "name": "result-reading",
+        "value": "1000px"
       },
       {
         "name": "navigation",
@@ -185,16 +223,17 @@
       "name": "Benchmark showcase surface",
       "kind": "card",
       "refersTo": "benchmark-showcase",
-      "description": "White, ruled surface with three desktop expanding rails and horizontal phone tabs. This static specimen shows the shape and labels; index.js owns semantic tab activation, numeric GSAP interpolation and finite scene motion.",
+      "description": "White ruled surface with three desktop expanding rails and horizontal phone tabs. Environment switches two actual initial worlds; Results has real score bars. This static specimen shows shape and labels; index.js and world-preview.js own activation, numeric GSAP interpolation and finite scene motion. Production Results rows have a 48px minimum height and route actions keep 44px minimum targets so the bottom action remains inside the pane.",
       "html": "<section class=\"ds-showcase\" aria-label=\"Benchmark preview\"><div class=\"ds-showcase-active\"><span>Environment</span><h3>Eight people. One way out.</h3><p>Public scenario, initial state.</p><a href=\"scenarios.html?scenario=v1-pub-03-corridor-bottleneck\">Inspect this scenario</a></div><a class=\"ds-showcase-rail\" href=\"benchmark.html\">Results</a><a class=\"ds-showcase-rail\" href=\"methodology.html\">Methodology</a></section>",
       "css": ".ds-showcase{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.08fr) minmax(0,.08fr);overflow:clip;min-height:300px;border:1px solid var(--border,#dde2e5);border-radius:var(--showcase-radius,18px);background:var(--surface-1,#fff);color:var(--text-primary,#15283f);font-family:var(--font-body,'DM Sans',system-ui,sans-serif)}.ds-showcase-active{min-width:0;padding:28px 32px}.ds-showcase-active>span{color:var(--text-secondary,#455467);font-size:12px}.ds-showcase h3{font-size:23px;font-weight:500;line-height:1.25;margin:32px 0 12px}.ds-showcase p{font-size:13px;color:var(--text-muted,#596675)}.ds-showcase a{color:var(--text-primary,#15283f);font-size:13px;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}.ds-showcase-rail{writing-mode:vertical-rl;transform:rotate(180deg);justify-content:flex-start;padding:24px 12px;border-right:1px solid var(--border,#dde2e5)}.ds-showcase a:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:-4px}@media(hover:hover){.ds-showcase a:hover{background:var(--surface-2,#f0f2f3)}}@media(max-width:700px){.ds-showcase{grid-template-columns:1fr 1fr}.ds-showcase-active{grid-column:1/-1;padding:26px 22px}.ds-showcase-rail{writing-mode:initial;transform:none;justify-content:center;padding:8px;border-top:1px solid var(--border,#dde2e5)}}"
     },
     {
-      "name": "Result preview metric",
+      "name": "Selected visual result",
       "kind": "custom",
-      "description": "Use the explicit metric label with genuine data-loaded rows and model deep links. This specimen shows the static fallback, without fabricated scores; production shows the first four decision models.",
-      "html": "<section class=\"ds-preview\"><p class=\"ds-preview-metric\">EMBER score, 0–100</p><p>Published results are available in the benchmark.</p><a href=\"benchmark.html\">View all results</a><p class=\"ds-preview-scope\">Public development results. One trial per model; ranks are descriptive.</p></section>",
-      "css": ".ds-preview{font:400 14px/1.6 var(--font-body,'DM Sans',system-ui,sans-serif);color:var(--text-primary,#15283f)}.ds-preview-metric{font-size:12px;color:var(--text-secondary,#455467)}.ds-preview-scope{font-size:12px;color:var(--text-muted,#596675)}.ds-preview a{display:inline-flex;align-items:center;min-height:44px;color:var(--text-primary,#15283f);font-size:13px;text-decoration:none}.ds-preview a:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-preview a:hover{text-decoration:underline;text-underline-offset:5px}}"
+      "refersTo": "result-row-selected",
+      "description": "Real generated-snapshot specimen. The production row selects a nearby inspector, retains metric units and moves the inspector inline after the row on phones.",
+      "html": "<button type=\"button\" class=\"ds-result\" aria-expanded=\"true\"><span class=\"ds-result-name\">typesafe/jev-1.14</span><b>51.70</b><span class=\"ds-chart-track\" aria-hidden=\"true\"><span style=\"transform:scaleX(0.51704)\"></span></span></button>",
+      "css": ".ds-result{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;width:100%;min-height:76px;padding:14px 12px 13px 4px;border:0;border-radius:8px;background:var(--chart-selected,#edf2f5);color:var(--text-primary,#15283f);font:400 13px/1.6 var(--font-body,\"DM Sans\",system-ui,sans-serif);text-align:left;cursor:pointer}.ds-result-name{overflow-wrap:anywhere}.ds-result b{font-size:16px;font-weight:500;font-variant-numeric:tabular-nums}.ds-chart-track{grid-column:1/-1;height:7px;background:var(--chart-track,#e9eef1);border-radius:2px;overflow:clip}.ds-chart-track>span{display:block;width:100%;height:100%;background:var(--accent,#142e51);transform-origin:left}.ds-result:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover) and (pointer:fine){.ds-result:hover{background:var(--chart-selected,#edf2f5)}}"
     },
     {
       "name": "Phone filters disclosure",
@@ -209,17 +248,26 @@
       "description": "Static wordmark/status specimen. boot.js, loader.css and cosmos.js own the original PNG and temporary pending-data canvas. No homepage loader or enforced brand delay.",
       "html": "<section class=\"ds-loading\" aria-label=\"Loading Anantam\"><h2>Anantam</h2><p role=\"status\">Opening the benchmark.</p></section>",
       "css": ".ds-loading{display:grid;justify-items:center;text-align:center;padding:40px 24px;background:var(--loading-ground,var(--surface-0,#fafaf7));color:var(--text-primary,#15283f);font-family:var(--font-body,'DM Sans',system-ui,sans-serif)}.ds-loading h2{font-size:28px;font-weight:500;line-height:1.2;letter-spacing:-.025em;margin:0}.ds-loading p{font-size:13px;line-height:1.6;color:var(--text-muted,#596675);max-width:32ch;min-height:42px;margin:12px 0 0}"
+    },
+    {
+      "name": "Recorded people outcomes",
+      "kind": "custom",
+      "refersTo": "result-inspector",
+      "description": "Actual counts from the same generated AI-model snapshot as the selected-row specimen. Production reuses this labelled strip/legend in inspector, profile and comparison; outcomes remain distinct from composite scores.",
+      "html": "<aside class=\"ds-inspector\"><h3>typesafe/jev-1.14</h3><div class=\"ds-people-strip\" role=\"img\" aria-label=\"191 evacuated, 46 avoidable deaths, 4 avoidable stranded, 0 unavoidable losses\"><span class=\"ds-outcome-safe\" style=\"flex-grow:191\"></span><span class=\"ds-outcome-death\" style=\"flex-grow:46\"></span><span class=\"ds-outcome-stranded\" style=\"flex-grow:4\"></span><span class=\"ds-outcome-unavoidable\" style=\"flex-grow:0\"></span></div><dl class=\"ds-people-legend\"><div><dt><i class=\"ds-outcome-safe\"></i>Evacuated</dt><dd>191</dd></div><div><dt><i class=\"ds-outcome-death\"></i>Avoidable deaths</dt><dd>46</dd></div><div><dt><i class=\"ds-outcome-stranded\"></i>Avoidable stranded</dt><dd>4</dd></div></dl><p class=\"ds-outcome-note\">Summed across evaluated worlds. 241 people were individually escapable under the benchmark’s relaxed reference.</p></aside>",
+      "css": ".ds-inspector{padding:22px 24px;background:var(--surface-2,#f0f2f3);color:var(--text-primary,#15283f);border-radius:12px;font:400 12px/1.6 var(--font-body,\"DM Sans\",system-ui,sans-serif)}.ds-inspector h3{font-size:20px;font-weight:500;margin:0 0 18px;line-height:1.4;overflow-wrap:anywhere}.ds-people-strip{display:flex;gap:2px;height:12px;overflow:clip;border-radius:3px;margin-bottom:14px}.ds-people-strip>span{flex-basis:0;min-width:0}.ds-people-legend{display:grid;gap:7px;margin:0}.ds-people-legend>div{display:flex;justify-content:space-between;gap:12px}.ds-people-legend dt{display:flex;align-items:center;gap:8px;color:var(--text-secondary,#455467)}.ds-people-legend i{width:6px;height:6px;border-radius:1px}.ds-people-legend dd{margin:0;font-variant-numeric:tabular-nums}.ds-outcome-note{font-size:11px;line-height:1.7;color:var(--text-muted,#596675);margin:13px 0 0}.ds-outcome-safe{background:var(--outcome-safe,#376f61)}.ds-outcome-death{background:var(--outcome-death,#b75b3f)}.ds-outcome-stranded{background:var(--outcome-stranded,#c29b43)}.ds-outcome-unavoidable{background:var(--outcome-unavoidable,#8a9096)}"
     }
   ],
   "narrative": {
     "northStar": "Intelligence. An open question.",
-    "overview": "The supplied navy infinity emblem anchors a light, spacious identity. A centered company introduction uses local serif display type; practical sans type keeps controls and evidence clear. The homepage introduces Anantam as an experimental AI company, then presents its first contribution through a single expanding benchmark showcase.\n\nThis is a code-led record of the current implementation, not a claim of approval against a supplied visual composition. Sarvam informs the expanding rail interaction. Analytical routes share the same identity with task-specific density, visible scope and native disclosure.",
+    "overview": "The supplied navy infinity emblem anchors a light, spacious identity. A centered company introduction uses local Instrument Serif; DM Sans keeps controls and evidence clear. The homepage has a centered introduction and one expanding benchmark showcase, with two actual initial worlds and real score bars.\n\nAnalytical routes share the paper/white/navy identity. Visual results and AI models are defaults; a nearby inspector explains recorded people outcomes, scenario evidence and quick comparison. Profiles and comparisons lead with outcomes, with technical measurements disclosed on demand. This records the incumbent static implementation and the authorized UX refinements.",
     "keyCharacteristics": [
-      "Light appearance throughout the site",
-      "Original supplied infinity emblem",
-      "Centered company introduction and introductory action",
-      "One white Environment / Results / Methodology showcase",
-      "Direct entry into actual results with visible scope"
+      "One light paper/white/navy appearance with the supplied emblem",
+      "Local Instrument Serif and DM Sans",
+      "Centered company introduction and one expanding showcase",
+      "Actual initial worlds and real score bars",
+      "Visual AI-model results, nearby outcomes and optional exact table",
+      "Inline phone inspection and shareable workspace state"
     ],
     "rules": [
       {
@@ -238,7 +286,8 @@
       "Do keep the company introduction and its action centered.",
       "Do show the actual scenario, labelled metric and visible evidence scope.",
       "Do open actual results directly from every benchmark action.",
-      "Do preserve generated-data provenance, model IDs, scoring and deep links.",
+      "Do preserve generated-data provenance, model IDs, scoring, confidence intervals and shareable selection/filter parameters.",
+      "Do lead result inspection, profiles and comparison with actual outcomes, then disclose technical evidence.",
       "Do use immediate keyboard and reduced-motion states and native phone disclosures."
     ],
     "donts": [
@@ -247,7 +296,8 @@
       "Don't substitute an old benchmark hero for the results destination.",
       "Don't call the initial-state map an evaluated replay or animate people as fabricated evacuation results.",
       "Don't add pointer tilt, continuous homepage flight or motion required to understand content.",
-      "Don't edit generated results or scoring definitions by hand."
+      "Don't edit generated results or scoring definitions by hand.",
+      "Don't invent a new visual world, products, layouts or decorative explanatory copy. Applecn and shadcn may inform interaction guidance; this static site does not run their React components."
     ]
   }
 }

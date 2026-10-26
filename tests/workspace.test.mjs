@@ -32,7 +32,7 @@ try {
       if (width === 1440 || width === 390) await audit(`${name} ${width}px light`);
     }
   }
-  await go('leaderboard.html');
+  await go('leaderboard.html?display=table');
   check('Scores view has focused columns',await page.locator('.focused-table thead th').count() === 6);
   await page.getByRole('button',{name:'API usage',exact:true}).click();
   check('API view exposes cost',await page.locator('[data-sort="cost"]').isVisible());

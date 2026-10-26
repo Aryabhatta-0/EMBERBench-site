@@ -18,7 +18,7 @@ try{
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.waitForFunction(()=>document.querySelector('.loading-emblem')?.dataset.motion==='reduced');
   check('Reduced motion preserves still artwork',await page.locator('.loading-emblem canvas').isHidden() && await page.locator('.loading-emblem img').isVisible());
-  release();await page.locator('#leaderboard table').waitFor();
+  release();await page.locator('.result-chart').waitFor();
   check('Data resolves into actual results, with no secondary hero',await page.locator('.loading-shell,.anantam-hero').count()===0);
 }finally{release?.();await writeFile(resolve(out,'cosmos-report.json'),JSON.stringify({checks},null,2));await browser.close();}
 console.log(`${checks.length} loading-motion checks passed.`);

@@ -176,7 +176,7 @@ async function main() {
     `<div id="congestion">${section("Congestion diagnostics", "The fire is frozen; actions change routes, queueing, and movement conflicts. These diagnostics never directly affect EMBER Score.", table(["Diagnostic", "Value"], diagnosticRows(m.diagnostics), "Congestion diagnostics"))}</div>` +
     `<div id="api">${section("API efficiency", a ? "Recorded operational measurements; absent values stay —." : "Reference agent: no remote API.", apiContent)}</div>` +
     `<div id="provenance">${section("Reproducibility / provenance", "Official score reports, generated data, and explicit uncertainty limits.", provenance(data, m) + `<p class="note">${count(t.trials)} trial for this model. Reported 95% CIs resample the evaluated world evidence and cannot measure unobserved between-trial variability with one trial. The current snapshot does not expose all report provenance fields; those are shown as — pending regeneration from the original reports.</p>`)}</div>`;
-  redesignProfile();
+  redesignProfile(m);
   document.getElementById("browse-model").addEventListener("change", (e) => {
     location.href = `model.html?id=${encodeURIComponent(e.target.value)}`;
   });

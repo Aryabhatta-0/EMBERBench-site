@@ -1,5 +1,6 @@
 // Shared structure for analytical routes. Existing evidence nodes retain their IDs.
 import { esc } from './common.js';
+import {profileReadout} from './evidence-readout.js';
 
 export function workspaceTabs(root, groups, key = 'workspace', initialView) {
   const current = initialView || root.querySelector(`[data-workspace="${key}"] [aria-selected="true"]`)?.dataset.view;
@@ -66,7 +67,7 @@ export function editorHeader(title, description, aside = '') {
   return `<header class="page-head editorial-head"><div><h1>${title}</h1><p>${description}</p></div>${aside ? `<div class="editorial-aside">${aside}</div>` : ''}</header>`;
 }
 
-export function redesignProfile() {
+export function redesignProfile(model) {
   const main = document.getElementById('main');
   const nav = main.querySelector('.profile-nav');
   nav?.remove();
@@ -76,14 +77,18 @@ export function redesignProfile() {
   const metrics = main.querySelector(':scope > .metrics');
   metrics?.classList.add('profile-key-facts');
   metrics?.classList.remove('metrics');
+  if (metrics) [...metrics.children].slice(2,5).forEach(node=>node.remove());
   const top = get('performance');
   if (top) disclosure(top, 'Position in the full evaluation');
   const components = get('components');
   const coverage = components?.querySelector('.table-wrap');
   if (coverage) disclosure(coverage, 'Component coverage and exact factors');
   if (people) disclosure(people, 'All people outcomes');
+  const readout=document.createElement('div');
+  readout.innerHTML=profileReadout(model);
+  const componentDetails=components ? disclosure(components,'Inspect all seven score components') : null;
   const groups = [
-    ['overview','Overview',[components, people?.parentElement, top?.parentElement]],
+    ['overview','Overview',[readout, componentDetails, people?.parentElement, top?.parentElement]],
     ['scenarios','Scenarios',[get('scenarios'), disclosure(get('worlds'), 'Inspect every evaluated world')]],
     ['diagnostics','Diagnostics',[get('api'), robustness, get('congestion')]],
     ['sources','Sources',[get('provenance')]],

@@ -14,7 +14,9 @@ const errors = [], checks = [], accessibility = [];
 page.on('pageerror', e => errors.push(e.message));
 page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 const go = async route => {
-  await page.goto(new URL(route, base).href);
+  const target=new URL(route,base);
+  if (target.pathname.endsWith('/leaderboard.html')) {target.searchParams.set('display','table');if(!target.searchParams.has('kind')) target.searchParams.set('kind','all');}
+  await page.goto(target.href);
   await page.locator('.site-footer').waitFor();
   await page.evaluate(() => document.fonts.ready);
 };
@@ -46,13 +48,14 @@ try {
   await page.screenshot({ animations: "disabled", path: resolve(out,'home-desktop.png'), fullPage: true });
   await audit('Home light desktop');
   await go('benchmark.html');
-  check('Benchmark opens actual searchable results', await page.locator('#search').isVisible() && await page.locator('#leaderboard table').isVisible());
+  check('Benchmark opens actual searchable results', await page.locator('#search').isVisible() && await page.locator('.result-chart').isVisible());
   await go('leaderboard.html');
   await audit('Leaderboard light');
   await page.locator('#search').fill('no-such-model-anantam');
   check('Search empty state', (await page.locator('#leaderboard').innerText()).includes('No matching models'));
   await page.getByRole('button', { name:'Reset filters',exact:true }).click();
-  check('Filters reset', (await page.locator('[data-select-model]').count()) === data.models.length);
+  check('Filters reset to AI decision models', (await page.locator('[data-select-model]').count()) === data.models.filter(m=>m.kind==='Decision model').length);
+  await page.locator('#kind').selectOption('all');
   const selected = page.locator('[data-select-model]');
   for (let i = 0; i < 4; i++) await selected.nth(i).check();
   await selected.nth(4).click();

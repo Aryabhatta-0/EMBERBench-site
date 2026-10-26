@@ -43,7 +43,7 @@ try {
     if (name==='desktop') {
       const frozen=await page.evaluate(()=>window.detachedLoader.toDataURL()); await page.waitForTimeout(180);
       check('Detached loader stops rendering',frozen===await page.evaluate(()=>window.detachedLoader.toDataURL()));
-      check('Benchmark opens results after loading',await page.locator('#leaderboard table').isVisible() && await page.locator('.anantam-hero').count()===0);
+      check('Benchmark opens results after loading',await page.locator('.result-chart').isVisible() && await page.locator('.anantam-hero').count()===0);
     }
     await context.close();
   }
