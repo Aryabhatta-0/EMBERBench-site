@@ -25,7 +25,7 @@ try {
   await go('benchmark.html');
   check('Entry begins with real AI model chart, expert table is optional',await page.locator('.result-chart').isVisible() && !(await page.locator('#leaderboard').isVisible()) && await page.locator('#kind').inputValue()==='Decision model');
   check('Leading chart uses official scientific order',await page.locator('[data-inspect]').first().getAttribute('data-inspect')===ai[0].id);
-  check('Chart uses fixed 0–100 scale',Math.abs(await page.locator('.chart-fill').first().evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).a)-ai[0].score/100)<.00001);
+  check('Chart uses fixed 0–100 scale',Math.abs(await page.locator('.chart-fill').first().evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d)-ai[0].score/100)<.00001);
   check('Inspector reports actual outcomes',await page.locator('.result-inspector .people-legend dd').allTextContents().then(v=>v.join('|')===[ai[0].totals.evacuated,ai[0].totals.avoidable_casualties,ai[0].totals.avoidable_stranded].join('|')));
   check('Visible explanation distinguishes score from survival percentage',(await page.locator('.plot-note').textContent()).includes('not the percentage'));
   await audit('Visual score results desktop');
@@ -51,8 +51,13 @@ try {
   await page.locator('#search').fill('nothing-matches');
   check('Visual search has a recovery state',await page.getByRole('heading',{name:'No matching models.',exact:true}).isVisible());
   await page.getByRole('button',{name:'Reset filters',exact:true}).click();
-  await page.locator('#expand-results').click();
-  check('All models can be reached without leaving the chart',await page.locator('[data-inspect]').count()===ai.length);
+  const seen=new Set();
+  do{
+    for(const id of await page.locator('[data-inspect]').evaluateAll(els=>els.map(el=>el.dataset.inspect)))seen.add(id);
+    const next=page.getByRole('button',{name:'Next five models',exact:true});if(await next.isDisabled())break;await next.click();
+  }while(true);
+  check('All models can be reached within a fixed-height chart',seen.size===ai.length&&await page.locator('.rank-panel').evaluate(el=>el.getBoundingClientRect().height<=240));
+  await go('benchmark.html');
   await page.locator('[data-inspect]').first().focus();await page.keyboard.press('ArrowDown');
   check('Arrow navigation selects and focuses the next model',await page.locator('#inspector-title').textContent()===ai[1].name && await page.locator('[data-inspect]').nth(1).evaluate(el=>el===document.activeElement));
   check('Keyboard navigation has no entrance animation',await page.locator('.result-inspector').evaluate(el=>el.getAnimations().length===0));
@@ -74,7 +79,7 @@ try {
     check(`${width}px visual results fit`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     await page.locator('[data-inspect]').nth(1).click();
     check(`${width}px selected model is explained`,await page.locator('#inspector-title').textContent()===ai[1].name);
-    if(width<700) check(`${width}px explanation follows the selected row`,await page.locator('.result-inspector').evaluate(el=>el.parentElement.querySelector('button')?.classList.contains('is-inspected')));
+    if(width<700) check(`${width}px selected evidence follows the complete chart overview`,await page.locator('.selected-evidence').evaluate(el=>el.getBoundingClientRect().top>=document.querySelector('.benchmark-dashboard').getBoundingClientRect().bottom));
     await audit(`Visual results ${width}px`);
     if(width===390) {await page.evaluate(()=>{document.activeElement?.blur();scrollTo({top:0,behavior:'instant'});});await page.screenshot({path:resolve(out,'results-mobile.png'),fullPage:true});}
   }

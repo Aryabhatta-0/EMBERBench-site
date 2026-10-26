@@ -34,6 +34,27 @@ import {
   differenceChart,
 } from "../site/charts.js";
 import data from "../site/data/results.js";
+import {rankingPage,outcomeParts,PAGE_SIZE} from '../site/benchmark-dashboard.js';
+
+test('bounded chart pages cover a filtered cohort exactly without changing its order',()=>{
+  const models=data.models.filter(m=>m.kind==='Decision model'),snapshot=[...models];
+  const pages=Array.from({length:Math.ceil(models.length/PAGE_SIZE)},(_,i)=>rankingPage(models,i));
+  assert.deepEqual(pages.flatMap(p=>p.models),models);
+  assert.ok(pages.every(p=>p.models.length<=PAGE_SIZE));
+  assert.equal(rankingPage(models,-5).current,0);
+  assert.equal(rankingPage(models,Infinity).current,0);
+  assert.equal(rankingPage(models,999).current,pages.length-1);
+  assert.deepEqual(rankingPage([],0).models,[]);
+  assert.deepEqual(models,snapshot);
+});
+
+test('donut geometry uses published people counts rather than the composite EMBER score',()=>{
+  for(const model of data.models){
+    const parts=outcomeParts(model);
+    assert.deepEqual(parts.map(p=>p[2]),[model.totals.evacuated,model.totals.avoidable_casualties,model.totals.avoidable_stranded,model.totals.unavoidable_losses||0]);
+    assert.ok(parts.every(p=>Number.isInteger(p[2])&&p[2]>=0));
+  }
+});
 
 test("Jev labels identify the evaluated version while preserving aliases and IDs", () => {
   const old = data.models.find(m=>m.id === 'typesafe-jev-latest-choice-r1');

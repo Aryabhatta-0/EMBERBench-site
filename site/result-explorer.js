@@ -1,3 +1,4 @@
+import {dashboard,bindDashboard} from './benchmark-dashboard.js';
 import {esc, fmt, count, providerChip, scenarioName, ciText, isDecision} from './common.js';
 import {METRICS, finite, leaderboardOrder} from './analytics.js';
 
@@ -21,26 +22,16 @@ export function resultExplorer(data, models, state, value) {
   if (!models.length) return `<div class="empty"><h2>No matching models.</h2><p>Try another search or reset filters.</p></div>`;
   const selected = models.find(m=>m.id===state.inspect) || models[0];
   const against = data.models.find(m=>m.id===state.against && m.id!==selected.id) || leaderboardOrder(data.models.filter(m=>m.id!==selected.id && isDecision(m)))[0];
-  const key = state.sort;
-  const metric = METRICS[key];
-  const maximum = key === 'score' ? 100 : ['safety','quality','congestion'].includes(key) ? 1 : Math.max(0,...models.map(metric.get).filter(finite));
-  const limit = state.expanded ? models.length : 6;
-  const visible = models.slice(0,limit);
-  // Keep a selected deep-linked model visible without changing the scientific sort.
-  if (!visible.includes(selected)) visible.push(selected);
-  const unit = key === 'score' ? 'points / 100' : ['safety','quality','congestion'].includes(key) ? 'factor / 1' : key === 'cost' ? 'USD · recorded invocation' : key === 'latency' ? 'seconds / decision' : key === 'evacuated' || key === 'casualties' || key === 'stranded' ? 'people · all evaluated worlds' : metric.label.toLowerCase();
-  return `<div class="results-reading"><div class="results-plot"><div class="plot-heading"><div><h2>${key==='score' ? 'How the models performed' : esc(metric.label)}</h2><p>${esc(unit)} · ${metric.direction === 'higher' ? 'Higher' : 'Lower'} is better</p></div><span class="plot-instruction">Select a model to understand its result</span></div><div class="chart-axis" aria-hidden="true"><span>0</span><span>${key==='cost' ? '$' : ''}${fmt(maximum,maximum < 10 ? 2 : 0)}</span></div><ol class="result-chart" aria-label="${esc(metric.label)} comparison">${visible.map(m=>{
-    const v = metric.get(m), position = leaderboardOrder(data.models.filter(x=>x.kind===m.kind)).findIndex(x=>x.id===m.id)+1;
-    return `<li><button type="button" class="chart-model ${m.id===selected.id ? 'is-inspected' : ''}" data-inspect="${esc(m.id)}" aria-expanded="${m.id===selected.id}" aria-controls="result-inspector"><span class="chart-rank" ${key==='score' ? `aria-label="EMBER rank ${position} within ${esc(m.kind.toLowerCase())}s"` : ''}>${key==='score' ? position : ''}</span><span class="chart-model-name">${esc(m.name)}${!isDecision(m) ? '<small>Reference agent</small>' : ''}</span><b>${esc(value(m,key))}</b><span class="chart-track" aria-hidden="true"><span class="chart-fill ${!isDecision(m) ? 'reference-fill' : ''}" style="transform:scaleX(${finite(v) && maximum > 0 ? Math.max(0,Math.min(1,v/maximum)) : 0})"></span></span><span class="chart-open" aria-hidden="true">${arrow}</span></button></li>`;
-  }).join('')}</ol>${models.length > 6 ? `<button type="button" class="show-models" id="expand-results" aria-expanded="${state.expanded}">${state.expanded ? 'Show fewer' : `Show all ${models.length} entries`}${arrow}</button>` : ''}<p class="plot-note">${key === 'score' ? 'EMBER combines safety and execution quality. It is not the percentage of people saved. Rank uses rounded scores and scientific tie-breaks.' : esc(metric.help)} ${key === 'cost' || key === 'latency' ? 'Missing data is not zero. Resumed runs may report only their final invocation; API usage is not part of the score.' : ''}</p></div>${inspector(data,selected,against)}</div>`;
+  return `${dashboard(data,models,selected,against,state,value)}<section class="selected-evidence" aria-label="Selected model evidence">${inspector(data,selected,against)}</section>`;
 }
 
 export function bindResultExplorer(root, handlers) {
+  bindDashboard(root,handlers);
   const buttons = [...root.querySelectorAll('[data-inspect]')];
   buttons.forEach((button,i)=>{
     button.addEventListener('click',event=>handlers.inspect(button.dataset.inspect,event.detail>0));
     button.addEventListener('keydown',event=>{
-      const next = event.key === 'ArrowDown' ? buttons[(i+1)%buttons.length] : event.key === 'ArrowUp' ? buttons[(i+buttons.length-1)%buttons.length] : event.key === 'Home' ? buttons[0] : event.key === 'End' ? buttons.at(-1) : null;
+      const next = ['ArrowDown','ArrowRight'].includes(event.key) ? buttons[(i+1)%buttons.length] : ['ArrowUp','ArrowLeft'].includes(event.key) ? buttons[(i+buttons.length-1)%buttons.length] : event.key === 'Home' ? buttons[0] : event.key === 'End' ? buttons.at(-1) : null;
       if (next) {event.preventDefault();handlers.inspect(next.dataset.inspect);}
     });
   });

@@ -62,7 +62,8 @@ async function main() {
     display: params.get('display') === 'table' ? 'table' : 'chart',
     inspect: params.get('model') ?? '',
     against: params.get('against') ?? '',
-    expanded: params.get('expanded') === 'true',
+    page: params.has('page') ? Math.max(0,Number(params.get('page'))||0) : null,
+    scenarioPage: params.get('scenarios')==='1'?1:0,
   };
   if (!['all','Decision model','Reference agent'].includes(state.kind)) state.kind = 'Decision model';
   if (!Object.hasOwn(METRICS, state.sort)) state.sort = "score";
@@ -95,6 +96,11 @@ async function main() {
   mobileFilters.className = 'mobile-benchmark-filters';
   mobileFilters.innerHTML = '<summary>Filters &amp; sort<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h14M10 3v14"/></svg></summary><div class="filter-fields"></div>';
   document.querySelector('.explorer-search').after(mobileFilters);
+  for(const field of document.querySelectorAll('.explorer-search .field')){
+    const label=field.firstChild;if(label?.nodeType===Node.TEXT_NODE){const span=document.createElement('span');span.className='filter-label';span.textContent=label.textContent;label.replaceWith(span);}
+  }
+  const responsiveSearch=document.createElement('div');responsiveSearch.className='responsive-search';
+  document.querySelector('.explorer-search').before(responsiveSearch);responsiveSearch.append(document.querySelector('.explorer-search'),mobileFilters);
   const phoneLayout = matchMedia('(max-width:700px)');
   const arrangeControls = () => {
     mobileFilters.hidden = !phoneLayout.matches;
@@ -139,14 +145,15 @@ async function main() {
     visual.hidden = state.display !== 'chart';
     visual.innerHTML = resultExplorer(data,models,state,value);
     bindResultExplorer(visual,{
-      inspect:(id,pointer)=>{
-        state.inspect=id;update();document.querySelector(`[data-inspect="${CSS.escape(id)}"]`)?.focus({preventScroll:true});
+      inspect:(id,pointer,source)=>{
+        state.inspect=id;state.page=Math.floor(models.findIndex(m=>m.id===id)/5);update();
+        const target=source==='select'?document.getElementById('inspect-model'):source==='scatter'?document.querySelector(`[data-plot-select="${CSS.escape(id)}"]`):document.querySelector(`[data-inspect="${CSS.escape(id)}"]`);target?.focus({preventScroll:true});
         if (pointer && !matchMedia('(prefers-reduced-motion:reduce)').matches) document.getElementById('result-inspector')?.animate([{transform:'translateY(6px)'},{transform:'translateY(0)'}],{duration:220,easing:'cubic-bezier(.2,0,0,1)'});
       },
       against:id=>{state.against=id;update();},
-      expand:()=>{state.expanded=!state.expanded;update();},
+      page:(page,direction)=>{state.page=page;update();(document.querySelector(`.chart-pagination button[aria-label^="${direction==='next'?'Next':'Previous'}"]:not([disabled])`)||document.querySelector('.chart-pagination button:not([disabled])'))?.focus({preventScroll:true});},
+      scenarioPage:page=>{state.scenarioPage=page;update();document.querySelector(`[data-scenario-page="${page}"]`)?.focus({preventScroll:true});},
     });
-    arrangeInspector();
     const visibleKeys = {scores:['score','safety','quality'],people:['score','evacuated','casualties','stranded','blocked'],api:['score','cost','latency','requests','input'],all:columns.map(([key]) => key)}[state.view];
     const shownColumns = columns.filter(([key]) => visibleKeys.includes(key));
     const th = (key, label) =>
@@ -184,15 +191,6 @@ async function main() {
     if (focusAgainst) document.getElementById('compare-against')?.focus({preventScroll:true});
     if (focusExpand) document.getElementById('expand-results')?.focus({preventScroll:true});
   };
-  const arrangeInspector = () => {
-    const inspector = document.getElementById('result-inspector');
-    const selectedRow = document.querySelector('.chart-model.is-inspected')?.closest('li');
-    const reading = document.querySelector('.results-reading');
-    if (!inspector || !selectedRow || !reading) return;
-    if (phoneLayout.matches) selectedRow.append(inspector);
-    else reading.append(inspector);
-  };
-  phoneLayout.addEventListener('change',arrangeInspector);
   const update = () => {
     const p = new URLSearchParams({
       q: state.query,
@@ -204,7 +202,8 @@ async function main() {
       display: state.display,
       ...(state.inspect ? {model:state.inspect} : {}),
       ...(state.against ? {against:state.against} : {}),
-      ...(state.expanded ? {expanded:'true'} : {}),
+      ...(state.page!==null ? {page:String(state.page)} : {}),
+      ...(state.scenarioPage ? {scenarios:'1'} : {}),
     });
     history.replaceState(null, "", `?${p}`);
     render();
@@ -215,7 +214,7 @@ async function main() {
     update();
   });
   for (const button of document.querySelectorAll('[data-metric-view]')) button.addEventListener('click', () => {
-    state.view = button.dataset.metricView;
+    state.view = button.dataset.metricView;state.page=null;
     if (state.view === 'people') {state.sort='evacuated';state.direction='desc';}
     if (state.view === 'api') {state.sort='cost';state.direction='asc';}
     if (state.view === 'scores') {state.sort='score';state.direction='desc';}
@@ -228,7 +227,7 @@ async function main() {
     update();
   });
   document.getElementById("search").addEventListener("input", (e) => {
-    state.query = e.target.value;
+    state.query = e.target.value;state.page=null;
     update();
   });
   for (const [id, key] of [
@@ -237,14 +236,14 @@ async function main() {
     ["metric", "sort"],
   ])
     document.getElementById(id).addEventListener("change", (e) => {
-      state[key] = e.target.value;
+      state[key] = e.target.value;state.page=null;
       if (key === "sort")
         state.direction =
           METRICS[state.sort].direction === "higher" ? "desc" : "asc";
       update();
     });
   document.getElementById("reset-filters").addEventListener("click", () => {
-    state.query = "";
+    state.query = "";state.page=null;
     state.kind = "Decision model";
     state.creator = "all";
     state.sort = "score";

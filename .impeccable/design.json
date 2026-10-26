@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-26T17:10:36.398201+00:00",
+  "generatedAt": "2026-10-27",
   "title": "Anantam design system",
   "extensions": {
     "colorMeta": {
@@ -266,11 +266,6 @@
         "purpose": "Interruptible CSS transforms of exact person markers. Fine hover above 700px; explicit button locks grouping. Keyboard and reduced motion are immediate."
       },
       {
-        "name": "finite-brand-entry",
-        "value": "800ms, power3.out",
-        "purpose": "The centered company signature rises 18px once; reduced motion skips the entrance. No replay or diagram entrance exists."
-      },
-      {
         "name": "loop-explanation",
         "value": "200ms, cubic-bezier(.2,0,0,1)",
         "purpose": "Pointer selection updates explanation immediately with a 5px rise. Keyboard and reduced motion stay immediate."
@@ -284,6 +279,11 @@
         "name": "button-response",
         "value": "150ms; active scale(.96)",
         "purpose": "Shared action feedback only where motion is allowed."
+      },
+      {
+        "name": "brand-ribbon",
+        "value": "1.9s contour entry; 7s traveling accents; 800ms bounded pointer response",
+        "purpose": "Infinity-informed linework frames the supplied emblem. Pause, reduced motion, document visibility and intersection control playback; context cleanup on navigation."
       }
     ],
     "breakpoints": [
@@ -361,14 +361,6 @@
       "css": ".ds-loop{font-family:var(--font-body,\"DM Sans\",system-ui,sans-serif);color:var(--text-primary,#172c46);padding:30px 0 20px}.ds-loop-path{display:grid;grid-template-columns:1fr 26px 1fr 26px 1fr 26px 1fr 26px 1fr;gap:5px 12px;align-items:center}.ds-loop button{min-height:56px;padding:12px 10px;border:0;border-radius:8px;background:transparent;color:var(--text-secondary,#445671);font:500 15px/1.5 var(--font-body,\"DM Sans\",system-ui,sans-serif);cursor:pointer}.ds-loop button[aria-pressed=\"true\"]{background:var(--surface-1,#fff);color:var(--text-primary,#172c46)}.ds-loop button:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}.ds-loop-path>span{color:var(--text-muted,#53647a)}.ds-loop-path>p{grid-column:1/6;grid-row:2;font-size:10px;color:var(--text-muted,#53647a);text-align:center;padding-top:12px}.ds-loop-explanation{display:flex;justify-content:space-between;gap:24px;margin-top:26px}.ds-loop-explanation p{font-size:13px;line-height:1.8;max-width:65ch;min-height:48px;color:var(--text-secondary,#445671);margin:0}.ds-loop-explanation>span{font-size:11px;color:var(--text-muted,#53647a);white-space:nowrap}@media(hover:hover){.ds-loop button:hover{background:var(--surface-1,#fff);color:var(--text-primary,#172c46)}}@media(max-width:700px){.ds-loop-path{grid-template-columns:1fr 22px 1fr 22px 1fr;gap:7px}.ds-loop button{font-size:12px;padding:12px 5px}.ds-loop-path>span:nth-of-type(3){display:none}.ds-loop-path>button:nth-of-type(4){grid-column:1;grid-row:3}.ds-loop-path>span:nth-of-type(4){grid-column:2;grid-row:3}.ds-loop-path>button:nth-of-type(5){grid-column:3;grid-row:3}.ds-loop-path>p{grid-column:1/-1;grid-row:2;text-align:left;font-size:9px}.ds-loop-explanation p{font-size:12px;min-height:80px}}"
     },
     {
-      "name": "Selected visual result",
-      "kind": "custom",
-      "refersTo": "result-row-selected",
-      "description": "Real generated-snapshot specimen. The production row selects a nearby inspector, retains metric units and moves the inspector inline after the row on phones.",
-      "html": "<button type=\"button\" class=\"ds-result\" aria-expanded=\"true\"><span class=\"ds-result-name\">typesafe/jev-1.14</span><b>51.70</b><span class=\"ds-chart-track\" aria-hidden=\"true\"><span style=\"transform:scaleX(0.51704)\"></span></span></button>",
-      "css": ".ds-result{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;width:100%;min-height:76px;padding:14px 12px 13px 4px;border:0;border-radius:8px;background:var(--chart-selected,#edf2f5);color:var(--text-primary,#172c46);font:400 13px/1.6 var(--font-body,\"DM Sans\",system-ui,sans-serif);text-align:left;cursor:pointer}.ds-result-name{overflow-wrap:anywhere}.ds-result b{font-size:16px;font-weight:500;font-variant-numeric:tabular-nums}.ds-chart-track{grid-column:1/-1;height:7px;background:var(--chart-track,#e9eef1);border-radius:2px;overflow:clip}.ds-chart-track>span{display:block;width:100%;height:100%;background:var(--accent,#142e51);transform-origin:left}.ds-result:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover) and (pointer:fine){.ds-result:hover{background:var(--chart-selected,#edf2f5)}}"
-    },
-    {
       "name": "Recorded people outcomes",
       "kind": "custom",
       "refersTo": "result-inspector",
@@ -379,7 +371,7 @@
   ],
   "narrative": {
     "northStar": "The supplied identity, direct access to research.",
-    "overview": "Navy on porcelain and mist blue. Centered stacked emblem and Anantam wordmark; one direct benchmark action. Evacuation maps, reference replay controls and their assets are removed throughout the site.",
+    "overview": "Original navy identity on porcelain and mist blue, with interactive brand ribbons. The benchmark opens a bounded four-chart overview: ranking columns, safety/quality scatter, published people outcomes and scenario scores. No evacuation grid or replay UI.",
     "keyCharacteristics": [
       "Light only",
       "Original navy emblem and local fonts",

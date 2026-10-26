@@ -2,9 +2,9 @@
 
 An experimental AI company. **EMBERBenchmark** is its first and only published contribution.
 
-The light-only company homepage presents a centered identity, a mist-blue hero with direct benchmark access, exact people-outcome pictographs and a connected explanation. The benchmark opens real visual results with an optional exact data table. Worlds, profiles, comparisons and methodology share context and navigation.
+The light-only company homepage presents a centered identity, a mist-blue hero with flowing brand ribbons and direct benchmark access, exact people-outcome pictographs and a connected explanation. The benchmark opens a four-chart overview with bounded ranking pages and an optional exact data table. Worlds, profiles, comparisons and methodology share context and navigation.
 
-See [the current skill-by-skill report](docs/COMPANY_REDESIGN.md) for the fifteen requested skills, references, implementation choices, validation, and limits. Earlier implementation notes below describe the benchmark explorer's history.
+See [the motion and charts revision](docs/MOTION_AND_CHARTS.md) for the latest changes. See [the earlier skill-by-skill report](docs/COMPANY_REDESIGN.md) for the fifteen requested skills, references, implementation choices, validation, and limits. Earlier implementation notes below describe the benchmark explorer's history.
 
 A dependency-free, GitHub Pages-compatible explorer of official **public development** score reports from [EMBERBench](https://github.com/Aryabhatta-0/EMBERBench). The portal does not present a hidden-suite leaderboard.
 

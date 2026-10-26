@@ -1,7 +1,10 @@
 import {shell,loadResults,esc,fmt} from './common.js';
 import {mountEvaluationLoop} from './evaluation-loop.js';
+import {mountHeroMotion} from './hero-motion.js';
 
 shell(null,'company');
+const destroyHero=mountHeroMotion(document.querySelector('.company-hero'));
+addEventListener('pagehide',e=>{if(!e.persisted)destroyHero?.();});
 mountEvaluationLoop(document.getElementById('home-evaluation-loop'),{compact:true});
 const reduced=matchMedia('(prefers-reduced-motion:reduce)');
 const fine=matchMedia('(hover:hover) and (pointer:fine) and (min-width:701px)');
@@ -38,6 +41,3 @@ loadResults().then(data=>{
   }
 }).catch(()=>{document.getElementById('outcome-cards').innerHTML='<p class="result-preview-error">The preview could not load. <a href="benchmark.html">Open the benchmark</a> to try again.</p>';});
 
-if(!reduced.matches&&window.gsap){
-  window.gsap.from('.company-signature',{y:18,duration:.8,ease:'power3.out',clearProps:'transform'});
-}
