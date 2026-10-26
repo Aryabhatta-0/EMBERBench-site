@@ -6,9 +6,9 @@
   --font-body: 'DM Sans', system-ui, sans-serif;
   --on-provider: #fcfcfd; --print-background: #ffffff; --print-text: #000000;
   --font-display: 'Instrument Serif', Georgia, serif;
-  --surface-0: #fafaf7; --surface-1: #fff; --surface-2: #f0f2f3;
-  --text-primary: #15283f; --text-secondary: #455467; --text-muted: #596675;
-  --border: #dde2e5; --grid: #e8ecee; --accent: #142e51; --accent-soft: #e9eff6;
+  --surface-0: #f8f9fc; --surface-1: #fff; --surface-2: #edf1f7;
+  --text-primary: #172c46; --text-secondary: #445671; --text-muted: #53647a;
+  --border: #d7dfeb; --grid: #e3e9f1; --accent: #142e51; --accent-soft: #e9eff6;
   --series-1: #246d76; --series-2: #ab5839; --series-3: #416994;
   --track: #e8edf1; --ref-bar: #7c8997; --dim-bar: #c7d0d9; --link: #244f7c; --focus: #2865b1;
   --warn-bg: #fcf0df; --warn-text: #785114; --shadow: 0 12px 36px #142e510b;

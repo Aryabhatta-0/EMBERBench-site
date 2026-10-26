@@ -1,3 +1,7 @@
+# Current correction — light palette and removal
+
+The latest user instruction supersedes the replay descriptions below. All evacuation maps, reference-agent selectors, playback controls and replay assets are removed from the delivered website. The centered hero now uses the supplied navy logo on mist blue and opens benchmark results directly. See DESIGN.md and docs/LIGHT_THEME.md for the current implementation. The earlier implementation report is retained as history.
+
 # Whole-experience audit
 
 Goal: understand Anantam, explore its one contribution, watch what the environment tests, understand outcomes, and inspect relevant evidence. The user explicitly rejected a sparse company introduction followed by one concealed accordion; passing functional tests did not satisfy that brief.

@@ -16,7 +16,6 @@ import {
 } from "./common.js";
 import { filterModels, finite, worldKey } from "./analytics.js";
 import { heatmap } from "./charts.js";
-import {mountDemo} from './demo-player.js';
 
 // Descriptions and fire-model labels come from docs/scenario-suite.md.
 // Populations, world counts, scores, and ranks come only from generated results.
@@ -175,17 +174,10 @@ async function main() {
 
   const canvas = document.querySelector(".scenario-canvas");
   const intro=canvas.querySelector('.scenario-introduction');
-  const worldStage=document.createElement('div');worldStage.id='scenario-world-stage';
-  document.getElementById('scenario-summary').after(worldStage);
-  const worldPlayer=mountDemo(worldStage,{scenario:state.scenario,chooseWorld:false,onInspect:()=>{
-    canvas.querySelector('#scenario-tab-ranking').click();
-    document.getElementById('ranking-title').scrollIntoView({block:'start',behavior:'instant'});
-  }});
-  const focusResult=document.createElement('div');focusResult.id='world-model-result';worldStage.after(focusResult);
+  const focusResult=document.createElement('div');focusResult.id='world-model-result';document.getElementById('scenario-summary').after(focusResult);
   intro.append(intro.querySelector('.toolbar'));
   document.getElementById('scenario-select').closest('.field').classList.add('scenario-phone-choice');
   document.getElementById('scenario-summary').before(document.getElementById('scenario-select').closest('.field'));
-  addEventListener('pagehide',e=>{if(!e.persisted)worldPlayer.destroy();});
   const ranking = canvas.querySelector("[aria-labelledby=ranking-title]");
   ranking.querySelector('.section-head').insertAdjacentHTML('beforeend', '<button type="button" class="button scenario-columns" aria-pressed="false">More columns</button>');
   document.querySelector('.scenario-columns').addEventListener('click', e => {
@@ -255,10 +247,8 @@ async function main() {
     const focused=data.models.find(m=>m.id===state.model)||byScore.find(m=>m.kind==='Decision model');
     document.getElementById("scenario-summary").innerHTML = `
       <div class="section-head"><h2>${esc(selected.title)}</h2><span class="badge">${esc(selected.fire)} fire</span></div>
+      <p class="scenario-description">${esc(selected.description)}</p>
       <p class="scenario-world-facts">${esc(populationText(state.scenario))} people · ${count(worldCount(state.scenario))} scheduled ${worldCount(state.scenario)===1?'world':'worlds'} · <a href="${sourceLink(state.scenario)}">Source definition</a></p>`;
-    worldPlayer.setWorld(state.scenario);
-    worldStage.querySelector('[data-world-title]').textContent=selected.title;
-    worldStage.querySelector('[data-world-copy]').textContent=selected.description;
     focusResult.innerHTML=focused?`<div><span>${focused.kind === 'Decision model' ? 'Published AI-model evidence' : 'Published reference-agent evidence'}</span><p>${esc(focused.name)} <strong>${fmt(scenarioScore(focused,state.scenario)?.score)}</strong><span>EMBER / 100 on this scenario</span></p></div><a class="text-action" href="model.html?id=${encodeURIComponent(focused.id)}&scenario=${encodeURIComponent(state.scenario)}">Inspect this result<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>`:'';
 
     document.getElementById("ranking-description").textContent =

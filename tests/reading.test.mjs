@@ -4,7 +4,6 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {createRequire} from 'node:module';
 import data from '../site/data/results.js';
-import worlds from '../site/data/worlds.js';
 import {leaderboardOrder,sortModels} from '../site/analytics.js';
 import {evaluatedModelName} from '../site/common.js';
 
@@ -17,7 +16,6 @@ page.on('pageerror',e=>errors.push(e.message));
 const check=(name,value)=>{assert.ok(value,name);checks.push(name);};
 const go=async route=>{await page.goto(new URL(route,base).href);await page.locator('.site-footer').waitFor();await page.evaluate(()=>document.fonts.ready);};
 const ai=leaderboardOrder(data.models.filter(m=>m.kind==='Decision model').map(m=>({...m,name:evaluatedModelName(m)})));
-const twoExits=worlds.find(w=>w.scenario_id==='v1-pub-04-unequal-exits');
 const axe=await readFile(require.resolve('axe-core/axe.min.js'),'utf8');
 const audit=async label=>{
   await page.evaluate(axe);
@@ -81,13 +79,12 @@ try {
     if(width===390) {await page.evaluate(()=>{document.activeElement?.blur();scrollTo({top:0,behavior:'instant'});});await page.screenshot({path:resolve(out,'results-mobile.png'),fullPage:true});}
   }
   await page.setViewportSize({width:1440,height:1000});await go('index.html');
-  await page.getByRole('button',{name:'Two exits',exact:true}).click();
-  check('World switch displays real second scenario geometry',await page.locator('.world-person').count()===twoExits.people.length && await page.locator('.world-exit').count()===twoExits.exits.length);
-  check('Scenario action follows selected world',(await page.locator('[data-scenario-link]').getAttribute('href')).includes(twoExits.scenario_id));
-  await audit('Second world preview');
-  await page.locator('.experiment-feature').screenshot({path:resolve(out,'world-switch.png')});
-  await page.getByRole('button',{name:'The bottleneck',exact:true}).click();
-  check('World switch restores original scenario',await page.locator('.world-person').count()===8 && await page.locator('.world-exit').count()===1);
+  check('Home retains published outcomes without evacuation maps',await page.locator('.outcome-card').count()===2&&await page.locator('.world-map,[data-play]').count()===0);
+  await page.locator('.hero-action').click();await page.locator('.result-chart').waitFor();
+  check('Centered hero action opens published results directly',await page.locator('.result-chart').isVisible());
+  await go('scenarios.html?scenario=v1-pub-04-unequal-exits');
+  check('Scenario remains useful without replay controls',await page.locator('.scenario-description').textContent().then(t=>t.includes('different path distances'))&&await page.locator('#scenario-ranking table').isVisible()&&await page.locator('.world-map,.demo-controls').count()===0);
+  await audit('Scenario evidence without simulation');
   check('No page errors across visitor journeys',errors.length===0);
 } finally {
   await writeFile(resolve(out,'report.json'),JSON.stringify({checks,audits,errors},null,2));await browser.close();

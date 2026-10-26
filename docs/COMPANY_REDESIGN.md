@@ -1,3 +1,7 @@
+# Current correction — light palette and removal
+
+The latest user instruction supersedes the replay descriptions below. All evacuation maps, reference-agent selectors, playback controls and replay assets are removed from the delivered website. The centered hero now uses the supplied navy logo on mist blue and opens benchmark results directly. See DESIGN.md and docs/LIGHT_THEME.md for the current implementation. The earlier implementation report is retained as history.
+
 # Anantam — whole-experience rebuild
 
 The user rejected the sparse company hero and concealed accordion as an insufficient change. Those were implementation choices, not approved requirements. This revision replaces that presentation and extends the interaction through worlds, results, model evidence and methodology.

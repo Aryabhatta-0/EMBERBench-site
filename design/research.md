@@ -28,10 +28,6 @@ The references are choices to learn from, not proof of universal user preference
 
 ## Implemented pattern after the whole-site rejection
 
-The old expanding rail architecture has been removed. A shorter centered identity leads to one visible contribution sequence: a large reference player, two exact people-outcome pictographs and a connected evaluation explanation. The player offers three actual worlds and two hand-coded rules, with authenticated complete replay exports. It is paused by default; the user controls playback and time. These examples are explicitly separate from published AI-model runs.
+The user subsequently rejected the evacuation-grid player and requested its removal everywhere. That explicit direction overrides the earlier experiment-first translation. The current homepage uses the supplied navy identity on a mist-blue field, direct benchmark access, published outcome comparisons and the evaluation explanation. Scenario pages retain descriptions, source definitions, population counts and published rankings without maps or replay controls.
 
-All ten public initial layouts now appear on the scenario route. Supported worlds offer the same player; static-only worlds cannot expose a previous world’s record. Phone world choice is above the map and playback controls are adjacent to it. Published model evidence remains separate and leads into context-preserving profiles. The scenario’s own action reveals rankings instead of reloading the route.
-
-The existing useful visual results remain: nearby model evidence, immediate comparisons and exact tables. Home no longer hides primary substance behind tabs. Pictograph hover reorganizes exact summed people counts, while native buttons provide equivalent touch/keyboard access. An explicit explanation connects summed counts to the family-balanced safety/quality score. Methodology is a connected interactive sequence, followed by the existing reading structure and sources.
-
-The source-backed materials, concise copy, light palette and actual interactions are the reference translation. There are no copied product claims, invented launches or decorative AI imagery. Motion is bounded, interruptible and tied to a visible state. Keyboard/reduced-motion changes remain immediate. Published scientific qualifications and score data are unchanged.
+Sarvam and Gnani continue to inform contextual actions, useful hover feedback and evidence near the related product. Their illustrations, claims and content are not copied. Exact published data and its scientific qualifications remain unchanged.

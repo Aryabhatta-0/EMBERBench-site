@@ -1,14 +1,11 @@
 import {shell,loadResults,esc,fmt} from './common.js';
-import {mountDemo} from './demo-player.js';
 import {mountEvaluationLoop} from './evaluation-loop.js';
 
 shell(null,'company');
-const demo=mountDemo(document.getElementById('ember-demo'));
 mountEvaluationLoop(document.getElementById('home-evaluation-loop'),{compact:true});
 const reduced=matchMedia('(prefers-reduced-motion:reduce)');
 const fine=matchMedia('(hover:hover) and (pointer:fine) and (min-width:701px)');
 const arrow='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';
-const observers=[];
 
 function setGrouping(card,grouped,instant=false){
   card.classList.toggle('group-instant',instant||reduced.matches);
@@ -43,7 +40,4 @@ loadResults().then(data=>{
 
 if(!reduced.matches&&window.gsap){
   window.gsap.from('.company-signature',{y:18,duration:.8,ease:'power3.out',clearProps:'transform'});
-  const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){window.gsap.from('.demo-diagram',{y:16,duration:.8,ease:'power3.out',clearProps:'transform'});observer.disconnect();}},{threshold:.2});
-  observer.observe(document.querySelector('.experiment-feature'));observers.push(observer);
 }
-window.addEventListener('pagehide',e=>{if(!e.persisted){demo.destroy();observers.forEach(o=>o.disconnect());document.querySelectorAll('.outcome-person').forEach(el=>window.gsap?.killTweensOf(el));}});

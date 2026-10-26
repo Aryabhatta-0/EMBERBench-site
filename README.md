@@ -2,7 +2,7 @@
 
 An experimental AI company. **EMBERBenchmark** is its first and only published contribution.
 
-The light-only company homepage presents a centered identity, a playable public evacuation example, exact people-outcome pictographs and a connected explanation. The benchmark opens real visual results with an optional exact data table. Worlds, profiles, comparisons and methodology share context and navigation.
+The light-only company homepage presents a centered identity, a mist-blue hero with direct benchmark access, exact people-outcome pictographs and a connected explanation. The benchmark opens real visual results with an optional exact data table. Worlds, profiles, comparisons and methodology share context and navigation.
 
 See [the current skill-by-skill report](docs/COMPANY_REDESIGN.md) for the fifteen requested skills, references, implementation choices, validation, and limits. Earlier implementation notes below describe the benchmark explorer's history.
 

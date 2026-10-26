@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
-    <meta name="theme-color" content="#fafaf7">
+    <meta name="theme-color" content="#f8f9fc">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Anantam | An experimental AI company</title>
     <meta name="description" content="Anantam is an experimental AI company. Our first contribution, EMBERBenchmark, explores how AI makes decisions under pressure.">
@@ -28,13 +28,12 @@
   <body data-page="company">
     <main id="main" tabindex="-1">
       <section class="company-hero" aria-labelledby="hero-title">
-        <div class="company-signature"><img class="hero-emblem" src="assets/anantam-logo.png" width="88" height="88" alt="" fetchpriority="high"><h1 id="hero-title">Anantam</h1></div>
+        <div class="company-signature"><img class="hero-emblem" src="assets/anantam-logo.png" width="96" height="96" alt="" fetchpriority="high"><h1 id="hero-title">Anantam</h1></div>
         <p>An experimental AI company.</p>
-        <a class="button primary hero-action" href="#contributions">Explore our work<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14m-6-6 6 6 6-6"/></svg></a>
+        <a class="button primary hero-action" href="benchmark.html">Explore EMBERBenchmark<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
       </section>
       <section class="contributions" id="contributions" aria-labelledby="contributions-title">
         <header class="contribution-heading"><div><h2 id="contributions-title">EMBERBenchmark</h2><p>AI decisions, tested in fire evacuations.</p></div><a class="button primary" href="benchmark.html">Explore the benchmark<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></header>
-        <div class="experiment-feature"><div class="feature-caption"><h3>Watch a decision unfold.</h3><p>Choose a world. Compare two simple routing rules.</p></div><div id="ember-demo"><p class="demo-fallback">Explore the <a href="scenarios.html?scenario=v1-pub-03-corridor-bottleneck">public evacuation worlds</a>. Interactive examples require JavaScript.</p></div></div>
         <div class="outcome-feature" aria-labelledby="outcome-heading"><header class="outcome-heading"><div><h3 id="outcome-heading">The same worlds.<br>Different decisions.</h3><p>Counts sum across worlds. EMBER also weighs execution quality and balances scenario families, so more evacuations can accompany a lower score. <a href="methodology.html#score-title">How scoring works</a>.</p></div><p class="outcome-scope">Published AI-model results<br>One trial per model · Descriptive comparison</p></header><div id="outcome-cards"><p>Read the <a href="benchmark.html">published benchmark results</a>.</p></div><div class="outcome-end"><p>Each dot represents one person across the evaluated worlds.</p><a class="text-action" href="compare.html?models=openrouter-typesafe_jev-1.14-choice-r1,openrouter-nace-ai_drex-v2.0-choice-r1">Compare these models<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div></div>
         <div class="method-feature"><div class="method-feature-heading"><h3>How a decision becomes evidence.</h3><a class="text-action" href="methodology.html#process-title">Read the methodology<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div><div id="home-evaluation-loop"><p>A model observes a world, chooses actions, and receives another observation. Completed records are verified and scored.</p></div></div>
       </section>

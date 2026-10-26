@@ -1,11 +1,9 @@
 import assert from 'node:assert/strict';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
-import {createHash} from 'node:crypto';
 import {chromium} from 'playwright';
 import {createRequire} from 'node:module';
 import data from '../site/data/results.js';
-import demos from '../site/data/demo-index.js';
 const require=createRequire(import.meta.url),base=process.env.ANANTAM_BASE_URL||'http://127.0.0.1:8917/';
 const out=resolve('work/experience');await mkdir(out,{recursive:true});
 const axe=await readFile(require.resolve('axe-core/axe.min.js'),'utf8');
@@ -20,35 +18,16 @@ try{
   await page.setViewportSize({width,height:width<700?844:1000});await go(page);await page.locator('.outcome-card').first().waitFor();
   check(`${width}px light only`,await page.locator('html').getAttribute('data-theme')==='light'&&await page.locator('.theme-toggle').count()===0);
   check(`${width}px centered company identity and action`,await page.locator('.company-hero').evaluate(el=>{const h=el.getBoundingClientRect(),s=el.querySelector('.company-signature').getBoundingClientRect(),a=el.querySelector('a').getBoundingClientRect();return Math.abs(s.x+s.width/2-h.x-h.width/2)<2&&Math.abs(a.x+a.width/2-h.x-h.width/2)<2;}));
-  check(`${width}px contribution appears within the first screen`,await page.locator('.contribution-heading').evaluate(el=>el.getBoundingClientRect().top<650));
-  check(`${width}px all product substance visible without rails`,await page.locator('.experiment-feature').isVisible()&&await page.locator('.outcome-card').count()===2&&await page.locator('.benchmark-showcase').count()===0);
+  check(`${width}px hero action fits the first screen`,await page.locator('.hero-action').evaluate(el=>el.getBoundingClientRect().bottom<innerHeight));
+  check(`${width}px all product substance visible without rails`,await page.locator('.world-map,.demo-controls,#ember-demo').count()===0&&await page.locator('.outcome-card').count()===2&&await page.locator('.benchmark-showcase').count()===0);
   check(`${width}px no horizontal overflow`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await audit(page,`Home ${width}px`);
  }
  await page.setViewportSize({width:1440,height:1000});await go(page);
- await page.locator('[data-play]:not([disabled])').waitFor();
- check('Initial world has eight real people and one exit',await page.locator('.world-person').count()===8&&await page.locator('.world-exit').count()===1);
- check('Illustrative replay is clearly separate from published AI results',(await page.locator('[data-demo-note]').textContent()).includes('not a published AI-model run'));
- for(const demo of demos)for(const policy of demo.policies){
-  const record=await readFile(new URL('../site/'+policy.record,import.meta.url));
-  const animation=JSON.parse(await readFile(new URL('../site/'+policy.file,import.meta.url),'utf8'));
-  check(`${demo.id}/${policy.id}: source record digest preserved`,createHash('sha256').update(record).digest('hex')===policy.record_digest&&animation.source.record_digest===policy.record_digest);
-  check(`${demo.id}/${policy.id}: complete, ordered replay frames`,animation.frames.length===animation.episode_steps+1&&animation.frames.every((f,i)=>f.step===i)&&animation.frames.at(-1).terminated===true);
- }
- await page.getByRole('button',{name:'An exit under threat',exact:true}).click();await page.locator('[data-play]:not([disabled])').waitFor();
- check('World choice changes geometry and destination',await page.locator('.world-person').count()===6&&await page.locator('.world-exit').count()===2&&(await page.locator('[data-scenario-link]').getAttribute('href')).includes('v1-pub-06'));
- await page.locator('[data-play]').click();await page.waitForFunction(()=>Number(document.querySelector('[data-scrubber]').value)>1);
- check('Play changes recorded step and visible fire',await page.locator('.world-fire').count()>1);
- await page.locator('[data-play]').click();const paused=await page.locator('[data-scrubber]').inputValue();await page.waitForTimeout(520);
- check('Pause holds the selected frame',await page.locator('[data-scrubber]').inputValue()===paused);
- await page.locator('[data-scrubber]').press('End');
- const expected=JSON.parse(await readFile(new URL('../site/'+demos[2].policies[0].file,import.meta.url),'utf8')).frames.at(-1);
- check('Scrubbing reaches the exact recorded endpoint',Number(await page.locator('[data-evacuated]').textContent())===expected.people.filter(p=>p.status==='evacuated').length&&Number(await page.locator('[data-casualties]').textContent())===expected.people.filter(p=>p.status==='casualty').length);
- await page.getByRole('combobox',{name:'Reference agent',exact:true}).selectOption('1');await page.waitForFunction(()=>document.querySelector('[data-scrubber]').max==='17'&&!document.querySelector('[data-play]').disabled);
- check('Routing rule selection changes the authenticated run',await page.locator('[data-scrubber]').inputValue()==='0'&&(await page.locator('[data-record-link]').getAttribute('href')).includes('fire-aware'));
- await page.locator('[data-scrubber]').press('End');await audit(page,'Completed reference example');
- await page.getByRole('button',{name:'Restart example',exact:true}).click();
- check('Restart restores initial counts and geometry',await page.locator('[data-active]').textContent()==='6'&&await page.locator('[data-scrubber]').inputValue()==='0');
+ check('Hero opens actual published results directly',await page.locator('.hero-action').getAttribute('href')==='benchmark.html');
+ await page.locator('.hero-action').click();await page.locator('.result-chart').waitFor();
+ check('Hero action reaches the benchmark chart',await page.locator('.result-chart').isVisible());
+ await go(page);
  const card=page.locator('.outcome-card').first();const model=data.models.find(m=>m.id.includes('typesafe_jev-1.14'));
  check('Pictograph counts equal published people outcomes',await card.locator('[data-outcome="evacuated"]').count()===model.totals.evacuated&&await card.locator('[data-outcome="casualty"]').count()===model.totals.avoidable_casualties&&await card.locator('[data-outcome="stranded"]').count()===model.totals.avoidable_stranded);
  await page.mouse.move(2,2);await card.scrollIntoViewIfNeeded();await page.waitForTimeout(800);const dot=card.locator('.outcome-person').nth(190),before=await dot.evaluate(el=>getComputedStyle(el).transform);const box=await card.boundingBox();await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.waitForTimeout(180);const during=await dot.evaluate(el=>getComputedStyle(el).transform);await page.waitForTimeout(600);const after=await dot.evaluate(el=>getComputedStyle(el).transform);
@@ -58,19 +37,16 @@ try{
  check('Evaluation explanation responds to a selected stage',(await page.locator('.loop-explanation').textContent()).includes('movement conflicts'));
  await page.getByRole('button',{name:'Simulate',exact:true}).focus();await page.keyboard.press('ArrowRight');
  check('Evaluation stages are keyboard navigable',await page.getByRole('button',{name:'Verify',exact:true}).getAttribute('aria-pressed')==='true');
- await page.setViewportSize({width:390,height:844});await go(page);await page.locator('[data-play]:not([disabled])').waitFor();await page.emulateMedia({reducedMotion:'reduce'});
+ await page.setViewportSize({width:390,height:844});await go(page);await page.locator('.outcome-card').first().waitFor();await page.emulateMedia({reducedMotion:'reduce'});
  await page.locator('[data-group-outcomes]').first().click();check('Phone has an explicit grouping action',await page.locator('.outcome-card').first().getAttribute('data-grouped')==='true');
- await page.locator('.demo-controls').scrollIntoViewIfNeeded();check('Phone playback controls stay next to the map',await page.locator('.demo-controls').evaluate(el=>{const m=document.querySelector('.demo-diagram').getBoundingClientRect(),c=el.getBoundingClientRect();return c.top-m.bottom<30&&c.bottom-m.top<innerHeight-100;}));
- await audit(page,'Phone replay and touch grouping');
+ await audit(page,'Phone outcome grouping');
  await page.setViewportSize({width:1440,height:1000});await go(page,'scenarios.html?scenario=v1-pub-06-threatened-exit&model=openrouter-typesafe_jev-1.14-choice-r1');
- check('Scenario page fulfills world selection with geometry',await page.locator('#scenario-world-stage .world-exit').count()===2);
+ check('Scenario page has descriptions and published evidence without a simulation',await page.locator('.scenario-description').isVisible()&&await page.locator('.world-map,.demo-stage,[data-play],#scenario-world-stage').count()===0);
  check('Scenario retains selected model evidence',(await page.locator('#world-model-result').textContent()).includes('typesafe/jev-1.14'));
- await page.locator('#scenario-world-stage [data-record-link]:not([hidden])').waitFor();
- await page.locator('[data-challenge="v1-pub-01-single-exit-sparse"]').click();
- check('Static worlds clear the previous replay provenance',await page.locator('[data-record-link]').isHidden()&&await page.locator('[data-record-link]').getAttribute('href')===null);
+ for(const choice of await page.locator('[data-challenge]').all()){
+  await choice.click();check('Every selected scenario stays free of replay UI',await page.locator('.world-map,.demo-controls,[aria-label="Reference agent"]').count()===0);
+ }
  await page.locator('[data-challenge="v1-pub-06-threatened-exit"]').click();
- const worldURL=page.url();await page.locator('#scenario-world-stage [data-scenario-link]').click();
- check('World action reveals results without dropping model context',page.url()===worldURL&&await page.getByRole('tab',{name:'Rankings',exact:true}).getAttribute('aria-selected')==='true');
  await page.locator('#world-model-result a').click();await page.locator('.breadcrumb').waitFor();
  check('Model profile returns to the exact world',(await page.locator('.breadcrumb').getAttribute('href')).includes('v1-pub-06-threatened-exit&model=openrouter-typesafe_jev-1.14'));
  await page.getByRole('tab',{name:'Scenarios',exact:true}).click();
@@ -78,12 +54,17 @@ try{
  await go(page,'methodology.html');await page.getByRole('button',{name:'Verify',exact:true}).click();
  check('Methodology teaches the connected evaluation loop',(await page.locator('.loop-explanation').textContent()).includes('reproduce exactly'));
  await audit(page,'Methodology loop');
- const failed=await browser.newPage();await failed.route('**/assets/demos/*.json',r=>r.abort());await go(failed);await failed.locator('[data-demo-event]').filter({hasText:'could not load'}).waitFor();
- check('Failed replay preserves diagram and recovery action',await failed.locator('.world-map').isVisible()&&await failed.locator('[data-scenario-link]').isVisible());
  const noGSAP=await browser.newPage();await noGSAP.route('**/gsap.min.js',r=>r.abort());await go(noGSAP);await noGSAP.locator('[data-group-outcomes]').first().click();
  check('Without GSAP, grouping and navigation still work',await noGSAP.locator('.outcome-card').first().getAttribute('data-grouped')==='true');
  const nojs=await browser.newContext({javaScriptEnabled:false});const fallback=await nojs.newPage();await fallback.goto(base);
- check('No-JavaScript company and source remain available',await fallback.getByRole('heading',{name:'Anantam',exact:true}).isVisible()&&await fallback.locator('.demo-fallback a').isVisible());await nojs.close();
+ check('No-JavaScript company and source remain available',await fallback.getByRole('heading',{name:'Anantam',exact:true}).isVisible()&&await fallback.locator('.hero-action').isVisible());await nojs.close();
+ for(const [label,width] of [['desktop',1440],['mobile',390]]){
+  await page.setViewportSize({width,height:width<700?844:1000});await go(page);await page.locator('.outcome-card').first().waitFor();
+  await page.screenshot({path:resolve(out,`home-${label}.png`),fullPage:true});
+  if(width===1440)await page.screenshot({path:resolve(out,'hero-desktop.png')});
+  await go(page,'scenarios.html?scenario=v1-pub-06-threatened-exit');
+  await page.screenshot({path:resolve(out,`world-${label}.png`),fullPage:true});await audit(page,`Scenarios ${width}px`);
+ }
  check('No runtime errors in real visitor journeys',errors.length===0);
 }finally{await writeFile(resolve(out,'company-report.json'),JSON.stringify({checks,audits,errors},null,2));await browser.close();}
 console.log(`${checks.length} company experience checks passed; ${audits.length} accessibility scans.`);
