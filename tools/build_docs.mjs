@@ -125,8 +125,8 @@ const body=`<header class="docs-intro"><h1>EMBERBench docs</h1><p>Understand the
 await writeFile(resolve(root,'docs.html'),template({title:'EMBERBench docs',description:'The EMBERBench documentation library: scoring, scenarios, evaluation, model integration and research.',body}));
 await writeFile(resolve(out,'search-index.json'),JSON.stringify(search));
 const missingPath=resolve(root,'404.html');
-let missing=await readFile(missingPath,'utf8');
-missing=missing.replace(/\n?<!-- Shared company footer -->[\s\S]*?<\/footer>\n?/,'\n');
+let missing=(await readFile(missingPath,'utf8')).replace(/\r\n/g,'\n');
+missing=missing.replace(/\s*<!-- Shared company footer -->[\s\S]*?<\/footer>\s*(?=<\/body>)/,'\n');
 if(!missing.includes('/footer.css?'))missing=missing.replace('</head>','  <link rel="stylesheet" href="/EMBERBench-site/footer.css?v=20261027-guide-footer-1">\n</head>');
 await writeFile(missingPath,missing.replace('</body>',`<!-- Shared company footer -->\n${siteFooter('/EMBERBench-site/')}\n</body>`));
 console.log(`Built ${docs.length} complete guides, documentation index and local full-text search.`);

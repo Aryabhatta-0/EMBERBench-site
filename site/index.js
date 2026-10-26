@@ -1,6 +1,7 @@
-import {shell,loadResults,esc,fmt} from './common.js?v=20261027-guide-footer-1';
+import {shell,loadResults,esc,fmt} from './common.js?v=20261027-guide-footer-2';
 import {mountEvaluationLoop} from './evaluation-loop.js';
 import {mountHeroMotion} from './hero-motion.js?v=20261027-continuous-lines-1';
+import {revealCompanyFooter} from './footer.js?v=20261027-guide-footer-2';
 
 shell(null,'company');
 const plotObservers=[];
@@ -41,4 +42,5 @@ loadResults().then(data=>{
     card.querySelector('[data-group-outcomes]').addEventListener('click',e=>{locked=!locked;e.currentTarget.setAttribute('aria-pressed',String(locked));e.currentTarget.querySelector('span').textContent=locked?'Show together':'Separate outcomes';setGrouping(card,locked,e.detail===0);});
     reduced.addEventListener('change',()=>setGrouping(card,card.dataset.grouped==='true',true));
   }
+  requestAnimationFrame(revealCompanyFooter);
 }).catch(()=>{document.getElementById('outcome-cards').innerHTML='<p class="result-preview-error">Results preview unavailable.</p>';});

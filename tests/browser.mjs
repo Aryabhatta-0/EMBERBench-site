@@ -61,6 +61,8 @@ try {
   await go(`compare.html?models=${encodeURIComponent(data.models.slice(0,2).map(m=>m.id).join(','))}`);
   check('Dedicated comparison page opens',await page.locator('.compare-card').count()===2);
   await page.screenshot({ animations: "disabled",path:resolve(out,'compare-desktop.png'),fullPage:true});
+  await go('index.html#site-footer');await page.waitForFunction(()=>document.getElementById('site-footer').getBoundingClientRect().top<innerHeight);
+  check('Company footer can be opened directly after homepage content loads',await page.locator('.company-footer').evaluate(el=>el.getBoundingClientRect().top<innerHeight));
   await go('index.html');
   await page.emulateMedia({colorScheme:'dark'});
   await page.reload(); await page.locator('.site-footer').waitFor();

@@ -10,7 +10,7 @@ import {
   provider,
   providerInfo,
   errorPage,
-} from "./common.js?v=20261027-guide-footer-1";
+} from "./common.js?v=20261027-guide-footer-2";
 import {
   METRICS,
   filterModels,

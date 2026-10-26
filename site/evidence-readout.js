@@ -1,4 +1,4 @@
-import {esc,fmt,scenarioName} from './common.js?v=20261027-guide-footer-1';
+import {esc,fmt,scenarioName} from './common.js?v=20261027-guide-footer-2';
 import {finite} from './analytics.js';
 import {peopleReadout} from './result-explorer.js';
 

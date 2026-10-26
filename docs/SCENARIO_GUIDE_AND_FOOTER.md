@@ -12,4 +12,4 @@ Impeccable 4.7's layout and craft guidance informed matching the existing readin
 
 ## Validation
 
-19 Node checks and the full browser regression pass: 412 checks and 64 accessibility scans with no reported violations. Checks include responsive layouts, footer width and separate bottom-row geometry, scenario selection, matrix/catalogue expansion, model-context preservation, phone measurement columns, docs links and no-JavaScript reading. Desktop and phone screenshots were visually inspected. The published results artifact is unchanged. No merge or deployment is included.
+19 Node checks pass. Across the final browser regression results, 413 checks and 64 accessibility scans pass with no reported violations. Checks include responsive layouts, footer width and separate bottom-row geometry, direct footer anchors after async homepage content, scenario selection, matrix/catalogue expansion, model-context preservation, phone measurement columns, docs links and no-JavaScript reading. Desktop and phone screenshots were visually inspected. The published results artifact is unchanged. No merge or deployment is included.
