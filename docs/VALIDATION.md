@@ -44,6 +44,14 @@ The two Upstage models rank by the official Safety tiebreak (0.0107 against 0.00
 
 ## Browser checks
 
+### JEV version update in Anantam
+
+The 27-entry generated snapshot was imported intact from the user's local EMBERBench-site checkout, which includes the completed `openrouter-typesafe_jev-1.14-choice-r1` run. The import was checked against the previous snapshot: all pack/scoring/suite/manifest metadata match, and every existing model retains identical measurements and provenance; only descriptive ranks below the new entry shift. No individual measurements were entered or edited.
+
+The added run resolves to `typesafe/jev-1.14-20261014`, scores 51.7040 (95% CI 51.6672–51.7592), and covers the same 19 scheduled worlds. Its source report digest is `d649d922dc0f5162b44e935da67070a1a97ba5a8d9290fb49b57bcee69a8e47b`. It is fourth overall and first among the decision models.
+
+The older run resolves to `jev-1.13.0` and retains its 48.2662 score and original `typesafe-jev-latest-choice-r1` ID. The shared presentation layer shows `typesafe/jev-1.13` everywhere. The generator also derives this display name from a single unambiguous resolved version on future builds; missing or mixed resolved versions are not guessed. No paired-significance claim is added.
+
 Chromium covered all six routes at **320, 390, 768, 1024 and 1440 pixels**: 30 route/width combinations, with no page-level horizontal overflow. Tables and wide charts scroll within their own regions. Light/dark views and final screenshots were inspected.
 
 Exercised search, entry/provider filters, reset, missing API sorting, header sort reversal, horizontal scroll and keyboard focus retention, 2–4 comparison choices, fifth-choice rejection, model browsing and invalid IDs, scenario deep links/filter/sorting, mobile menu navigation, all five scatter relationships, highlights, hover/focus tooltips and Escape dismissal, heatmap keyboard visibility, and methodology table access. No console errors were observed. Direct paths/query strings loaded beneath an `/EMBERBench/` static mount as well as the site root.

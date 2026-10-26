@@ -12,7 +12,7 @@ async function main() {
   document.getElementById('main').innerHTML = `
   <section class="anantam-hero" aria-labelledby="hero-title">
     <div class="hero-copy"><h1 id="hero-title">Intelligence,<br>measured.</h1><p>Explore how AI makes decisions<br class="desktop-break"> when every move matters.</p><div class="hero-actions"><a class="button primary" href="leaderboard.html">Explore the benchmark ${arrow}</a><a class="quiet-link" href="methodology.html">How it works</a></div></div>
-    <div class="hero-art"><div class="cosmos-emblem"><img src="assets/anantam-logo.png" width="1254" height="1254" alt="Anantam’s star-filled infinity emblem" fetchpriority="high"><canvas class="cosmos-sky" aria-hidden="true" hidden></canvas></div><span class="art-caption">Anantam <span lang="sa">अनन्तम्</span><span>Boundless possibilities.</span></span><button class="cosmos-toggle" type="button" hidden>Pause motion</button></div>
+    <div class="hero-art"><div class="cosmos-emblem"><img src="assets/anantam-logo.png" width="1254" height="1254" alt="Anantam’s star-filled infinity emblem" fetchpriority="high"><canvas class="cosmos-sky" aria-hidden="true" hidden></canvas></div><span class="art-caption">Anantam <span lang="sa">अनन्तम्</span><span>Boundless possibilities.</span></span></div>
     <div class="hero-facts" aria-label="Benchmark coverage"><span><b>${count(decisions.length)}</b> decision models</span><span><b>${count(models.length - decisions.length)}</b> reference agents</span><span><b>${count(worlds)}</b> shared worlds</span><span>Powered by <a href="methodology.html">EMBERBench</a></span></div>
   </section>
   <section class="benchmark-stage" id="explore" aria-labelledby="explore-title">

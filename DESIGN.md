@@ -55,6 +55,7 @@ The identity pairs the supplied midnight-blue emblem with a quiet, spacious rese
 | Muted text | #596675 | #abb9c8 |
 | Action | #142e51 | #c4d8ef |
 | Focus | #2865b1 | #b2d4ff |
+| Loading ground (`--loading-ground`) | Canvas (`--surface-0`) | Existing hero glow (`--hero-glow`, #203c60) |
 
 Locally hosted Instrument Serif supplies the display voice. DM Sans handles controls, reading, and data. Both include their OFL licenses. Data uses tabular numerals. Headings balance naturally without coloring individual words.
 
@@ -74,13 +75,13 @@ The analytical routes use distinct task structures inside the shared identity:
 - Scenarios: a challenge navigator beside the scenario's actual description and population/world evidence, followed by Rankings and Across all scenarios views. Mobile offers a focused ranking and an explicit More columns control.
 - Methodology: a continuous reading column with a navigable table of contents, rather than a grid of independent panels. Technical reference tables are disclosed; source wording and scientific qualifications remain intact.
 
-Loading uses route-specific static headings and a branded skeleton while the actual data import is pending. It has no minimum display time or percentage. A slow load exposes a reload action after eight seconds. Resolved or failed content clears the busy state and the loading observer. Skeleton animation respects reduced motion.
+Loading uses one centered supplied infinity emblem, the Anantam wordmark, a concise route status while the actual data import is pending. All six routes share this component. Keep the original PNG colours and transparent outline; the dark loading ground aliases the existing hero glow so the navy artwork remains legible. The loading state has no skeleton, card framing, decorative dividers, large route headline, percentage or minimum display time. A slow load exposes Reload page after eight seconds. Ready or failed content replaces it immediately and clears the busy state.
 
 ## Motion and accessibility
 
 Motion personality: calm corporate, with a user-requested continuous space-flight signature inside the homepage emblem. The supplied PNG remains the visible base in its original colours in both themes; a transparent, alpha-masked canvas adds perspective trails sharing one vanishing point. It does not replace the artwork with another coloured sky. Stars retain fixed spatial directions; camera depth advances at a constant velocity, so nearer stars grow and pass faster. No random wandering or twinkle cycle is used.
 
-The flight runs at a maximum 30 frames per second, pauses offscreen or in a hidden tab, and has a visible Pause/Play motion control. Reduced motion and unavailable canvas retain the original still image. A single 600ms emblem entrance introduces the brand; interactions use explicit-property transitions at 150ms, with a 0.96 press scale. Frequent tab and data changes remain immediate. The loading skeleton pulses only while data is pending. No Lottie runtime is necessary.
+The homepage and pending-data loader reuse the same flight primitive: a maximum 30 frames per second and suspension offscreen or in a hidden tab. Reduced motion and unavailable canvas retain the original still image; there is no pause/play button, as requested by the user. A single 600ms homepage emblem entrance introduces the brand; the loader adds no entrance or completion delay. Interactions use explicit-property transitions at 150ms, with a 0.96 press scale. Frequent tab and data changes remain immediate. Loader teardown cancels its animation frame, removes motion listeners, disconnects resize/visibility and loading observers, and clears its slow-load timer. No Lottie runtime is necessary.
 
 Native selects and disclosures retain keyboard behavior. Tabs follow the tablist/tab/tabpanel pattern, roving focus, Arrow keys, Home and End. Escape closes the mobile menu and restores focus. Empty tooltips are hidden from assistive technology. Color is supplemented by labels and values.
 

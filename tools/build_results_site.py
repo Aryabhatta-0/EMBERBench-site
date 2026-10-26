@@ -109,6 +109,13 @@ def _name(model_id: str, summary: dict[str, Any] | None) -> tuple[str, str]:
     if summary is None or summary.get("model_id") != model_id:
         return model_id, "Reference agent"
     requested = str(summary.get("requested_model") or model_id)
+    if requested in {"jev-latest", "typesafe/jev-latest"}:
+        resolved = summary.get("resolved_models")
+        if isinstance(resolved, list) and len(resolved) == 1 and isinstance(resolved[0], str):
+            version = re.fullmatch(r"(?:typesafe/)?(jev-\d+\.\d+)(?:\.(\d+))?", resolved[0])
+            if version:
+                patch = version[2]
+                requested = f"typesafe/{version[1]}" + (f".{patch}" if patch and patch != "0" else "")
     if "/" not in requested:
         requested = f"{model_id.split('-', 1)[0]}/{requested}"  # typesafe-jev-latest-... -> typesafe/jev-latest
     return requested, "Decision model"

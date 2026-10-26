@@ -91,19 +91,20 @@ try {
     const gate = new Promise(r=>release=r);
     await loading.route('**/data/results.js',async request=>{await gate; await request.continue();});
     await loading.goto(new URL(route,base).href,{waitUntil:'domcontentloaded'});
-    check(`${name}: skeleton visible while real data is pending`,await loading.locator('.loading-shell').isVisible());
+    check(`${name}: emblem loader visible while real data is pending`,await loading.locator('.loading-shell').isVisible());
     check(`${name}: loading marks content busy`,await loading.locator('main').getAttribute('aria-busy') === 'true');
     if (name === 'leaderboard') {
       await loading.screenshot({path:resolve(out,'loading-desktop.png'),animations:'disabled'});
       await loading.setViewportSize({width:390,height:844});
       await loading.emulateMedia({reducedMotion:'reduce'});
-      check('Loading respects reduced motion',await loading.locator('.skeleton-rows').evaluate(el=>getComputedStyle(el).animationName === 'none'));
+      await loading.waitForFunction(()=>document.querySelector('.loading-emblem')?.dataset.motion === 'reduced');
+      check('Loading respects reduced motion',await loading.locator('.loading-emblem canvas').isHidden());
       await loading.screenshot({path:resolve(out,'loading-mobile.png'),animations:'disabled'});
       await loading.getByRole('button',{name:'Reload page',exact:true}).waitFor({state:'visible',timeout:12000});
       check('Slow loading exposes a recovery action',await loading.locator('.loading-copy').textContent().then(text=>text.includes('longer than usual')));
     }
     release(); await loading.locator('.site-footer').waitFor();
-    check(`${name}: skeleton removed when content resolves`,await loading.locator('.loading-shell').count() === 0);
+    check(`${name}: emblem loader removed when content resolves`,await loading.locator('.loading-shell').count() === 0);
     check(`${name}: loading clears busy state`,await loading.locator('main').getAttribute('aria-busy') === null);
     await pending.close();
   }
