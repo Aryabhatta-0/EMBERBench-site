@@ -1,4 +1,3 @@
-import { editorHeader } from "./workspace.js";
 import {
   loadResults,
   shell,
@@ -63,13 +62,36 @@ async function main() {
   if (!Object.hasOwn(METRICS, state.sort)) state.sort = "score";
   if (!["asc", "desc"].includes(state.direction)) state.direction = "desc";
   document.getElementById("main").innerHTML =
-    `${editorHeader('Find your next model.', 'Compare decision policies on the same frozen worlds.', `<strong>${data.models.length}</strong><span>evaluated policies</span><a href="methodology.html">How to read the results</a>`)}
+    `<header class="benchmark-heading"><h1>EMBERBenchmark</h1><p>Public development results for AI decision policies.</p></header>
     <section class="leaderboard-workspace" aria-label="Model explorer">
       <div class="explorer-search"><label class="field search-field">Search the evaluation<input id="search" type="search" placeholder="Model name or provider" value="${esc(state.query)}"></label><label class="field">Entry type<select id="kind"><option value="all">All entries</option><option>Decision model</option><option>Reference agent</option></select></label><label class="field">Provider<select id="provider"><option value="all">All providers</option>${[...new Set(data.models.map(provider))].sort().map(p => `<option value="${esc(p)}">${esc(providerInfo(p).name)}</option>`).join('')}</select></label><button class="button small" id="reset-filters" type="button">Reset filters</button></div>
       <div class="explorer-views"><div class="metric-views" role="group" aria-label="Metrics displayed">${[['scores','Scores'],['people','People'],['api','API usage'],['all','All metrics']].map(([id,label]) => `<button type="button" data-metric-view="${id}" aria-pressed="${state.view === id}">${label}</button>`).join('')}</div><label class="field sort-field">Sort by<select id="metric">${columns.map(([key,label]) => `<option value="${key}">${label}</option>`).join('')}</select></label></div>
       <p id="result-count" class="muted" aria-live="polite"></p><div id="selection"></div><p id="selection-status" class="sr-only" role="status"></p><div id="leaderboard"></div>
       <div class="explorer-foot"><p>Select 2–4 models to compare. Scores run from 0 to 100; higher is better.</p><details class="evidence-detail"><summary>Reading the evidence<span aria-hidden="true">+</span></summary><div class="evidence-copy"><p>Rank follows the scoring specification: score rounded to 0.1 points, then Safety, avoidable losses per trial, worst scenario, and model ID. Custom sorts do not redefine rank. Sorting order is not statistical significance.</p><p>Safety / Quality: 0–1 factors. Evacuated and avoidable losses sum across worlds and trials. ≈ marks list-price API cost estimates. API metadata may cover only the recorded invocation of a resumed run; missing API data is never ranked as zero.</p><p>Reported 95% CIs use the score report’s resampling procedure. Each published model has ${esc([...new Set(data.models.map(m => m.totals.trials))].join(', '))} trial in this snapshot; these CIs cannot capture unobserved between-trial variability.</p></div></details></div>
     </section>`;
+  const secondaryControls = [
+    document.getElementById('kind').closest('.field'),
+    document.getElementById('provider').closest('.field'),
+    document.querySelector('.sort-field'),
+    document.getElementById('reset-filters'),
+  ];
+  const controlSlots = secondaryControls.map(control => {
+    const slot = document.createComment('Responsive filter position');
+    control.before(slot); return slot;
+  });
+  const mobileFilters = document.createElement('details');
+  mobileFilters.className = 'mobile-benchmark-filters';
+  mobileFilters.innerHTML = '<summary>Filters &amp; sort<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h14M10 3v14"/></svg></summary><div class="filter-fields"></div>';
+  document.querySelector('.explorer-search').after(mobileFilters);
+  const phoneLayout = matchMedia('(max-width:700px)');
+  const arrangeControls = () => {
+    mobileFilters.hidden = !phoneLayout.matches;
+    secondaryControls.forEach((control,index) => phoneLayout.matches
+      ? mobileFilters.querySelector('.filter-fields').append(control)
+      : controlSlots[index].after(control));
+  };
+  phoneLayout.addEventListener('change', arrangeControls);
+  arrangeControls();
   for (const [id, key] of [
     ["kind", "kind"],
     ["provider", "creator"],

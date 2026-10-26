@@ -80,10 +80,11 @@ try {
   await page.getByRole('link',{name:'The score',exact:true}).click();
   check('Guide links point to retained source anchors',new URL(page.url()).hash === '#score-title');
   await page.setViewportSize({width:1440,height:1000});
+  await page.emulateMedia({colorScheme:'dark'});
   for (const [name,route] of routes) {
-    await go(route); await page.getByRole('button',{name:'Switch to dark theme',exact:true}).click();
-    await page.screenshot({path:resolve(out,`${name}-dark.png`),fullPage:true,animations:'disabled'}); await audit(`${name} dark`);
-    await page.getByRole('button',{name:'Switch to light theme',exact:true}).click();
+    await go(route);
+    check(`${name}: light-only under dark OS preference`,await page.locator('html').getAttribute('data-theme') === 'light' && await page.locator('.theme-toggle').count() === 0);
+    await audit(`${name} forced light`);
   }
   for (const [name,route] of routes) {
     const pending = await browser.newContext({viewport:{width:1440,height:1000}});

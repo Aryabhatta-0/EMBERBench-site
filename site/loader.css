@@ -1,7 +1,6 @@
 /* Hallmark v2.0.0 | Anantam | signature: the supplied infinity emblem in flight */
 /* One focal mark, original colours, native controls, actual pending data. */
 :root { --loading-ground: var(--surface-0); }
-[data-theme='dark'] { --loading-ground: var(--hero-glow); }
 body #main:has(> .loading-shell) { width: 100%; max-width: none; margin: 0; padding: 0; }
 .loading-shell { min-height: 100svh; display: grid; place-items: center; padding: 40px 24px; background: var(--loading-ground); }
 .loading-center { width: min(100%,360px); display: flex; flex-direction: column; align-items: center; text-align: center; }

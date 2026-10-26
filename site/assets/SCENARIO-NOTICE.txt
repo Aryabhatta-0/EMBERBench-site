@@ -1,0 +1,4 @@
+The homepage evacuation diagram derives its grid, obstacles, initial people, ignition and exit coordinates from the public EMBERBench corridor-bottleneck scenario.
+Source: https://github.com/Aryabhatta-0/EMBERBench/blob/f0ba4774cecae7c3dad83ebaee4f2e3e8e7d41c8/scenarios/public/v1/v1-pub-03-corridor-bottleneck.json
+The animated line highlights the corridor geometry; it is not an evaluated policy replay.
+Upstream license: Apache-2.0. See EMBERBench-LICENSE.txt.

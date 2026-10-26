@@ -261,3 +261,17 @@ body[data-page='model'] .profile-head { display: grid; grid-template-columns: mi
   body[data-page='leaderboard'] .selection-bar > span:first-child { width: 100%; text-align: center; font-size: 12px; }
 }
 @media print { .workspace-tabs, .challenge-nav, .method-contents, .comparison-controls, .metric-views { display: none; } .workspace-panel[hidden] { display: block !important; } .scenario-studio, .method-layout { display: block; } .evidence-detail > :not(summary) { display: block !important; } }
+.mobile-benchmark-filters > summary { min-height:44px; display:flex; align-items:center; font-size:12px; color:var(--text-secondary); cursor:pointer; list-style:none; }
+.mobile-benchmark-filters > summary svg { width:18px; height:18px; margin-left:auto; fill:none; stroke:currentColor; stroke-width:1.4; }
+.mobile-benchmark-filters[open] > summary svg { transform:rotate(45deg); }
+.filter-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px 12px; padding-bottom:16px; }
+.filter-fields .sort-field { grid-column:1 / -1; }
+@media(max-width:700px) {
+  .explorer-search .field input, .filter-fields select { font-size:16px; }
+  .explorer-search { display:block; }
+  .explorer-views { margin:4px 0 12px; gap:0; }
+  .metric-views { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); width:100%; border-radius:12px; gap:0; }
+  .metric-views button { font-size:11px; padding:9px 4px; min-height:44px; }
+  .leaderboard-workspace #result-count { margin:8px 0; }
+  .leaderboard-workspace #selection-status { position:absolute; }
+}

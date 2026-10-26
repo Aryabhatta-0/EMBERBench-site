@@ -1,299 +1,253 @@
 {
   "schemaVersion": 2,
+  "generatedAt": "2026-10-26T06:32:02.7293810Z",
   "title": "Anantam design system",
   "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Navy action and brand"
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Paper canvas"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White workspace"
+      },
+      "surface-subtle": {
+        "role": "neutral",
+        "displayName": "Subtle control surface"
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Primary ink"
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Secondary ink"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Evidence notes"
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Keyboard focus blue"
+      },
+      "map-floor": {
+        "role": "neutral",
+        "displayName": "Scenario floor"
+      },
+      "map-wall": {
+        "role": "neutral",
+        "displayName": "Scenario walls"
+      },
+      "map-person": {
+        "role": "primary",
+        "displayName": "Initial person markers"
+      },
+      "map-exit": {
+        "role": "secondary",
+        "displayName": "Scenario exit"
+      },
+      "map-route": {
+        "role": "secondary",
+        "displayName": "Corridor highlight"
+      },
+      "map-fire": {
+        "role": "tertiary",
+        "displayName": "Initial fire"
+      },
+      "map-halo": {
+        "role": "tertiary",
+        "displayName": "Finite fire halo"
+      }
+    },
     "typographyMeta": {
       "display": {
-        "displayName": "Instrument Serif",
-        "purpose": "Introduction and editorial section headings."
+        "displayName": "Centered company display",
+        "purpose": "Instrument Serif company introduction; clamp(52px, 11vw, 70px) below 700px."
+      },
+      "headline": {
+        "displayName": "Contribution heading",
+        "purpose": "Instrument Serif contribution heading; 38px on phones."
       },
       "body": {
         "displayName": "DM Sans",
-        "purpose": "Reading, data and controls."
+        "purpose": "Reading, controls and evidence; data uses tabular numerals."
       },
-      "company-display": {
-        "displayName": "Company display",
-        "purpose": "Company introduction, with a more open line height than the analytical overview."
+      "label": {
+        "displayName": "Action label",
+        "purpose": "Shared actions and compact navigation."
       }
     },
+    "shadows": [
+      {
+        "name": "selected-evidence",
+        "value": "0 12px 36px #142e510b",
+        "purpose": "Selected evidence tabs and comparison tray; shared buttons, panels and showcase are flat at rest."
+      }
+    ],
     "motion": [
       {
-        "name": "ease-out",
-        "value": "cubic-bezier(.2,0,0,1)",
-        "purpose": "Calm shared state changes."
+        "name": "showcase-expansion",
+        "value": "650ms, power3.out",
+        "purpose": "GSAP interpolates numeric fr weights: active 1, inactive .08 (.11 up to 900px). Fine hover pointers above 700px only; keyboard, touch, phone and reduced-motion track changes are immediate. Replaces interrupted expansion; no pointer tilt."
+      },
+      {
+        "name": "panel-content",
+        "value": "200ms delay; opacity 140ms ease-out; transform 400ms cubic-bezier(.2,0,0,1)",
+        "purpose": "Stage content after desktop pane selection; keyboard, phone and reduced-motion CSS transitions are immediate."
+      },
+      {
+        "name": "environment-route",
+        "value": "1300ms, power3.out; starts at 250ms",
+        "purpose": "Finite corridor highlight in the public initial-state map; not an evaluated replay."
+      },
+      {
+        "name": "environment-people",
+        "value": "400ms, stagger 55ms; starts at 200ms",
+        "purpose": "Introduce the eight static initial person markers without claiming evacuation outcomes."
+      },
+      {
+        "name": "environment-fire",
+        "value": "650ms, sine.inOut, repeat 1, yoyo",
+        "purpose": "One finite halo pulse out and back; initial scale 1 to 1.6 and opacity to .2."
+      },
+      {
+        "name": "evidence-content",
+        "value": "500ms, power3.out; results stagger 75ms, methodology stagger 110ms",
+        "purpose": "Finite scene entrances; keyboard activation suppresses them and reduced motion keeps static content."
       },
       {
         "name": "quick",
-        "value": "150ms",
-        "purpose": "Shared press response; disabled under reduced motion."
-      },
-      {
-        "name": "benchmark-entrance",
-        "value": "600ms",
-        "purpose": "Existing analytical overview emblem entrance; disabled under reduced motion."
-      },
-      {
-        "name": "company-entrance",
-        "value": "550ms, power3.out",
-        "purpose": "Finite GSAP 3.15 introduction and artwork entrance; static under reduced motion or without GSAP."
-      },
-      {
-        "name": "company-flight",
-        "value": "4500ms",
-        "purpose": "Stop the company emblem flight after 4.5 seconds; the benchmark overview retains continuous flight."
-      },
-      {
-        "name": "company-pointer-depth",
-        "value": "450ms, power3.out; rotationY +/-3deg, y -6px",
-        "purpose": "Evidence pane pointer depth returns to rest on leave; fine hover pointers with reduced motion off only."
+        "value": "150ms; press scale .96",
+        "purpose": "Ordinary supported action response; disabled by reduced motion."
       }
     ],
     "breakpoints": [
       {
-        "name": "mobile",
+        "name": "phone",
         "value": "700px"
+      },
+      {
+        "name": "narrow-showcase",
+        "value": "900px"
       },
       {
         "name": "navigation",
         "value": "1100px"
       }
-    ],
-    "colorMeta": {
-      "primary": {
-        "role": "primary",
-        "displayName": "Navy",
-        "tonalRamp": [
-          "oklch(15% 0.075 257)",
-          "oklch(26% 0.075 257)",
-          "oklch(38% 0.075 257)",
-          "oklch(49% 0.075 257)",
-          "oklch(61% 0.075 257)",
-          "oklch(72% 0.075 257)",
-          "oklch(84% 0.075 257)",
-          "oklch(95% 0.075 257)"
-        ]
-      },
-      "canvas": {
-        "role": "neutral",
-        "displayName": "Paper canvas",
-        "tonalRamp": [
-          "oklch(15% 0.004 105)",
-          "oklch(26% 0.004 105)",
-          "oklch(38% 0.004 105)",
-          "oklch(49% 0.004 105)",
-          "oklch(61% 0.004 105)",
-          "oklch(72% 0.004 105)",
-          "oklch(84% 0.004 105)",
-          "oklch(95% 0.004 105)"
-        ]
-      },
-      "surface": {
-        "role": "neutral",
-        "displayName": "White surface",
-        "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(26% 0 0)",
-          "oklch(38% 0 0)",
-          "oklch(49% 0 0)",
-          "oklch(61% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
-        ]
-      },
-      "text": {
-        "role": "neutral",
-        "displayName": "Primary text",
-        "tonalRamp": [
-          "oklch(15% 0.05 255)",
-          "oklch(26% 0.05 255)",
-          "oklch(38% 0.05 255)",
-          "oklch(49% 0.05 255)",
-          "oklch(61% 0.05 255)",
-          "oklch(72% 0.05 255)",
-          "oklch(84% 0.05 255)",
-          "oklch(95% 0.05 255)"
-        ]
-      },
-      "secondary": {
-        "role": "neutral",
-        "displayName": "Secondary text",
-        "tonalRamp": [
-          "oklch(15% 0.035 254)",
-          "oklch(26% 0.035 254)",
-          "oklch(38% 0.035 254)",
-          "oklch(49% 0.035 254)",
-          "oklch(61% 0.035 254)",
-          "oklch(72% 0.035 254)",
-          "oklch(84% 0.035 254)",
-          "oklch(95% 0.035 254)"
-        ]
-      },
-      "muted": {
-        "role": "neutral",
-        "displayName": "Muted text",
-        "tonalRamp": [
-          "oklch(15% 0.027 250)",
-          "oklch(26% 0.027 250)",
-          "oklch(38% 0.027 250)",
-          "oklch(49% 0.027 250)",
-          "oklch(61% 0.027 250)",
-          "oklch(72% 0.027 250)",
-          "oklch(84% 0.027 250)",
-          "oklch(95% 0.027 250)"
-        ]
-      },
-      "focus": {
-        "role": "primary",
-        "displayName": "Focus blue",
-        "tonalRamp": [
-          "oklch(15% 0.135 256)",
-          "oklch(26% 0.135 256)",
-          "oklch(38% 0.135 256)",
-          "oklch(49% 0.135 256)",
-          "oklch(61% 0.135 256)",
-          "oklch(72% 0.135 256)",
-          "oklch(84% 0.135 256)",
-          "oklch(95% 0.135 256)"
-        ]
-      },
-      "ember-ground": {
-        "role": "primary",
-        "displayName": "Contribution ground",
-        "tonalRamp": [
-          "oklch(15% 0.075 257)",
-          "oklch(26% 0.075 257)",
-          "oklch(38% 0.075 257)",
-          "oklch(49% 0.075 257)",
-          "oklch(61% 0.075 257)",
-          "oklch(72% 0.075 257)",
-          "oklch(84% 0.075 257)",
-          "oklch(95% 0.075 257)"
-        ]
-      },
-      "ember-ink": {
-        "role": "neutral",
-        "displayName": "Contribution ink",
-        "tonalRamp": [
-          "oklch(15% 0.006 250)",
-          "oklch(26% 0.006 250)",
-          "oklch(38% 0.006 250)",
-          "oklch(49% 0.006 250)",
-          "oklch(61% 0.006 250)",
-          "oklch(72% 0.006 250)",
-          "oklch(84% 0.006 250)",
-          "oklch(95% 0.006 250)"
-        ]
-      },
-      "ember-muted": {
-        "role": "neutral",
-        "displayName": "Contribution supporting text",
-        "tonalRamp": [
-          "oklch(15% 0.029 249)",
-          "oklch(26% 0.029 249)",
-          "oklch(38% 0.029 249)",
-          "oklch(49% 0.029 249)",
-          "oklch(61% 0.029 249)",
-          "oklch(72% 0.029 249)",
-          "oklch(84% 0.029 249)",
-          "oklch(95% 0.029 249)"
-        ]
-      }
-    },
-    "companyEmblemGround": {
-      "value": "#e7edf5",
-      "purpose": "Pale circular mat behind the unchanged navy company emblem in dark mode."
-    }
+    ]
   },
   "components": [
     {
-      "name": "Primary button",
+      "name": "Primary action",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Primary route action.",
-      "html": "<button class=\"ds-button\">Explore the benchmark</button>",
-      "css": ".ds-button{font-family:var(--font-body);font-size:13px;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 21px;border-radius:999px;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent)}.ds-button:focus-visible{outline:2px solid var(--focus);outline-offset:4px}@media(hover:hover){.ds-button:hover{background:color-mix(in srgb,var(--accent) 88%,var(--surface-0))}}@media(prefers-reduced-motion:no-preference){.ds-button{transition:transform 150ms ease-out}.ds-button:active{transform:scale(.96)}}"
+      "description": "Navy capsule route action, 44px minimum target; company introduction uses 48px.",
+      "html": "<a class=\"ds-primary\" href=\"benchmark.html\">Explore the benchmark</a>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 21px;border:1px solid var(--accent,#142e51);border-radius:var(--radius-control,999px);background:var(--accent,#142e51);color:var(--on-accent,#fff);font:500 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);text-decoration:none}.ds-primary:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-primary:hover{background:color-mix(in srgb,var(--accent,#142e51) 88%,var(--surface-0,#fafaf7))}}@media(prefers-reduced-motion:no-preference){.ds-primary{transition:transform 150ms ease-out,background-color 150ms cubic-bezier(.2,0,0,1)}.ds-primary:active{transform:scale(.96)}}"
     },
     {
-      "name": "Search input",
+      "name": "Secondary action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Quiet bordered capsule for secondary controls.",
+      "html": "<button class=\"ds-secondary\" type=\"button\">Reset filters</button>",
+      "css": ".ds-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 21px;border:1px solid var(--border,#dde2e5);border-radius:var(--radius-control,999px);background:var(--surface-1,#fff);color:var(--text-primary,#15283f);font:500 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);cursor:pointer}.ds-secondary:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-secondary:hover{background:var(--surface-2,#f0f2f3)}}@media(prefers-reduced-motion:no-preference){.ds-secondary{transition:transform 150ms ease-out,background-color 150ms ease-out}.ds-secondary:active{transform:scale(.96)}}"
+    },
+    {
+      "name": "Search field",
       "kind": "input",
-      "description": "Always visibly labelled.",
-      "html": "<label class=\"ds-field\">Search models<input class=\"ds-input\" type=\"search\" placeholder=\"Model name or provider\"></label>",
-      "css": ".ds-field{font-family:var(--font-body);font-size:12px;color:var(--text-primary);display:grid;gap:6px}.ds-input{font:inherit;min-height:44px;padding:7px 10px;border:1px solid var(--input-border);border-radius:8px;background:var(--surface-1);color:var(--text-primary)}.ds-input:focus-visible{outline:2px solid var(--focus);outline-offset:4px}"
+      "refersTo": "search-input",
+      "description": "Search remains exposed on phones; secondary filters use a native disclosure.",
+      "html": "<label class=\"ds-field\">Search the evaluation<input class=\"ds-input\" type=\"search\" placeholder=\"Model name or provider\"></label>",
+      "css": ".ds-field{display:grid;gap:6px;color:var(--text-primary,#15283f);font:400 12px/1.6 var(--font-body,'DM Sans',system-ui,sans-serif)}.ds-input{font:inherit;min-height:44px;padding:7px 10px;border:1px solid var(--input-border,#83909e);border-radius:8px;background:var(--surface-1,#fff);color:var(--text-primary,#15283f)}.ds-input::placeholder{color:var(--text-muted,#596675);opacity:1}.ds-input:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}"
     },
     {
-      "name": "Navigation",
+      "name": "Shared navigation",
       "kind": "nav",
-      "description": "Current-page cue stays visible.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a aria-current=\"page\" href=\"#\">Home</a><a href=\"#\">EMBERBenchmark</a></nav>",
-      "css": ".ds-nav{display:flex;gap:27px}.ds-nav a{font-family:var(--font-body);font-size:13px;color:var(--text-primary);padding:8px 0;text-decoration:none}.ds-nav a[aria-current]{font-weight:650;text-decoration:underline;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--focus);outline-offset:4px}"
+      "description": "The same global destinations on all routes, with a visible current-page cue. This is a link specimen; common.js owns the logo, menu and analytical subnavigation.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"index.html#contributions\">Our work</a><a href=\"benchmark.html\" aria-current=\"page\">EMBERBenchmark</a><a href=\"methodology.html\">Methodology</a></nav>",
+      "css": ".ds-nav{display:flex;flex-wrap:wrap;gap:10px 27px;background:var(--surface-0,#fafaf7)}.ds-nav a{display:inline-flex;align-items:center;min-height:44px;color:var(--text-primary,#15283f);font:450 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);text-decoration:none}.ds-nav a[aria-current]{font-weight:650;text-decoration:underline;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-nav a:hover{text-decoration:underline;text-underline-offset:8px}}"
     },
     {
       "name": "Provider chip",
       "kind": "chip",
-      "description": "Text complements provider color.",
+      "description": "Provider identity supplements color with visible text.",
       "html": "<span class=\"ds-chip\">Provider</span>",
-      "css": ".ds-chip{font-family:var(--font-body);font-size:10px;color:var(--text-primary);display:inline-flex;padding:2px 7px;border-radius:999px;background:var(--surface-2)}"
+      "css": ".ds-chip{display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;background:var(--surface-2,#f0f2f3);color:var(--text-primary,#15283f);font:600 10px/1.6 var(--font-body,'DM Sans',system-ui,sans-serif)}"
     },
     {
-      "name": "Result surface",
+      "name": "Benchmark showcase surface",
       "kind": "card",
-      "description": "One evidence workspace.",
-      "html": "<section class=\"ds-surface\"><h3>Who leads the way?</h3><p>Leading decision models by EMBER Score.</p></section>",
-      "css": ".ds-surface{font-family:var(--font-body);color:var(--text-primary);padding:32px;border-radius:16px;background:var(--surface-1)}.ds-surface h3{font-size:18px;font-weight:500}.ds-surface p{font-size:12px;color:var(--text-muted)}"
+      "refersTo": "benchmark-showcase",
+      "description": "White, ruled surface with three desktop expanding rails and horizontal phone tabs. This static specimen shows the shape and labels; index.js owns semantic tab activation, numeric GSAP interpolation and finite scene motion.",
+      "html": "<section class=\"ds-showcase\" aria-label=\"Benchmark preview\"><div class=\"ds-showcase-active\"><span>Environment</span><h3>Eight people. One way out.</h3><p>Public scenario, initial state.</p><a href=\"scenarios.html?scenario=v1-pub-03-corridor-bottleneck\">Inspect this scenario</a></div><a class=\"ds-showcase-rail\" href=\"benchmark.html\">Results</a><a class=\"ds-showcase-rail\" href=\"methodology.html\">Methodology</a></section>",
+      "css": ".ds-showcase{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.08fr) minmax(0,.08fr);overflow:clip;min-height:300px;border:1px solid var(--border,#dde2e5);border-radius:var(--showcase-radius,18px);background:var(--surface-1,#fff);color:var(--text-primary,#15283f);font-family:var(--font-body,'DM Sans',system-ui,sans-serif)}.ds-showcase-active{min-width:0;padding:28px 32px}.ds-showcase-active>span{color:var(--text-secondary,#455467);font-size:12px}.ds-showcase h3{font-size:23px;font-weight:500;line-height:1.25;margin:32px 0 12px}.ds-showcase p{font-size:13px;color:var(--text-muted,#596675)}.ds-showcase a{color:var(--text-primary,#15283f);font-size:13px;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}.ds-showcase-rail{writing-mode:vertical-rl;transform:rotate(180deg);justify-content:flex-start;padding:24px 12px;border-right:1px solid var(--border,#dde2e5)}.ds-showcase a:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:-4px}@media(hover:hover){.ds-showcase a:hover{background:var(--surface-2,#f0f2f3)}}@media(max-width:700px){.ds-showcase{grid-template-columns:1fr 1fr}.ds-showcase-active{grid-column:1/-1;padding:26px 22px}.ds-showcase-rail{writing-mode:initial;transform:none;justify-content:center;padding:8px;border-top:1px solid var(--border,#dde2e5)}}"
     },
     {
-      "name": "Anantam logo loader",
+      "name": "Result preview metric",
       "kind": "custom",
-      "description": "Shared pending-data loader on the six analytical pages: benchmark, leaderboard, compare, model, scenarios and methodology. The company homepage has no loader. This static preview shows the wordmark and status; loader.css, boot.js and cosmos.js own the supplied artwork and lifecycle.",
-      "html": "<section class=\"ds-loading\" aria-label=\"Loading Anantam\"><h2 class=\"ds-loading-name\">Anantam</h2><p class=\"ds-loading-copy\" role=\"status\">Opening the benchmark.</p></section>",
-      "css": ".ds-loading{font-family:var(--font-body);display:grid;justify-items:center;text-align:center;padding:40px 24px;background:var(--loading-ground,var(--surface-0));color:var(--text-primary)}.ds-loading-name{font:500 28px/1.2 var(--font-body);letter-spacing:-.025em;margin:0}.ds-loading-copy{font-size:13px;line-height:1.6;color:var(--text-muted);max-width:32ch;min-height:42px;margin:12px 0 0}"
+      "description": "Use the explicit metric label with genuine data-loaded rows and model deep links. This specimen shows the static fallback, without fabricated scores; production shows the first four decision models.",
+      "html": "<section class=\"ds-preview\"><p class=\"ds-preview-metric\">EMBER score, 0–100</p><p>Published results are available in the benchmark.</p><a href=\"benchmark.html\">View all results</a><p class=\"ds-preview-scope\">Public development results. One trial per model; ranks are descriptive.</p></section>",
+      "css": ".ds-preview{font:400 14px/1.6 var(--font-body,'DM Sans',system-ui,sans-serif);color:var(--text-primary,#15283f)}.ds-preview-metric{font-size:12px;color:var(--text-secondary,#455467)}.ds-preview-scope{font-size:12px;color:var(--text-muted,#596675)}.ds-preview a{display:inline-flex;align-items:center;min-height:44px;color:var(--text-primary,#15283f);font-size:13px;text-decoration:none}.ds-preview a:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-preview a:hover{text-decoration:underline;text-underline-offset:5px}}"
     },
     {
-      "name": "Company contribution",
-      "kind": "card",
-      "refersTo": "company-contribution",
-      "description": "The sole current contribution, EMBERBenchmark: a fixed navy surface with static copy, route action and an optional genuine top-three result preview.",
-      "html": "<article class=\"ds-contribution\"><h3>EMBERBenchmark</h3><p class=\"ds-contribution-title\">How does AI decide<br>when every move matters?</p><p class=\"ds-contribution-copy\">A reproducible benchmark for AI decision-making in dynamic fire evacuations.</p><a href=\"benchmark.html\">Explore the benchmark</a></article>",
-      "css": ".ds-contribution{font-family:var(--font-body,\"DM Sans\",system-ui,sans-serif);padding:54px;border-radius:var(--company-radius,20px);background:var(--ember-ground,#142e51);color:var(--ember-ink,#fafcff)}.ds-contribution h3{font-size:18px;font-weight:500;letter-spacing:-.02em;margin:0 0 22px}.ds-contribution-title{font:400 clamp(32px,3.1vw,44px)/1.12 var(--font-display,\"Instrument Serif\",Georgia,serif);margin:0 0 18px}.ds-contribution-copy{font-size:14px;line-height:1.6;max-width:36ch;color:var(--ember-muted,#c1d0e1);margin:0 0 30px}.ds-contribution a{display:inline-flex;align-items:center;min-height:44px;padding:0 22px;border-radius:999px;background:var(--ember-ink,#fafcff);color:var(--ember-ground,#142e51);font-size:13px;text-decoration:none}.ds-contribution a:focus-visible{outline:2px solid var(--ember-ink,#fafcff);outline-offset:4px}@media(hover:hover) and (pointer:fine){.ds-contribution a:hover{background:var(--ember-muted,#c1d0e1)}}@media(prefers-reduced-motion:no-preference){.ds-contribution a{transition:transform 150ms ease-out,background-color 150ms ease-out}.ds-contribution a:active{transform:scale(.96)}}@media(max-width:700px){.ds-contribution{padding:30px 25px;border-radius:16px}}"
+      "name": "Phone filters disclosure",
+      "kind": "custom",
+      "description": "Native details contains entry type, provider, sort and reset on phones, leaving search and first results exposed.",
+      "html": "<details class=\"ds-filters\"><summary>Filters &amp; sort<svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M3 10h14M10 3v14\"/></svg></summary><p>Entry type, provider, sort and reset controls.</p></details>",
+      "css": ".ds-filters{font:400 12px/1.6 var(--font-body,'DM Sans',system-ui,sans-serif);color:var(--text-secondary,#455467)}.ds-filters>summary{display:flex;align-items:center;min-height:44px;cursor:pointer;list-style:none}.ds-filters svg{width:18px;height:18px;margin-left:auto;fill:none;stroke:currentColor;stroke-width:1.4}.ds-filters[open] svg{transform:rotate(45deg)}.ds-filters>summary:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-filters>summary:hover{color:var(--text-primary,#15283f)}}"
+    },
+    {
+      "name": "Pending analytical loader",
+      "kind": "custom",
+      "description": "Static wordmark/status specimen. boot.js, loader.css and cosmos.js own the original PNG and temporary pending-data canvas. No homepage loader or enforced brand delay.",
+      "html": "<section class=\"ds-loading\" aria-label=\"Loading Anantam\"><h2>Anantam</h2><p role=\"status\">Opening the benchmark.</p></section>",
+      "css": ".ds-loading{display:grid;justify-items:center;text-align:center;padding:40px 24px;background:var(--loading-ground,var(--surface-0,#fafaf7));color:var(--text-primary,#15283f);font-family:var(--font-body,'DM Sans',system-ui,sans-serif)}.ds-loading h2{font-size:28px;font-weight:500;line-height:1.2;letter-spacing:-.025em;margin:0}.ds-loading p{font-size:13px;line-height:1.6;color:var(--text-muted,#596675);max-width:32ch;min-height:42px;margin:12px 0 0}"
     }
   ],
   "narrative": {
     "northStar": "Intelligence. An open question.",
-    "overview": "The supplied navy infinity emblem anchors a quiet, spacious identity. Local serif display type gives the introduction its voice; practical sans type keeps reading, controls and evidence clear. Sarvam informs product display and card interaction; Gnani informs the company-to-contribution hierarchy. Their assets and source styles are not copied.\n\nThe company introduction gives Anantam room to speak before presenting its first contribution. Analytical surfaces retain the same identity with task-specific density, visible scope and progressive disclosure. The benchmark is evidence of the company's work, rather than the entirety of its identity.",
+    "overview": "The supplied navy infinity emblem anchors a light, spacious identity. A centered company introduction uses local serif display type; practical sans type keeps controls and evidence clear. The homepage introduces Anantam as an experimental AI company, then presents its first contribution through a single expanding benchmark showcase.\n\nThis is a code-led record of the current implementation, not a claim of approval against a supplied visual composition. Sarvam informs the expanding rail interaction. Analytical routes share the same identity with task-specific density, visible scope and native disclosure.",
     "keyCharacteristics": [
-      "Supplied navy infinity emblem",
-      "Local serif display and practical sans",
-      "Spacious company introduction and focused analytical workspaces",
-      "Tonal surfaces with restrained borders",
-      "Native disclosures and visible evidence scope"
+      "Light appearance throughout the site",
+      "Original supplied infinity emblem",
+      "Centered company introduction and introductory action",
+      "One white Environment / Results / Methodology showcase",
+      "Direct entry into actual results with visible scope"
     ],
     "rules": [
       {
-        "name": "The Semantic Role Rule",
-        "body": "Use the shared semantic roles across themes; use the fixed contribution roles inside the navy company card.",
+        "name": "The Light Appearance Rule",
+        "body": "theme-init.js sets data-theme=light and shared CSS declares color-scheme: light. Keep one light palette sitewide.",
         "section": "colors"
       },
       {
         "name": "The Honest Loading Rule",
-        "body": "Show branded loading only while analytical data is pending; never hold content for a brand sequence.",
+        "body": "Show branded loading only while data is pending; never hold usable content for a brand sequence.",
         "section": "components"
       }
     ],
     "dos": [
-      "**Do** preserve the supplied navy infinity emblem and local type system.",
-      "**Do** use semantic color roles and keep scope and uncertainty visible.",
-      "**Do** preserve useful company content without JavaScript or benchmark data.",
-      "**Do** respect reduced motion with static artwork and immediate state changes.",
-      "**Do** retain benchmark model IDs, deep links and generated-data provenance."
+      "Do preserve the supplied logo, local fonts and one light appearance.",
+      "Do keep the company introduction and its action centered.",
+      "Do show the actual scenario, labelled metric and visible evidence scope.",
+      "Do open actual results directly from every benchmark action.",
+      "Do preserve generated-data provenance, model IDs, scoring and deep links.",
+      "Do use immediate keyboard and reduced-motion states and native phone disclosures."
     ],
     "donts": [
-      "**Don't** invent metrics, customers, trust logos or future product launches.",
-      "**Don't** edit generated results or scoring definitions by hand.",
-      "**Don't** show a pending-data loader on the company homepage.",
-      "**Don't** turn the finite company introduction into continuous decorative motion.",
-      "**Don't** force analytical chart geometry into the company's three-section composition."
+      "Don't reintroduce a dark theme, a navy marketing statistics card or an emblem mat.",
+      "Don't add a future-outlook section, speculative product catalogue or invented trust metrics.",
+      "Don't substitute an old benchmark hero for the results destination.",
+      "Don't call the initial-state map an evaluated replay or animate people as fabricated evacuation results.",
+      "Don't add pointer tilt, continuous homepage flight or motion required to understand content.",
+      "Don't edit generated results or scoring definitions by hand."
     ]
-  },
-  "generatedAt": "2026-10-26T05:45:19.0453211Z"
+  }
 }

@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#15283f" />
+    <meta name="theme-color" content="#fafaf7" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Anantam" />
-    <meta property="og:description" content="Explore Anantam: compare AI decision models with reproducible EMBERBench evidence from dynamic fire evacuation worlds." />
+    <meta property="og:description" content="EMBERBench public development evaluation: decision models and reference agents on frozen fire evacuation worlds." />
     <meta property="og:title" content="EMBERBenchmark | Anantam" />
     <meta
       name="description"
-      content="Explore Anantam: compare AI decision models with reproducible EMBERBench evidence from dynamic fire evacuation worlds."
+      content="EMBERBench public development evaluation: decision models and reference agents on frozen fire evacuation worlds."
     />
     <title>EMBERBenchmark | Anantam</title>
     <link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/benchmark.html" />
@@ -21,22 +21,24 @@
     <link rel="icon" type="image/png" href="assets/anantam-logo.png" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="anantam.css" />
+    <link rel="stylesheet" href="workspace.css" />
     <link rel="stylesheet" href="loader.css" />
   </head>
-  <body data-page="index">
+  <body data-page="leaderboard">
     <main id="main" tabindex="-1">
-      <section class="anantam-hero" aria-labelledby="hero-title">
-        <div class="hero-copy"><h1 id="hero-title">Intelligence,<br>measured.</h1><p>Explore how AI makes decisions when every move matters.</p><div class="hero-actions"><a class="button primary" href="leaderboard.html">Explore the benchmark</a><a class="quiet-link" href="methodology.html">How it works</a></div></div>
-        <div class="hero-art"><img src="assets/anantam-logo.png" width="1254" height="1254" alt="Anantam’s star-filled infinity emblem" fetchpriority="high"></div>
+      <section class="loading-shell" aria-label="Loading benchmark">
+        <div class="loading-center"><div class="cosmos-emblem loading-emblem"><img src="assets/anantam-logo.png" width="1254" height="1254" alt="Anantam’s infinity emblem" fetchpriority="high"><canvas class="cosmos-sky" aria-hidden="true" hidden></canvas></div>
+        <h1 class="loading-name">Anantam</h1><p class="loading-copy" role="status">Opening benchmark.</p>
+        <button class="button loading-retry" type="button" hidden>Reload page</button></div>
       </section>
     </main>
     <noscript
-      >Anantam explores public development results from EMBERBench. Enable JavaScript for interactive rankings and comparisons, or read the
+      >This portal needs JavaScript to display generated results. Read the
       <a
         href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/docs/scoring.md"
         >scoring specification</a
       >.</noscript
     >
-    <script type="module" src="benchmark.js"></script>
+    <script type="module" src="leaderboard.js"></script>
   </body>
 </html>

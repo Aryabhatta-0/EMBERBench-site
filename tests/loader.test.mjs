@@ -25,7 +25,7 @@ try {
     check(`${name}: no skeleton, card or motion control`,await page.locator('.loading-shell .skeleton-rows,.loading-shell .panel,.loading-shell .loading-canvas').count()===0 && await page.getByRole('button',{name:/^(Pause|Play) motion$/}).count()===0);
     check(`${name}: original artwork colour`,await page.locator('.loading-emblem img').evaluate(el=>getComputedStyle(el).filter==='none'));
     check(`${name}: fits viewport`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth && document.documentElement.scrollHeight<=innerHeight+1));
-    check(`${name}: loading state described`,await page.getByRole('status').textContent()==='Opening Anantam.');
+    check(`${name}: loading state described`,await page.getByRole('status').textContent()==='Opening benchmark.');
     if (reduced) check('Reduced motion keeps still logo and status',await page.locator('.cosmos-sky').isHidden() && await page.locator('.loading-emblem img').isVisible());
     if (name==='desktop') {
       const pixels=()=>page.locator('.loading-emblem canvas').evaluate(el=>el.toDataURL());
@@ -39,12 +39,11 @@ try {
     audits.push({name,violations});
     release(); await page.locator('.site-footer').waitFor();
     await page.waitForFunction(()=>!document.querySelector('.loading-shell') && !document.querySelector('main').hasAttribute('aria-busy'));
-    check(`${name}: real content replaces loader`,await page.getByRole('heading',{name:'Intelligence, measured.',exact:true}).isVisible());
+    check(`${name}: real content replaces loader`,await page.getByRole('heading',{name:'EMBERBenchmark',exact:true}).isVisible());
     if (name==='desktop') {
       const frozen=await page.evaluate(()=>window.detachedLoader.toDataURL()); await page.waitForTimeout(180);
       check('Detached loader stops rendering',frozen===await page.evaluate(()=>window.detachedLoader.toDataURL()));
-      await page.waitForFunction(()=>document.querySelector('.hero-art .cosmos-emblem')?.dataset.motion==='running');
-      check('Home logo animation starts after loader cleanup',await page.locator('.hero-art canvas').isVisible());
+      check('Benchmark opens results after loading',await page.locator('#leaderboard table').isVisible() && await page.locator('.anantam-hero').count()===0);
     }
     await context.close();
   }

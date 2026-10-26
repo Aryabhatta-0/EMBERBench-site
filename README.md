@@ -2,7 +2,7 @@
 
 An experimental AI company. **EMBERBenchmark** is its first and only published contribution; future work is described as experiments ahead, without speculative product launches.
 
-The company homepage has three sections: a concise introduction, one contribution card using real benchmark results, and a short outlook. The complete results explorer now starts at `site/benchmark.html`. All analytical routes and model deep links remain available.
+The light-only company homepage has two sections: a centered introduction and one expanding EMBERBenchmark showcase with Environment / Results / Methodology views. Explore the benchmark opens the actual searchable results at `site/benchmark.html`, with shared navigation and preserved analytical tools. `leaderboard.html` is a compatibility alias. There is no second benchmark landing page or future-outlook section.
 
 See [the current skill-by-skill report](docs/COMPANY_REDESIGN.md) for the fifteen requested skills, references, implementation choices, validation, and limits. Earlier implementation notes below describe the benchmark explorer's history.
 
@@ -30,15 +30,15 @@ If EMBERBench changes its scoring or report format, update the `emberbench` pin 
 
 ## Pages
 
-- `index.html`: Anantam company introduction, EMBERBenchmark contribution and future outlook.
-- `benchmark.html`: tabbed rankings/trade-offs/scenarios, expandable analytical charts and provenance.
+- `index.html`: centered company introduction and expanding Environment / Results / Methodology showcase.
+- `benchmark.html`: the actual searchable, sortable benchmark leaderboard, using the same module as the legacy leaderboard URL.
 - `leaderboard.html`: searchable, sortable table with type/provider filters, score CIs, API metrics and comparison selection. Query parameters preserve filters and sorting.
 - `compare.html?models=ID,ID`: 2–4 model profiles, components, scenarios, world scores, robustness, congestion and API metrics. Exactly two entries also show descriptive paired world differences.
 - `model.html?id=ID`: model profile with nine evidence sections and reproducibility metadata.
 - `scenarios.html?scenario=ID`: documented public scenarios, generated populations/world counts, sortable scenario rankings and heatmap ordering.
 - `methodology.html`: scoring, frozen environments, replay verification, uncertainty, public/hidden distinction and provenance.
 
-All routes use relative assets and ordinary HTML paths. Model links stay in the same tab and support normal browser open-in-new-tab behavior. Color theme and up to four selected IDs are stored locally when browser storage is available.
+All routes use relative assets and ordinary HTML paths. Model links stay in the same tab and support normal browser open-in-new-tab behavior. Up to four comparison selections are stored locally when browser storage is available. Appearance is light only, regardless of OS or old saved theme preferences.
 
 ## Data and scientific boundaries
 
@@ -82,9 +82,9 @@ The builder tests need the public suite of an EMBERBench checkout: set `EMBERBEN
 
 ## Anantam design
 
-The live [Sarvam](https://www.sarvam.ai/) and [Gnani](https://www.gnani.ai/) sites informed concise introductions, clear actions, and evidence-first exploration. Anantam uses the supplied infinity emblem, locally hosted Instrument Serif / DM Sans, and three principal homepage sections. No reference assets, branding, text, or styles were copied. See `PRODUCT.md`, `DESIGN.md`, and `docs/ANANTAM_IMPLEMENTATION.md` for the design and requested skill usage.
+The current design follows the explicit light-only, centered, sparse brief. Sarvam’s live accordion was measured before implementation: a narrow rail expands into a product view over about 650ms. Anantam applies this to three views of its single contribution, with a real public scenario diagram, recorded results and methodology. Mobile uses accessible tabs; secondary benchmark filters and sorting are disclosed so results appear in the initial screen.
 
-The existing analytical tools retain the hierarchy originally informed by Artificial Analysis, along with explicit unavailable values and scientific qualifications.
+See `PRODUCT.md`, `DESIGN.md` and `docs/COMPANY_REDESIGN.md` for the current system and all fifteen requested skills. Older implementation notes are historical.
 
 ## Automated browser checks
 
@@ -99,10 +99,10 @@ python -m http.server 8917 --bind 127.0.0.1 --directory site
 npm run test:browser
 ```
 
-Set `ANANTAM_BASE_URL` for a different HTTP preview. Screenshots and JSON verification reports go to `work/browser/` by default; override with `ANANTAM_QA_DIR`. CI runs the original regression checks plus the analytical workspace/loading checks, and uploads evidence on success or failure. Accessibility scans cover all five analytical routes in desktop/mobile light mode and desktop dark mode, plus their alternate evidence views and the homepage. Automated scans complement manual checks; they do not certify WCAG conformance.
+Set `ANANTAM_BASE_URL` for a different HTTP preview. Screenshots and JSON verification reports go to `work/browser/` by default; override with `ANANTAM_QA_DIR`. CI runs the original regression checks plus the analytical workspace/loading checks, and uploads evidence on success or failure. Accessibility scans cover all five analytical routes in desktop/mobile light mode with dark OS/saved-preference rejection checks, plus their alternate evidence views and the homepage. Automated scans complement manual checks; they do not certify WCAG conformance.
 
 ## Browser verification inventory
 
-Validate desktop, tablet and narrow mobile; light/dark themes; shared navigation and mobile menu; direct paths and query parameters; search/type/provider filter cycles; ascending/descending sorts; missing API values; table horizontal scroll/focus preservation; empty search; invalid model/metric IDs; 2–4 selections and fifth-selection rejection; profile navigation; all relationship charts, highlights, hover/focus tooltips and Escape; heatmap keyboard visibility; scenario navigation/sorting; and console errors.
+Validate desktop, tablet and narrow mobile; light-only appearance under both OS preferences; shared navigation and mobile menu; direct paths and query parameters; search/type/provider filter cycles; ascending/descending sorts; missing API values; table horizontal scroll/focus preservation; empty search; invalid model/metric IDs; 2–4 selections and fifth-selection rejection; profile navigation; all relationship charts, highlights, hover/focus tooltips and Escape; heatmap keyboard visibility; scenario navigation/sorting; and console errors.
 
 Desktop Chromium checks and narrow viewport captures are recorded in the task's screenshot artifacts. Public development scope and one-trial uncertainty caveats remain visible throughout.

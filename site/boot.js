@@ -1,8 +1,5 @@
 // The emblem is the loading indicator. Never hold content for a brand sequence.
 const main = document.getElementById('main');
-if (main && document.body.dataset.page === 'index') {
-  main.innerHTML = `<section class="loading-shell" aria-label="Loading Anantam"><div class="loading-center"><div class="cosmos-emblem loading-emblem"><img src="assets/anantam-logo.png" width="1254" height="1254" alt="Anantam’s infinity emblem" fetchpriority="high"><canvas class="cosmos-sky" aria-hidden="true" hidden></canvas></div><h1 class="loading-name">Anantam</h1><p class="loading-copy" role="status">Opening Anantam.</p><button class="button loading-retry" type="button" hidden>Reload page</button></div></section>`;
-}
 if (main?.querySelector('.loading-shell')) {
   const shell = main.querySelector('.loading-shell');
   let stopMotion;
