@@ -23,11 +23,13 @@ try{
   check(`${width}px hero has no empty side gutters`,await page.locator('.company-hero').evaluate(el=>{const r=el.getBoundingClientRect();return r.left===0&&Math.abs(r.right-document.documentElement.clientWidth)<2;}));
   check(`${width}px all product substance visible without rails`,await page.locator('.world-map,.demo-controls,#ember-demo').count()===0&&await page.locator('.outcome-card').count()===2&&await page.locator('.benchmark-showcase').count()===0);
   check(`${width}px no horizontal overflow`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  check(`${width}px all person stripes fit their evidence plot`,await page.locator('.people-art-inner').evaluateAll(plots=>plots.every(plot=>{const r=plot.getBoundingClientRect();return r.width>0&&[...plot.querySelectorAll('.outcome-person')].every(mark=>{const m=mark.getBoundingClientRect();return m.width>0&&m.left>=r.left-.5&&m.right<=r.right+.5&&m.top>=r.top-.5&&m.bottom<=r.bottom+.5;});})));
   await audit(page,`Home ${width}px`);
  }
  await page.setViewportSize({width:1440,height:1000});await go(page);
  check('Anantam uses its exact requested tagline',await page.locator('.company-hero>p').textContent()==='Boundless Possibilities'&&await page.title()==='Anantam | Boundless Possibilities');
- check('Light gradient belongs to the hero and no dark runner remains',await page.locator('.company-hero').evaluate(el=>getComputedStyle(el).backgroundImage.includes('gradient'))&&await page.locator('.ribbon-current').count()===0);
+ check('Light gradient spans the hero and no dark runner remains',await page.locator('.hero-stage').evaluate(el=>getComputedStyle(el).backgroundImage.includes('gradient'))&&await page.locator('.ribbon-current').count()===0);
+ check('The hero ends in an asymmetric curved shore',await page.locator('.hero-shore path').evaluate(el=>el.isPointInFill(new DOMPoint(72,70))!==el.isPointInFill(new DOMPoint(720,70))));
  check('Homepage contribution has no duplicate navigation or CTA',await page.locator('#contributions a').count()===0&&await page.locator('.hero-action').count()===1);
  check('Hero opens actual published results directly',await page.locator('.hero-action').getAttribute('href')==='benchmark.html');
  await page.locator('.hero-action').click();await page.locator('.result-chart').waitFor();

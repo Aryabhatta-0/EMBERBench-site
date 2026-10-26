@@ -1,0 +1,71 @@
+/* Anantam | Open editorial research section and one asymmetric gradient shore. */
+/* Preserve the real evidence and grouping interaction; remove enclosing score cards. */
+.hero-stage{background:radial-gradient(ellipse at 96% 88%,var(--hero-mist),transparent 65%),radial-gradient(ellipse at 3% 86%,var(--hero-pearl),transparent 62%),linear-gradient(180deg,var(--hero-surface),var(--hero-porcelain) 58%,var(--hero-surface));}
+.hero-stage .company-hero{background:transparent;}
+.hero-shore{height:clamp(100px,12vw,180px);pointer-events:none;}
+.hero-shore svg{display:block;width:100%;height:calc(100% + 2px);}
+.hero-shore path{fill:var(--surface-0);}
+
+body[data-page='company'] .contributions{max-width:1440px;padding:36px 48px 64px;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);column-gap:88px;row-gap:48px;align-items:start;}
+.contributions .contribution-heading{grid-column:1;grid-row:1;display:block;margin:0;}
+.contributions .contribution-heading h2{font-size:clamp(56px,5.8vw,84px);line-height:1.02;letter-spacing:-.035em;margin:0 0 24px;}
+.contributions .contribution-heading p{font-size:22px;line-height:1.55;max-width:23ch;margin:0;}
+.contributions .outcome-feature{grid-column:2;grid-row:1/3;padding:0;min-width:0;}
+.contributions #outcome-cards{display:block;}
+.contributions .outcome-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 24px;background:transparent;border-radius:0;padding:0 0 32px;overflow:visible;}
+.contributions .outcome-card+.outcome-card{padding-top:36px;border-top:1px solid var(--border);}
+.contributions .outcome-card-title{grid-column:1;grid-row:1;align-items:start;min-width:0;padding-top:12px;}
+.contributions .outcome-card-title h3{font-size:17px;font-weight:500;line-height:1.5;letter-spacing:-.02em;margin:0;overflow-wrap:anywhere;}
+.contributions .outcome-score{grid-column:2;grid-row:1;display:block;text-align:right;margin:0;}
+.contributions .outcome-score strong{display:block;font-family:var(--font-display);font-size:58px;line-height:1;font-weight:400;letter-spacing:-.035em;}
+.contributions .outcome-score>span{display:block;font-size:11px;margin-top:7px;}
+.contributions .people-art{grid-column:1/-1;height:154px;overflow:clip;margin:32px 0 20px;}
+.contributions .people-art-inner{width:100%;height:144px;flex:1;transform:none;}
+.contributions .outcome-person{width:var(--mark-width);height:36px;border-radius:0;border-right:.7px solid var(--surface-0);}
+.contributions .outcome-key{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;}
+.contributions .outcome-key dt{font-size:12px;gap:8px;}
+.contributions .outcome-key i{width:7px;height:7px;border-radius:2px;}
+.contributions .outcome-key dd{font-size:27px;font-weight:450;letter-spacing:-.02em;margin-top:10px;}
+.contributions .group-outcomes{grid-column:1/-1;justify-self:start;display:inline-flex;justify-content:start;gap:10px;width:auto;margin-top:22px;padding:8px 14px;border:1px solid var(--input-border);border-radius:999px;font-size:12px;min-height:44px;color:var(--text-secondary);}
+.contributions .group-outcomes svg{width:18px;height:18px;transform:none;}
+.contributions .outcome-end{max-width:54ch;font-size:12px;line-height:1.8;margin-top:0;}
+
+.contributions .method-feature{grid-column:1;grid-row:2;padding:0;margin:0;min-width:0;}
+.contributions .method-feature-heading{margin:0 0 24px;}
+.contributions .method-feature-heading h3{font-size:19px;font-weight:500;}
+#home-evaluation-loop{display:grid;grid-template-columns:104px minmax(0,1fr);gap:24px;padding:0;}
+#home-evaluation-loop .loop-path{display:flex;flex-direction:column;align-items:stretch;gap:4px;}
+#home-evaluation-loop .loop-path>svg,#home-evaluation-loop .loop-return{display:none;}
+#home-evaluation-loop .loop-path button{font-size:14px;min-height:44px;padding:10px 0;text-align:left;border-radius:0;color:var(--text-muted);background:transparent;}
+#home-evaluation-loop .loop-path [aria-pressed='true']{color:var(--accent);font-weight:650;text-decoration:underline;text-underline-offset:7px;}
+#home-evaluation-loop .loop-explanation{display:block;margin:8px 0 0;}
+#home-evaluation-loop .loop-explanation p{font-size:14px;line-height:1.8;min-height:0;}
+#home-evaluation-loop .loop-position{display:none;}
+.method-score-note{font-size:12px;line-height:1.8;color:var(--text-muted);max-width:40ch;margin:32px 0 0;}
+.contributions .group-outcomes:focus-visible{outline:2px solid var(--focus);outline-offset:4px;}
+@media(hover:hover) and (pointer:fine){.contributions .group-outcomes:hover{background:var(--surface-2);text-decoration:none;}#home-evaluation-loop .loop-path button:hover{color:var(--accent);}}
+
+@media(max-width:1100px){
+ body[data-page='company'] .contributions{grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:48px;padding-inline:32px;}
+ .contributions .contribution-heading h2{font-size:60px;}.contributions .contribution-heading p{font-size:19px;}
+ #home-evaluation-loop{grid-template-columns:82px minmax(0,1fr);gap:16px;}
+}
+@media(max-width:850px){
+ body[data-page='company'] .contributions{display:flex;flex-direction:column;gap:44px;padding:28px 32px 48px;}
+ .contributions .contribution-heading h2{font-size:76px;}.contributions .contribution-heading p{max-width:36ch;font-size:20px;}
+ .contributions .outcome-feature{width:100%;}.contributions .outcome-card{padding-bottom:32px;}
+ .contributions .method-feature{width:100%;max-width:540px;}#home-evaluation-loop{grid-template-columns:104px minmax(0,1fr);gap:32px;}
+}
+@media(max-width:700px){
+ .hero-shore{height:80px;}
+ body[data-page='company'] .contributions{padding:28px 20px 40px;gap:36px;}
+ .contributions .contribution-heading h2{font-size:60px;margin-bottom:16px;}.contributions .contribution-heading p{font-size:18px;max-width:27ch;}
+ .contributions .outcome-card-title{padding-top:8px;}.contributions .outcome-card-title h3{font-size:15px;}.contributions .outcome-score strong{font-size:48px;}
+ .contributions .people-art{height:148px;margin:20px 0 12px;}
+ .contributions .outcome-key{gap:12px;}.contributions .outcome-key dt{font-size:12px;line-height:1.5;}.contributions .outcome-key dd{font-size:25px;}
+ .contributions .outcome-card+.outcome-card{padding-top:28px;}.contributions .outcome-end{font-size:12px;}
+ .contributions .method-feature-heading h3{font-size:19px;}#home-evaluation-loop{grid-template-columns:88px minmax(0,1fr);gap:24px;}
+ #home-evaluation-loop .loop-path button{font-size:14px;}#home-evaluation-loop .loop-explanation p{font-size:14px;}
+}
+@media(max-width:360px){.contributions .contribution-heading h2{font-size:52px;}.contributions .outcome-key dt{gap:5px;}}
+@media(prefers-reduced-motion:reduce){.contributions .outcome-person,.contributions .group-outcomes svg{transition:none;}}
