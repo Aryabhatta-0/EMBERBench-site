@@ -1,12 +1,11 @@
 import { redesignMethodology } from "./workspace.js";
 import {mountEvaluationLoop} from './evaluation-loop.js';
-import { loadResults, shell, esc, fmt } from "./common.js?v=20261027-brand-3";
+import { loadResults, shell, esc, fmt } from "./common.js?v=20261027-docs-1";
 
-const REPO = "https://github.com/Aryabhatta-0/EMBERBench/blob/main/";
 // The site, its data and the data builder live in their own repository.
 const SITE_REPO = "https://github.com/Aryabhatta-0/EMBERBench-site/blob/main/";
-const source = (path, label) => `<a href="${REPO}${path}">${esc(label)}</a>`;
-const siteSource = (path, label) => `<a href="${SITE_REPO}${path}">${esc(label)}</a>`;
+const source = (path, label) => `<a href="${path.replace('.md','.html')}">${esc(label)}</a>`;
+const siteSource = (path, label) => `<a href="${path === 'README.md' ? 'docs/site-data.html' : SITE_REPO+path}">${esc(label)}</a>`;
 
 const components = [
   [
@@ -168,5 +167,5 @@ render().catch(() => {
   const main = document.querySelector("#main");
   if (main)
     main.innerHTML =
-      '<section class="panel empty"><h1>Methodology data unavailable</h1><p>The generated evaluation data could not be loaded. Reload the page or open the <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/docs/scoring.md">scoring definition</a>.</p></section>';
+      '<section class="panel empty"><h1>Methodology data unavailable</h1><p>The generated evaluation data could not be loaded. Reload the page or open the <a href="docs/scoring.html">scoring definition</a>.</p></section>';
 });

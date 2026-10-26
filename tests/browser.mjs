@@ -15,7 +15,7 @@ page.on('pageerror', e => errors.push(e.message));
 page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 const go = async route => {
   const target=new URL(route,base);
-  if (target.pathname.endsWith('/leaderboard.html')) {target.searchParams.set('display','table');if(!target.searchParams.has('kind')) target.searchParams.set('kind','all');}
+  if (target.pathname.endsWith('/leaderboard.html')) {if(!target.searchParams.has('kind')) target.searchParams.set('kind','all');}
   await page.goto(target.href);
   await page.locator('.site-footer').waitFor();
   await page.evaluate(() => document.fonts.ready);
@@ -52,19 +52,12 @@ try {
   await go('leaderboard.html');
   await audit('Leaderboard light');
   await page.locator('#search').fill('no-such-model-anantam');
-  check('Search empty state', (await page.locator('#leaderboard').innerText()).includes('No matching models'));
+  check('Search empty state', (await page.locator('#visual-results').innerText()).includes('No matching models'));
   await page.getByRole('button', { name:'Reset filters',exact:true }).click();
-  check('Filters reset to AI decision models', (await page.locator('[data-select-model]').count()) === data.models.filter(m=>m.kind==='Decision model').length);
-  await page.locator('#kind').selectOption('all');
-  const selected = page.locator('[data-select-model]');
-  for (let i = 0; i < 4; i++) await selected.nth(i).check();
-  await selected.nth(4).click();
-  check('Comparison selection capped at four', !(await selected.nth(4).isChecked()));
-  await page.locator('#clear-selection').click();
-  await selected.nth(0).check(); await selected.nth(1).check();
-  await page.getByRole('link', {name:'Compare models',exact:true}).click();
-  await page.locator('.page-head').waitFor();
-  check('Two-model comparison opens', (await page.locator('main').innerText()).includes(data.models[0].name));
+  check('Filters reset to AI decision models', (await page.locator('#inspect-model option').count()) === data.models.filter(m=>m.kind==='Decision model').length);
+  check('Results do not embed comparison tables or selectors',await page.locator('main table,[data-select-model],.quick-compare').count()===0);
+  await go(`compare.html?models=${encodeURIComponent(data.models.slice(0,2).map(m=>m.id).join(','))}`);
+  check('Dedicated comparison page opens',await page.locator('.compare-card').count()===2);
   await page.screenshot({ animations: "disabled",path:resolve(out,'compare-desktop.png'),fullPage:true});
   await go('index.html');
   await page.emulateMedia({colorScheme:'dark'});
@@ -86,10 +79,10 @@ try {
   check('No-JavaScript introduction visible', await fallback.locator('h1').isVisible());
   await nojs.close();
   await go('benchmark.html');
-  check('Benchmark shows JEV 1.14 as leading decision model',await page.locator('#leaderboard').innerText().then(t=>t.includes('typesafe/jev-1.14')));
+  check('Benchmark shows JEV 1.14 as leading decision model',await page.locator('#visual-results').innerText().then(t=>t.includes('typesafe/jev-1.14')));
   await go('leaderboard.html?q=jev');
-  check('Both evaluated JEV versions are searchable',await page.locator('[data-select-model]').count() === 2);
-  check('Leaderboard replaces latest alias with evaluated 1.13',await page.locator('#leaderboard').innerText().then(t=>t.includes('typesafe/jev-1.13') && !t.includes('jev-latest')));
+  check('Both evaluated JEV versions are searchable',await page.locator('#inspect-model option').count() === 2);
+  check('Leaderboard replaces latest alias with evaluated 1.13',await page.locator('#visual-results').innerText().then(t=>t.includes('typesafe/jev-1.13') && !t.includes('jev-latest')));
   await go('compare.html?models=typesafe-jev-latest-choice-r1,openrouter-typesafe_jev-1.14-choice-r1');
   check('Version comparison retains both reports',await page.locator('.compare-card h2').allTextContents().then(names=>names.join('|') === 'typesafe/jev-1.13|typesafe/jev-1.14'));
   await go('model.html?id=typesafe-jev-latest-choice-r1');

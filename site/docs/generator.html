@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="Generation constraints, configuration and validation."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Generator specification | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/generator.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" aria-current="page">Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Generator specification</span></nav><article class="docs-article"><h1 id="generator-suite-coverage-phase-11">Generator suite coverage (Phase 11)</h1>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Generator</td>
+<td><code>1.1.0</code> (<code>GENERATOR_VERSION</code>), config <code>1.1</code> (<code>GENERATOR_CONFIG_VERSION</code>; <code>1.0</code> still accepted), freeze record <code>1.1</code> (<code>GENERATION_MANIFEST_VERSION</code>)</td>
+</tr>
+<tr>
+<td>Family rules</td>
+<td><code>1.0</code> (<code>FAMILY_RULES_VERSION</code>)</td>
+</tr>
+<tr>
+<td>Calibration</td>
+<td>panel <code>1.0</code>, difficulty rules <code>1.0</code>, admission rules <code>1.0</code></td>
+</tr>
+<tr>
+<td>Composition</td>
+<td><code>1.0</code> (<code>COMPOSITION_VERSION</code>); selection rules <code>1.0</code>; recipe catalog <code>1.0</code>; suite freeze record <code>1.0</code></td>
+</tr>
+<tr>
+<td>Modules</td>
+<td><a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/structure.py"><code>structure</code></a>, <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/families.py"><code>families</code></a>, <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/calibration.py"><code>calibration</code></a>, <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/composition.py"><code>composition</code></a>, <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/generator.py"><code>generator</code></a></td>
+</tr>
+<tr>
+<td>Validation</td>
+<td><a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/tools/validate_generator_coverage.py"><code>tools/validate_generator_coverage.py</code></a>, results in <a href="generator-coverage-results.html">generator-coverage-results.md</a></td>
+</tr>
+<tr>
+<td>Unchanged</td>
+<td>simulator, observation, action schema, scenario schema, metrics, statistics, scoring (<code>SCORING_VERSION</code> 1.0), environment world 1.0</td>
+</tr>
+<tr>
+<td>Benchmark revision</td>
+<td><code>2</code> (<code>BENCHMARK_REVISION</code>). <code>benchmark_versions()</code> pins every version above, so provenance from other rules fails verification (<a href="integrity.html">integrity.md</a> section 12)</td>
+</tr>
+</tbody></table></div>
+<p>PR #33 (<a href="evaluation-suite-design.html">evaluation-suite-design.md</a>) froze the V1
+evaluation-suite design: 10 primary families x 16 scenarios (Easy 2,
+Moderate 4, Hard 6, Stress 4), 12 deterministic and 4 stochastic scenarios per
+family, 3 unique fire worlds per stochastic scenario: 160 scenarios and 240
+unique worlds. It also showed a gap: the generator labelled only three primary
+families and called every multi-exit scenario split flow (section 6 there).
+Phase 11 closes the gap without changing any of those numbers and without
+changing the simulator or the score. The PR #33 rules moved, unchanged, from
+the research tool into the library, and the research tool now imports them.</p>
+<h2 id="1-who-computes-what">1. Who computes what</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Side</th>
+<th>Seed or world needed?</th>
+<th>Private during a live evaluation?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Structural proxies (<code>measure_proxies</code>, <code>profile_structure</code>)</td>
+<td>generator</td>
+<td>no (seed-free, scenario only)</td>
+<td>the values of hidden scenarios are</td>
+</tr>
+<tr>
+<td>Structural family tags (<code>structural_tags</code>): 8 primary families and both secondary tags</td>
+<td>generator</td>
+<td>no</td>
+<td>the tags of hidden scenarios are</td>
+</tr>
+<tr>
+<td>Generation constraints and recipes</td>
+<td>generator</td>
+<td>no</td>
+<td>the recipes and rules are <strong>public</strong>; the generator seeds are private</td>
+</tr>
+<tr>
+<td>Fire evidence (<code>fire_evidence</code>): threatened share, (recoverable) invalidation share</td>
+<td>evaluator</td>
+<td>yes: one fire trajectory per world</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Fire-dependent tags (<code>threatened_nearest_exit</code>, <code>route_invalidation_replanning</code>)</td>
+<td>evaluator</td>
+<td>yes: deterministic fire uses its one trajectory; stochastic fire uses the mean over the scenario's selected unique worlds</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Calibration (panel scores, <code>M*</code>, <code>M_cap</code>, capacity ceiling), admission, band</td>
+<td>evaluator</td>
+<td>yes: every unique world</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Selection, top-up, neutral relabeling, freeze record</td>
+<td>evaluator</td>
+<td>private pool seed, private evaluation seeds, private selection key</td>
+<td>yes; only <code>SuiteFreezeRecord.public_commitment()</code> may be published before the evaluation</td>
+</tr>
+</tbody></table></div>
+<p>The generator never labels difficulty, never sees an evaluation seed and never
+reads a model. A stochastic scenario's family never depends on a model: its
+fire-dependent tags are measured on exactly the unique worlds that
+<code>build_unique_world_manifest</code> will schedule for it (the same candidate-seed
+list and the same walk, <code>world_seeds_for</code>), and the evidence is frozen into
+the freeze record.</p>
+<h2 id="2-the-ten-family-rules-family-rules-10-the-exact-pr-33-thresholds">2. The ten family rules (family rules 1.0, the exact PR #33 thresholds)</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Rule</th>
+<th>Side</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>single_exit_low_density</code></td>
+<td>one exit and crowd density &lt; 0.15</td>
+<td>generator</td>
+</tr>
+<tr>
+<td><code>single_exit_high_density</code></td>
+<td>one exit and crowd density &gt;= 0.15</td>
+<td>generator</td>
+</tr>
+<tr>
+<td><code>narrow_corridor_bottleneck</code></td>
+<td><code>passage_width &lt;= 1</code> and <code>bottleneck_severity = N / min_cut &gt;= 4</code></td>
+<td>generator</td>
+</tr>
+<tr>
+<td><code>split_flow_across_exits</code></td>
+<td>several exits, <code>split_pressure &gt; 1</code> and <code>N &gt;= 20</code></td>
+<td>generator</td>
+</tr>
+<tr>
+<td><code>crowd_100</code></td>
+<td><code>N &gt;= 100</code></td>
+<td>generator</td>
+</tr>
+<tr>
+<td><code>maze_obstacle_routing</code></td>
+<td>obstacle density &gt;= 0.25 or detour ratio &gt;= 1.5</td>
+<td>generator</td>
+</tr>
+<tr>
+<td><code>deceptive_nearest_exit</code></td>
+<td>several exits and <code>deceptive_share &gt;= 0.25</code></td>
+<td>generator</td>
+</tr>
+<tr>
+<td><code>threatened_nearest_exit</code></td>
+<td>several exits and mean threatened share &gt;= 0.2</td>
+<td>evaluator (fire)</td>
+</tr>
+<tr>
+<td><code>multiple_ignitions</code></td>
+<td>at least 2 ignitions</td>
+<td>generator</td>
+</tr>
+<tr>
+<td><code>route_invalidation_replanning</code></td>
+<td>mean recoverable invalidation share &gt;= 0.2</td>
+<td>evaluator (fire)</td>
+</tr>
+<tr>
+<td><code>central_ignition</code> (secondary)</td>
+<td>ignition centrality &lt;= 0.34</td>
+<td>generator</td>
+</tr>
+<tr>
+<td><code>multiple_exits_unequal_distance</code> (secondary)</td>
+<td>several exits and median exit gap &gt;= 4; also the fallback tag of a multi-exit scenario with no other tag</td>
+<td>generator</td>
+</tr>
+</tbody></table></div>
+<p>Secondary tags never become a primary family: <code>primary_candidates</code> drops them
+and the design has no cell for them. <code>family_rules()</code> returns this table in
+canonical form; it is part of the frozen rule set and its digest.</p>
+<p><strong>Split flow (the PR #33 fix).</strong> Several exits are not enough. <code>split_pressure</code>
+is the busiest route-nearest exit's load divided by 1 plus the median extra
+route its people would walk to their second-nearest exit. A low-pressure
+multi-exit scenario (people already spread over far-apart exits) is not split
+flow; a scenario with 20 or more people crowding one exit while another is
+almost as close is. The <code>split-flow-medium</code> recipes produce split flow at 24-60
+people, so the family is not only a <code>crowd_100</code> side effect.</p>
+<p><strong>Deceptive nearest exit.</strong> <code>deceptive_share</code> is the share of people whose
+Manhattan-nearest exit is a dead end or at least 2 steps longer by route than
+their route-nearest exit. It is seed-free. Config 1.1 can constrain it.</p>
+<p><strong>Narrow corridor.</strong> A door is not a bottleneck by itself: the passage must be
+1 cell wide for some person and the crowd must need at least 4 steps to drain
+through the narrowest cut (<code>N / min_cut &gt;= 4</code>). Two people behind a 1-cell door
+are not a bottleneck; eight people behind a 3-cell door are not either.</p>
+<h2 id="3-generator-config-11">3. Generator config 1.1</h2>
+<p>Config 1.1 adds three optional constraint ranges: <code>split_pressure</code>,
+<code>deceptive_share</code> and <code>bottleneck_severity</code>. They aim a recipe at one
+structural family by rejection sampling. Details and the new proxies:
+<a href="procedural-generation.html#6-generation-constraints-and-proxies">procedural-generation.md, section 6</a>.
+The generator stream label contains <code>GENERATOR_VERSION</code>, so generator 1.1.0
+produces different scenarios than 1.0.0 for the same seed and config (the
+sampling code itself did not change). The public suite does not come from the
+generator and its hash is unchanged.</p>
+<h2 id="4-recipes-recipe-catalog-10">4. Recipes (recipe catalog 1.0)</h2>
+<p>A recipe is a generator config without a scenario count: a distribution, not a
+test item. No recipe names or hard-codes a hidden scenario. <code>targets</code> is used
+only to document the recipe and to choose top-up batches; a candidate's
+families are always measured.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Recipe</th>
+<th>Fire</th>
+<th>Targets</th>
+<th>Grid, population, exits, ignitions, partitions</th>
+<th>Extra constraints</th>
+<th>Initial candidates</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open-sparse</code></td>
+<td>deterministic</td>
+<td><code>single_exit_low_density</code></td>
+<td>14x10, N 3-8, exits 1-1, ignitions 1-1, partitions 0-0</td>
+<td>-</td>
+<td>120</td>
+</tr>
+<tr>
+<td><code>dense-single</code></td>
+<td>deterministic</td>
+<td><code>single_exit_high_density</code></td>
+<td>14x10, N 20-40, exits 1-1, ignitions 1-1, partitions 0-0</td>
+<td>-</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>partitioned</code></td>
+<td>deterministic</td>
+<td><code>narrow_corridor_bottleneck</code></td>
+<td>18x12, N 6-16, exits 1-2, ignitions 1-1, partitions 1-2</td>
+<td>-</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>multi-exit</code></td>
+<td>deterministic</td>
+<td><code>threatened_nearest_exit</code>, <code>route_invalidation_replanning</code></td>
+<td>20x12, N 6-20, exits 2-3, ignitions 1-1, partitions 0-1</td>
+<td>-</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>multi-ignition</code></td>
+<td>deterministic</td>
+<td><code>multiple_ignitions</code></td>
+<td>18x12, N 6-16, exits 2-3, ignitions 2-4, partitions 0-0</td>
+<td>-</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>maze</code></td>
+<td>deterministic</td>
+<td><code>maze_obstacle_routing</code></td>
+<td>16x12, N 4-10, exits 2-3, ignitions 1-1, partitions 2-4</td>
+<td>-</td>
+<td>120</td>
+</tr>
+<tr>
+<td><code>exit-threat</code></td>
+<td>deterministic</td>
+<td><code>threatened_nearest_exit</code></td>
+<td>20x12, N 6-16, exits 2-3, ignitions 1-1, partitions 0-1</td>
+<td>ignition_exit_distance &lt;= 6</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>crowd</code></td>
+<td>deterministic</td>
+<td><code>crowd_100</code></td>
+<td>30x18, N 100-120, exits 2-4, ignitions 1-1, partitions 0-0</td>
+<td>-</td>
+<td>140</td>
+</tr>
+<tr>
+<td><code>stochastic-open</code></td>
+<td>stochastic</td>
+<td><code>single_exit_low_density</code>, <code>threatened_nearest_exit</code></td>
+<td>18x12, N 5-14, exits 1-3, ignitions 1-2, partitions 0-0</td>
+<td>-</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>stochastic-partitioned</code></td>
+<td>stochastic</td>
+<td><code>narrow_corridor_bottleneck</code>, <code>route_invalidation_replanning</code></td>
+<td>18x12, N 5-14, exits 1-3, ignitions 1-2, partitions 1-2</td>
+<td>-</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>maze-crowded</code></td>
+<td>deterministic</td>
+<td><code>maze_obstacle_routing</code></td>
+<td>16x12, N 12-24, exits 2-3, ignitions 1-2, partitions 2-4</td>
+<td>-</td>
+<td>200</td>
+</tr>
+<tr>
+<td><code>maze-stochastic</code></td>
+<td>stochastic</td>
+<td><code>maze_obstacle_routing</code></td>
+<td>16x12, N 6-16, exits 2-3, ignitions 1-2, partitions 2-4</td>
+<td>-</td>
+<td>200</td>
+</tr>
+<tr>
+<td><code>dense-single-stochastic</code></td>
+<td>stochastic</td>
+<td><code>single_exit_high_density</code></td>
+<td>14x10, N 20-40, exits 1-1, ignitions 1-1, partitions 0-0</td>
+<td>-</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>crowd-stochastic</code></td>
+<td>stochastic</td>
+<td><code>crowd_100</code></td>
+<td>30x18, N 100-120, exits 2-4, ignitions 1-1, partitions 0-0</td>
+<td>-</td>
+<td>120</td>
+</tr>
+<tr>
+<td><code>split-flow-medium</code></td>
+<td>deterministic</td>
+<td><code>split_flow_across_exits</code></td>
+<td>20x14, N 24-60, exits 2-3, ignitions 1-1, partitions 0-1</td>
+<td>split_pressure 1.05..inf</td>
+<td>200</td>
+</tr>
+<tr>
+<td><code>split-flow-medium-stochastic</code></td>
+<td>stochastic</td>
+<td><code>split_flow_across_exits</code></td>
+<td>20x14, N 24-60, exits 2-3, ignitions 1-1, partitions 0-1</td>
+<td>split_pressure 1.05..inf</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>deceptive-exit</code></td>
+<td>deterministic</td>
+<td><code>deceptive_nearest_exit</code></td>
+<td>18x12, N 8-20, exits 2-3, ignitions 1-1, partitions 1-3</td>
+<td>deceptive_share 0.25..1</td>
+<td>200</td>
+</tr>
+<tr>
+<td><code>deceptive-exit-stochastic</code></td>
+<td>stochastic</td>
+<td><code>deceptive_nearest_exit</code></td>
+<td>18x12, N 8-20, exits 2-3, ignitions 1-1, partitions 1-3</td>
+<td>deceptive_share 0.25..1</td>
+<td>200</td>
+</tr>
+<tr>
+<td><code>exit-threat-stochastic</code></td>
+<td>stochastic</td>
+<td><code>threatened_nearest_exit</code></td>
+<td>20x12, N 6-16, exits 2-3, ignitions 1-1, partitions 0-1</td>
+<td>ignition_exit_distance &lt;= 6</td>
+<td>200</td>
+</tr>
+<tr>
+<td><code>route-invalidation</code></td>
+<td>deterministic</td>
+<td><code>route_invalidation_replanning</code></td>
+<td>18x12, N 6-18, exits 1-3, ignitions 1-1, partitions 1-2</td>
+<td>route_redundancy &gt;= 2</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>route-invalidation-stochastic</code></td>
+<td>stochastic</td>
+<td><code>route_invalidation_replanning</code></td>
+<td>18x12, N 6-18, exits 1-3, ignitions 1-1, partitions 1-2</td>
+<td>route_redundancy &gt;= 2</td>
+<td>180</td>
+</tr>
+<tr>
+<td><code>narrow-corridor</code></td>
+<td>deterministic</td>
+<td><code>narrow_corridor_bottleneck</code></td>
+<td>18x12, N 8-24, exits 1-2, ignitions 1-1, partitions 1-2</td>
+<td>bottleneck_severity 4..inf; passage_width 1</td>
+<td>120</td>
+</tr>
+<tr>
+<td><code>narrow-corridor-stochastic</code></td>
+<td>stochastic</td>
+<td><code>narrow_corridor_bottleneck</code></td>
+<td>18x12, N 8-24, exits 1-2, ignitions 1-1, partitions 1-2</td>
+<td>bottleneck_severity 4..inf; passage_width 1</td>
+<td>120</td>
+</tr>
+<tr>
+<td><code>multi-ignition-stochastic</code></td>
+<td>stochastic</td>
+<td><code>multiple_ignitions</code></td>
+<td>18x12, N 6-16, exits 2-3, ignitions 2-4, partitions 0-0</td>
+<td>-</td>
+<td>160</td>
+</tr>
+<tr>
+<td><code>open-sparse-stochastic</code></td>
+<td>stochastic</td>
+<td><code>single_exit_low_density</code></td>
+<td>14x10, N 3-8, exits 1-1, ignitions 1-1, partitions 0-0</td>
+<td>-</td>
+<td>120</td>
+</tr>
+</tbody></table></div>
+<p>The first ten are the PR #33 development recipes, the next four its gap-probe
+recipes (crowded maze; stochastic maze, dense single exit and crowd), the rest
+are new targeted recipes. Threatened exit and route invalidation cannot be
+constrained without a fire trajectory: their recipes raise the rate (exit
+close to an ignition; two doors per partition so a route can be cut and still
+be recovered) and evaluator-side tagging plus rejection does the rest. The
+initial plan totals 4,000 candidates (<code>V1_INITIAL_PLAN</code>). The top-up table
+<code>V1_TOP_UP</code> maps each family and fire model to one dedicated recipe.</p>
+<h2 id="5-pipeline-compose_pool-compose_suite-freeze_composed_suite">5. Pipeline (<code>compose_pool</code>, <code>compose_suite</code>, <code>freeze_composed_suite</code>)</h2>
+<ol>
+<li><strong>Generate</strong> every planned recipe batch (at most 200 candidates per batch)
+with <code>generate_suite</code>. The generator seed of a batch is
+<code>SHA-256("emberbench/candidate-pool/1.0/&lt;recipe&gt;/&lt;version&gt;/&lt;batch&gt;/" || pool_seed)</code>;
+only its commitment is recorded. Drop duplicate content hashes and every
+excluded hash (the public suite, earlier rounds).</li>
+<li><strong>Unique worlds.</strong> For each candidate, the indices of the private
+evaluation seeds that <code>build_unique_world_manifest</code> will schedule: the first
+seed for deterministic fire, the first 3 seeds with pairwise-different
+<code>environment_world_digest</code> for stochastic fire. A stochastic candidate with
+fewer distinct worlds is dropped as <code>insufficient_worlds</code>.</li>
+<li><strong>Frozen calibration panel</strong> on every unique world (<code>measure_world</code>): the
+official EMBER Score of each panel member (<code>score_evidence</code> on
+<code>episode_evidence</code>, the same references shared as in <code>score_results</code>),
+<code>M*</code>, <code>M_cap</code>, the capacity ceiling and the fire evidence.</li>
+<li><strong>Admission</strong> (<code>calibrate</code>, in order): not applicable, capacity artifact
+(mean capacity ceiling &lt; 50, before any other rule), saturated, floor, no
+separation, admitted.</li>
+<li><strong>Difficulty band</strong> on <code>B</code>, the best panel mean: Easy &gt;= 80, Moderate &gt;= 30,
+Hard &gt;= 10, Stress below.</li>
+<li><strong>Family tags</strong>: <code>family_tags(profile, [fire evidence per world])</code>.</li>
+<li><strong>Quotas</strong> (<code>select_suite</code>, selection rules 1.0): families scarcest first
+(fewest eligible candidates, ties by name); in a family, bands Easy..Stress
+and the stochastic cell before the deterministic one; in a cell, candidates
+ordered by <code>SHA-256("emberbench/suite-selection/" + key + "/" + hash)</code>. Each
+candidate fills one cell, and that cell's family becomes its one primary
+family. A short cell is reported, never filled from another band or fire
+model.</li>
+<li><strong>Top-up</strong>: while a cell is short and the pool is below 10,000 candidates,
+one round generates one 200-candidate batch of the <code>V1_TOP_UP</code> recipe for
+each short cell's family and fire model, measures it and fills only the
+short cells (the earlier selection stays fixed). The stopping rule reads
+cell counts only.</li>
+<li><strong>Relabel and freeze</strong>: neutral IDs <code>gen-NNNN</code> in the order of
+<code>SHA-256("emberbench/suite-order/" + key + "/" + hash)</code>; each relabeled
+scenario is checked to keep every fire trajectory; then
+<code>&lt;dir&gt;/suite/</code> (a normal suite) and <code>&lt;dir&gt;/suite-freeze.json</code> are written
+once and loaded back verified. <code>schedule_composed_worlds</code> builds the
+evaluation manifest with <code>build_unique_world_manifest</code> and checks every
+world digest against the freeze record.</li>
+</ol>
+<p>The result is a pure function of the candidate content, the frozen rules, the
+private pool seed, evaluation seeds and selection key, and the quotas. Worker
+count, candidate order, clock and model identity do not change it (tested).</p>
+<h2 id="6-suite-freeze-record-suite-freezejson-version-10">6. Suite freeze record (<code>suite-freeze.json</code>, version 1.0)</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>suite</code></td>
+<td>suite ID, version, hash</td>
+</tr>
+<tr>
+<td><code>rule_set</code>, <code>rule_set_digest</code></td>
+<td>every version (generator, generator config, generation manifest, recipe catalog, family rules, selection rules, calibration panel, difficulty rules, admission rules, simulator, observation, scenario schema, scoring, environment world), the family rules, the calibration rules, the selection rules with the top-up table, the design with every cell quota, every recipe with its config and config hash</td>
+</tr>
+<tr>
+<td><code>commitments</code></td>
+<td>SHA-256 commitments to the pool seed, the evaluation seed list and the selection key</td>
+</tr>
+<tr>
+<td><code>batches</code></td>
+<td>per batch: recipe, version, batch index and ID, candidates, config hash, generator-seed commitment, generation hash</td>
+</tr>
+<tr>
+<td><code>pool</code></td>
+<td>candidates per recipe, admission outcomes, eligible candidates per cell, dropped duplicates</td>
+</tr>
+<tr>
+<td><code>selected</code></td>
+<td>per scenario: neutral ID, final hash, candidate hash, origin (recipe, batch, ordinal), primary family, band, fire model, all tags, structural tags, proxies, calibration, and per world the seed index, <code>environment_world_digest</code>, <code>M*</code>, <code>M_cap</code>, capacity ceiling, fire evidence and panel scores</td>
+</tr>
+<tr>
+<td><code>shortfall</code></td>
+<td>every short cell</td>
+</tr>
+</tbody></table></div>
+<p>It holds no seed and no key. It is still <strong>private while the suite is live</strong>:
+it identifies the scenarios. <code>SuiteFreezeRecord.public_commitment()</code> (suite
+hash, freeze-record digest, rule-set digest, commitments, cell counts, shortfall
+size) is what may be published before the evaluation. The leak guard rejects
+<code>suite-freeze.json</code> anywhere in the repository or a distribution.</p>
+<h2 id="7-generator-coverage-validation">7. Generator coverage validation</h2>
+<p><code>tools/validate_generator_coverage.py run --out &lt;dir outside the repo&gt;</code> runs
+the whole pipeline on a <strong>development</strong> pool built from public seed labels
+(<code>emberbench/generator-coverage/development/</code>). It reports candidates per
+recipe, admission outcomes, eligible candidates per family, band and fire
+model, the rarest cells, the selection and its shortfall, keyed-subsample pool
+sizes, the overlap audit, fire-dependent tag counts and runtime, then freezes a
+development suite and checks its 240-world schedule. This pool is not, and
+must never be called, a hidden suite. Results:
+<a href="generator-coverage-results.html">generator-coverage-results.md</a>.</p>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="procedural-generation.html"><span>Previous</span>Procedural generation</a><a href="evaluation-suite-design.html"><span>Next</span>Evaluation suite design</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/generator.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-who-computes-what">1. Who computes what</a><a href="#2-the-ten-family-rules-family-rules-10-the-exact-pr-33-thresholds">2. The ten family rules (family rules 1.0, the exact PR #33 thresholds)</a><a href="#3-generator-config-11">3. Generator config 1.1</a><a href="#4-recipes-recipe-catalog-10">4. Recipes (recipe catalog 1.0)</a><a href="#5-pipeline-compose_pool-compose_suite-freeze_composed_suite">5. Pipeline (compose_pool, compose_suite, freeze_composed_suite)</a><a href="#6-suite-freeze-record-suite-freezejson-version-10">6. Suite freeze record (suite-freeze.json, version 1.0)</a><a href="#7-generator-coverage-validation">7. Generator coverage validation</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

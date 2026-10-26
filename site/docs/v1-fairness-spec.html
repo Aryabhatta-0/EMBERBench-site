@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="Information boundaries and the frozen V1 protocol."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Fairness specification | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/v1-fairness-spec.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" aria-current="page">Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Fairness specification</span></nav><article class="docs-article"><h1 id="emberbench-v1-fairness-and-semantics-specification">EMBERBench V1 fairness and semantics specification</h1>
+<p>This document is normative. It freezes the V1 fairness contract, the
+model-visible observation and the V1 simulator rules. The words MUST, MUST NOT
+and SHOULD have their RFC 2119 meaning.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Contract</th>
+<th>Version</th>
+<th>Defined in</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Simulator semantics and run record format</td>
+<td><code>SIMULATOR_VERSION = "0.2.0"</code></td>
+<td><code>src/emberbench/__init__.py</code>, <a href="simulation-contract.html">simulation-contract.md</a></td>
+</tr>
+<tr>
+<td>Scenario schema</td>
+<td><code>SCHEMA_VERSION = "1.0"</code></td>
+<td><code>src/emberbench/scenario.py</code>, <a href="scenario-schema.html">scenario-schema.md</a></td>
+</tr>
+<tr>
+<td>Model-visible observation</td>
+<td><code>OBSERVATION_VERSION = "1.0"</code></td>
+<td><code>src/emberbench/observation.py</code>, this document</td>
+</tr>
+</tbody></table></div>
+<p>If the code and this document disagree, it is a bug.</p>
+<p><strong>V1 in one sentence.</strong> A model sees the full current state and knows the
+episode dynamics (the rules). The evaluator's randomness (the seed, the RNG
+state and every future draw) stays hidden. V1 evaluates decisions under known
+rules, not inference of hidden rules.</p>
+<h2 id="1-fairness-contract">1. Fairness contract</h2>
+<h3 id="11-matched-evaluation">1.1 Matched evaluation</h3>
+<p>Every compared model MUST run on exactly the same:</p>
+<ul>
+<li>scenario (the same <code>Scenario.content_hash()</code>),</li>
+<li>simulator version (<code>SIMULATOR_VERSION</code>),</li>
+<li>initial population, with the same person IDs and positions,</li>
+<li>hazard configuration (ignitions, fire model and its parameters),</li>
+<li>evaluator seed schedule (the same list of seeds for each scenario),</li>
+<li>exogenous stochastic process (the fire RNG stream derived from each seed).</li>
+</ul>
+<p>The only input that differs between two matched runs is the sequence of
+actions that the models submit. A <code>RunRecord</code> header (<code>simulator_version</code>,
+<code>observation_version</code>, <code>scenario_hash</code>, <code>seed</code>) identifies the matched episode
+and the observation contract the model received.</p>
+<h3 id="12-evaluator-private-and-model-visible-state">1.2 Evaluator-private and model-visible state</h3>
+<p>The simulator state has two separate parts.</p>
+<p><strong>Evaluator-private state.</strong> Only the evaluator and the harness may read it.
+A decision model MUST NOT receive any of it, in any form, before or during a run:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Where it lives</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Evaluator seed, and <code>Scenario.seed</code></td>
+<td><code>Simulator.seed</code>, <code>Scenario</code>, <code>RunRecord.seed</code></td>
+</tr>
+<tr>
+<td>RNG stream positions and stream seeds</td>
+<td><code>SimState.rng_state</code></td>
+</tr>
+<tr>
+<td>Future random draws</td>
+<td>the fire stream (<code>SplitMix64</code>)</td>
+</tr>
+<tr>
+<td>Scenario ID, description, content hash, schema version</td>
+<td><code>Scenario</code>, <code>RunRecord</code> header</td>
+</tr>
+<tr>
+<td><code>trapped</code> diagnostic</td>
+<td><code>SimState.trapped</code></td>
+</tr>
+<tr>
+<td>The full state, the step log and the run record</td>
+<td><code>SimState</code>, <code>StepRecord</code>, <code>RunRecord</code></td>
+</tr>
+<tr>
+<td>The <code>Scenario</code> and <code>Simulator</code> objects</td>
+<td>evaluator side</td>
+</tr>
+</tbody></table></div>
+<p><strong>Model-visible state.</strong> A decision model receives only the <code>Observation</code>
+returned by <code>Simulator.observe()</code>. Section 4 defines its fields. It has the
+full current state (map, people, fire) and the episode rules (<code>RulesView</code>):
+every action-relevant rule that a scenario can vary. The rules are copied
+from the scenario, so the model never holds a <code>Scenario</code> reference.</p>
+<p>The harness boundary is <code>Simulator.observe()</code> and <code>Simulator.step(actions)</code>.
+A harness MUST give a model only <code>Observation</code> objects (or their
+<code>to_dict()</code> form). It MUST NOT give a model the <code>Simulator</code>, the <code>Scenario</code>, a
+<code>SimState</code>, a <code>StepRecord</code> or a <code>RunRecord</code> until the evaluation is complete.
+<code>run_episode(scenario, policy)</code> obeys this rule: the policy receives only
+<code>Observation</code> objects.</p>
+<h3 id="13-the-seed">1.3 The seed</h3>
+<p>The seed exists for reproducibility and for matched evaluation only. It is
+not a model input.</p>
+<ul>
+<li>The evaluator owns the seed schedule. The schedule MUST NOT be disclosed to
+a model before the evaluation is complete.</li>
+<li>Scored evaluations SHOULD draw seeds uniformly from <code>[0, 2**64)</code> with a
+cryptographic generator. A model that knows the simulator code could test
+small seeds (0, 1, 2, ...) against the fire it observes and then predict
+future fire. A 64-bit seed space, with stream seeds derived by SHA-256,
+makes that search impractical. The small seeds in <code>tests/fixtures/</code> are for
+tests only.</li>
+<li>A model sees the <em>realised</em> fire (the burning cells). That is the intended
+information. It does not see the draws that produced the fire, or any
+future draw.</li>
+</ul>
+<h3 id="14-person-and-exit-ids">1.4 Person and exit IDs</h3>
+<p>Person IDs and exit IDs are model-visible, because actions are keyed by
+person ID. Scenario authors MUST NOT encode hidden test-set metadata in them.
+IDs SHOULD carry no information about the solution (for example, IDs SHOULD
+NOT be ordered by distance to an exit), because the collision rule (R1) uses
+the ID order.</p>
+<h2 id="2-stochastic-world-fairness">2. Stochastic-world fairness</h2>
+<p>Fire is exogenous in V1. People and actions do not affect fire propagation:</p>
+<ul>
+<li>The fire model receives only the static terrain, the burning cells, the
+step number and the fire RNG stream (<code>FireModel.spread</code>). It does not
+receive people or actions.</li>
+<li>People do not block fire, and fire spread does not depend on where people are.</li>
+<li>The stochastic model takes one draw per (candidate cell, burning neighbour)
+edge on every spread step. The number of draws depends only on the geometry
+and the burning set.</li>
+</ul>
+<p>Therefore, for the same scenario and the same evaluator seed, two runs with
+different actions MUST produce identical ignitions, burning sets and fire RNG
+positions on every step that both runs complete. The fire trajectory is equal
+to the trajectory the fire process produces with no people at all. This is
+the "common random numbers" property: a difference in outcome between two
+matched runs comes from the decisions only, not from luck.</p>
+<p>A run can end earlier than another run (for example when everyone evacuates).
+The invariant holds for the overlapping steps.</p>
+<p>The exact probability and draw-count rules are in
+<a href="simulation-contract.html#stochastic-fire-frozen-v1-contract">simulation-contract.md</a>.</p>
+<p><em>Tests:</em> <code>test_stochastic_hazard.py</code> checks the invariant for stay, greedy,
+deliberately conflicting, all-east and random policies against the fire with
+no people at all. It uses several development seeds on multiple ignitions,
+flammable and non-flammable exits, <code>spread_interval</code> 2, <code>p = 0</code>, <code>p = 1</code> and
+the public route-invalidation scenario. It compares ignitions, burning sets and
+the <code>fire</code> RNG state on every step. See also
+<code>test_fairness.py::test_fire_trajectory_*</code>.</p>
+<p>A future subsystem that needs randomness MUST use a new stream label (see
+<a href="simulation-contract.html#randomness">simulation-contract.md</a>). If its draws
+depend on actions, it MUST NOT share a stream with the fire.</p>
+<h2 id="3-frozen-v1-rules">3. Frozen V1 rules</h2>
+<p>Each rule has a short rationale and the tests that pin it. V1 keeps the
+Phase 1 behaviour for every rule. No rule changed in Phase 2: the simulator
+dynamics are the same as in <code>0.1.0</code>. <code>SIMULATOR_VERSION</code> is <code>0.2.0</code> only
+because the <code>RunRecord</code> header gained <code>observation_version</code> (see section 6).</p>
+<p>Every rule that a scenario can vary is in <code>Observation.rules</code>. The model
+knows the rules it plays under.</p>
+<h3 id="r1-collision-tie-break-lowest-person-id-wins">R1. Collision tie-break: lowest person ID wins</h3>
+<p>If two or more movers target the same cell, the mover with the lowest person
+ID wins. IDs compare as plain strings by code point (<code>"P10" &lt; "P2"</code>). Every
+other mover gets <code>blocked_conflict</code>. The decision uses intent only. A loser is
+not re-awarded the cell if the winner fails later.</p>
+<p><em>Rationale.</em> The rule is deterministic, simple and visible to the model (IDs
+are in the observation, and <code>rules.conflict_resolution</code> names the rule). It is identical for every model on a scenario. A
+random tie-break would need RNG draws whose count depends on the actions. That
+would either couple the fire stream to the actions (section 2) or add a second
+stream with no benefit for fairness. The known bias (low IDs win) is the same
+for every compared model.</p>
+<p><em>Tests:</em> <code>test_v1_rules.py::test_r1_*</code>,
+<code>test_movement.py::test_conflict_lowest_id_wins_regardless_of_submission_order</code>,
+<code>test_movement.py::test_ids_compare_as_strings</code>,
+<code>test_movement.py::test_conflict_loser_is_not_reawarded_when_winner_fails</code>.</p>
+<h3 id="r2-swaps-are-blocked">R2. Swaps are blocked</h3>
+<p>Two people who try to exchange cells (<code>A &lt;-&gt; B</code>) both get <code>blocked_cycle</code> and
+stay in place.</p>
+<p><em>Rationale.</em> A cell holds one person. A swap needs two people to pass through
+each other on a shared edge. This is not possible in a one-cell-wide corridor,
+and the grid cannot tell a wide passage from a narrow one. Blocking is the
+conservative, simple rule.</p>
+<p><em>Tests:</em> <code>test_v1_rules.py::test_r2_*</code>, <code>test_movement.py::test_swap_is_blocked</code>.</p>
+<h3 id="r3-rotations-are-blocked">R3. Rotations are blocked</h3>
+<p>Any closed chain of movers (a rotation of length 3 or more) is blocked. Every
+member gets <code>blocked_cycle</code>. An outside mover with a lower ID than the cycle
+member it meets wins the conflict (R1). That cycle member then becomes a
+non-mover, and the chain resolves as <code>blocked_occupied</code>.</p>
+<p><em>Rationale.</em> Same rule as R2, with no special case. Open chains (people who
+follow each other in one step) are allowed, so a queue still moves at full
+speed.</p>
+<p><em>Tests:</em> <code>test_v1_rules.py::test_r3_*</code>, <code>test_movement.py::test_rotation_is_blocked</code>,
+<code>test_movement.py::test_lower_id_outsider_breaks_rotation</code>,
+<code>test_movement.py::test_following_chain_moves_together</code>.</p>
+<h3 id="r4-exit-throughput-one-person-per-exit-cell-per-step">R4. Exit throughput: one person per exit cell per step</h3>
+<p>An exit is a normal cell for movement, with capacity one. A person who moves
+onto a usable exit is evacuated in the same step (phase 6). The exit is
+therefore empty at the start of the next step. Each exit cell lets at most one
+person through per step. A queue flows with no gaps: the next person can move
+into the vacated cell in the same step. Two adjacent exit cells let two
+people through per step.</p>
+<p><em>Rationale.</em> Throughput follows from the one-person-per-cell rule. It needs no
+extra parameter. Congestion at exits is part of what V1 measures.</p>
+<p><em>Tests:</em> <code>test_v1_rules.py::test_r4_*</code>,
+<code>test_simulator.py::test_exit_throughput_is_one_person_per_exit_per_step</code>,
+<code>test_simulator.py::test_two_people_cannot_enter_one_exit_in_the_same_step</code>.</p>
+<h3 id="r5-burning-exits-are-unusable">R5. Burning exits are unusable</h3>
+<p>An exit evacuates a person only if the exit was not burning at the start of
+the step. A burning exit never evacuates anyone. Moving onto a burning exit
+follows R6: it is refused (<code>blocked</code>) or the person becomes a casualty
+(<code>casualty</code>). An exit can burn only if <code>fire.exits_flammable</code> is <code>true</code>. A
+person who reaches an exit in the same step that the fire reaches it is
+evacuated, because evacuation (phase 6) comes before fire spread (phase 7).</p>
+<p><em>Rationale.</em> A burning exit is the main "exit becomes unusable" event that V1
+measures. Evacuation before spread gives the model the benefit of the doubt
+for a move that was valid when it was chosen: the model saw a usable exit.</p>
+<p><em>Tests:</em> <code>test_v1_rules.py::test_r5_*</code>,
+<code>test_simulator.py::test_entering_burning_exit_does_not_evacuate</code>,
+<code>test_fire.py::test_exit_flammability_is_configurable</code>,
+<code>test_fire.py::test_fire_threatening_exit_burns_exit_and_it_stops_evacuating</code>.</p>
+<h3 id="r6-enter_fire-explicit-in-every-scenario-default-casualty">R6. <code>enter_fire</code>: explicit in every scenario, default <code>casualty</code></h3>
+<p><code>movement.enter_fire</code> is <code>blocked</code> or <code>casualty</code>. With <code>blocked</code>, a move into
+a cell that was burning at the start of the step gives <code>blocked_fire</code>, and the
+person stays in place. With <code>casualty</code>, the person moves and becomes a
+casualty with cause <code>entered_fire</code>. Scenario files MUST state the value (the
+key is required). The Python default (<code>MovementConfig()</code>) is <code>casualty</code>.
+Scored V1 scenarios SHOULD use <code>casualty</code>.</p>
+<p><em>Rationale.</em> <code>casualty</code> makes a bad decision have its real consequence, so it
+measures decision quality. <code>blocked</code> hides some bad decisions behind a safety
+net. Both values stay available for tests and ablations, and the value is part
+of the scenario hash, so two runs can never silently use different policies.</p>
+<p><em>Tests:</em> <code>test_v1_rules.py::test_r6_*</code>, <code>test_movement.py::test_enter_fire_policies</code>,
+<code>test_simulator.py::test_entering_fire_under_casualty_policy</code>,
+<code>test_simulator.py::test_blocked_fire_policy_keeps_person_in_place</code>.</p>
+<h3 id="r7-ignition-timing">R7. Ignition timing</h3>
+<ul>
+<li>The scenario ignitions burn at step 0. They are in the first observation.
+No person can start on an ignition.</li>
+<li>Spread happens in phase 7 of step <code>t</code> (1-based), only when
+<code>t % fire.spread_interval == 0</code>. The first possible spread is in step
+<code>spread_interval</code>.</li>
+<li>Movement (phase 5) happens before spread (phase 7) in the same step. A person
+who moves away from a cell that ignites in this step survives. A person who
+stays on it becomes a casualty with cause <code>fire_spread</code>.</li>
+<li>Cells that ignite in step <code>t</code> are in the observation before step <code>t + 1</code>.</li>
+</ul>
+<p><em>Rationale.</em> The model always acts on the fire it can see. No cell burns
+"between" the observation and the move.</p>
+<p><em>Tests:</em> <code>test_v1_rules.py::test_r7_*</code>, <code>test_fire.py::test_spread_interval</code>,
+<code>test_simulator.py::test_fire_spread_casualty_and_cause</code>.</p>
+<h3 id="r8-no-burn-out">R8. No burn-out</h3>
+<p>A burning cell burns until the end of the run. Burn-out does not exist in V1,
+for any cell type (floor or exit). The burning set never shrinks.</p>
+<p><em>Rationale.</em> Simple and monotone. A burned-out cell that becomes passable
+again would add a timing rule and new routing behaviour that V1 does not
+need. A later version can add burn-out with a <code>SIMULATOR_VERSION</code> bump.</p>
+<p><em>Tests:</em> <code>test_v1_rules.py::test_r8_*</code>.</p>
+<h3 id="r9-trapped-definition">R9. Trapped definition</h3>
+<p><code>trapped</code> is the set of <strong>active</strong> people who have no path to an exit that
+is not burning. A path uses 4-neighbour steps and may cross any cell that is
+not a wall and not burning. Other people are ignored. The set is computed at
+step 0 and after phase 8 of every step.</p>
+<p><code>trapped</code> is an evaluator diagnostic. It is recorded in <code>SimState</code> and
+<code>RunRecord</code>. It is <strong>not</strong> model-visible in V1. It does not change a
+person's status, and it does not end the run.</p>
+<p><em>Rationale.</em> Walls and fire are permanent in V1 (R8). People are not, so
+congestion does not count as trapped. The diagnostic is for metrics (for
+example "trapped from the start" against "trapped by a bad decision"). It is
+kept out of the observation because it is a pre-computed planning aid. A
+model can compute the same set from the observation (the map plus the
+burning cells), so hiding it removes no information.</p>
+<p><em>Tests:</em> <code>test_v1_rules.py::test_r9_*</code>, <code>test_simulator.py::test_trapped_detection</code>,
+<code>test_fairness.py::test_trapped_diagnostic_is_evaluator_private</code>.</p>
+<h3 id="r10-termination-precedence">R10. Termination precedence</h3>
+<p>After phase 8 of step <code>t</code>:</p>
+<ol>
+<li>If no person is active, the run ends with <code>all_resolved</code>.</li>
+<li>Else, if <code>t &gt;= termination.max_steps</code>, the run ends with <code>max_steps</code>.</li>
+</ol>
+<p><code>all_resolved</code> wins when both hold. Inside a step, evacuation (phase 6) comes
+before casualties (phase 8). A run does not end early because every active
+person is trapped. A terminated simulator raises <code>SimulationError</code> on
+<code>step()</code>.</p>
+<p><em>Rationale.</em> A run that resolves everyone on its last step is a full success,
+so <code>all_resolved</code> is the more informative reason. Early stop on "all trapped"
+would make the run length depend on a diagnostic. It would not change any
+outcome, because a trapped person cannot evacuate.</p>
+<p><em>Tests:</em> <code>test_v1_rules.py::test_r10_*</code>,
+<code>test_simulator.py::test_all_resolved_takes_precedence_over_max_steps</code>,
+<code>test_simulator.py::test_max_steps_termination_is_deterministic</code>.</p>
+<h2 id="4-observation-contract-version-10">4. Observation contract (version 1.0)</h2>
+<p><code>Simulator.observe()</code> returns an <code>Observation</code>. In V1 the current state is
+fully observable (the observation shows every burning cell) and the episode
+dynamics are known (<code>rules</code>). The observation holds no reference to the
+scenario, the simulator or any RNG. Its object graph contains only these
+types: <code>Observation</code>, <code>MapView</code>, <code>RulesView</code>, <code>ExitSpec</code>, <code>PersonState</code>,
+<code>PersonStatus</code>, <code>Action</code>, <code>Pos</code>, <code>FireModelName</code>, <code>EnterFirePolicy</code>,
+<code>ConflictResolution</code>, tuples, frozensets, integers, floats, booleans, strings
+and <code>None</code>.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>step</code></td>
+<td><code>int</code></td>
+<td>Number of completed steps. <code>0</code> before the first step.</td>
+</tr>
+<tr>
+<td><code>map.width</code>, <code>map.height</code></td>
+<td><code>int</code></td>
+<td>Grid size.</td>
+</tr>
+<tr>
+<td><code>map.obstacles</code></td>
+<td><code>tuple[Pos, ...]</code></td>
+<td>Wall cells, row-major.</td>
+</tr>
+<tr>
+<td><code>map.exits</code></td>
+<td><code>tuple[ExitSpec, ...]</code></td>
+<td>Exit ID and position, sorted by ID.</td>
+</tr>
+<tr>
+<td><code>rules</code></td>
+<td><code>RulesView</code></td>
+<td>The episode dynamics. See the next table.</td>
+</tr>
+<tr>
+<td><code>people</code></td>
+<td><code>tuple[PersonState, ...]</code></td>
+<td>Every person: <code>id</code>, <code>position</code>, <code>status</code> (<code>active</code>, <code>evacuated</code>, <code>casualty</code>), sorted by ID.</td>
+</tr>
+<tr>
+<td><code>burning</code></td>
+<td><code>frozenset[Pos]</code></td>
+<td>Every burning cell now.</td>
+</tr>
+<tr>
+<td><code>allowed_actions</code></td>
+<td><code>tuple[Action, ...]</code></td>
+<td><code>stay</code>, <code>north</code>, <code>south</code>, <code>east</code>, <code>west</code>. Every active person may submit any of them every step.</td>
+</tr>
+</tbody></table></div>
+<p><code>RulesView</code> holds every action-relevant rule that a scenario can vary. Each
+value is copied from the scenario when the simulator is built:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Copied from</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fire_model</code></td>
+<td><code>FireModelName</code></td>
+<td><code>fire.model</code> (<code>deterministic</code> or <code>stochastic</code>)</td>
+</tr>
+<tr>
+<td><code>spread_interval</code></td>
+<td><code>int</code></td>
+<td><code>fire.spread_interval</code></td>
+</tr>
+<tr>
+<td><code>spread_probability</code></td>
+<td><code>float | None</code></td>
+<td><code>fire.spread_probability</code>. <code>None</code> (JSON <code>null</code>) unless the model is <code>stochastic</code>.</td>
+</tr>
+<tr>
+<td><code>exits_flammable</code></td>
+<td><code>bool</code></td>
+<td><code>fire.exits_flammable</code></td>
+</tr>
+<tr>
+<td><code>enter_fire</code></td>
+<td><code>EnterFirePolicy</code></td>
+<td><code>movement.enter_fire</code> (<code>blocked</code> or <code>casualty</code>)</td>
+</tr>
+<tr>
+<td><code>conflict_resolution</code></td>
+<td><code>ConflictResolution</code></td>
+<td><code>movement.conflict_resolution</code> (V1: <code>lowest_id_wins</code> only)</td>
+</tr>
+<tr>
+<td><code>max_steps</code></td>
+<td><code>int</code></td>
+<td><code>termination.max_steps</code></td>
+</tr>
+</tbody></table></div>
+<p>The spread probability is a parameter of the hazard distribution. It is not
+evaluator randomness: it tells the model how likely spread is, but not which
+draws will succeed.</p>
+<p><code>Observation.to_dict()</code> gives the serialised form, with the extra key
+<code>observation_version</code>. The action contract is unchanged: <code>step(actions)</code>
+needs exactly one action from <code>allowed_actions</code> for each active person. A move
+that cannot happen is legal and resolves to a <code>blocked_*</code> outcome.</p>
+<p>The observation does <strong>not</strong> contain: the seed, RNG state, stream seeds,
+future draws, scenario ID, description, content hash, schema version, or
+<code>trapped</code>.</p>
+<p>A change to the fields or the meaning of the observation MUST bump
+<code>OBSERVATION_VERSION</code>.</p>
+<p><em>Tests:</em> <code>tests/test_fairness.py</code>. The tests check:</p>
+<ul>
+<li>the exact field lists of <code>Observation</code>, <code>MapView</code> and <code>RulesView</code>, and of
+the serialised form,</li>
+<li>that the object graph (walked through every instance attribute, not only
+the declared fields) holds only the public types above, and never a
+<code>Scenario</code>, <code>Simulator</code>, <code>SimState</code>, <code>StepRecord</code>, <code>RunRecord</code>, RNG or
+configuration object,</li>
+<li>that the seed, stream seeds, RNG positions and hidden metadata are absent
+from the observation and its JSON form,</li>
+<li>that observations are identical for different seeds and different hidden
+metadata,</li>
+<li>that two scenarios that differ only in one public rule give different
+observations, and that the rules are the only difference,</li>
+<li>that every <code>RulesView</code> value equals the scenario configuration.</li>
+</ul>
+<h2 id="5-metrics-input">5. Metrics input</h2>
+<p>A metric MAY need both the <code>Scenario</code> and the <code>RunRecord</code>. The <code>RunRecord</code>
+has the actions, movements, ignitions, evacuations, casualties, trapped sets
+and states of each step. The static geometry (walls, exit positions, grid
+size) and the configuration (for example <code>max_steps</code>) are in the <code>Scenario</code>.
+The <code>scenario_hash</code> in the record binds the two together. Not every metric can
+be computed from a <code>RunRecord</code> alone.</p>
+<h2 id="6-provenance-and-change-control">6. Provenance and change control</h2>
+<p>Every <code>RunRecord</code> header stores <code>simulator_version</code>, <code>observation_version</code>,
+<code>schema_version</code>, <code>scenario_id</code>, <code>scenario_hash</code> and <code>seed</code>. A new record
+always stores the active <code>OBSERVATION_VERSION</code>. <code>verify_record</code> rejects a
+record with a different <code>simulator_version</code> or <code>observation_version</code>, or a
+different scenario hash, with an explicit <code>ReplayMismatchError</code>.
+<code>RunRecord.from_dict</code> rejects a record that has no <code>observation_version</code>.</p>
+<ul>
+<li>A change that changes simulator output (any <code>RunRecord</code> byte) for the same
+scenario, seed and actions MUST bump <code>SIMULATOR_VERSION</code>. The golden digest
+test fails until the bump is made.</li>
+<li>A change to the observation fields or their meaning MUST bump
+<code>OBSERVATION_VERSION</code>.</li>
+<li>A change to the scenario file format MUST bump <code>SCHEMA_VERSION</code>.</li>
+<li>A documentation-only clarification of visibility does not need a bump.</li>
+</ul>
+<p><strong>History.</strong></p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th><code>SIMULATOR_VERSION</code></th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0.1.0</code></td>
+<td>Phase 1 deterministic core.</td>
+</tr>
+<tr>
+<td><code>0.2.0</code></td>
+<td>The <code>RunRecord</code> header gained <code>observation_version</code>. The dynamics did not change. With that key removed and the version set back to <code>0.1.0</code>, every golden record hashes to its <code>0.1.0</code> digest. <code>OBSERVATION_VERSION</code> stays <code>1.0</code>, because V1 was not released before this change.</td>
+</tr>
+</tbody></table></div>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="simulation-contract.html"><span>Previous</span>Simulation contract</a><a href="integrity.html"><span>Next</span>Integrity &amp; provenance</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/v1-fairness-spec.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-fairness-contract">1. Fairness contract</a><a href="#2-stochastic-world-fairness">2. Stochastic-world fairness</a><a href="#3-frozen-v1-rules">3. Frozen V1 rules</a><a href="#4-observation-contract-version-10">4. Observation contract (version 1.0)</a><a href="#5-metrics-input">5. Metrics input</a><a href="#6-provenance-and-change-control">6. Provenance and change control</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

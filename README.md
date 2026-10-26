@@ -2,7 +2,7 @@
 
 An experimental AI company. **EMBERBench** is its first and only published contribution.
 
-The light-only company homepage presents a centered identity, a mist-blue hero with flowing brand ribbons and direct benchmark access, exact people-outcome pictographs and a connected explanation. The benchmark opens a four-chart overview with bounded ranking pages and an optional exact data table. Worlds, profiles, comparisons and methodology share context and navigation.
+The light-only company homepage presents a centered identity, a mist-blue hero with flowing brand ribbons and direct benchmark access, exact people-outcome pictographs and a connected explanation. The benchmark uses the browser width for four open chart sections, with ten-model ranking pages and selected-model scenario bars. Comparison controls and tables belong on the separate comparison page. Complete documentation is hosted on the site, with local search and section navigation.
 
 See [the motion and charts revision](docs/MOTION_AND_CHARTS.md) for the latest changes. See [the earlier skill-by-skill report](docs/COMPANY_REDESIGN.md) for the fifteen requested skills, references, implementation choices, validation, and limits. Earlier implementation notes below describe the benchmark explorer's history.
 
@@ -31,14 +31,21 @@ If EMBERBench changes its scoring or report format, update the `emberbench` pin 
 ## Pages
 
 - `index.html`: centered company identity and visible experiment, outcome and evaluation sequence.
-- `benchmark.html`: visual results, nearby model evidence and quick comparisons, plus the exact searchable/sortable data table.
-- `leaderboard.html`: compatibility URL for the same results workspace. Query parameters preserve reading choices, comparisons, filters and sorting.
+- `benchmark.html`: full-width charts, model evidence, searchable filters and metric sorting, without comparison tables or selectors.
+- `leaderboard.html`: compatibility URL for the same results page. Query parameters preserve selected model, filters, ranking page and sorting.
 - `compare.html?models=ID,ID`: 2–4 model profiles, components, scenarios, world scores, robustness, congestion and API metrics. Exactly two entries also show descriptive paired world differences.
 - `model.html?id=ID`: model profile with nine evidence sections and reproducibility metadata.
 - `scenarios.html?scenario=ID`: documented public scenarios, generated populations/world counts, sortable scenario rankings and heatmap ordering.
 - `methodology.html`: scoring, frozen environments, replay verification, uncertainty, public/hidden distinction and provenance.
+- `docs.html` and `docs/*.html`: a searchable library of 28 complete guides. Articles and navigation are static HTML; JavaScript enhances search, mobile navigation and code copying.
 
-All routes use relative assets and ordinary HTML paths. Model links stay in the same tab and support normal browser open-in-new-tab behavior. Up to four comparison selections are stored locally when browser storage is available. Appearance is light only, regardless of OS or old saved theme preferences.
+All routes use relative assets and ordinary HTML paths. Model links stay in the same tab and support normal browser open-in-new-tab behavior. The separate comparison page supports two to four models. Appearance is light only, regardless of OS or old saved theme preferences.
+
+## Build documentation
+
+The checked-in static guides need no runtime backend. Run `npm ci`, then `npm run build:docs` to regenerate them from `site/docs/source/`. Markdown is rendered at build time and sanitized; no Markdown parser ships to the browser. Local guide links and heading anchors are preserved.
+
+To deliberately update the benchmark documentation snapshot, run `node tools/build_docs.mjs --source /path/to/EMBERBench`. This copies the 26 benchmark guides, benchmark README, original license and statistical figure, records source revision/blob identities in `site/docs/source-manifest.json`, and adds the local [site-data guide](docs/SITE_DATA.md). Review the source changes alongside the generated pages. It never modifies `site/data/results.js`.
 
 ## Data and scientific boundaries
 

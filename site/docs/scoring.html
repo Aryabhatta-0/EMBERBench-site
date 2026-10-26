@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="The complete score definition, aggregation and ranking rules."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>EMBER scoring | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/scoring.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" aria-current="page">EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>EMBER scoring</span></nav><article class="docs-article"><h1 id="the-ember-score-scoring-version-10">The EMBER Score (scoring version 1.0)</h1>
+<p>This document is the normative definition of the EMBER Score. The code is
+<code>src/emberbench/scoring.py</code>. The tests are <code>tests/test_scoring.py</code>. The
+research, the candidate formulas and the sensitivity study that justify each
+choice are in <a href="benchmark-methodology.html">benchmark-methodology.md</a>. The frozen
+environment that every model is scored on is in
+<a href="environment-pack.html">environment-pack.md</a>.</p>
+<p>The EMBER Score is one number in <code>[0, 100]</code>. Its unit is
+<strong>benchmark-performance points under EMBER scoring version 1.0</strong>. It is not a
+percentage of people evacuated. A report says "72.4 points under EMBER
+scoring version 1.0", never "72.4% evacuated".</p>
+<h2 id="1-status-and-versioning">1. Status and versioning</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Version</td>
+<td><code>SCORING_VERSION = "1.0"</code></td>
+</tr>
+<tr>
+<td>Constants</td>
+<td><code>OFFICIAL_CONSTANTS</code> (section 4); <code>ScoringConstants.digest()</code> pins them</td>
+</tr>
+<tr>
+<td>Separate from</td>
+<td>simulator, observation, action schema, scenario schema, metrics, crowd diagnostics, statistics, generator and evaluation versions. Scoring changes none of them.</td>
+</tr>
+<tr>
+<td>Provenance</td>
+<td><code>benchmark_versions()["scoring"]</code>; benchmark revision <code>2</code> and later pin it (see <a href="integrity.html">integrity.md</a> section 12)</td>
+</tr>
+</tbody></table></div>
+<p><code>SCORING_VERSION</code> changes when a definition, a constant, the arithmetic or
+the serialization changes. A score is comparable with another score only
+when both have the same scoring version, the same constants digest, the same
+evaluation manifest and the same environment pack.</p>
+<p>A score is <strong>official</strong> only when it is computed against an
+<a href="environment-pack.html">environment pack</a> whose evaluation manifest equals the
+results' manifest, under <code>OFFICIAL_CONSTANTS</code>. <code>ScoreReport.official</code> tells
+which. A score against a bare suite is labelled UNOFFICIAL.</p>
+<h2 id="2-inputs-and-authentication">2. Inputs and authentication</h2>
+<p><code>score_results(trials, target, *, failures=None, resamples=2000)</code> takes:</p>
+<ul>
+<li><code>trials</code>: one or more <code>EvaluationResult</code> objects of the <strong>same model on the
+same evaluation manifest</strong>. Use one trial for a deterministic policy and
+several for a stochastic model (section 12).</li>
+<li><code>target</code>: the <code>Suite</code>, or the <code>EnvironmentPack</code>.</li>
+<li><code>failures[t]</code>: an optional map from episode index to <code>FailureKind</code> that
+says why trial <code>t</code> has no result for a scheduled episode.</li>
+</ul>
+<p>Every result is authenticated from scratch, exactly as in
+<a href="statistics.html">statistics.md</a>: the manifest must round-trip and target the
+suite, every run record is replayed (<code>verify_record</code>), and the stored metrics
+must equal the recomputed metrics. With a pack, every scheduled episode's
+fire trajectory must also match the pack's <code>fire_world_digest</code>, and every
+recorded burning set must match that trajectory. Any difference raises
+<code>ScoringInputError</code>. There is no partial score.</p>
+<p>Provider-reported success, accuracy or cost is never an input. Scoring is
+local and uses only replayed records.</p>
+<h2 id="3-privileged-references">3. Privileged references</h2>
+<p>Several components compare the model with a <strong>relaxed single-person
+optimum</strong>. The optimum is computed by backward induction over (cell, step)
+for one person alone who knows the whole future fire and follows the
+simulator phase order. Other people can only block moves, so each reference
+is a lower bound for every policy. The references use the evaluator seed.
+They are evaluator-side only, like <code>emberbench.oracle</code>, and never reach a
+model.</p>
+<p>For each scheduled episode and each person <code>i</code> at start cell <code>x_i</code>:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Reference</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>M*</code> (<code>max_evacuated</code>)</td>
+<td>number of people with a finite earliest evacuation step. Equal to <code>privileged_escape_bound(...).earliest_evacuation</code> (tested on every public scenario).</td>
+</tr>
+<tr>
+<td><code>L_i</code></td>
+<td>earliest evacuation step from <code>(x_i, 0)</code></td>
+</tr>
+<tr>
+<td><code>m*_i</code></td>
+<td>fewest cell moves of any escape from <code>(x_i, 0)</code> (the move onto the exit counts)</td>
+</tr>
+<tr>
+<td><code>D*_i</code></td>
+<td>fewest danger-zone person-states of any escape from <code>(x_i, 0)</code></td>
+</tr>
+<tr>
+<td><code>L(x, t)</code></td>
+<td>earliest evacuation step from cell <code>x</code> at snapshot <code>t</code></td>
+</tr>
+</tbody></table></div>
+<p>A person-state is in the <strong>danger zone</strong> when the Manhattan distance <code>d</code> from
+the person's cell to the nearest burning cell satisfies <code>0 &lt; d &lt;= 2</code>
+(<code>HAZARD_RADIUS = 2</code>). The distance ignores walls, like the metrics exposure
+proxy.</p>
+<p>The transition rule is the simulator's: from <code>(x, t)</code> a person may stay or
+move to an open neighbour <code>y</code>, unless <code>y</code> burns at the start of the step;
+a non-burning exit evacuates at once; any other <code>y</code> must not burn after the
+fire phase. Snapshot <code>H</code> (<code>max_steps</code>) has no successor.</p>
+<h2 id="4-the-episode-score">4. The episode score</h2>
+<p>For one authenticated episode with <code>M* &gt;= 1</code>:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-text">EMBER    = 100 * Safety * Quality ^ beta * Severity
+
+Safety   = E * P_casualty * P_stranding             (0 at the catastrophic gate)
+Quality  = weighted geometric mean of the defined quality components
+beta     = min(1, ln(alpha_c) / ln(q_min))          = ln 0.6 / ln 0.5 = 0.7369655941662...
+Severity = product over severe components k of  phi * (q_k / q_k_severe) ^ gamma
+</code></pre>
+<p>Every component, Safety, Quality and Severity are in <code>[0, 1]</code>. No component
+can exceed 1, so no strength offsets a failure. Safety caps the score
+(section 5), and each severe quality failure caps it again (section 4.3).</p>
+<p><strong>Trajectory invariance (a V1 invariant).</strong> Every score input is a function
+of the authenticated state trajectory: positions, statuses and the fire, step
+by step. No input comes from the action log alone. So two runs with
+byte-identical state trajectories get identical scores, whatever actions
+produced them. <code>test_block_scrub_keeps_trajectory_and_score</code> checks this on
+replayed public episodes (section 4.2).</p>
+<h3 id="41-safety-and-person-level-attribution">4.1 Safety and person-level attribution</h3>
+<p>Every loss is attributed <strong>per person</strong>. A person <code>i</code> is <strong>savable</strong> when the
+privileged earliest escape <code>L_i</code> (section 3) is finite. Then, for every
+person at the end of the episode:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Savable</th>
+<th>Not savable</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>evacuated</td>
+<td>evacuated</td>
+<td>evacuated (cannot happen: <code>L_i</code> would be finite)</td>
+</tr>
+<tr>
+<td>died</td>
+<td><strong>avoidable casualty</strong></td>
+<td>unavoidable casualty</td>
+</tr>
+<tr>
+<td>still active or stranded at the horizon</td>
+<td><strong>avoidable stranded</strong></td>
+<td>unavoidable stranded</td>
+</tr>
+</tbody></table></div>
+<p><code>c</code> and <code>s</code> are the numbers of avoidable casualties and avoidable stranded
+people. The evidence stores the sorted person IDs of all four loss classes
+(<code>avoidable_casualty_ids</code>, <code>avoidable_stranded_ids</code>,
+<code>unavoidable_casualty_ids</code>, <code>unavoidable_stranded_ids</code>), so each count can be
+audited person by person.</p>
+<p>An unavoidable loss is never transferred between people. An earlier draft
+computed <code>c = max(0, C - U)</code> with <code>U = N - M*</code> from aggregate counts. That
+rule lets the unavoidable loss of one person hide the avoidable death of
+another: with person <code>a</code> savable but dead and person <code>b</code> unsavable and
+stranded, the draft gives <code>c = 0</code>, but the correct value is <code>c = 1</code>.
+<code>test_real_episode_person_level_attribution</code> reproduces this case with a real
+replayed episode. The evidence validator rejects any record where the
+identity sets overlap, are not sorted, or do not match the counts.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Formula</th>
+<th>Official constants</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Evacuation <code>E</code></td>
+<td><code>(evacuated / M*) ^ kE</code></td>
+<td><code>kE = 2</code></td>
+</tr>
+<tr>
+<td>Casualty <code>P_casualty</code></td>
+<td><code>alpha_c ^ log2(1 + c) * (1 - c / M*) ^ k_c</code></td>
+<td><code>alpha_c = 0.6</code>, <code>k_c = 4</code></td>
+</tr>
+<tr>
+<td>Stranding <code>P_stranding</code></td>
+<td><code>alpha_s ^ log2(1 + s) * (1 - s / M*) ^ k_s</code></td>
+<td><code>alpha_s = 0.8</code>, <code>k_s = 2</code></td>
+</tr>
+<tr>
+<td>Catastrophic gate</td>
+<td><code>Safety = 0</code> when <code>(c + s) / M* &gt;= 1/2</code></td>
+<td><code>catastrophic_loss_rate = 1/2</code></td>
+</tr>
+</tbody></table></div>
+<p>The <strong>incident factor</strong> <code>alpha ^ log2(1 + n)</code> is paid in full for the first
+loss and again for every doubling of <code>1 + n</code>. It makes the first casualty
+expensive in any population. The <strong>rate term</strong> <code>(1 - n / M*) ^ k</code> grows with
+the share of people lost. A casualty costs more than a stranded person.
+Stranding and incomplete evacuation are penalized independently of
+casualties.</p>
+<h3 id="42-quality-components">4.2 Quality components</h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Formula</th>
+<th>Defined when</th>
+<th>Weight</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Time <code>T</code></td>
+<td><code>Q_cut / sum(A_i)</code> over evacuees; <code>A_i</code> is the evacuation step, <code>Q_cut</code> the capacity bound (below)</td>
+<td>at least one evacuee</td>
+<td>3/8</td>
+</tr>
+<tr>
+<td>Hazard <code>H</code></td>
+<td><code>(1 - (D - D*) / sum(A_i)) ^ kH</code> over evacuees; <code>D</code> = their danger-zone states, <code>D* = sum(D*_i)</code></td>
+<td>at least one evacuee</td>
+<td>2/8</td>
+</tr>
+<tr>
+<td>Path <code>P</code></td>
+<td><code>sum(m*_i) / sum(m_i)</code> over evacuees; <code>m_i</code> = cells moved</td>
+<td>at least one evacuee</td>
+<td>1/8</td>
+</tr>
+<tr>
+<td>Replanning <code>R</code></td>
+<td><code>sum(L(x_e, t_e) - t_e) / sum(r_e - t_e)</code> over recoverable route-invalidation events</td>
+<td>at least one recoverable event</td>
+<td>2/8</td>
+</tr>
+</tbody></table></div>
+<p>Constant: <code>kH = 1</code>. There is no Coordination component (see "Congestion is
+not a score input" below).</p>
+<p>Every ratio is a privileged lower bound over the actual value, so it is in
+<code>(0, 1]</code>. If an actual value is below its bound, the record is rejected: that
+can only happen with a forged record.</p>
+<p><strong>Time capacity bound <code>Q_cut</code>.</strong> The sum of single-person optimum steps
+<code>sum(L_i)</code> ignores that people queue. <code>Q_cut</code> adds the two capacity limits
+that no policy can avoid. Both are lower bounds on <code>sum(A_i)</code> for every
+policy, and <code>sum(L_i) &lt;= Q_exit &lt;= Q_cut &lt;= sum(A_i)</code>:</p>
+<ol>
+<li><strong>Exit capacity (<code>Q_exit</code>, <code>evacuee_time_queue_bound</code>).</strong> Positions after
+movement are distinct, so in each step at most one person leaves through
+each exit cell that is not burning at the start of the step. <code>Q_exit</code> is
+the list schedule of the evacuees' release steps <code>L_i</code> over these exit
+slots. For unit jobs with release dates, the list schedule minimizes the
+sum of finish steps.</li>
+<li><strong>Cut capacity (<code>Q_cut</code>, <code>evacuee_time_cut_bound</code>, the Time reference).</strong>
+Let <code>w</code> be the wall-only distance to the nearest exit. For a threshold
+<code>d &gt;= 1</code>, take a connected component <code>K</code> of the open cells with <code>w &gt; d</code>.
+A move changes <code>w</code> by at most 1 and exits have <code>w = 0</code>, so every escape
+from <code>K</code> first steps onto <code>N(K)</code>, the cells next to <code>K</code> with <code>w = d</code>: a
+vertex cut, for example a door. Positions are distinct, so in step <code>s</code> at
+most <code>k_s</code> people stand on <code>N(K)</code>, where <code>k_s</code> counts the cut cells that
+burn neither at the start nor at the end of the step. An evacuee <code>i</code> that
+starts in <code>K</code> first enters the cut in a step <code>s_i &gt;= r_i</code>, its earliest
+single-person arrival on a cut cell from which escape is still possible,
+and needs at least <code>q_i</code> more steps from there (the least single-person
+remaining time over the cut cells and snapshots it can reach). So
+<code>A_i &gt;= s_i + q_i</code> and <code>A_i &gt;= L_i</code>. The list schedule of the entries
+minimizes <code>sum(s_i)</code>. Components whose cuts share cells are merged, so
+each person is in at most one group; people outside every group add
+<code>L_i</code>. <code>Q_cut</code> is the maximum over all thresholds and <code>Q_exit</code>.</li>
+</ol>
+<p>Every step of the derivation is a relaxation, so <code>Q_cut</code> is a lower bound for
+every policy (proof in <code>_cut_bound</code>, validated on every episode of the study:
+section 6 of <a href="benchmark-methodology.html">benchmark-methodology.md</a>). A queue
+that no policy can avoid, at an exit or at a door, is therefore not charged
+to Time. A queue that a policy causes, for example by sending everyone to one
+exit when a second exit is free, is charged
+(<code>test_real_episode_unavoidable_door_queue_is_not_charged</code>,
+<code>test_real_episode_avoidable_queue_is_charged</code>).</p>
+<p><strong>Congestion is not a score input.</strong> Version 1.0 at commit <code>ce5e322</code> had a
+Coordination component <code>(1 - block rate)^2</code> and a severe gate at a block rate
+above 1/4. It was removed, because a blocked move is an action-log event, not
+a trajectory event:</p>
+<ul>
+<li><strong>The scrub proof.</strong> Under the public movement resolver, a person whose move
+is blocked by another person (occupied, conflict or cycle) stays in place.
+If that move is replaced by <code>STAY</code>, the person still stays in place. Every
+other person's resulting cell is unchanged too: a blocked person never
+vacates its cell and never takes a target cell, so no successful move
+depends on it, and every move that was blocked behind it is itself
+scrubbed. So replacing every congestion-blocked move with <code>STAY</code> gives the
+identical state trajectory with zero blocks. The
+resolver is public and pure and its inputs are all in the observation, so
+any agent can do this. The adversary <code>adv-block-scrub</code> does it to
+<code>congestion-aware-v1</code>: identical state trajectories in every study episode,
+and a gain of several points under the old score (section 6 of
+<a href="benchmark-methodology.html">benchmark-methodology.md</a>).</li>
+<li><strong>No lower bound.</strong> The block count has no positive privileged lower bound:
+the scrub reaches 0 for every trajectory. A ratio "bound / actual" like the
+other components cannot exist.</li>
+<li><strong>Not a skill.</strong> A policy that predicts the resolver's tie-breaks and emits
+<code>STAY</code> instead of a blocked move evacuates the same people at the same
+steps on the same cells. It is not a better evacuation policy, so the
+difference must not be scored.</li>
+<li><strong>The realized cost is already scored.</strong> A bottleneck costs delay (Time,
+against <code>Q_cut</code>), exposure while waiting (Hazard) and, at worst, lives
+(Safety). Every trajectory-only congestion measure tried (waiting steps
+above the capacity-forced delay, excess person-time over <code>Q_cut</code>) is a
+function of the Time and Path inputs, so it would count the same delay
+twice.</li>
+<li><strong>Dead people are not charged twice.</strong> The blocked moves of people who later
+die were part of the old block rate, and their deaths are in Safety. Time,
+Path and Hazard are over evacuees only, and blocks are not an input, so no
+loss is charged twice.</li>
+</ul>
+<p>Congestion stays <strong>mandatory in every report</strong> as diagnostics
+(<code>ScoreReport.diagnostics</code>, <code>CongestionDiagnostics</code>): congestion block rate,
+contested cell-steps, hotspot cells, peak contested cells and exit throughput
+(evacuations per exit-step inside each exit's active window). They explain a
+score; they never change it (<code>test_congestion_blocks_are_diagnostics_not_score_inputs</code>).</p>
+<p><strong>Exit utilization</strong> is diagnostic only. A balanced split between exits is
+not a goal: the right split depends on distances, fire and capacity. The
+capacity bound already measures the only effect of exit allocation that the
+score needs, the time cost of a bad allocation, against an allocation-optimal
+bound. A separate balance or allocation-regret term would count that cost
+twice.</p>
+<p><strong>Route-invalidation event.</strong> At step <code>t &gt;= 1</code> the burning set changed and,
+for a person active in snapshot <code>t</code>, the fire-aware distance to the nearest
+non-burning exit (shortest path through non-wall, non-burning cells) became
+longer or infinite, where it was finite before. The event is <strong>recoverable</strong>
+when <code>L(x_e, t)</code> is finite. Its resolution step <code>r_e</code> is the person's
+evacuation step, or the horizon <code>H</code> when the person is lost (censored). An
+unrecoverable event is counted but not scored: its outcome is already in
+Safety.</p>
+<p><strong>Quality</strong> is the weighted geometric mean over the defined components, with
+the weights renormalized over them:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-text">Quality = exp( sum_k (w_k / W) * ln q_k ),   W = sum of the weights of the defined components
+Quality = 0 when any defined component is 0
+</code></pre>
+<p>An undefined component is never set to 1. It is left out, and its weight is
+shared by the others. So an episode without route invalidation is neither
+rewarded nor punished for replanning.</p>
+<p>Path uses the fire-aware privileged bound <code>m*_i</code>, so a detour that the fire
+makes necessary is not charged. Hazard is measured above the privileged
+minimum <code>D*</code>, so exposure that no policy can avoid is not charged. Neither
+component counts the same loss as Safety: both are computed over evacuees
+only.</p>
+<h3 id="43-quality-exponent-and-severe-failures">4.3 Quality exponent and severe failures</h3>
+<p>Two rules make Safety dominate without making Quality irrelevant.</p>
+<p><strong>Quality exponent <code>beta</code>.</strong> Quality enters as <code>Quality ^ beta</code>, with</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-text">beta = min(1, ln(alpha_c) / ln(q_min)),   q_min = smallest severe threshold in component space
+</code></pre>
+<p><code>beta</code> is derived, not tuned. With every quality component at or above its
+severe threshold, <code>Quality &gt;= q_min</code>, so <code>Quality ^ beta &gt;= alpha_c = 0.6</code>.
+A perfect run with one avoidable casualty has <code>Safety &lt; 0.6</code>. So a run with
+no avoidable loss and no severe failure always scores above a perfect run
+with one avoidable casualty, in every population (requirement R12, tested
+for <code>M*</code> from 2 to 1000, also with one extra stranded person on both sides).</p>
+<p><strong>Severe failures.</strong> A quality component is <strong>severe</strong> when it crosses a
+threshold in natural units. The comparison is exact and strict:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Severe when</th>
+<th>Threshold in component space <code>q_k_severe</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Time</td>
+<td><code>T &lt; 1/2</code> (more than twice the capacity bound <code>Q_cut</code>)</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>Hazard</td>
+<td>avoidable danger-zone rate <code>&gt; 1/4</code></td>
+<td><code>1 - 1/4 = 0.75</code></td>
+</tr>
+<tr>
+<td>Path</td>
+<td><code>P &lt; 1/2</code> (more than twice the fewest cells)</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>Replanning</td>
+<td><code>R &lt; 1/2</code></td>
+<td>0.5</td>
+</tr>
+</tbody></table></div>
+<p>Each severe component <code>k</code> multiplies the score by
+<code>phi * (q_k / q_k_severe) ^ gamma</code>, with <code>phi = 0.8</code> and <code>gamma = 1</code>. So one
+severe failure caps the episode below 80, and the cap falls further as the
+failure gets worse. Two severe failures cap it below 64. Severity is a
+ceiling, not a separate measurement: it applies to the same components that
+are already in Quality, and is 1 when nothing is severe.</p>
+<p>The report counts severe episode-trials per component
+(<code>Robustness.severe_episode_trials</code>). The episode record gives <code>severity</code>,
+the list <code>severe</code> and the <code>ceiling = 100 * Safety * Severity</code>.</p>
+<p>The thresholds are set by normative requirements, not by a policy ranking
+(see <a href="benchmark-methodology.html">benchmark-methodology.md</a>, section 6):
+evacuating more than twice as slowly as the capacity optimum, one avoidable
+danger-zone step in four, twice the needed cells and twice the needed
+recovery time are each a failure of that dimension. A severe bottleneck is a
+severe Time failure: it is measured by the delay it causes, not by blocked
+actions. Mild congestion that the capacity bound explains never triggers a
+gate.</p>
+<h3 id="44-episode-statuses">4.4 Episode statuses</h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>scored</code></td>
+<td>authenticated, below the gate</td>
+<td><code>100 * Safety * Quality ^ beta * Severity</code></td>
+</tr>
+<tr>
+<td><code>catastrophic</code></td>
+<td>authenticated, avoidable loss rate <code>&gt;= 1/2</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>failed</code></td>
+<td>scheduled, no authenticated result</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>not_applicable</code></td>
+<td><code>M* = 0</code>: no policy can save anyone</td>
+<td>excluded from every mean, for every model</td>
+</tr>
+</tbody></table></div>
+<p>A failed episode has a <code>FailureKind</code>: <code>missing</code> (no declared reason),
+<code>invalid_output</code> (<code>ModelOutputError</code> or another rejected action set),
+<code>model_error</code> (the model or its adapter raised) or <code>timeout</code> (the adapter's
+deadline expired). All four score 0 and are counted in the report. A failure
+can never disappear: a gap without a declaration is <code>missing</code>. A declaration
+for an unscheduled episode, or for an episode that has a committed result, is
+rejected.</p>
+<p><code>not_applicable</code> depends only on the scenario and the seed, never on the
+model.</p>
+<h3 id="45-arithmetic">4.5 Arithmetic</h3>
+<p>Counts and references are exact integers. Non-integer powers are computed
+with Python <code>decimal</code> (libmpdec) at 50 significant digits, round-half-even,
+which gives identical digits on every platform. Components are rounded to
+<code>1e-12</code> and the episode score to <code>1e-9</code> points. From there on every mean and
+every bootstrap statistic is exact rational arithmetic.</p>
+<h2 id="5-exact-penalties-and-ceilings">5. Exact penalties and ceilings</h2>
+<p>Single-failure profile under the official constants. Everything else is
+perfect; replanning is undefined.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Case (population 100 unless stated)</th>
+<th>Score</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>perfect</td>
+<td>100.0</td>
+</tr>
+<tr>
+<td>1 avoidable casualty</td>
+<td>56.5</td>
+</tr>
+<tr>
+<td>2 casualties</td>
+<td>39.4</td>
+</tr>
+<tr>
+<td>3 casualties</td>
+<td>30.0</td>
+</tr>
+<tr>
+<td>5 casualties</td>
+<td>19.6</td>
+</tr>
+<tr>
+<td>10 casualties</td>
+<td>9.1</td>
+</tr>
+<tr>
+<td>25 casualties</td>
+<td>1.6</td>
+</tr>
+<tr>
+<td>1 casualty in a population of 4</td>
+<td>10.7</td>
+</tr>
+<tr>
+<td>1 stranded</td>
+<td>76.8</td>
+</tr>
+<tr>
+<td>10 stranded</td>
+<td>30.3</td>
+</tr>
+<tr>
+<td>1 savable casualty + 1 unsavable stranded person</td>
+<td>56.5</td>
+</tr>
+<tr>
+<td>50 losses (the gate)</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>Time 0.9 / 0.8 / 0.5 (threshold)</td>
+<td>96.2 / 92.1 / 77.5</td>
+</tr>
+<tr>
+<td>Time 0.4 / 0.25 / 0.1 (severe)</td>
+<td>45.7 / 24.0 / 6.8</td>
+</tr>
+<tr>
+<td>any block rate, no delay (blocks are diagnostics)</td>
+<td>100.0</td>
+</tr>
+<tr>
+<td>avoidable danger-zone rate 0.1 / 0.3 (severe)</td>
+<td>97.4 / 68.4</td>
+</tr>
+<tr>
+<td>Path 0.6 / 0.4 (severe)</td>
+<td>93.9 / 57.2</td>
+</tr>
+<tr>
+<td>Replanning 0.8 / 0.3 (severe), replanning defined</td>
+<td>96.0 / 38.5</td>
+</tr>
+<tr>
+<td>every quality component exactly at its threshold</td>
+<td>64.7</td>
+</tr>
+</tbody></table></div>
+<p>Time is relative to the capacity bound <code>Q_cut</code>, so "Time 0.5" is a realized
+bottleneck that doubles the evacuees' person-time over the best that any
+policy could do. The jump at a threshold is the severe factor <code>phi = 0.8</code>
+times the ratio <code>q / q_severe</code>. Below the thresholds, Quality still matters:
+Time 0.5 alone costs 22.5 points.</p>
+<p>Ceilings that follow from the formula:</p>
+<ul>
+<li><strong>Any avoidable casualty:</strong> the episode score is at most <code>100 * 0.6 = 60</code>,
+for every population size.</li>
+<li><strong>Any avoidable stranded person:</strong> at most <code>100 * 0.8 * (1 - 1/M*)^4 &lt; 80</code>.</li>
+<li><strong>No 95 or more after a meaningful safety failure:</strong> any avoidable
+casualty or stranded person gives a score below 80.</li>
+<li><strong>A casualty is worse than a stranding:</strong> one avoidable casualty scores
+below one avoidable stranded person in the same episode.</li>
+<li><strong>Any severe quality failure:</strong> below <code>100 * 0.8 = 80</code>; two severe
+failures, below 64. A severe failure cannot be bought back by any other
+component, because no component exceeds 1.</li>
+<li><strong>Catastrophic failure:</strong> half or more of the people who could be saved
+are lost: 0.</li>
+<li><strong>Invalid output, model error, missing result:</strong> 0.</li>
+<li><strong>Timeout:</strong> 0, the most severe penalty.</li>
+</ul>
+<h2 id="6-aggregation">6. Aggregation</h2>
+<p>Episodes are aggregated in a fixed hierarchy. Each level is the unweighted
+mean of the defined values of the level below:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-text">episode-trial  -&gt;  episode (mean over trials)
+episode        -&gt;  scenario (mean over its applicable seeds)
+scenario       -&gt;  primary family (mean over its scenarios)
+family         -&gt;  overall (mean over families)   = the EMBER Score
+</code></pre>
+<p>The primary family is <code>SuiteEntry.primary_family</code>. A scenario counts in one
+family only, so a scenario with several families is not counted twice. A
+scenario whose episodes are all <code>not_applicable</code> is excluded.</p>
+<p>The report also gives the <strong>scenario-balanced</strong> mean (mean of scenario means)
+and the <strong>micro</strong> mean (mean of all episodes). They are diagnostics. The
+family-balanced mean is the headline: each failure mode weighs the same, and
+a suite cannot raise a score by adding easy scenarios of one family.</p>
+<p>Components, Safety and Quality are aggregated with the same hierarchy over
+the episode-trials where they are defined. Each component reports its
+coverage <code>defined / total</code>.</p>
+<p><strong>Lower tail.</strong> The report gives the median scenario score, the worst
+scenario and its ID, the type-7 10th percentile of episode scores, CVaR10
+(the mean of the lowest <code>ceil(n/10)</code> episode scores), and the number of
+zero-score episode-trials by cause (catastrophic and each <code>FailureKind</code>).</p>
+<p><strong>Totals.</strong> Escapable, evacuated, avoidable casualties, avoidable stranded
+and unavoidable losses, summed over scored episode-trials, also per trial.</p>
+<h2 id="7-confidence-interval">7. Confidence interval</h2>
+<p>The 95% interval of the headline is a <strong>stratified two-stage percentile
+bootstrap</strong>:</p>
+<ol>
+<li>Strata are the primary families.</li>
+<li>In each resample, inside each family, draw as many scenarios as it has,
+with replacement; inside each drawn scenario, draw as many episodes as it
+has, with replacement.</li>
+<li>Recompute the family-balanced mean. Bounds are the type-7 2.5% and 97.5%
+quantiles of <code>resamples</code> (default 2000) statistics.</li>
+</ol>
+<p>The random stream is the SHAKE-256 counter-mode <code>BootstrapStream</code> of
+<a href="statistics.html">statistics.md</a>, seeded with SHA-256 of the canonical JSON of
+the scoring version, the constants digest, the manifest hash, the model ID
+and the exact episode scores. The interval is identical on every platform.
+With fewer than 5 applicable episodes there is no interval.</p>
+<p>The interval describes <strong>this evaluation sample</strong>: these scenarios and these
+seeds. When a family has one scenario, the bootstrap cannot see scenario
+variance, and a deterministic model on deterministic scenarios gets a
+zero-width interval. To make claims about unseen environments, use a
+generated suite with several scenarios per family (see
+<a href="procedural-generation.html">procedural-generation.md</a>).</p>
+<h2 id="8-comparison-and-leaderboard">8. Comparison and leaderboard</h2>
+<p><code>compare_scores(a, b)</code> pairs two reports episode by episode. The reports
+must have the same scoring version, constants, manifest, pack and applicable
+episodes. Paired differences <code>d_e = a_e - b_e</code> are aggregated with the same
+hierarchy (so <code>delta = score_a - score_b</code> exactly), and the interval is the
+same stratified bootstrap applied to the differences. The outcome is one of
+four:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>exact_tie</code></td>
+<td>every paired episode score is identical</td>
+</tr>
+<tr>
+<td><code>a_better</code></td>
+<td>interval lower bound <code>&gt; 0</code> <strong>and</strong> <code>delta &gt;= 1.0</code> point</td>
+</tr>
+<tr>
+<td><code>b_better</code></td>
+<td>interval upper bound <code>&lt; 0</code> <strong>and</strong> <code>-delta &gt;= 1.0</code> point</td>
+</tr>
+<tr>
+<td><code>inconclusive</code></td>
+<td>anything else, including fewer than 5 applicable episodes</td>
+</tr>
+</tbody></table></div>
+<p><code>practical_difference = 1</code> point is the smallest difference that counts as
+"better". A difference that is statistically clear but smaller is
+<code>inconclusive</code>.</p>
+<p><strong>Leaderboard order</strong> is separate from significance. <code>leaderboard_order</code>
+sorts by:</p>
+<ol>
+<li>the score rounded half-even to 0.1 point, descending;</li>
+<li>the Safety factor, descending;</li>
+<li>avoidable casualties per trial, ascending;</li>
+<li>avoidable stranded per trial, ascending;</li>
+<li>the worst scenario score, descending;</li>
+<li>the model ID.</li>
+</ol>
+<p>So safety decides every tie of the displayed score. Adjacent leaderboard
+entries can still be <code>inconclusive</code>; publish the comparison next to the
+order.</p>
+<h2 id="9-metric-classification">9. Metric classification</h2>
+<p>Every existing metric of <a href="metrics.html">metrics.md</a> has one role:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Role</th>
+<th>Use in the score</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>evacuated / evacuation rate</td>
+<td>core (Safety)</td>
+<td><code>E</code>, relative to <code>M*</code></td>
+</tr>
+<tr>
+<td>casualties (fatality)</td>
+<td>safety gate and core (Safety)</td>
+<td><code>P_casualty</code> on avoidable (savable) casualties, catastrophic gate</td>
+</tr>
+<tr>
+<td>stranded</td>
+<td>safety gate and core (Safety)</td>
+<td><code>P_stranding</code> on avoidable stranded people, catastrophic gate</td>
+</tr>
+<tr>
+<td>time to safety (<code>time.*</code>)</td>
+<td>core (Quality) and severe gate</td>
+<td><code>T</code>, evacuees only, relative to the capacity bound <code>Q_cut</code>; a realized bottleneck is charged here</td>
+</tr>
+<tr>
+<td>congestion / bottleneck (<code>blocked_*</code>, <code>congestion_block_rate</code>)</td>
+<td>diagnostic only, mandatory in every report</td>
+<td>none; an action-log count (section 4.2)</td>
+</tr>
+<tr>
+<td>fire exposure (<code>fire_exposure</code>, <code>min_fire_distance</code>)</td>
+<td>diagnostic</td>
+<td>replaced by the avoidable danger-zone rate <code>H</code> (core and severe gate)</td>
+</tr>
+<tr>
+<td>path efficiency (<code>path_efficiency.*</code>, static bound)</td>
+<td>diagnostic</td>
+<td>replaced by <code>P</code> with the fire-aware privileged bound (core, low weight, severe gate)</td>
+</tr>
+<tr>
+<td>replanning proxies (<code>recovery_proxy_rate</code> and others)</td>
+<td>diagnostic</td>
+<td>replaced by <code>R</code> on route-invalidation events (core and severe gate)</td>
+</tr>
+<tr>
+<td>exit utilization / balance</td>
+<td>diagnostic only</td>
+<td>none; a 50/50 split is never rewarded; the time cost of a bad allocation is in <code>T</code> through <code>Q_cut</code></td>
+</tr>
+<tr>
+<td>crowd diagnostics (hotspots, contested cells, exit throughput)</td>
+<td>diagnostic only, mandatory in every report</td>
+<td>none</td>
+</tr>
+<tr>
+<td>decisions, latency, input/output tokens, cost, retries, timeouts</td>
+<td>operational only</td>
+<td>none; <code>OperationalRecord</code>, see section 11</td>
+</tr>
+</tbody></table></div>
+<p>Reasons for each role are in
+<a href="benchmark-methodology.html">benchmark-methodology.md</a>, section 4.</p>
+<h2 id="10-interpretation-what-70100-means">10. Interpretation: what 70/100 means</h2>
+<ul>
+<li><strong>70.0/100 is 70.0 benchmark-performance points under <code>SCORING_VERSION</code>
+1.0. It is not "70% of people evacuated".</strong></li>
+<li>An episode with any avoidable casualty scores below 60. So an episode
+score of 70 means nobody who could be saved died.</li>
+<li>An episode with a severe quality failure scores below 80. So an episode
+score of 80 or more means no avoidable loss and no severe failure.</li>
+<li>The headline is a mean over families. 70 can be "every family safe with
+moderate quality" or "seven families perfect and three at zero". The
+family scores and the lower-tail statistics tell which. Always read them
+with the headline.</li>
+<li>Anchors on the public suite with the development seeds 0, 1, 2:
+<code>congestion-aware-v1</code> 53.2, <code>fire-aware-shortest-path-v1</code> 40.4,
+<code>static-shortest-path-v1</code> 37.4, <code>nearest-exit-greedy-v1</code> 27.5,
+<code>random-legal-v1</code> 0.0, always-stay 0.0. The privileged bound would score
+100 but is not a policy.</li>
+</ul>
+<p>A report has this shape (<code>format_summary(report)</code>, family list shortened):</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-text">EMBER Score 53.2 / 100 benchmark-performance points under EMBER scoring version 1.0
+95% CI [50.6, 58.5] (stratified two-stage bootstrap, 2000 resamples; this sample only)
+Model congestion-aware-v1; trials 1; official; environment pack &lt;id&gt; sha256:&lt;digest&gt;
+Safety factor 0.556; quality factor 0.929
+Components (0-1, defined/total): evacuation 0.864 (30/30); casualty 0.590 (30/30); stranding 1.000 (30/30); time 0.936 (30/30); hazard 0.896 (30/30); path 0.932 (30/30); replanning 1.000 (8/30)
+Primary families: single_exit_low_density 99.1; single_exit_high_density 31.2; narrow_corridor_bottleneck 95.5; ...
+Tail: median scenario 37.7; worst scenario 7.4 (v1-pub-05-central-ignition); p10 episode 16.0; CVaR10 7.4
+Zero-score episode-trials 0 of 30: catastrophic 0; missing 0; invalid_output 0; model_error 0; timeout 0
+Severe quality failures (episode-trials): time 0; hazard 3; path 0; replanning 0
+People per trial: escapable 561.0; evacuated 526.0; avoidable casualties 35.0; avoidable stranded 0.0
+Congestion diagnostics (not scored): block rate 0.399; contested cell-steps per trial 1707.0; hotspot cells per trial 447.0; peak contested cells 20; exit throughput 0.776
+The EMBER Score is not a percentage of people evacuated.
+</code></pre>
+<h2 id="11-operational-metrics-and-ember-efficiency">11. Operational metrics and EMBER-Efficiency</h2>
+<p>Tokens, money and latency are never inputs to the score. <code>score_results</code> has
+no parameter for them. Record them in an <code>OperationalRecord</code>, next to the
+score:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>model_id</code>, <code>provider_id</code></td>
+<td>the exact model snapshot and the provider</td>
+</tr>
+<tr>
+<td><code>inference_config_digest</code></td>
+<td><code>inference_config_digest(config)</code>: SHA-256 of the canonical JSON of every inference setting (temperature, top-p, max tokens, seed if any, system prompt version, adapter version)</td>
+</tr>
+<tr>
+<td><code>trials</code>, <code>episodes</code></td>
+<td>the work the record covers</td>
+</tr>
+<tr>
+<td><code>latency_seconds</code></td>
+<td>evaluator-measured wall time</td>
+</tr>
+<tr>
+<td><code>input_tokens</code>, <code>output_tokens</code></td>
+<td>kept separate, never summed</td>
+</tr>
+<tr>
+<td><code>cost</code>, <code>cost_unit</code></td>
+<td>evaluator-computed cost (exact fraction) and its unit; <code>None</code> when unknown</td>
+</tr>
+<tr>
+<td><code>retries</code>, <code>timeouts</code></td>
+<td>adapter retries and expired deadlines</td>
+</tr>
+</tbody></table></div>
+<p>The record is validated (no empty IDs, a 64-hex digest, non-negative finite
+values) and has its own digest. <code>efficiency_view(report, cost_per_episode, unit)</code> gives an optional EMBER-Efficiency view: points per unit of
+<strong>evaluator-measured</strong> cost. It does not change the score or the order.</p>
+<h2 id="12-model-stochasticity">12. Model stochasticity</h2>
+<p>A deterministic policy needs one trial. A model that can give different
+actions for the same observation (any sampled LLM) needs <strong>K &gt;= 3</strong> repeated
+trials on the same pack, with pinned inference settings (one
+<code>inference_config_digest</code>). <code>temperature = 0</code> is not a guarantee of
+determinism: batching, kernel choice and provider changes can alter outputs.
+Every trial is scored; the best trial is never selected. Each episode's
+trials are averaged before aggregation, so trials never count as extra
+scenarios. The protocol is in <a href="environment-pack.html">environment-pack.md</a>,
+section 6.</p>
+<h2 id="13-relation-to-the-metrics-rules">13. Relation to the metrics rules</h2>
+<p><a href="metrics.html">metrics.md</a>, section 11, requires a composite to be versioned,
+decomposable, and to never let speed buy safety. Version 1.0 meets all
+three:</p>
+<ul>
+<li>It has its own version and constants digest, and every report holds the
+components, the severe-failure list and the per-person evidence.</li>
+<li>Within one episode, a run with no avoidable loss and no severe quality
+failure always scores above a perfect run with one avoidable casualty
+(section 4.3). Speed can only help a run with a casualty against a safe run
+that itself fails a dimension severely, for example one that evacuates
+more than twice as slowly as the capacity bound. Such a run is not
+"safe and good"; the severe gate makes that explicit.</li>
+<li>Leaderboard ties of the displayed score are always broken by safety
+first (section 8).</li>
+</ul>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="site-data.html"><span>Previous</span>Published site data</a><a href="metrics.html"><span>Next</span>Episode metrics</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/scoring.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-status-and-versioning">1. Status and versioning</a><a href="#2-inputs-and-authentication">2. Inputs and authentication</a><a href="#3-privileged-references">3. Privileged references</a><a href="#4-the-episode-score">4. The episode score</a><a href="#5-exact-penalties-and-ceilings">5. Exact penalties and ceilings</a><a href="#6-aggregation">6. Aggregation</a><a href="#7-confidence-interval">7. Confidence interval</a><a href="#8-comparison-and-leaderboard">8. Comparison and leaderboard</a><a href="#9-metric-classification">9. Metric classification</a><a href="#10-interpretation-what-70100-means">10. Interpretation: what 70/100 means</a><a href="#11-operational-metrics-and-ember-efficiency">11. Operational metrics and EMBER-Efficiency</a><a href="#12-model-stochasticity">12. Model stochasticity</a><a href="#13-relation-to-the-metrics-rules">13. Relation to the metrics rules</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

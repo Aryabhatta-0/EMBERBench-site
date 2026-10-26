@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="Movement, collisions, exits and fire semantics."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Simulation contract | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/simulation-contract.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" aria-current="page">Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Simulation contract</span></nav><article class="docs-article"><h1 id="simulation-contract-simulator-version-020">Simulation contract (simulator version 0.2.0)</h1>
+<p>This document is normative. If the code and this document disagree, it is a bug.
+The V1 fairness contract, the model-visible observation and the rationale for
+each frozen rule are in <a href="v1-fairness-spec.html">v1-fairness-spec.md</a>.
+A change to any rule that changes output for the same inputs must bump
+<code>SIMULATOR_VERSION</code> in <code>src/emberbench/__init__.py</code>.</p>
+<h2 id="coordinates-and-neighbourhood">Coordinates and neighbourhood</h2>
+<ul>
+<li>A position is <code>[row, col]</code>, and <code>[0, 0]</code> is the top-left cell.</li>
+<li><code>north</code> is row − 1, <code>south</code> is row + 1, <code>west</code> is col − 1, <code>east</code> is col + 1.</li>
+<li>The neighbourhood is von Neumann (4-connected). Diagonal moves and diagonal fire spread do not exist.</li>
+<li>Canonical order is row-major (sort by row, then by column). Person and exit IDs sort as plain strings by code point, so <code>"P10" &lt; "P2"</code>.</li>
+</ul>
+<h2 id="state">State</h2>
+<p>A <code>SimState</code> snapshot contains: <code>step</code>, every person (<code>id</code>, <code>position</code>, <code>status</code>),
+the burning cells, the trapped set, the RNG stream positions, <code>terminated</code> and
+<code>termination_reason</code>. Snapshots are frozen dataclasses. Two equal snapshots
+serialise to identical canonical JSON. A <code>SimState</code> is evaluator-private. A
+decision model sees only the <code>Observation</code> (see
+<a href="v1-fairness-spec.html#4-observation-contract-version-10">v1-fairness-spec.md</a>).</p>
+<p>The person status is one of <code>active</code>, <code>evacuated</code> or <code>casualty</code>. A resolved
+person stays in the record with its last position, but it does not occupy a
+cell any more and must not receive actions.</p>
+<p>At the start of every step, no active person stands on an exit or on a burning
+cell.</p>
+<h2 id="phase-order">Phase order</h2>
+<p>Each <code>Simulator.step(actions)</code> runs these phases in this order:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Phase</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Observation</td>
+<td><code>observe()</code> returns the pre-step model-visible <code>Observation</code>: step, static map, episode rules, people, burning cells and allowed actions. It never includes the seed, RNG state, hidden scenario metadata or the trapped set.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Actions</td>
+<td>The mapping must have exactly one entry per <strong>active</strong> person. Values are <code>stay</code>/<code>north</code>/<code>south</code>/<code>east</code>/<code>west</code> (or <code>Action</code>). Anything else raises <code>InvalidActionError</code>, and the state does not change.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Movement validation</td>
+<td><code>stay</code> gives <code>stayed</code>. A move off the grid gives <code>blocked_boundary</code>. A move into an obstacle gives <code>blocked_wall</code>. A move into a burning cell gives <code>blocked_fire</code> if <code>movement.enter_fire = "blocked"</code>. Otherwise the move continues.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Collision resolution</td>
+<td>See <a href="#collisions">Collisions</a>.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Movement</td>
+<td>All moves resolved as <code>moved</code> happen at once.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Evacuation</td>
+<td>Every active person on an exit that was <strong>not burning at the start of the step</strong> is <code>evacuated</code> and recorded with the exit ID.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Fire propagation</td>
+<td>The fire model returns newly ignited cells for step number <code>t</code> (1-based).</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Casualties and trapping</td>
+<td>Every still-active person on a burning cell becomes a <code>casualty</code>. The cause is <code>entered_fire</code> if the cell was burning before phase 7, else <code>fire_spread</code>. Then the trapped set is recomputed.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Termination</td>
+<td>If no person is active, the reason is <code>all_resolved</code>. Else, if <code>t &gt;= termination.max_steps</code>, the reason is <code>max_steps</code>. <code>all_resolved</code> wins when both hold. A terminated simulator raises <code>SimulationError</code> on <code>step()</code>.</td>
+</tr>
+</tbody></table></div>
+<p>Consequences of the order:</p>
+<ul>
+<li>Evacuation (6) comes before fire spread (7). A person who reaches an exit in the
+same step that the fire reaches it gets out.</li>
+<li>Casualties (8) come after fire spread (7). A person who does not move away from a
+cell that ignites this step dies.</li>
+</ul>
+<h2 id="collisions">Collisions</h2>
+<p>Collision resolution uses these rules in this order. Each rule only looks at movers
+that are still unresolved.</p>
+<ol>
+<li><strong>Occupied by a non-mover.</strong> If the target holds a person who is not trying to
+move (<code>stay</code>, or blocked in phase 3), the move gives <code>blocked_occupied</code>.</li>
+<li><strong>Same target.</strong> If two or more movers target one cell, the <strong>lowest ID wins</strong>.
+Every other mover gives <code>blocked_conflict</code>. This is decided on intent only. A loser
+is not re-awarded the cell if the winner fails later.</li>
+<li><strong>Chains.</strong> A winner moves if its target is empty, or if the target's occupant
+moves out successfully in the same step. People can follow each other in one
+step (<code>a b . E</code>: both move east). If the chain ends at a person who does not
+move, every mover in the chain gives <code>blocked_occupied</code>.</li>
+<li><strong>Cycles.</strong> Swaps (<code>A &lt;-&gt; B</code>) and longer rotations are never allowed. Every member
+gives <code>blocked_cycle</code>.</li>
+</ol>
+<p>A blocked person stays in its cell. The outcome does not depend on the order in
+which actions are submitted.</p>
+<p><strong>Exits</strong> are normal cells for movement. Each exit cell therefore lets at most one
+person through per step: two people who target the same exit are a normal conflict.
+Because people leave in phase 6, an exit is always empty at the start of the next step.</p>
+<p><strong>Entering fire.</strong> <code>movement.enter_fire</code> is either <code>blocked</code> or <code>casualty</code>. With
+<code>blocked</code>, the move into fire is refused (<code>blocked_fire</code>). With <code>casualty</code>, the
+person moves and dies in phase 8 (<code>entered_fire</code>). This includes a burning exit:
+a burning exit never evacuates anyone.</p>
+<h2 id="fire">Fire</h2>
+<p>The fire model interface is in <code>src/emberbench/fire.py</code>:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">class FireModel(Protocol):
+    name: str  # read-only
+    def spread(self, terrain: FireTerrain, burning: frozenset[Pos], step: int, rng: SplitMix64) -&gt; frozenset[Pos]: ...
+</code></pre>
+<p>Contract:</p>
+<ul>
+<li>The model returns only cells that are not burning and that are flammable. The
+simulator checks this and raises <code>SimulationError</code> on a violation.</li>
+<li><strong>Walls never burn, and fire never passes through them.</strong> Spread is only into
+flammable 4-neighbours of burning cells.</li>
+<li><strong>Exits</strong> burn only if <code>fire.exits_flammable = true</code>. A burning exit stays
+burning and cannot evacuate anyone. With <code>false</code>, exits never ignite. Validation
+then rejects an ignition point on an exit.</li>
+<li>Cells burn forever (no burn-out in V1). People do not block fire.</li>
+<li>Spread happens only on steps where <code>step % fire.spread_interval == 0</code>.</li>
+<li>Randomness comes only from the passed <code>rng</code>, which is the simulator's <code>fire</code>
+stream. The model draws in canonical order.</li>
+</ul>
+<p>V1 models:</p>
+<ul>
+<li><code>deterministic</code>: on a spread step, every flammable neighbour of a burning cell ignites.</li>
+<li><code>stochastic</code>: on a spread step, each (candidate cell, burning neighbour) edge
+takes one Bernoulli(<code>spread_probability</code>) draw. The order is candidates
+row-major, then sources row-major. A candidate ignites if any of its edges
+succeeds. All draws are always taken, so the stream position depends only
+on the geometry. With <code>p = 1</code> the result equals <code>deterministic</code>. With
+<code>p = 0</code> there is no spread.</li>
+</ul>
+<h3 id="stochastic-fire-frozen-v1-contract">Stochastic fire (frozen V1 contract)</h3>
+<p><strong>Frontier.</strong> Before a spread step <code>t</code>, let <code>B</code> be the burning set. A
+<em>candidate</em> is a cell <code>c</code> that is not in <code>B</code>, is not a wall, is not a
+non-flammable exit, and has at least one 4-neighbour in <code>B</code>. An <em>edge</em> is a
+pair <code>(c, s)</code> with <code>c</code> a candidate and <code>s</code> a burning 4-neighbour of <code>c</code>. A
+candidate has <code>k</code> edges, with <code>1 &lt;= k &lt;= 4</code>.</p>
+<p><strong>Draw order.</strong> Edges are visited in canonical order: candidates in row-major
+order, then, for each candidate, its sources in row-major order. Each edge
+takes exactly one <code>bernoulli(p)</code> from the simulator's <code>fire</code> stream, with
+<code>p = fire.spread_probability</code>. <code>c</code> ignites in step <code>t</code> if at least one of its
+edges succeeds. Every edge of every candidate is drawn, also after an earlier
+edge of the same candidate succeeded.</p>
+<p><strong>Probability.</strong> The draws for the <code>k</code> edges of <code>c</code> are consecutive outputs
+of the specified PRNG stream, so under the model of independent Bernoulli(<code>p</code>)
+draws:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-text">P(c ignites at step t | B) = 1 - (1 - p)^k
+</code></pre>
+<ul>
+<li><code>p = 0</code> gives no spread. <code>p = 1</code> gives exactly the <code>deterministic</code> result on
+spread steps.</li>
+<li>"Independent" means sequential draws from the specified SplitMix64 stream.
+It is a modelling statement about the generator, not a claim of physical
+independence between neighbouring flames.</li>
+<li>Exactly: <code>bernoulli(p)</code> is <code>u / 2**53 &lt; p</code>, where <code>u = next_u64() &gt;&gt; 11</code> takes
+the values <code>0 .. 2**53 - 1</code>. So exactly <code>ceil(p * 2**53)</code> of the <code>2**53</code>
+values succeed. For <code>p = 0</code> this is none, and for <code>p = 1</code> it is all.</li>
+</ul>
+<p><strong>Draw-consumption rule.</strong> Let <code>E_t</code> be the number of edges of the frontier of
+<code>B</code> before step <code>t</code>. The <code>fire</code> stream advances by exactly</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-text">draws(t) = E_t   if t % spread_interval == 0
+draws(t) = 0     otherwise
+</code></pre>
+<p>for every <code>p</code> in <code>[0, 1]</code>, including <code>p = 0</code> and <code>p = 1</code>. No candidates means
+zero draws. The <code>deterministic</code> model never draws. Actions, people, action
+mapping order and the construction order of <code>B</code> cannot change the stream
+position. SplitMix64 adds a fixed constant to its state per draw, so the draw
+count between two recorded <code>rng_state</code> values can be computed exactly; the
+tests do this for every step of recorded runs.</p>
+<p><strong>Golden traces.</strong> <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/tests/fixtures/golden/stochastic_fire_traces.json"><code>tests/fixtures/golden/stochastic_fire_traces.json</code></a>
+pins five short fire traces (8 to 12 steps). Each pins the scenario hash, seed,
+ignited cells per step, draws per step, final burning set and final <code>fire</code>
+RNG state. The same values must come out on every platform and Python version.</p>
+<h3 id="not-in-v1">Not in V1</h3>
+<p>V1 fire semantics, the scenario schema and the model-visible <code>RulesView</code> are
+frozen. V1 does <strong>not</strong> support, and <code>FireConfig</code> and <code>RulesView</code> have no
+fields for:</p>
+<ul>
+<li>delayed ignition events after step 0 (all ignitions burn at step 0);</li>
+<li>wind or other directional spread probabilities;</li>
+<li>burn-out (cells burn until the end of the run, R8);</li>
+<li>smoke or visibility effects;</li>
+<li>material-specific flammability (every non-wall cell is flammable, except
+exits when <code>exits_flammable</code> is false);</li>
+<li>fire that depends on people or actions.</li>
+</ul>
+<p>These are future-version features. Each one changes simulator output or the
+model-visible rules, so it needs a new <code>SIMULATOR_VERSION</code> and, where the
+rules change, a new <code>OBSERVATION_VERSION</code> and scenario schema version. Issue #7
+mentions optional directional parameters and delayed-ignition behaviour; the
+decision is to defer both to a future version to keep the frozen V1 contract.</p>
+<h2 id="randomness">Randomness</h2>
+<ul>
+<li>The only generator is <code>emberbench.rng.SplitMix64</code>. It is fully specified in
+code, and a test checks it against the reference output.</li>
+<li>Stream seeds are <code>sha256("emberbench/v1/{seed}/{label}")[:8]</code> (big-endian).
+V1 has one stream, <code>fire</code>. A new subsystem gets a new label, so it does not
+shift the existing streams.</li>
+<li><code>bernoulli(p)</code> always consumes exactly one draw and compares a 53-bit dyadic
+float with <code>p</code>. It uses no other floating-point arithmetic.</li>
+<li>The stream positions are part of <code>SimState</code> (for audit and resume). They are
+not part of <code>Observation</code>.</li>
+<li>The fire stream is exogenous: the fire model never sees people or actions.
+For the same scenario and seed, every action sequence gives the same fire
+trajectory on the steps that the runs share.</li>
+</ul>
+<h2 id="trapping">Trapping</h2>
+<p><code>trapped</code> is the set of active people with no path to a non-burning exit. A
+path may cross any cell that is not a wall and not burning. Other people are
+ignored. This is an evaluator diagnostic for later metrics. It is not in the
+<code>Observation</code>. It does not change the person's status or end the run.</p>
+<h2 id="replay">Replay</h2>
+<p><code>RunRecord</code> stores the header (<code>simulator_version</code>, <code>observation_version</code>,
+<code>schema_version</code>, <code>scenario_id</code>, <code>scenario_hash</code>, <code>seed</code>), the initial state, and for each step
+the actions, resolved movements, ignitions, evacuations, casualties and the
+post-step state. <code>verify_record(scenario, record)</code> checks the simulator version, the
+observation version and the scenario hash. It then replays the recorded actions and requires a byte-identical
+canonical encoding. It reports the first step that diverges.</p>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="environment-pack.html"><span>Previous</span>Frozen environments</a><a href="v1-fairness-spec.html"><span>Next</span>Fairness specification</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/simulation-contract.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#coordinates-and-neighbourhood">Coordinates and neighbourhood</a><a href="#state">State</a><a href="#phase-order">Phase order</a><a href="#collisions">Collisions</a><a href="#fire">Fire</a><a href="#randomness">Randomness</a><a href="#trapping">Trapping</a><a href="#replay">Replay</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

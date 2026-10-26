@@ -371,7 +371,7 @@
   ],
   "narrative": {
     "northStar": "The supplied identity, direct access to research.",
-    "overview": "Original navy identity on porcelain and mist blue, with fine particles and a full-window hero. The benchmark opens a scrolling research layout: full-width ranking, large safety/quality scatter and people outcomes, then all ten scenario scores. No evacuation grid or replay UI.",
+    "overview": "Original navy identity on porcelain and mist blue, with a full-window animated hero. Results span the browser without enclosing cards: ranking, safety/quality, people outcomes and single-model scenario bars. Comparison tables stay off results. Complete searchable documentation is hosted locally.",
     "keyCharacteristics": [
       "Light only",
       "Original navy emblem and local fonts",
@@ -381,7 +381,10 @@
     ],
     "rules": [
       "Do not restore evacuation-grid or replay UI.",
-      "Keep published results and scientific qualifications unchanged."
+      "Keep published results and scientific qualifications unchanged.",
+      "Do not embed comparison tables or comparison selectors on results.",
+      "Keep results full width with open chart sections.",
+      "Documentation links open local complete guides."
     ],
     "dos": [
       "Use root palette tokens.",

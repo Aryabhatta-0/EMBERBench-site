@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="Protocol and release validation requirements."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Release checklist | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/release-checklist.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" aria-current="page">Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Release checklist</span></nav><article class="docs-article"><h1 id="release-checklist">Release checklist</h1>
+<p>Follow every step for every release. A release is an annotated git tag and,
+optionally, a published wheel and sdist. The version policy is in
+<a href="versioning.html">versioning.md</a>. Never publish from a branch, a dirty tree or a
+local build that did not pass section 3.</p>
+<p>Commands are for a POSIX shell (Linux or macOS). On Windows use
+<code>.venv\Scripts\activate</code> instead of <code>. .venv/bin/activate</code>; the other
+commands are the same.</p>
+<h2 id="1-release-blockers">1. Release blockers</h2>
+<p>Each of these must be resolved before a tag:</p>
+<ul>
+<li> <strong>License.</strong> The maintainers selected the Apache License 2.0
+(<code>Apache-2.0</code>). The release needs all of:
+1. the canonical Apache License 2.0 text as <code>LICENSE</code> at the
+   repository root;
+2. in <code>pyproject.toml</code>, <code>[project]</code>: <code>license = "Apache-2.0"</code> and
+   <code>license-files = ["LICENSE"]</code>;
+3. the license name in this checklist and in the changelog entry.
+<code>python tools/check_release.py ... --require-license</code> fails if one is
+missing, or if the wheel lacks <code>License-Expression</code>, <code>License-File</code> or
+the <code>LICENSE</code> file. A license change is a maintainer decision; no tool
+or pull request makes it.</li>
+<li> <strong>Pending V1 pull requests.</strong> Every pull request accepted for V1 is
+merged, <code>main</code> contains it, and this checklist runs on that <code>main</code>.</li>
+<li> <strong>Package version decision.</strong> The package version stays <code>0.1.0</code>
+unless the maintainers record another first release version
+(<a href="versioning.html">versioning.md</a>, section 1).</li>
+</ul>
+<h2 id="2-clean-checkout-and-pinned-tools">2. Clean checkout and pinned tools</h2>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">git clone https://github.com/Aryabhatta-0/EMBERBench.git emberbench-release
+cd emberbench-release
+git checkout main
+git status --porcelain
+</code></pre>
+<p><code>git status --porcelain</code> prints nothing. Record the commit:
+<code>git rev-parse HEAD</code>.</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">python -m venv .venv
+. .venv/bin/activate
+python -m pip install -c tools/dev-constraints.txt pip
+python -m pip install -c tools/dev-constraints.txt -e ".[dev]"
+python tools/check_dev_constraints.py --installed
+</code></pre>
+<p>The last command reports <code>0 problem(s)</code>: every installed tool and every
+dependency of a tool is the pinned version.</p>
+<h2 id="3-release-gates">3. Release gates</h2>
+<p>All CI is green on the exact commit: the six <code>test</code> jobs (Ubuntu, Windows
+and macOS on Python 3.12 and 3.13) and the <code>packaging</code> job. Then, locally:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">python -m mypy --strict
+python -m pytest -q
+EMBERBENCH_RELEASE_SMOKE=1 python -m pytest -q tests/test_release.py
+python tests/release_digests.py --check
+python tools/check_release.py --contracts-only
+python tools/check_public_assets.py --untracked
+</code></pre>
+<p>Also run the full opt-in mode of the public development evaluation pack
+(<code>tests/test_evaluation_pack.py</code>, PR #31). It reproduces the golden index and
+<code>REPORT.md</code>:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">EMBERBENCH_FULL_PACK=1 python -m pytest -q tests/test_evaluation_pack.py
+</code></pre>
+<p>Then build, check and install the release archives with the pinned build
+backend, offline:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">python -m pip download -c tools/dev-constraints.txt --no-deps --only-binary=:all: --dest wheelhouse setuptools
+SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) python tools/check_release.py --dist dist --wheelhouse wheelhouse --require-license --require-clean
+</code></pre>
+<p><code>tools/check_release.py</code> prints each step and fails closed with the reason.
+All of these must hold:</p>
+<ul>
+<li> strict mypy reports no issues and the full test suite passes,
+including the opt-in release smoke;</li>
+<li> <code>tests/release_digests.py --check</code> prints <code>registry verified</code>;</li>
+<li> the leak guard reports <strong>0 violations</strong> for the repository, the wheel
+and the sdist. No held-out material (hidden suite, private evaluation
+manifest, private suite freeze record, selection keys, private seeds,
+submission metadata, evaluator workspaces, caches) is in the
+repository, the wheel or the sdist. Never widen the leak-guard
+allowlist to make a release pass;</li>
+<li> <code>tools/check_release.py</code> passes: the version contracts match the docs,
+two clean builds give byte-identical wheels, the wheel built from the
+sdist equals the wheel built from the tree, the wheel builds offline
+from the sdist with only the pinned build backend, the metadata and
+the license are present, the wheel holds only package code, the wheel
+installs into a clean virtual environment under a path with spaces
+and runs from there, the registry recomputes with the installed wheel,
+and the leak guard passes.</li>
+</ul>
+<p>Install the checked wheel once more by hand and look at its version output:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">python -m venv "release smoke"
+"release smoke/bin/python" -m pip install --no-index --no-deps dist/emberbench-*.whl
+"release smoke/bin/emberbench" version --json
+"release smoke/bin/python" -I -m emberbench version --json
+</code></pre>
+<p>Both print the same JSON with the package version and benchmark revision of
+this release.</p>
+<h2 id="4-version-and-hash-review">4. Version and hash review</h2>
+<p>Compare with the previous release tag (<code>&lt;previous-tag&gt;</code>; skip the diffs for
+the first release).</p>
+<ul>
+<li> <strong>Benchmark-defining versions.</strong> Each of these is pinned by
+provenance; a change to any of them needs a new <code>BENCHMARK_REVISION</code>
+(<a href="versioning.html">versioning.md</a>, section 2): <code>BENCHMARK_REVISION</code>,
+<code>SIMULATOR_VERSION</code>, <code>OBSERVATION_VERSION</code>, <code>ACTION_SCHEMA_VERSION</code>,
+<code>SCHEMA_VERSION</code>, <code>METRICS_VERSION</code>, <code>CROWD_DIAGNOSTICS_VERSION</code>,
+<code>STATISTICS_VERSION</code>, <code>GENERATOR_VERSION</code>, <code>GENERATOR_CONFIG_VERSION</code>,
+<code>GENERATION_MANIFEST_VERSION</code>, <code>EVALUATION_MANIFEST_VERSION</code>,
+<code>EVALUATION_RESULT_VERSION</code>, <code>SCORING_VERSION</code>,
+<code>ENVIRONMENT_PACK_VERSION</code>, <code>ENVIRONMENT_WORLD_VERSION</code>,
+<code>FAMILY_RULES_VERSION</code>, <code>CALIBRATION_PANEL_VERSION</code>,
+<code>DIFFICULTY_RULES_VERSION</code>, <code>ADMISSION_RULES_VERSION</code>,
+<code>COMPOSITION_VERSION</code>, <code>SELECTION_RULES_VERSION</code>,
+<code>RECIPE_CATALOG_VERSION</code>, <code>SUITE_FREEZE_RECORD_VERSION</code>.</li>
+<li> <strong>Tooling versions.</strong> A change needs at least a MINOR release:
+<code>CLI_VERSION</code>, <code>BASELINES_VERSION</code>, <code>INTEGRITY_PROTOCOL_VERSION</code>,
+<code>REPLAY_AUDIT_VERSION</code>, <code>ANIMATION_FORMAT_VERSION</code>. Suite labels:
+<code>GENERATED_SUITE_VERSION</code>, <code>COMPOSED_SUITE_VERSION</code>.</li>
+<li> Every changed version has a reason in the changelog, no version moved
+without an intended change, and no intended change is missing a bump:</li>
+</ul>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">git diff &lt;previous-tag&gt; -- src/emberbench docs/versioning.md
+</code></pre>
+<ul>
+<li> <strong>Frozen hashes reviewed.</strong> Every changed registry entry has a bumped
+owner version and a changelog line. For a PATCH release the file has
+not changed:</li>
+</ul>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">git diff &lt;previous-tag&gt; -- tests/fixtures/release/digest_registry.json
+</code></pre>
+<ul>
+<li> The package version in <code>src/emberbench/_version.py</code> (the only place)
+follows <a href="versioning.html">versioning.md</a>, section 1. A package version
+change also changes the registry entry <code>cli.version-json.stdout_sha256</code>
+and nothing else; regenerate it with
+<code>python tests/release_digests.py --write</code> and review the diff.</li>
+<li> The changelog (<a href="changelog.html">changelog.md</a>) is updated: rename
+"Unreleased" to the version, add the release date, and list the
+package version, benchmark revision, changed component versions and
+changed hashes. <code>tools/check_release.py</code> fails on a changelog that
+does not name the current versions.</li>
+<li> Public docs are updated: README status, every document of a changed
+component, <a href="cli.html">cli.md</a> for CLI changes. No document states a
+stale benchmark revision (<code>tools/check_release.py</code> checks this).</li>
+</ul>
+<h2 id="5-tag-and-publish">5. Tag and publish</h2>
+<p>Only after sections 1 to 4, on the checked commit:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">git tag -a v&lt;version&gt; -m "EMBERBench &lt;version&gt; (benchmark revision &lt;revision&gt;)"
+git push origin v&lt;version&gt;
+</code></pre>
+<ul>
+<li> Publish exactly the wheel and sdist that <code>tools/check_release.py</code>
+wrote to <code>dist/</code> for that commit. Do not rebuild for publishing.</li>
+<li> Create the release notes from the changelog entry and attach
+<code>dist/*</code>.</li>
+</ul>
+<h2 id="6-rollback-and-revision-a-benchmark-bug-found-after-a-release">6. Rollback and revision: a benchmark bug found after a release</h2>
+<p>There is no rollback in place. Never move or delete a published tag, and
+never replace a published file. Users who need the previous behaviour pin
+the previous release; the fix goes forward as a new release.</p>
+<ol>
+<li><strong>Triage.</strong> Decide if the bug changes any run record, metric, statistic,
+generated scenario, environment pack, world identity, score or
+provenance for some input.<ul>
+<li>It does not (crash, wrong message, packaging, docs): fix it and release
+a PATCH version. No pinned hash may change.</li>
+<li>It does, or it can change a ranking or comparison: it is a benchmark
+bug. Continue below.</li>
+</ul>
+</li>
+<li><strong>Announce</strong> the bug with the affected releases, components and
+benchmark revision. Mark the results of the affected revision as
+affected; do not delete them.</li>
+<li><strong>Fix</strong> it with a bump of the owning component version and of
+<code>BENCHMARK_REVISION</code>, updated pins and registry entries, and a changelog
+entry that names the bug. Release a new MAJOR version (MINOR while the
+package is below <code>1.0.0</code>).</li>
+<li><strong>Re-evaluate</strong> every model to compare on the new revision. Scores of
+different revisions are never compared or merged.</li>
+<li>If the bug exposed held-out material, also follow
+<a href="integrity.html">integrity.md</a>, section 12: retire the batch, keep its
+provenance and mark its results as compromised.</li>
+</ol>
+<p>To withdraw a broken package (not a benchmark bug), yank it on the package
+index and release a fixed PATCH version.</p>
+<h2 id="reproducibility-boundary">Reproducibility boundary</h2>
+<p>What <code>tools/check_release.py</code> tests, on the CI packaging job (Ubuntu,
+Python 3.12, the pinned tools) and locally:</p>
+<ul>
+<li><code>SOURCE_DATE_EPOCH</code> is frozen: the value of the environment variable, or
+the commit time of <code>HEAD</code> when it is unset. Every wheel member carries
+that time.</li>
+<li>Two builds from two clean copies of the same commit, with the same
+<code>SOURCE_DATE_EPOCH</code> and the same pinned tools, give <strong>byte-identical
+wheels</strong>.</li>
+<li>Their sdists have identical member names and member contents. The sdist
+archives are <strong>not</strong> byte-identical: the gzip header and the tar member
+times come from the build. Only the normalized comparison is required.</li>
+<li>The wheel built from the sdist, the wheel built from the source tree and
+the wheel built offline from the sdist in an isolated environment with
+only the pinned setuptools have identical members and contents.</li>
+</ul>
+<p>The claim is exactly: <strong>the same source commit, the same <code>SOURCE_DATE_EPOCH</code>
+and the same pinned toolchain produce byte-identical wheels.</strong> Not claimed:
+byte-identical archives across operating systems, Python versions or tool
+versions, or across different <code>SOURCE_DATE_EPOCH</code> values. The benchmark
+artifacts themselves (records, manifests, results, statistics, scores,
+packs, generated suites, provenance) are byte-identical on every supported
+platform; the registry and the golden tests check that in all six CI jobs.</p>
+<h2 id="regression-digest-registry">Regression digest registry</h2>
+<p><code>tests/fixtures/release/digest_registry.json</code> holds one digest per
+release-visible contract. <code>SPEC</code> in <code>tests/release_digests.py</code> is its
+source: each entry names its owner version, the test pin it mirrors and
+what it covers. Every value is recomputed from public development assets
+and test fixtures; no entry holds a path, a timestamp, a host value, a
+private seed or held-out material.</p>
+<ul>
+<li><code>python tests/release_digests.py --check</code> recomputes it and prints a
+registry/computed diff on drift.</li>
+<li><code>tests/test_release.py</code> compares it with the test pins it mirrors and
+recomputes it in fresh interpreters under other hash seeds, locales, time
+zones, I/O encodings, a working directory with spaces and a CRLF copy of
+the public suite. Under the CRLF copy only the environment pack digest
+and the score report that names it change, because a pack pins exact file
+bytes by design (<a href="versioning.html">versioning.md</a>, section 4).</li>
+<li><code>tools/check_release.py</code> recomputes it with the installed wheel.</li>
+<li><code>python tests/release_digests.py --write</code> regenerates it. Use it only for
+a deliberate change with a bumped owner version and a changelog entry
+(<a href="versioning.html">versioning.md</a>, section 4).</li>
+</ul>
+<h2 id="development-tool-constraints">Development tool constraints</h2>
+<p><code>pyproject.toml</code> declares bounded ranges for the development and build
+tools. <code>tools/dev-constraints.txt</code> pins the exact version of every tool and
+transitive dependency, and CI installs only those versions
+(<code>PIP_CONSTRAINT</code>, <code>PIP_BUILD_CONSTRAINT</code>). A new upstream release therefore
+cannot change CI until someone refreshes the pins in a pull request.
+Runtime dependencies stay empty.</p>
+<p>To refresh the pins:</p>
+<ol>
+<li>If a tool needs a new major version, widen its range in
+<code>pyproject.toml</code> first and review its release notes.</li>
+<li>Run <code>python tools/refresh_dev_constraints.py --write</code> (network access
+needed). It resolves the ranges for every CI platform and Python version
+and fails if they disagree.</li>
+<li>Run the release gates in section 3. Fix new strict mypy findings in the
+same pull request.</li>
+<li>Open a pull request that changes only the pins (and the ranges, if
+needed). CI fails on any unpinned or drifted installed tool or
+dependency of a tool (<code>tools/check_dev_constraints.py --installed</code>
+follows the declared tools' <code>Requires-Dist</code> under each platform's
+markers; packages a hosted runner preinstalls for itself are not
+checked); add a reported platform-only pin by hand.</li>
+</ol>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="replay-visualization.html"><span>Previous</span>Replay audit tools</a><a href="changelog.html"><span>Next</span>Changelog</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/release-checklist.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-release-blockers">1. Release blockers</a><a href="#2-clean-checkout-and-pinned-tools">2. Clean checkout and pinned tools</a><a href="#3-release-gates">3. Release gates</a><a href="#4-version-and-hash-review">4. Version and hash review</a><a href="#5-tag-and-publish">5. Tag and publish</a><a href="#6-rollback-and-revision-a-benchmark-bug-found-after-a-release">6. Rollback and revision: a benchmark bug found after a release</a><a href="#reproducibility-boundary">Reproducibility boundary</a><a href="#regression-digest-registry">Regression digest registry</a><a href="#development-tool-constraints">Development tool constraints</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

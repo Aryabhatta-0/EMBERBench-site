@@ -20,7 +20,7 @@ import {
   providerChip,
   scenarioName,
   errorPage,
-} from "./common.js?v=20261027-brand-3";
+} from "./common.js?v=20261027-docs-1";
 import { leaderboardOrder, finite } from "./analytics.js";
 import { scoreBars, componentChart, heatmap } from "./charts.js";
 

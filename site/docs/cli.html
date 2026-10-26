@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="Commands, arguments and repeatable workflows."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Command line | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/cli.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" aria-current="page">Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Command line</span></nav><article class="docs-article"><h1 id="command-line-interface">Command-line interface</h1>
+<p><code>CLI_VERSION = "1.0"</code></p>
+<p>The <code>emberbench</code> command exposes the library contracts as a deterministic,
+provider-free command line. Every command calls the existing library API
+(<code>load_scenario</code>, <code>load_suite</code>, <code>load_generated_suite</code>,
+<code>build_evaluation_manifest</code>, <code>run_episode</code>, <code>verify_record</code>,
+<code>run_evaluation</code>, <code>load_evaluation_result</code>, <code>aggregate_result</code>,
+<code>compare_results</code>). The CLI adds argument parsing, fail-closed input loading,
+no-overwrite atomic output and stable exit codes. It does not add a second
+simulator, a second validator or a second artifact format.</p>
+<p>The CLI uses only the standard library (<code>argparse</code>).</p>
+<h2 id="entry-points">Entry points</h2>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench version --json
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">python -m emberbench version --json
+</code></pre>
+<p>Both run the same function, <code>emberbench.cli:main</code>. The console script is
+installed by the package (<code>[project.scripts]</code> in <code>pyproject.toml</code>).</p>
+<p><code>python -m</code> normally puts the current directory first on <code>sys.path</code>. The
+module entry point removes it, so the current directory never decides which
+agent code is imported (see <a href="#agent-factories">Agent factories</a>).</p>
+<h2 id="command-tree">Command tree</h2>
+<pre tabindex="0" aria-label="Code example"><code>emberbench
+  version                     contract versions
+  scenario validate FILE      one scenario file
+  suite validate DIR          a suite directory (manifest.json + scenario files)
+  generated validate DIR      a frozen generated suite (generation.json + suite/)
+  evaluation manifest         build an EvaluationManifest from a suite and ordered seeds
+  evaluation run              run every manifest episode with a local agent (resumable)
+  evaluation verify           authenticate an EvaluationResult
+  episode run                 run one scenario with one seed and a local agent
+  replay verify               authenticate one RunRecord by replay
+  statistics aggregate        AggregateStatistics of one result
+  statistics compare          PairedStatistics of two results (A - B)
+</code></pre>
+<p>Every command accepts:</p>
+<ul>
+<li><code>--json</code>: print only the result, as one canonical JSON line on stdout.</li>
+<li><code>--debug</code>: print a Python traceback to stderr on failure.</li>
+<li><code>--help</code>: print the usage of the command.</li>
+</ul>
+<p>Options go after the command words (<code>emberbench suite validate DIR --json</code>).
+Option names are never abbreviated.</p>
+<p>Commands that take a suite accept exactly one of:</p>
+<ul>
+<li><code>--suite DIR</code>: a suite directory, loaded with <code>load_suite</code>.</li>
+<li><code>--generated-suite DIR</code>: a frozen generated suite, loaded with
+<code>load_generated_suite</code>. The freeze record is checked as well.</li>
+</ul>
+<h2 id="commands">Commands</h2>
+<h3 id="version"><code>version</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench version --json
+</code></pre>
+<p>Prints the package version (<code>package_version</code>, from
+<code>src/emberbench/_version.py</code>, see <a href="versioning.html">versioning.md</a>) and every
+contract version of this build:</p>
+<ul>
+<li><code>benchmark_revision</code> and every benchmark-defining version, exactly the
+entries of <code>benchmark_versions()</code> that evaluation provenance pins:
+<code>simulator_version</code>, <code>observation_version</code>, <code>action_schema_version</code>,
+<code>schema_version</code> (the scenario schema), <code>metrics_version</code>,
+<code>crowd_diagnostics_version</code>, <code>statistics_version</code>, <code>generator_version</code>,
+<code>generator_config_version</code>, <code>generation_manifest_version</code>,
+<code>evaluation_manifest_version</code>, <code>evaluation_result_version</code>,
+<code>scoring_version</code>, <code>environment_pack_version</code>,
+<code>environment_world_version</code>, <code>family_rules_version</code>,
+<code>calibration_panel_version</code>, <code>difficulty_rules_version</code>,
+<code>admission_rules_version</code>, <code>composition_version</code>,
+<code>selection_rules_version</code>, <code>recipe_catalog_version</code> and
+<code>suite_freeze_record_version</code>;</li>
+<li>the tooling contracts that do not change what a score means:
+<code>cli_version</code>, <code>baselines_version</code>, <code>integrity_protocol_version</code>,
+<code>replay_audit_version</code> and <code>animation_format_version</code>.</li>
+</ul>
+<p>The benchmark-defining part is built from <code>benchmark_versions()</code>, so a
+version that provenance pins is always reported (see
+<a href="versioning.html">versioning.md</a>, section 3, and <code>docs/integrity.md</code>,
+section 12). No field depends on the environment (no paths, platform,
+interpreter or install location). These keys were added before any
+release, so <code>CLI_VERSION</code> stays <code>1.0</code>.</p>
+<h3 id="scenario-validate-file"><code>scenario validate FILE</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench scenario validate scenarios/public/v1/v1-pub-01-single-exit-sparse.json --json
+</code></pre>
+<p>Loads the file with the strict scenario parser. Reports <code>scenario_id</code>,
+<code>scenario_hash</code> (the content hash) and <code>schema_version</code>.</p>
+<h3 id="suite-validate-dir"><code>suite validate DIR</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench suite validate scenarios/public/v1 --json
+</code></pre>
+<p>Loads the suite with <code>load_suite</code>: every listed file must exist, no file may
+be unlisted, and every pinned hash and derived field must match. Reports
+<code>suite_id</code>, <code>suite_version</code>, <code>suite_hash</code>, <code>visibility</code>, <code>seed_role</code>,
+<code>schema_version</code>, <code>scenario_count</code> and <code>scenarios</code> (each <code>scenario_id</code> and
+<code>content_hash</code>, in manifest order).</p>
+<h3 id="generated-validate-dir"><code>generated validate DIR</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench generated validate path/to/frozen-batch --json
+</code></pre>
+<p>Loads a frozen generated suite with <code>load_generated_suite</code> and checks the
+freeze record against every scenario. Reports the suite fields above and
+<code>generation_manifest_version</code>, <code>generator_version</code>, <code>batch_id</code> and
+<code>config_hash</code>. The private generator seed is not in the freeze record, so it
+is never shown.</p>
+<h3 id="evaluation-manifest"><code>evaluation manifest</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench evaluation manifest --suite scenarios/public/v1 --seed 1 --seed 7 --seed 42 --out manifest.json
+</code></pre>
+<p>Builds the manifest with <code>build_evaluation_manifest(suite, seeds)</code> and writes
+its canonical file text (<code>EvaluationManifest.to_file_text()</code>, the bytes that
+<code>save_evaluation_manifest</code> writes).</p>
+<ul>
+<li><code>--seed N</code> is repeatable and required. The order is kept exactly. The CLI
+never generates, sorts or removes seeds.</li>
+<li>A seed is a decimal integer in <code>[0, 2**64 - 1]</code>. A duplicate seed is a
+usage error.</li>
+<li><code>--out FILE</code> is required. <code>--force</code> replaces an existing file.</li>
+</ul>
+<p>Reports <code>manifest_hash</code>, <code>manifest_version</code>, the suite fields,
+<code>episode_count</code> and <code>seed_count</code>. The seed values are never printed: they
+stay in the file the operator asked for.</p>
+<h3 id="episode-run"><code>episode run</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench episode run --scenario scenarios/public/v1/v1-pub-01-single-exit-sparse.json --seed 3 --agent my_agents:make_agent --out record.json
+</code></pre>
+<p>Runs one episode through the single simulator path:
+<code>run_episode(scenario, agent_policy(agent), seed=SEED)</code>. The agent is built
+fresh with the factory, receives only <code>Observation</code> values and its output is
+validated by <code>validate_actions</code>. The record is then checked with
+<code>verify_record</code> and written as canonical JSON plus one LF
+(<code>RunRecord.to_json() + "\n"</code>).</p>
+<ul>
+<li><code>--scenario FILE</code>, <code>--seed N</code>, <code>--agent MODULE:FACTORY</code> and <code>--out FILE</code>
+are required. The scenario file's development seed is not used.</li>
+<li><code>--agent-path DIR</code> (repeatable) and <code>--force</code> are optional.</li>
+</ul>
+<p>Reports <code>scenario_id</code>, <code>scenario_hash</code>, <code>simulator_version</code>,
+<code>observation_version</code>, <code>record_digest</code>, <code>steps</code> and <code>termination_reason</code>.</p>
+<h3 id="replay-verify"><code>replay verify</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench replay verify --scenario scenarios/public/v1/v1-pub-01-single-exit-sparse.json --record record.json --json
+</code></pre>
+<ol>
+<li>The record file must be JSON that <code>RunRecord.from_dict</code> accepts and that
+round-trips exactly (no unknown or changed fields). Otherwise: exit 3.</li>
+<li><code>verify_record(scenario, record)</code> replays the action log. Any version,
+scenario-hash, initial-state or trajectory difference: exit 5.</li>
+<li><code>validate_run_record(scenario, record)</code> requires a complete, well-formed
+episode. A replayable prefix that stops before termination: exit 3.</li>
+</ol>
+<p>Reports <code>verified: true</code>, <code>scenario_id</code>, <code>scenario_hash</code>, <code>record_digest</code>,
+<code>simulator_version</code>, <code>observation_version</code>, <code>steps</code> and <code>termination_reason</code>.
+There is no best-effort recovery.</p>
+<h3 id="evaluation-run"><code>evaluation run</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench evaluation run --suite scenarios/public/v1 --manifest manifest.json --model-id my-model --agent my_agents:make_agent --out result.json
+</code></pre>
+<p>Calls <code>run_evaluation(suite, manifest, model_id, agent_policy_factory(factory), out, resume=...)</code>
+unchanged. Every episode gets a new agent.</p>
+<ul>
+<li><code>--manifest FILE</code>, <code>--model-id ID</code>, <code>--agent MODULE:FACTORY</code> and
+<code>--out FILE</code> are required. <code>--model-id</code> must pass the library model ID
+check (non-empty, printable, at most 256 characters, no outer whitespace).</li>
+<li>An existing <code>--out</code> file is never overwritten. Without <code>--resume</code> it is an
+output conflict (exit 6). With <code>--resume</code> it must load and authenticate
+completely and carry the same manifest hash and model ID (otherwise exit 3
+or 6). Completed episodes are not run again. This is the library resume
+behaviour; the CLI does not change it.</li>
+<li><code>run_evaluation</code> saves the artifact atomically after every episode. If the
+agent fails, the last checkpoint stays on disk so that <code>--resume</code> can
+continue it. This is the only command that leaves an artifact behind after
+a failure, and that artifact is always a complete, valid checkpoint.</li>
+</ul>
+<p>Reports <code>model_id</code>, <code>result_version</code>, <code>manifest_hash</code>, the suite fields,
+<code>result_digest</code>, <code>scheduled_episodes</code>, <code>completed_episodes</code> and <code>complete</code>.</p>
+<h3 id="evaluation-verify"><code>evaluation verify</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench evaluation verify --suite scenarios/public/v1 --result result.json --manifest manifest.json --require-complete --json
+</code></pre>
+<p>Calls <code>load_evaluation_result(result, suite)</code>: the embedded manifest must
+match the suite and the running versions, and every episode's run record is
+authenticated by replay and its metrics are recomputed. A malformed,
+duplicate, unknown, non-canonical or tampered episode fails the whole
+artifact (exit 3, or exit 5 when the cause is a replay mismatch). No episode
+is dropped or repaired.</p>
+<ul>
+<li><code>--manifest FILE</code> also requires this exact evaluation manifest (exit 5 if
+the embedded manifest differs).</li>
+<li><code>--require-complete</code> also requires every scheduled episode (exit 5 if any
+is missing). Without it, a partial result that authenticates is valid.</li>
+</ul>
+<p>Reports <code>verified: true</code> and the same fields as <code>evaluation run</code>.</p>
+<h3 id="statistics-aggregate"><code>statistics aggregate</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench statistics aggregate --suite scenarios/public/v1 --result result.json --out stats.json
+</code></pre>
+<p>Loads and authenticates the result, then writes
+<code>aggregate_result(result, suite).to_json() + "\n"</code>.</p>
+<h3 id="statistics-compare"><code>statistics compare</code></h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench statistics compare --suite scenarios/public/v1 --a a.json --b b.json --out paired.json
+</code></pre>
+<p>Loads and authenticates both results, then writes
+<code>compare_results(a, b, suite).to_json() + "\n"</code>. Deltas are A - B. Results of
+different manifests are rejected.</p>
+<p>Both statistics commands accept <code>--resamples N</code>. Without it the library
+default (<code>DEFAULT_BOOTSTRAP_RESAMPLES</code>, 2000) is used: the CLI does not pass
+the argument at all. Out-of-range values are a usage error. They report
+<code>statistics_version</code>, <code>digest</code> (the artifact's <code>digest()</code>), the model IDs,
+<code>manifest_hash</code> and <code>resamples</code>.</p>
+<h2 id="exit-codes">Exit codes</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td><code>OK</code></td>
+<td>Success.</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>INTERNAL</code></td>
+<td>Unexpected failure (a bug). Rerun with <code>--debug</code> for a traceback.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>USAGE</code></td>
+<td>Malformed command line or argument value: unknown command or option, missing option, bad seed, duplicate seed, bad <code>--resamples</code>, bad <code>--model-id</code>, malformed <code>--agent</code>, missing <code>--agent-path</code> directory.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>VALIDATION</code></td>
+<td>An input is missing, unreadable, not JSON, malformed, not canonical, tampered, incomplete where completeness is required, or fails a library check (<code>ScenarioValidationError</code>, <code>SuiteValidationError</code>, <code>GenerationError</code>, <code>EvaluationError</code>, <code>StatisticsInputError</code>, <code>MetricsInputError</code>).</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>AGENT</code></td>
+<td>The agent module cannot be imported, the factory is missing or not callable, the factory raises or returns a non-agent or a reused agent, <code>act</code> raises, or the model output is rejected (<code>ModelOutputError</code>).</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>MISMATCH</code></td>
+<td>A replay does not reproduce the record (<code>ReplayMismatchError</code>, also when it is the cause of another error), or an evaluation result does not match the required manifest or completeness.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>OUTPUT</code></td>
+<td>The output file exists (without <code>--force</code> or <code>--resume</code>), is a directory, is also an input file, its parent directory does not exist, or it cannot be written.</td>
+</tr>
+<tr>
+<td>130</td>
+<td><code>INTERRUPTED</code></td>
+<td>Interrupted (<code>KeyboardInterrupt</code>).</td>
+</tr>
+</tbody></table></div>
+<p>The codes are <code>emberbench.cli.ExitCode</code> and are pinned by tests.</p>
+<p>A Python traceback is never printed unless <code>--debug</code> is given.</p>
+<h2 id="output">Output</h2>
+<h3 id="json-mode---json">JSON mode (<code>--json</code>)</h3>
+<ul>
+<li>On success, stdout holds exactly one line: the result object as canonical
+JSON (sorted keys, no whitespace, ASCII). Nothing else is printed to stdout.</li>
+<li>Every result has a <code>command</code> field. Results never include input or output
+paths, timestamps, hostnames or environment details.</li>
+<li>On failure, stdout is empty and stderr holds exactly one line:
+<code>{"error":{"exit_code":N,"kind":"...","message":"..."}}</code>. With <code>--debug</code>
+the traceback follows on stderr.</li>
+<li>There are no ANSI escape codes or colours.</li>
+</ul>
+<p>Usage errors found while parsing the command line, before the command is
+known, are also reported in this JSON form when <code>--json</code> is present.</p>
+<h3 id="human-mode">Human mode</h3>
+<p>A short <code>key: value</code> list on stdout. Errors go to stderr as
+<code>emberbench: error: MESSAGE</code>.</p>
+<p>Error messages are deterministic for the same inputs. Library messages can
+contain the input paths as given on the command line.</p>
+<h2 id="files">Files</h2>
+<h3 id="inputs-are-never-written">Inputs are never written</h3>
+<p>Validation, verification and statistics commands only read their inputs.
+An output path that is the same file as an input is refused, even with
+<code>--force</code>.</p>
+<h3 id="output-rules">Output rules</h3>
+<ul>
+<li>An existing output file is never replaced unless <code>--force</code> is given.
+<code>evaluation run</code> has no <code>--force</code>: an existing result can only be resumed.</li>
+<li>Parent directories are never created. A missing parent is exit 6.</li>
+<li>The output is written to a temporary file in the same directory, flushed
+and fsynced. With <code>--force</code> the temporary file is then renamed over the
+output (<code>os.replace</code>). Without <code>--force</code> it is hard-linked to the output
+path. The link fails if the file exists, so a file that another process
+creates in the meantime is never replaced either.</li>
+<li>If the filesystem has no hard links, the CLI creates the output with
+<code>O_CREAT | O_EXCL</code> (this also fails if the file exists), writes the bytes,
+flushes and fsyncs. On such a filesystem the output is visible while it
+is written. If that write fails, the CLI removes the file, but only if it
+is still the file that the CLI created. There is never a check-then-replace
+step.</li>
+<li>On any failure, no output file and no temporary file are left behind
+(<code>evaluation run</code> checkpoints are the documented exception above).</li>
+<li>Inputs are validated and the output path is checked before an agent is
+imported or an episode runs.</li>
+</ul>
+<h3 id="artifact-bytes">Artifact bytes</h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>File content</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>evaluation manifest</code></td>
+<td><code>EvaluationManifest.to_file_text()</code> (indented JSON, LF)</td>
+</tr>
+<tr>
+<td><code>episode run</code></td>
+<td><code>RunRecord.to_json() + "\n"</code></td>
+</tr>
+<tr>
+<td><code>evaluation run</code></td>
+<td><code>EvaluationResult.to_file_text()</code> (written by <code>run_evaluation</code>)</td>
+</tr>
+<tr>
+<td><code>statistics aggregate</code></td>
+<td><code>AggregateStatistics.to_json() + "\n"</code></td>
+</tr>
+<tr>
+<td><code>statistics compare</code></td>
+<td><code>PairedStatistics.to_json() + "\n"</code></td>
+</tr>
+</tbody></table></div>
+<p>All artifacts are ASCII with LF line endings on every platform. They hold no
+absolute paths and no timestamps. A record or statistics <code>digest</code> is the
+SHA-256 of the file without its final LF.</p>
+<h2 id="agent-factories">Agent factories</h2>
+<p><code>episode run</code> and <code>evaluation run</code> import the operator's agent code. This is
+the only place where the CLI imports code that is not part of EMBERBench, and
+it happens only when <code>--agent</code> is given.</p>
+<pre tabindex="0" aria-label="Code example"><code>--agent MODULE:FACTORY
+</code></pre>
+<ul>
+<li><code>MODULE</code> is a dotted Python module path (<code>my_pkg.agents</code>).</li>
+<li><code>FACTORY</code> is an attribute path in that module (<code>make_agent</code> or
+<code>Agents.make</code>).</li>
+<li>Both parts use ASCII identifiers only. Anything else is a usage error
+(exit 2).</li>
+</ul>
+<p>The CLI imports exactly <code>MODULE</code> with <code>importlib.import_module</code> and reads
+<code>FACTORY</code> from it. There is no entry-point discovery, plugin registry,
+fallback module, network location or search of the current directory.
+The module must be importable from <code>sys.path</code> as the interpreter sets it, or
+from a directory given explicitly with <code>--agent-path DIR</code> (repeatable; the
+directories are put first, in the order given, for this command only).</p>
+<p>The factory must satisfy the <code>AgentFactory</code> contract
+(<code>docs/model-interface.md</code>):</p>
+<ul>
+<li>It is a zero-argument callable.</li>
+<li>Every call returns a new object with an <code>act(observation)</code> method. A
+returned agent that was already used for an earlier episode is rejected.</li>
+<li><code>act</code> receives only the <code>Observation</code>. It never receives the scenario,
+seed, manifest, episode index or run record.</li>
+</ul>
+<p>Example agent module:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-python"># my_agents.py
+from emberbench import Action, PolicyAgent
+
+
+def make_agent():
+    return PolicyAgent(lambda obs: {p.id: Action.STAY for p in obs.active})
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench episode run --scenario scenarios/public/v1/v1-pub-01-single-exit-sparse.json --seed 3 --agent my_agents:make_agent --agent-path . --out record.json
+</code></pre>
+<p>Importing a module runs its code. Use <code>--agent</code> only with code that you trust.</p>
+<h2 id="configuration-determinism-and-network-policy">Configuration, determinism and network policy</h2>
+<ul>
+<li>There is no configuration file, no home-directory configuration, no
+<code>.env</code> file and no environment variable that changes a result. Every value
+that affects a benchmark result comes from an explicit argument, an
+explicit input file or a versioned library default.</li>
+<li>The current directory does not change results. Relative paths are resolved
+against it, as usual, and nothing else is taken from it.</li>
+<li>The same command with the same input files gives byte-identical output
+files and stdout, under any <code>PYTHONHASHSEED</code>, from any current directory and
+on Linux, Windows and macOS. The order of options does not matter. The
+order of <code>--seed</code> options does: it is the manifest order.</li>
+<li>The CLI core never opens a network connection: it does not download
+models, contact providers, check for updates or fetch URLs. A test runs
+every command under an audit hook that fails on any socket or URL event.
+An agent that the operator loads with <code>--agent</code> may use the network itself.
+That is outside the CLI core and is the operator's explicit choice.</li>
+</ul>
+<h2 id="examples-public-development-assets">Examples (public development assets)</h2>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench suite validate scenarios/public/v1
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench evaluation manifest --suite scenarios/public/v1 --seed 0 --seed 1 --seed 2 --out manifest.json --json
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench evaluation run --suite scenarios/public/v1 --manifest manifest.json --model-id stay --agent my_agents:make_agent --agent-path . --out stay.json
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench evaluation verify --suite scenarios/public/v1 --result stay.json --manifest manifest.json --require-complete
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench statistics aggregate --suite scenarios/public/v1 --result stay.json --out stay-stats.json
+</code></pre>
+<p>The public seeds <code>0, 1, 2</code> give the evaluation manifest hash
+<code>7b9aae45e5e2828f881b2f14d8e5585627e5f8bdbb137a1ed2331bf10ce8c876</code>.
+Development seeds are for development only; scored seed schedules belong to
+the evaluator (<code>docs/evaluation.md</code>).</p>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="quickstart.html"><span>Previous</span>Overview &amp; setup</a><a href="model-interface.html"><span>Next</span>Model interface</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/cli.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#entry-points">Entry points</a><a href="#command-tree">Command tree</a><a href="#commands">Commands</a><a href="#exit-codes">Exit codes</a><a href="#output">Output</a><a href="#files">Files</a><a href="#agent-factories">Agent factories</a><a href="#configuration-determinism-and-network-policy">Configuration, determinism and network policy</a><a href="#examples-public-development-assets">Examples (public development assets)</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

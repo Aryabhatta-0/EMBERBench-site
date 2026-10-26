@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="Coordination and congestion diagnostics."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Crowd diagnostics | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/crowd-diagnostics.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" aria-current="page">Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Crowd diagnostics</span></nav><article class="docs-article"><h1 id="crowd-coordination-diagnostics-crowd-diagnostics-version-10">Crowd coordination diagnostics (crowd diagnostics version 1.0)</h1>
+<p>This document defines every field returned by
+<code>emberbench.compute_crowd_diagnostics(scenario, record) -&gt; CrowdDiagnostics</code>.
+The code is in <code>src/emberbench/crowd.py</code>. The tests are in
+<code>tests/test_crowd.py</code>.</p>
+<p>The diagnostics make congestion and bottlenecks measurable. They <strong>observe</strong>
+a recorded episode. They do not change the V1 movement rules, and they do
+not model human behaviour. There is no crowd score.</p>
+<p>The document has four parts, kept apart on purpose:</p>
+<ol>
+<li><a href="#1-simulator-crowd-rules">Simulator crowd rules</a>: the frozen V1 rules
+that produce the data.</li>
+<li><a href="#3-raw-observed-signals">Raw observed signals</a>: counts read from the
+recorded movements and events.</li>
+<li><a href="#4-proxy-the-static-nearest-exit-demand">Proxies</a>: values that use an
+assumption, named as proxies.</li>
+<li><a href="#7-what-emberbench-does-not-model">What EMBERBench does not model</a>.</li>
+</ol>
+<h2 id="1-simulator-crowd-rules">1. Simulator crowd rules</h2>
+<p>These rules are frozen in V1. They are defined in
+<a href="simulation-contract.html">simulation-contract.md</a> and
+<a href="v1-fairness-spec.html">v1-fairness-spec.md</a>. They are repeated here only so
+that the signals below make sense. Phase 7 changes none of them.</p>
+<ul>
+<li>People are homogeneous. Each person occupies one cell and moves at most
+one cell (4-neighbour) per step.</li>
+<li>One person per cell after every step.</li>
+<li>A move into a cell held by a person who does not move gives
+<code>blocked_occupied</code>. A chain that ends at such a person is also
+<code>blocked_occupied</code> all the way back.</li>
+<li>When several movers target the same cell, the lowest person ID (string
+order) wins. The others get <code>blocked_conflict</code>.</li>
+<li>A closed chain (a swap or a longer rotation) is never allowed. Every
+member gets <code>blocked_cycle</code>.</li>
+<li>A person may follow another person into the cell that person leaves in
+the same step, so a queue advances without gaps.</li>
+<li>An exit is one cell. A person who ends a step on a non-burning exit
+evacuates. So one exit cell evacuates at most one person per step, and
+<code>k</code> distinct exit cells evacuate at most <code>k</code> people per step.</li>
+</ul>
+<p>The six blocked reasons are canonical: <code>boundary</code>, <code>wall</code> and <code>fire</code> (static
+blocks, from the map or the fire), and <code>occupied</code>, <code>conflict</code> and <code>cycle</code>
+(congestion blocks, from other people).</p>
+<h2 id="2-inputs-validation-and-versions">2. Inputs, validation and versions</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Inputs</td>
+<td>a <code>Scenario</code> and a complete <code>RunRecord</code> of that scenario</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td><code>emberbench.validate_run_record</code>, the same three stages as the metrics: compatibility, structural checks, and full simulator replay (<code>verify_record</code>)</td>
+</tr>
+<tr>
+<td>Failure</td>
+<td><code>MetricsInputError</code>; no partial result</td>
+</tr>
+<tr>
+<td>Result</td>
+<td>an immutable (frozen) <code>CrowdDiagnostics</code></td>
+</tr>
+<tr>
+<td>Artifact version</td>
+<td><code>CROWD_DIAGNOSTICS_VERSION = "1.0"</code>, separate from <code>METRICS_VERSION</code></td>
+</tr>
+<tr>
+<td>Binding</td>
+<td>the result holds the simulator, observation and schema versions, <code>scenario_id</code>, <code>scenario_hash</code>, <code>seed</code> and <code>record_digest</code> (<code>RunRecord.digest()</code>)</td>
+</tr>
+</tbody></table></div>
+<p>A record whose block reasons were relabelled (for example <code>blocked_conflict</code>
+changed to <code>blocked_occupied</code>) still passes the structural checks. The
+replay stage rejects it. So every count below is a count of what the
+simulator really did.</p>
+<h2 id="3-raw-observed-signals">3. Raw observed signals</h2>
+<h3 id="31-contenders">3.1 Contenders</h3>
+<p>A <strong>contending move</strong> is a movement attempt (an action that is not <code>stay</code>)
+whose outcome is not <code>blocked_boundary</code>, <code>blocked_wall</code> or
+<code>blocked_fire</code>. It passed the static checks, so it ends as <code>moved</code>,
+<code>blocked_occupied</code>, <code>blocked_conflict</code> or <code>blocked_cycle</code>.</p>
+<p>The <strong>contenders for a cell <code>c</code> at step <code>t</code></strong> are the contending moves of
+step <code>t</code> whose recorded target is <code>c</code>. A cell is <strong>contested</strong> at step <code>t</code>
+when it has two or more contenders. Two movers that target a cell held by
+a person who stays are contenders too: they both want the same cell.</p>
+<p>A swap is not contention: each member targets a different cell.</p>
+<h3 id="32-step-signals-steps">3.2 Step signals (<code>steps</code>)</h3>
+<p>One entry per recorded step, in step order. The counts cover the people
+active when the step was decided.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>step</code></td>
+<td>the step number <code>t</code></td>
+</tr>
+<tr>
+<td><code>active_people</code></td>
+<td>decisions in the step (one per active person)</td>
+</tr>
+<tr>
+<td><code>stays</code></td>
+<td>outcome <code>stayed</code></td>
+</tr>
+<tr>
+<td><code>movement_attempts</code></td>
+<td><code>active_people - stays</code></td>
+</tr>
+<tr>
+<td><code>successful_moves</code></td>
+<td>outcome <code>moved</code></td>
+</tr>
+<tr>
+<td><code>blocked_moves</code></td>
+<td>outcome <code>blocked_*</code></td>
+</tr>
+<tr>
+<td><code>blocked_by_outcome</code></td>
+<td>count per blocked outcome, in <code>MoveOutcome</code> order</td>
+</tr>
+<tr>
+<td><code>congestion_blocks</code></td>
+<td><code>blocked_occupied + blocked_conflict + blocked_cycle</code></td>
+</tr>
+<tr>
+<td><code>contending_moves</code></td>
+<td><code>movement_attempts - (blocked_boundary + blocked_wall + blocked_fire)</code></td>
+</tr>
+<tr>
+<td><code>contested_cells</code></td>
+<td>cells with two or more contenders in this step</td>
+</tr>
+<tr>
+<td><code>max_contenders</code></td>
+<td>the largest contender count of one cell in this step; <code>0</code> if there are no contending moves</td>
+</tr>
+<tr>
+<td><code>evacuations_by_exit</code></td>
+<td>evacuations in this step, per exit (every exit, sorted by exit ID)</td>
+</tr>
+<tr>
+<td><code>cumulative_evacuations_by_exit</code></td>
+<td>evacuations up to and including this step, per exit</td>
+</tr>
+<tr>
+<td><code>nearest_exit_demand_proxy</code></td>
+<td>see <a href="#4-proxy-the-static-nearest-exit-demand">section 4</a></td>
+</tr>
+</tbody></table></div>
+<p>Checked: <code>successful_moves + blocked_moves = movement_attempts</code>.</p>
+<h3 id="33-spatial-congestion-hotspots-cells">3.3 Spatial congestion hotspots (<code>cells</code>)</h3>
+<p>One entry per cell that had at least one contender in the episode. The
+entries are in canonical <strong>row-major</strong> order (<code>(row, col)</code> ascending).
+Static blocks are not counted here, so wall and boundary cells never appear.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cell</code></td>
+<td><code>[row, col]</code></td>
+</tr>
+<tr>
+<td><code>exit_id</code></td>
+<td>the exit on this cell, or <code>null</code></td>
+</tr>
+<tr>
+<td><code>static_exit_distance</code></td>
+<td>wall-only path distance from this cell to the nearest exit (section 4), or <code>null</code></td>
+</tr>
+<tr>
+<td><code>attempted_entries</code></td>
+<td>contenders for this cell, summed over all steps</td>
+</tr>
+<tr>
+<td><code>successful_entries</code></td>
+<td>contenders with outcome <code>moved</code></td>
+</tr>
+<tr>
+<td><code>blocked_occupied</code></td>
+<td>contenders with outcome <code>blocked_occupied</code></td>
+</tr>
+<tr>
+<td><code>blocked_conflict</code></td>
+<td>contenders with outcome <code>blocked_conflict</code></td>
+</tr>
+<tr>
+<td><code>blocked_cycle</code></td>
+<td>contenders with outcome <code>blocked_cycle</code></td>
+</tr>
+<tr>
+<td><code>congestion_blocks</code></td>
+<td><code>blocked_occupied + blocked_conflict + blocked_cycle</code></td>
+</tr>
+<tr>
+<td><code>contention_steps</code></td>
+<td>steps in which the cell had two or more contenders</td>
+</tr>
+<tr>
+<td><code>peak_contenders</code></td>
+<td>the largest contender count of this cell in one step</td>
+</tr>
+</tbody></table></div>
+<p>Checked: <code>attempted_entries = successful_entries + congestion_blocks</code>, and
+at most one contender enters a cell per step.</p>
+<p>A <strong>hotspot</strong> is a cell with <code>congestion_blocks &gt; 0</code>. The API returns the
+raw table. It does not rank cells. To find the worst hotspots, sort by
+<code>congestion_blocks</code> (or by <code>contention_steps</code>) and break ties by cell.</p>
+<p>Hotspots are <strong>observed runtime hotspots</strong> of one episode under one
+decision model. They are not claims about where real crowds congest.</p>
+<h3 id="34-exit-throughput-exits">3.4 Exit throughput (<code>exits</code>)</h3>
+<p>Per exit (<code>exits.exits</code>, sorted by exit ID):</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>exit_id</code>, <code>position</code></td>
+<td>the exit</td>
+</tr>
+<tr>
+<td><code>evacuations</code></td>
+<td>people who evacuated through this exit</td>
+</tr>
+<tr>
+<td><code>peak_step_evacuations</code></td>
+<td>most evacuations through this exit in one step; at most <code>1</code> under V1</td>
+</tr>
+<tr>
+<td><code>steps_with_evacuation</code></td>
+<td>steps with at least one evacuation here; equals <code>evacuations</code> under V1</td>
+</tr>
+<tr>
+<td><code>first_evacuation_step</code>, <code>last_evacuation_step</code></td>
+<td>or <code>null</code> if unused</td>
+</tr>
+<tr>
+<td><code>initial_demand_proxy</code></td>
+<td>see section 4</td>
+</tr>
+<tr>
+<td><code>demand_proxy_person_steps</code></td>
+<td>see section 4</td>
+</tr>
+</tbody></table></div>
+<p>Episode level: <code>exit_count</code>, <code>total_evacuations</code>, and
+<code>peak_step_evacuations</code> (most evacuations over all exits in one step).</p>
+<p>Cumulative throughput per step is in <code>steps[t].cumulative_evacuations_by_exit</code>.</p>
+<h3 id="35-episode-totals-totals">3.5 Episode totals (<code>totals</code>)</h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>decisions</code>, <code>stays</code>, <code>movement_attempts</code>, <code>successful_moves</code>, <code>blocked_moves</code>, <code>blocked_by_outcome</code>, <code>congestion_blocks</code>, <code>contending_moves</code></td>
+<td>sums of the step fields</td>
+</tr>
+<tr>
+<td><code>contested_cell_steps</code></td>
+<td>sum of <code>contested_cells</code> over the steps</td>
+</tr>
+<tr>
+<td><code>steps_with_contention</code></td>
+<td>steps with <code>contested_cells &gt; 0</code></td>
+</tr>
+<tr>
+<td><code>steps_with_congestion_blocks</code></td>
+<td>steps with <code>congestion_blocks &gt; 0</code></td>
+</tr>
+<tr>
+<td><code>peak_contested_cells</code>, <code>peak_contenders</code>, <code>peak_congestion_blocks</code></td>
+<td>maxima over the steps</td>
+</tr>
+<tr>
+<td><code>hotspot_cells</code></td>
+<td>cells with <code>congestion_blocks &gt; 0</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="4-proxy-the-static-nearest-exit-demand">4. Proxy: the static nearest-exit demand</h2>
+<p>The <strong>nearest-exit demand proxy</strong> counts active people by the exit that is
+nearest to them on the static map. It is a <strong>proxy</strong>. It does not observe
+which exit a decision model intends to use, and it does not say which exit
+a person should use.</p>
+<p>Distance is the <strong>static wall-only path distance</strong>: the length of the
+shortest 4-neighbour path from the cell to the exit that does not cross a
+wall or leave the grid. People, fire (also the initial ignitions) and the
+other exits are ignored. It is computed once per exit by breadth-first
+search. It is not Manhattan distance: a wall can make a close exit far.</p>
+<p>For each active person:</p>
+<ul>
+<li>if one exit is strictly nearer than every other exit, the person counts
+for that exit;</li>
+<li>if two or more exits share the smallest distance, the person counts as
+<code>tied</code>;</li>
+<li>if no exit is reachable around the walls, the person counts as
+<code>unreachable</code>.</li>
+</ul>
+<p>So <code>sum(per_exit) + tied + unreachable = active people</code>.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>steps[t].nearest_exit_demand_proxy</code></td>
+<td><code>per_exit</code>, <code>tied</code>, <code>unreachable</code> for the people active when step <code>t</code> was decided</td>
+</tr>
+<tr>
+<td><code>exits.exits[i].initial_demand_proxy</code></td>
+<td>the per-exit count at step 0 (the whole population)</td>
+</tr>
+<tr>
+<td><code>exits.exits[i].demand_proxy_person_steps</code></td>
+<td>the per-exit count summed over all steps</td>
+</tr>
+<tr>
+<td><code>exits.initial_demand_tied</code>, <code>exits.initial_demand_unreachable</code></td>
+<td>the step-0 counts</td>
+</tr>
+<tr>
+<td><code>exits.demand_tied_person_steps</code>, <code>exits.demand_unreachable_person_steps</code></td>
+<td>summed over all steps</td>
+</tr>
+</tbody></table></div>
+<p>Comparing the proxy with the measured <code>evacuations</code> shows how the actual
+load differs from the static nearest-exit load. A difference is not an
+error. Fire, congestion and queue length can make another exit the better
+choice. <strong>Equal load across exits is not assumed to be optimal</strong>, and
+nothing here rewards it.</p>
+<h2 id="5-determinism-and-serialisation">5. Determinism and serialisation</h2>
+<ul>
+<li>Every value is an integer, a cell or <code>null</code>. There is no floating point.</li>
+<li>Steps are in step order, cells in row-major order, exits in exit-ID
+order. <code>to_json()</code> is canonical JSON (sorted keys, no spaces), and
+<code>digest()</code> is its SHA-256.</li>
+<li>The result does not depend on the insertion order of the action
+mappings, on <code>PYTHONHASHSEED</code>, or on the platform. The tests check
+repeated runs, shuffled and reversed action maps, three hash seeds in
+subprocesses, and pinned golden digests (run on Linux, Windows and macOS
+in CI).</li>
+</ul>
+<h2 id="6-tested-queue-and-throughput-invariants">6. Tested queue and throughput invariants</h2>
+<p><code>tests/test_crowd.py</code> pins these frozen V1 rules through the diagnostics:</p>
+<ul>
+<li>one exit cell evacuates at most one person per step;</li>
+<li>two distinct exit cells can evacuate two people in one step;</li>
+<li>a following chain advances without gaps;</li>
+<li>same-target losers are <code>blocked_conflict</code>;</li>
+<li>movers into a person who does not move are <code>blocked_occupied</code>;</li>
+<li>swaps and rotations are <code>blocked_cycle</code>;</li>
+<li>step signals reconcile exactly with the recorded movements (an
+independent recomputation);</li>
+<li>episode totals reconcile exactly with <code>MovementMetrics</code> and
+<code>ExitUtilization</code> from <code>compute_episode_metrics</code>.</li>
+</ul>
+<p>Large-population stress tests run 50, 100 and 200 people in a synthetic
+room (<code>crowd_stress_scenario</code> in <code>tests/conftest.py</code>). They check movement
+resolution (order independence, one person per cell), simulator execution,
+replay authentication and the diagnostics. They use bounded step counts and
+exact pinned results, not wall-clock limits. For manual timing, run
+<code>python tools/profile_crowd.py</code>; it is not a CI gate.</p>
+<h2 id="7-what-emberbench-does-not-model">7. What EMBERBench does not model</h2>
+<p>The simulator is a discrete grid with homogeneous agents. It does <strong>not</strong>
+model, and the diagnostics do not measure:</p>
+<ul>
+<li>panic, stress or any other emotional state;</li>
+<li>pushing force, crowd pressure or crush;</li>
+<li>body size, shape or the space a person takes beyond one cell;</li>
+<li>group behaviour (families, following a leader, herding);</li>
+<li>social dynamics (helping, yielding, competition, norms);</li>
+<li>heterogeneous speeds, mobility or reaction times.</li>
+</ul>
+<p>The signals describe how one decision model's actions interact under the V1
+rules. They are useful to compare models on the same episode. They are not
+evidence about real human evacuations.</p>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="benchmark-methodology.html"><span>Previous</span>Benchmark methodology</a><a href="procedural-generation.html"><span>Next</span>Procedural generation</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/crowd-diagnostics.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-simulator-crowd-rules">1. Simulator crowd rules</a><a href="#2-inputs-validation-and-versions">2. Inputs, validation and versions</a><a href="#3-raw-observed-signals">3. Raw observed signals</a><a href="#4-proxy-the-static-nearest-exit-demand">4. Proxy: the static nearest-exit demand</a><a href="#5-determinism-and-serialisation">5. Determinism and serialisation</a><a href="#6-tested-queue-and-throughput-invariants">6. Tested queue and throughput invariants</a><a href="#7-what-emberbench-does-not-model">7. What EMBERBench does not model</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

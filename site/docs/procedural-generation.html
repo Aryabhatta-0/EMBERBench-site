@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="Scenario families and generated environments."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Procedural generation | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/procedural-generation.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" aria-current="page">Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Procedural generation</span></nav><article class="docs-article"><h1 id="procedural-unseen-scenario-generation">Procedural unseen scenario generation</h1>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Module</td>
+<td><code>emberbench.generator</code></td>
+</tr>
+<tr>
+<td>Generator version</td>
+<td><code>1.1.0</code> (<code>GENERATOR_VERSION</code>)</td>
+</tr>
+<tr>
+<td>Config version</td>
+<td><code>1.1</code> (<code>GENERATOR_CONFIG_VERSION</code>); <code>1.0</code> configs are still accepted</td>
+</tr>
+<tr>
+<td>Freeze record version</td>
+<td><code>1.1</code> (<code>GENERATION_MANIFEST_VERSION</code>)</td>
+</tr>
+<tr>
+<td>Family rules</td>
+<td><code>1.0</code> (<code>FAMILY_RULES_VERSION</code>, <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/families.py"><code>emberbench.families</code></a>)</td>
+</tr>
+<tr>
+<td>Scenario schema</td>
+<td><code>1.0</code> (unchanged)</td>
+</tr>
+<tr>
+<td>Suite visibility</td>
+<td><code>generated</code></td>
+</tr>
+</tbody></table></div>
+<p>The public V1 suite is fixed and open, so a model can be tuned to it. Scored
+evaluation also needs scenarios that no model has seen. This module generates
+such scenarios from a public config and an evaluator-private seed, and freezes
+them before any model runs.</p>
+<p>The generator does not change the scenario schema, the simulator, the
+observation or the metrics. A generated scenario is an ordinary V1 scenario
+file.</p>
+<h2 id="1-two-kinds-of-seed">1. Two kinds of seed</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Seed</th>
+<th>Owner</th>
+<th>Selects</th>
+<th>Where it goes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Generator seed</strong></td>
+<td>Evaluator, private until the evaluation is over</td>
+<td>The scenarios: layout, exits, ignitions, people, fire parameters</td>
+<td>Only into <code>generate_suite</code> and <code>verify_regeneration</code>. It is never stored.</td>
+</tr>
+<tr>
+<td><strong>Evaluation seed</strong></td>
+<td>Evaluator, in the evaluation manifest</td>
+<td>The fire trajectory of one episode</td>
+<td><code>build_evaluation_manifest(suite, seeds)</code> and then <code>run_evaluation</code></td>
+</tr>
+</tbody></table></div>
+<p>The two seeds are independent. Use different high-entropy values (for example
+<code>secrets.randbits(256)</code> for the generator seed and <code>secrets.randbits(64)</code> for
+each evaluation seed). The <code>seed</code> field of a generated scenario file is always
+<code>0</code>. It is a development default and <code>run_evaluation</code> always overrides it.</p>
+<h3 id="separate-rng-domain">Separate RNG domain</h3>
+<p>The generator does not use <code>random</code>, the clock, UUIDs, <code>os.urandom</code>, hash order
+or any other ambient entropy. It uses the SplitMix64 generator from
+<code>emberbench.rng</code> on its own streams:</p>
+<pre tabindex="0" aria-label="Code example"><code>state = first 8 bytes of SHA-256(
+    "emberbench/generator/" + GENERATOR_VERSION + "/" + config_hash + "/"
+    + ordinal + "/" + attempt + "/" + generator_seed as 32 big-endian bytes)
+</code></pre>
+<ul>
+<li>The prefix <code>emberbench/generator/</code> never occurs in the simulator labels
+(<code>emberbench/v1/&lt;seed&gt;/&lt;label&gt;</code>). Generation draws and fire draws can never
+share a stream.</li>
+<li>Each scenario (ordinal) and each candidate (attempt) has its own stream. A
+rejected candidate does not shift the draws of any other scenario.</li>
+<li>Integers are drawn by rejection sampling, so there is no modulo bias.
+Shuffles are Fisher-Yates over lists in canonical (row-major) order.</li>
+<li>The generator seed is an integer in <code>[0, 2**256 - 1]</code>.</li>
+</ul>
+<h2 id="2-generate-first-freeze-second-evaluate-third">2. Generate first, freeze second, evaluate third</h2>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">import secrets
+from emberbench import GeneratorConfig, build_evaluation_manifest, freeze_generated_suite, generate_suite, run_evaluation
+
+config = GeneratorConfig.from_json(open("generator-config.json").read())   # public
+generator_seed = secrets.randbits(256)                                      # private, kept by the evaluator
+
+generated = generate_suite(config, generator_seed, batch_id="eval-2026-q4-a")
+frozen = freeze_generated_suite(generated, "/evaluator/private/eval-2026-q4-a")
+
+manifest = build_evaluation_manifest(frozen.suite, evaluation_seeds)        # private seeds too
+for model_id, factory in models.items():
+    run_evaluation(frozen.suite, manifest, model_id, factory, f"/evaluator/results/{model_id}.json")
+</code></pre>
+<p>The rules:</p>
+<ol>
+<li><strong>Generate once.</strong> Never generate a suite per model. Every model gets the
+same frozen suite and the same evaluation manifest. Paired scenario and seed
+fairness (<code>docs/evaluation.md</code>) is unchanged.</li>
+<li><strong>Freeze before any model runs.</strong> <code>freeze_generated_suite</code> writes into a new
+or empty directory and never overwrites. It writes the freeze record last,
+so an interrupted freeze does not load.</li>
+<li><strong>Load verified.</strong> <code>load_generated_suite(directory)</code> checks every file, every
+pinned hash and every proxy, and returns the <code>Suite</code> for evaluation. The
+evaluation manifest then pins the suite hash, which the freeze record also
+pins.</li>
+</ol>
+<h2 id="3-frozen-generated-suite-format">3. Frozen generated-suite format</h2>
+<pre tabindex="0" aria-label="Code example"><code>&lt;directory&gt;/
+  generation.json          freeze record (evaluator-side)
+  suite/
+    manifest.json          normal suite manifest, visibility "generated"
+    gen-0000.json          one V1 scenario file per ordinal
+    gen-0001.json
+    ...
+</code></pre>
+<p><code>suite/</code> is a normal suite: <code>load_suite</code> accepts it unchanged. Its manifest has
+<code>"visibility": "generated"</code> and <code>"seed_role": "development"</code>, and
+<code>suite_id</code> is the batch ID. Each entry has descriptive family labels from fixed
+thresholds (see <code>describe_families</code>). They describe the scenario; they are not
+a difficulty claim. Since generator 1.1.0 the labels are the <strong>structural</strong>
+part of the frozen V1 family rules (<code>structural_tags</code>, family rules 1.0, see
+<a href="generator.html">generator.md</a>). The fire-dependent families
+(<code>threatened_nearest_exit</code>, <code>route_invalidation_replanning</code>) are never
+generator labels: they need a fire trajectory, so the evaluator tags them on
+the selected worlds.</p>
+<p><code>generation.json</code> pins:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>generation_manifest_version</code></td>
+<td><code>1.0</code></td>
+</tr>
+<tr>
+<td><code>generator_version</code></td>
+<td>The code version that made the suite</td>
+</tr>
+<tr>
+<td><code>batch_id</code></td>
+<td>Evaluator-owned label. It must match the ID pattern and must not contain the generator seed (decimal or hex).</td>
+</tr>
+<tr>
+<td><code>config</code>, <code>config_hash</code></td>
+<td>The full public config and its SHA-256</td>
+</tr>
+<tr>
+<td><code>suite_id</code>, <code>suite_version</code>, <code>suite_hash</code></td>
+<td>The suite, pinned by hash</td>
+</tr>
+<tr>
+<td><code>schema_version</code></td>
+<td><code>1.0</code></td>
+</tr>
+<tr>
+<td><code>scenarios[]</code></td>
+<td>Per scenario, in order: <code>ordinal</code>, <code>scenario_id</code>, <code>content_hash</code>, <code>proxies</code></td>
+</tr>
+</tbody></table></div>
+<p>It does <strong>not</strong> hold the generator seed, the candidate or rejection history,
+the attempt numbers or the stream states.</p>
+<p><code>load_generated_suite</code> rejects a frozen suite when:</p>
+<ul>
+<li>a scenario file or the suite manifest changed (<code>SuiteValidationError</code>), or</li>
+<li>the freeze record is malformed, has unknown keys, or its config hash, suite
+hash, ordinals, IDs, content hashes, proxies or family labels do not match
+the suite (<code>GenerationError</code>), or</li>
+<li>a scenario breaks the config's constraints, or the directory has extra
+files (<code>GenerationError</code>).</li>
+</ul>
+<h3 id="neutral-ids">Neutral IDs</h3>
+<ul>
+<li>Scenario IDs are <code>gen-0000</code>, <code>gen-0001</code>, ... They encode only the suite
+position.</li>
+<li>Person IDs are <code>p00</code>, <code>p01</code>, ... and exit IDs are <code>x00</code>, <code>x01</code>, ... The
+numbers follow a random permutation, so an ID says nothing about a position,
+a distance or a solution. This matters because V1 conflicts are resolved by
+lowest ID.</li>
+<li>The description is empty.</li>
+</ul>
+<h2 id="4-reproducibility">4. Reproducibility</h2>
+<p>The output is a pure function of <code>GENERATOR_VERSION</code>, the config, the
+generator seed and the batch ID. With identical inputs:</p>
+<ul>
+<li>every scenario file has the same bytes (LF line endings on every platform),</li>
+<li>the suite order is the same (ordinal order),</li>
+<li>the config hash, suite hash and freeze-record hash are the same.</li>
+</ul>
+<p>The test suite pins golden hashes for a small config and checks them on Linux,
+Windows and macOS, and in interpreters with different <code>PYTHONHASHSEED</code>
+values.</p>
+<p>What changes what:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Scenario hashes</th>
+<th>Suite hash</th>
+<th>Freeze-record hash</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Generator seed</td>
+<td>change</td>
+<td>change</td>
+<td>change</td>
+</tr>
+<tr>
+<td>Any config field</td>
+<td>change</td>
+<td>change</td>
+<td>change (and <code>config_hash</code>)</td>
+</tr>
+<tr>
+<td>Batch ID only</td>
+<td>same</td>
+<td>change</td>
+<td>change</td>
+</tr>
+<tr>
+<td>Order of entries</td>
+<td>rejected on load</td>
+<td>rejected on load</td>
+<td>rejected on load</td>
+</tr>
+</tbody></table></div>
+<p>The suite hash is a commitment to the private seed. After the evaluation the
+evaluator can publish the seed. Anyone can then run
+<code>verify_regeneration(directory, seed)</code>, which regenerates the suite and
+compares every byte. The evaluator can also run it before the evaluation as a
+self-check.</p>
+<h2 id="5-generator-config">5. Generator config</h2>
+<p>All keys are required and unknown keys are rejected. A range is
+<code>{"min": a, "max": b}</code> with <code>a &lt;= b</code>.</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-json">{
+  "config_version": "1.0",
+  "scenario_count": 4,
+  "grid": {"width": 12, "height": 9},
+  "population": {"min": 3, "max": 8},
+  "exit_count": {"min": 1, "max": 3},
+  "ignition_count": {"min": 1, "max": 2},
+  "layout": {
+    "partition_count": {"min": 0, "max": 2},
+    "doors_per_partition": {"min": 1, "max": 2},
+    "door_width": {"min": 1, "max": 2},
+    "scatter_density": {"min": 0.0, "max": 0.1}
+  },
+  "fire": {
+    "model": "stochastic",
+    "spread_interval": {"min": 1, "max": 3},
+    "exits_flammable": true,
+    "spread_probability_choices": [0.25, 0.5, 0.75]
+  },
+  "movement": {"enter_fire": "casualty"},
+  "max_steps": 60,
+  "max_attempts": 200,
+  "constraints": {
+    "route_length": {"min": 1, "max": 60},
+    "obstacle_density": {"min": 0.0, "max": 0.5},
+    "crowd_density": {"min": 0.0, "max": 0.5},
+    "exit_separation": {"min": 4, "max": 21},
+    "passage_width": {"min": 1, "max": 12},
+    "route_redundancy": {"min": 1, "max": 4},
+    "ignition_person_distance": {"min": 2, "max": 108},
+    "ignition_exit_distance": {"min": 3, "max": 108}
+  }
+}
+</code></pre>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>grid</code></td>
+<td>5 to 128 cells per side. The border is wall; exits replace border cells.</td>
+</tr>
+<tr>
+<td><code>population</code>, <code>exit_count</code>, <code>ignition_count</code></td>
+<td>Drawn per scenario from the range.</td>
+</tr>
+<tr>
+<td><code>layout.partition_count</code></td>
+<td>Straight interior walls, vertical or horizontal, at least two cells apart.</td>
+</tr>
+<tr>
+<td><code>layout.doors_per_partition</code>, <code>layout.door_width</code></td>
+<td>Gaps in each partition: the route-redundancy and corridor-width controls.</td>
+</tr>
+<tr>
+<td><code>layout.scatter_density</code></td>
+<td>Share of the remaining free interior cells that become walls, in steps of 1/1000.</td>
+</tr>
+<tr>
+<td><code>fire</code></td>
+<td>V1 fire rules. <code>spread_probability_choices</code> is required for <code>stochastic</code> and forbidden for <code>deterministic</code>.</td>
+</tr>
+<tr>
+<td><code>movement.enter_fire</code></td>
+<td><code>casualty</code> or <code>blocked</code>. Conflict resolution is always <code>lowest_id_wins</code>.</td>
+</tr>
+<tr>
+<td><code>max_steps</code></td>
+<td>The scenario's <code>termination.max_steps</code>.</td>
+</tr>
+<tr>
+<td><code>max_attempts</code></td>
+<td>Candidates per scenario before generation fails.</td>
+</tr>
+<tr>
+<td><code>constraints</code></td>
+<td>Accepted ranges of the measured proxies (section 6).</td>
+</tr>
+</tbody></table></div>
+<p>The default example above was written for tests. It was not fitted or tuned to
+the public suite, and generated scenarios are tested to differ from every
+public scenario.</p>
+<h2 id="6-generation-constraints-and-proxies">6. Generation constraints and proxies</h2>
+<p>Each candidate is built, then measured by <code>measure_proxies(scenario)</code>. The
+values come from the scenario alone, so anyone can re-derive them. They are
+<strong>generation constraints and proxies</strong>, not a universal measure of difficulty.
+"Interior" means every cell that is not on the grid border.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Proxy</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Route existence (always required)</td>
+<td>Every person has a route to an exit that avoids walls and ignition cells, of at most <code>max_steps</code> moves.</td>
+</tr>
+<tr>
+<td><code>route_length</code></td>
+<td>The longest of the people's shortest such routes.</td>
+</tr>
+<tr>
+<td><code>obstacle_density</code></td>
+<td>Interior wall cells / interior cells.</td>
+</tr>
+<tr>
+<td><code>crowd_density</code></td>
+<td>People / free interior cells.</td>
+</tr>
+<tr>
+<td><code>exit_separation</code></td>
+<td>Smallest Manhattan distance between two exits. Not checked with one exit. Always at least 2, so exits never touch.</td>
+</tr>
+<tr>
+<td><code>passage_width</code> (corridor width)</td>
+<td>A cell's width is the shorter of its horizontal and vertical free runs. Each person takes the route whose narrowest cell is widest. The value is the minimum over people: the narrowest passage that some person cannot avoid.</td>
+</tr>
+<tr>
+<td><code>route_redundancy</code></td>
+<td>The minimum over people of the number of vertex-disjoint routes to the exit set on the static map, capped at 4. A value of 1 means one blocked cell can cut a person off from every exit.</td>
+</tr>
+<tr>
+<td><code>ignition_person_distance</code></td>
+<td>Shortest wall-free distance from any ignition to any person.</td>
+</tr>
+<tr>
+<td><code>ignition_exit_distance</code></td>
+<td>Shortest wall-free distance from any ignition to any exit.</td>
+</tr>
+<tr>
+<td><code>min_cut</code></td>
+<td>The maximum number of vertex-disjoint routes from the whole crowd to the exit set (every free cell has capacity 1).</td>
+</tr>
+<tr>
+<td><code>bottleneck_severity</code></td>
+<td><code>population / min_cut</code>: the fewest steps the crowd needs to drain through its narrowest cut (<code>null</code> when <code>min_cut</code> is 0).</td>
+</tr>
+<tr>
+<td><code>max_nearest_exit_load</code></td>
+<td>The most people that share one route-nearest exit.</td>
+</tr>
+<tr>
+<td><code>split_pressure</code></td>
+<td>The busiest route-nearest exit's load / (1 + the median extra route to its people's second-nearest exit). <code>null</code> with one exit.</td>
+</tr>
+<tr>
+<td><code>deceptive_share</code></td>
+<td>Share of people whose Manhattan-nearest exit is a dead end or at least 2 steps longer by route than their route-nearest exit.</td>
+</tr>
+<tr>
+<td><code>exit_gap_median</code></td>
+<td>Median over people of (second - first) route distance to an exit. <code>null</code> with one exit.</td>
+</tr>
+<tr>
+<td><code>detour_ratio</code></td>
+<td>Mean over people of route / Manhattan distance to the route-nearest exit.</td>
+</tr>
+<tr>
+<td><code>ignition_centrality</code></td>
+<td>0 for an ignition at the grid centre, 1 on the border (the most central ignition counts).</td>
+</tr>
+</tbody></table></div>
+<p>The proxies from <code>min_cut</code> on were added in generator 1.1.0. They are the PR #33
+family measurements, so a family rule and a generation constraint read the
+same number.</p>
+<p><strong>Config 1.1 constraints.</strong> A <code>1.1</code> config may also set three optional ranges
+in <code>constraints</code>: <code>split_pressure</code>, <code>deceptive_share</code> and
+<code>bottleneck_severity</code> (floats; the ratios are capped at 1,000,000). A <code>1.0</code>
+config with any of them is rejected. A positive <code>split_pressure</code> or
+<code>deceptive_share</code> minimum needs <code>exit_count.max &gt;= 2</code>. A <code>null</code> proxy meets no
+<code>split_pressure</code> range (it reads as 0) and no <code>bottleneck_severity</code> range.
+They let a recipe aim at one structural family by rejection sampling; they do
+not label difficulty.</p>
+<p>A distance of <code>null</code> (the fire can never reach a person or exit) counts as
+infinite: it meets any minimum and breaks any maximum.</p>
+<p>Exits, ignitions and people are placed constructively: a cell that would break
+the <code>exit_separation</code>, <code>ignition_exit_distance</code> or <code>ignition_person_distance</code>
+minimum is never drawn. Every proxy is then checked on the finished candidate.</p>
+<h3 id="failing-closed">Failing closed</h3>
+<p>The generator never weakens a constraint.</p>
+<ul>
+<li><strong>Before any draw</strong>, <code>GeneratorConfig</code> rejects malformed and impossible
+configs: a range with <code>min &gt; max</code>, more people and ignitions than interior
+cells, a <code>route_length</code> above <code>max_steps</code>, a <code>route_redundancy</code> above 4 or
+above <code>exit_count.max</code> (each border exit has one approach cell), doors that
+do not fit in a partition, more partitions than fit, and bad fire settings.</li>
+<li><strong>During generation</strong>, if no candidate for a scenario passes within
+<code>max_attempts</code>, <code>generate_suite</code> raises <code>GenerationError</code>. The message gives
+the rejection counts per constraint. This is the only place where rejection
+history appears. It is for the evaluator and is never written to disk.</li>
+</ul>
+<h2 id="7-leakage-prevention">7. Leakage prevention</h2>
+<p>A decision model receives only <code>Observation</code> values (<code>docs/v1-fairness-spec.md</code>).
+For generated suites this means:</p>
+<ul>
+<li>The generator seed is never in an observation, a scenario file, the suite
+manifest, the freeze record, an evaluation manifest or a result artifact.
+The tests check this byte by byte.</li>
+<li>The config hash, batch ID, scenario ID, content hash, proxies and family
+labels are evaluator-side. The observation contract does not include them.</li>
+<li>The generator code and config format are public. Knowing them does not
+reveal the scenarios: without the seed, the next suite cannot be predicted.</li>
+<li><strong>Do not publish a scored generator seed</strong> before the evaluation is over.
+This repository and its tests contain only test seeds. Keep the frozen
+directory, like the evaluation seeds, outside the repository and out of
+reach of the models under evaluation.</li>
+<li>Generate a new batch (a new seed and batch ID) for each scored evaluation
+round. A suite whose scenarios were shown to model developers is no longer
+unseen.</li>
+</ul>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="crowd-diagnostics.html"><span>Previous</span>Crowd diagnostics</a><a href="generator.html"><span>Next</span>Generator specification</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/procedural-generation.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-two-kinds-of-seed">1. Two kinds of seed</a><a href="#2-generate-first-freeze-second-evaluate-third">2. Generate first, freeze second, evaluate third</a><a href="#3-frozen-generated-suite-format">3. Frozen generated-suite format</a><a href="#4-reproducibility">4. Reproducibility</a><a href="#5-generator-config">5. Generator config</a><a href="#6-generation-constraints-and-proxies">6. Generation constraints and proxies</a><a href="#7-leakage-prevention">7. Leakage prevention</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

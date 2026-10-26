@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="Intervals, resampling and paired comparisons."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Statistical analysis | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/statistics.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" aria-current="page">Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Statistical analysis</span></nav><article class="docs-article"><h1 id="aggregate-and-paired-statistics-statistics-version-10">Aggregate and paired statistics (statistics version 1.0)</h1>
+<p>This document defines the statistical summaries that EMBERBench computes over
+evaluation results. The code is in
+<a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/statistics.py"><code>src/emberbench/statistics.py</code></a>. The tests are
+in <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/tests/test_statistics.py"><code>tests/test_statistics.py</code></a>.</p>
+<p><strong>There is no EMBER score or global winner in this module.</strong> (The EMBER
+Score is a separate module: see <a href="scoring.html">scoring.md</a>.) This module does not rank
+models, combine metrics or produce a leaderboard. Every number belongs to one
+named metric. Win/loss/tie counts exist per metric only.</p>
+<p>Out of scope here: leaderboards, a composite score, model rankings, provider
+adapters, procedural generation and a CLI.</p>
+<h2 id="1-entry-points">1. Entry points</h2>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">from emberbench import aggregate_result, compare_results, load_evaluation_result, load_suite
+
+suite = load_suite("scenarios/public/v1")
+a = load_evaluation_result("results/model-a.json", suite)
+b = load_evaluation_result("results/model-b.json", suite)
+
+stats_a = aggregate_result(a, suite)             # one model
+paired = compare_results(a, b, suite)            # A - B, per metric
+print(stats_a.digest(), paired.digest())
+</code></pre>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns</th>
+<th>Artifact field <code>artifact</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>aggregate_result(result, suite, *, resamples=2000)</code></td>
+<td><code>AggregateStatistics</code></td>
+<td><code>"aggregate"</code></td>
+</tr>
+<tr>
+<td><code>compare_results(a, b, suite, *, resamples=2000)</code></td>
+<td><code>PairedStatistics</code></td>
+<td><code>"paired"</code></td>
+</tr>
+</tbody></table></div>
+<p>Both artifacts are immutable dataclasses with <code>to_dict()</code>, <code>to_json()</code>
+(canonical JSON) and <code>digest()</code> (SHA-256 of the canonical JSON). They carry
+<code>statistics_version = "1.0"</code>. This version is separate from
+<code>SIMULATOR_VERSION</code>, <code>OBSERVATION_VERSION</code>, <code>SCHEMA_VERSION</code>,
+<code>METRICS_VERSION</code> and the evaluation artifact versions, which this module does
+not change. Bump <code>STATISTICS_VERSION</code> when any statistic, its serialization or
+the bootstrap stream changes.</p>
+<h2 id="2-fail-closed-input">2. Fail-closed input</h2>
+<p>An <code>EvaluationResult</code> in memory is <strong>not trusted as given</strong>. Before any
+episode is used, both functions:</p>
+<ol>
+<li>rebuild the evaluation manifest from its dictionary and require that it is
+equal to the original;</li>
+<li>call <code>verify_manifest(manifest, suite)</code>: the suite ID, version and hash and
+the simulator, observation and metrics versions must match the running code;</li>
+<li>rebuild the <code>EvaluationResult</code>, which repeats its structural checks
+(manifest order, no duplicates, every episode equal to its manifest entry,
+record headers equal to the manifest);</li>
+<li>for every episode: resolve its scenario from the suite by ID <strong>and</strong> content
+hash, recompute <code>EpisodeMetrics</code> from the run record (this authenticates the
+record by simulator replay), and require that the stored metrics equal the
+recomputed metrics exactly (canonical JSON).</li>
+</ol>
+<p>Any failure raises <code>StatisticsInputError</code> (a subclass of <code>EvaluationError</code>).
+Nothing is repaired, skipped or partly summarized.</p>
+<p><code>compare_results</code> first calls <code>pair_results(a, b)</code>. Results from different
+evaluation manifests raise <code>EvaluationError</code> before any replay.</p>
+<h2 id="3-supported-metrics-and-directions">3. Supported metrics and directions</h2>
+<p>Each metric is a per-episode scalar from <code>EpisodeMetrics</code>. The module rebuilds
+it as an exact <code>Fraction</code> from the integer counts in the metrics (see §10) and
+requires that the float of that fraction equals the stored value.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Source field</th>
+<th>Kind</th>
+<th>Direction</th>
+<th>Exact definition (per episode)</th>
+<th>Undefined when</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>evacuated_rate</code></td>
+<td><code>safety.evacuated_rate</code></td>
+<td>outcome</td>
+<td>higher is better</td>
+<td><code>evacuated / population</code></td>
+<td>never</td>
+</tr>
+<tr>
+<td><code>casualty_rate</code></td>
+<td><code>safety.casualty_rate</code></td>
+<td>outcome</td>
+<td>lower is better</td>
+<td><code>casualties / population</code></td>
+<td>never</td>
+</tr>
+<tr>
+<td><code>stranded_rate</code></td>
+<td><code>safety.stranded_rate</code></td>
+<td>outcome</td>
+<td>lower is better</td>
+<td><code>stranded / population</code></td>
+<td>never</td>
+</tr>
+<tr>
+<td><code>terminal_trapped_rate</code></td>
+<td><code>safety.terminal_trapped_rate</code></td>
+<td>outcome</td>
+<td>lower is better</td>
+<td><code>terminal_trapped_count / population</code></td>
+<td>never</td>
+</tr>
+<tr>
+<td><code>mean_person_time_to_safety</code></td>
+<td><code>time.mean_person_time_to_safety</code></td>
+<td>outcome</td>
+<td>lower is better</td>
+<td><code>person_time_to_safety_total / population</code></td>
+<td>never</td>
+</tr>
+<tr>
+<td><code>blocked_rate</code></td>
+<td><code>movement.blocked_rate</code></td>
+<td>behaviour</td>
+<td>lower is better</td>
+<td><code>blocked_moves / movement_attempts</code></td>
+<td>no movement attempts</td>
+</tr>
+<tr>
+<td><code>congestion_block_rate</code></td>
+<td><code>movement.congestion_block_rate</code></td>
+<td>behaviour</td>
+<td>lower is better</td>
+<td><code>congestion_blocks / movement_attempts</code></td>
+<td>no movement attempts</td>
+</tr>
+<tr>
+<td><code>aggregate_path_efficiency</code></td>
+<td><code>path_efficiency.aggregate_path_efficiency</code></td>
+<td>proxy</td>
+<td>higher is better</td>
+<td><code>total_static_lower_bound / total_cells_moved</code></td>
+<td>no measured movement</td>
+</tr>
+<tr>
+<td><code>mean_exposure</code></td>
+<td><code>fire_exposure.mean_exposure</code></td>
+<td>proxy</td>
+<td>lower is better</td>
+<td><code>(Σ_d count_d / d) / active_person_states</code></td>
+<td>never</td>
+</tr>
+<tr>
+<td><code>exits_used</code></td>
+<td><code>exits.exits_used</code></td>
+<td>descriptive</td>
+<td>none</td>
+<td>number of exits with <code>n_e &gt;= 1</code></td>
+<td>never</td>
+</tr>
+<tr>
+<td><code>max_exit_share</code></td>
+<td><code>exits.max_exit_share</code></td>
+<td>descriptive</td>
+<td>none</td>
+<td><code>max_e n_e / E</code></td>
+<td><code>E = 0</code></td>
+</tr>
+<tr>
+<td><code>exit_balance</code></td>
+<td><code>exits.exit_balance</code></td>
+<td>descriptive</td>
+<td>none</td>
+<td>normalized Gini-Simpson index</td>
+<td><code>K = 1</code> or <code>E = 0</code></td>
+</tr>
+</tbody></table></div>
+<p>The per-episode definitions are in <a href="metrics.html">metrics.md</a>. Notes:</p>
+<ul>
+<li><strong>Kinds.</strong> <em>Outcome</em> metrics are terminal safety and time results.
+<em>Behaviour</em> metrics describe observed movement. <em>Proxy</em> metrics approximate a
+quantity that is not measured directly (path optimality, fire danger).
+<em>Descriptive</em> metrics describe the run and are not objectives.</li>
+<li><strong>Directions</strong> are used only to read the sign of a paired difference (§8).
+They do not make a metric an objective by itself.</li>
+<li><code>mean_person_time_to_safety</code> counts every non-evacuee at <code>max_steps</code>
+(censoring), so it mixes speed and safety. Read it with the safety rates.</li>
+<li><code>blocked_rate</code> and <code>congestion_block_rate</code> are lower-is-better per metric,
+but a run can lower them by not moving. Never read them alone.</li>
+<li><strong>Exit metrics have no direction.</strong> Equal exit use is often not optimal (one
+exit can be much closer, or threatened by fire). <code>exit_balance</code> is never an
+objective, and no win/loss/tie count exists for any exit metric.</li>
+</ul>
+<h2 id="4-groups-overall-per-scenario-per-family">4. Groups: overall, per scenario, per family</h2>
+<p>Each artifact holds the same summaries for three kinds of group:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Episodes</th>
+<th>Order</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>overall</code></td>
+<td>every scheduled episode</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>scenarios</code></td>
+<td>every scheduled episode of one scenario</td>
+<td>suite manifest order</td>
+</tr>
+<tr>
+<td><code>families</code></td>
+<td>every scheduled episode of every scenario in the family</td>
+<td><code>ScenarioFamily</code> declaration order</td>
+</tr>
+</tbody></table></div>
+<p>A scenario with several families contributes all of its episodes to <strong>every</strong>
+one of those families. Family views can therefore overlap, and the family
+counts do not add up to the overall counts. A family with no scheduled
+scenario is not listed.</p>
+<p><strong>Overall statistics use the episode observations directly.</strong> They are never an
+average of scenario or family means. With unequal group sizes (for example
+after missing episodes) the two are different, and only the episode-level value
+is reported. Each episode has equal weight; a scenario with more scheduled
+seeds has more weight in <code>overall</code>.</p>
+<h2 id="5-descriptive-statistics">5. Descriptive statistics</h2>
+<p>For one metric in one group, let <code>x_1, …, x_n</code> be the <strong>defined</strong> values of the
+<strong>observed</strong> episodes, and <code>x_(1) &lt;= … &lt;= x_(n)</code> the same values in ascending
+order.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Formula</th>
+<th>Defined when</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>n</code></td>
+<td>number of defined values</td>
+<td>always</td>
+</tr>
+<tr>
+<td><code>mean</code></td>
+<td><code>(Σ_i x_i) / n</code></td>
+<td><code>n &gt;= 1</code></td>
+</tr>
+<tr>
+<td><code>median</code></td>
+<td>the type-7 quantile at <code>p = 1/2</code> (the mean of the two middle values when <code>n</code> is even)</td>
+<td><code>n &gt;= 1</code></td>
+</tr>
+<tr>
+<td><code>variance</code></td>
+<td><strong>sample variance</strong> <code>Σ_i (x_i - mean)² / (n - 1)</code></td>
+<td><code>n &gt;= 2</code></td>
+</tr>
+<tr>
+<td><code>std</code></td>
+<td><code>sqrt(variance)</code></td>
+<td><code>n &gt;= 2</code></td>
+</tr>
+<tr>
+<td><code>min</code>, <code>max</code></td>
+<td><code>x_(1)</code>, <code>x_(n)</code></td>
+<td><code>n &gt;= 1</code></td>
+</tr>
+<tr>
+<td><code>quantiles</code></td>
+<td>type-7 quantiles at <code>p25, p50, p75, p90, p95</code></td>
+<td><code>n &gt;= 1</code></td>
+</tr>
+</tbody></table></div>
+<p>An undefined statistic is <code>null</code> (<code>None</code>). It is never <code>0</code>.</p>
+<h3 id="quantile-rule-hyndman-fan-type-7">Quantile rule (Hyndman-Fan type 7)</h3>
+<p>With 0-based sorted values <code>y[0] &lt;= … &lt;= y[n-1]</code> and a level <code>p</code> in <code>[0, 1]</code>:</p>
+<pre tabindex="0" aria-label="Code example"><code>h = (n - 1) · p
+j = floor(h)
+g = h - j
+Q(p) = y[j] + g · (y[j+1] - y[j])        (Q(p) = y[j] when g = 0)
+</code></pre>
+<p>This is the default of R (<code>type = 7</code>) and of NumPy (<code>method = "linear"</code>). The
+levels are fixed: <code>p25 = 1/4</code>, <code>p50 = 1/2</code>, <code>p75 = 3/4</code>, <code>p90 = 9/10</code>,
+<code>p95 = 19/20</code>. With <code>n = 1</code> every quantile is the single value.</p>
+<p>Example: for <code>1, 2, 3, 4</code> the quantiles are <code>p25 = 1.75</code>, <code>p50 = 2.5</code>,
+<code>p75 = 3.25</code>, <code>p90 = 3.7</code>, <code>p95 = 3.85</code>, and the sample variance is <code>5/3</code>.</p>
+<h2 id="6-robustness-and-completeness-counts">6. Robustness and completeness counts</h2>
+<p>Each aggregate group has a <code>robustness</code> object of raw <strong>episode</strong> counts. There
+are no rates here, so nothing hides the denominators.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Counts episodes …</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>scheduled</code></td>
+<td>in the manifest for this group</td>
+</tr>
+<tr>
+<td><code>observed</code></td>
+<td>with an authenticated result</td>
+</tr>
+<tr>
+<td><code>missing</code></td>
+<td>scheduled, with no result (<code>scheduled - observed</code>)</td>
+</tr>
+<tr>
+<td><code>all_resolved</code></td>
+<td>observed, terminated with <code>all_resolved</code></td>
+</tr>
+<tr>
+<td><code>max_steps</code></td>
+<td>observed, terminated at the step limit</td>
+</tr>
+<tr>
+<td><code>with_casualties</code></td>
+<td>observed, <code>casualties &gt; 0</code></td>
+</tr>
+<tr>
+<td><code>with_stranded</code></td>
+<td>observed, <code>stranded &gt; 0</code></td>
+</tr>
+<tr>
+<td><code>zero_evacuation</code></td>
+<td>observed, <code>evacuated = 0</code></td>
+</tr>
+</tbody></table></div>
+<p><code>all_resolved + max_steps = observed</code>. An episode can count in several of the
+last four rows.</p>
+<h2 id="7-missing-and-undefined-data">7. Missing and undefined data</h2>
+<p>There are two different kinds of absent value. Both are reported; neither is
+imputed.</p>
+<ul>
+<li><strong>Missing episode.</strong> The manifest schedules it but the result has no entry
+for it (for example, an interrupted run). It is <em>missing</em>, not a model
+failure: it is not counted as a casualty, a timeout or zero evacuation. The
+artifact lists every missing episode key (<code>missing_episodes</code>), and every
+group gives <code>missing_indices</code> and <code>robustness.missing</code>.</li>
+<li><strong>Undefined metric.</strong> The episode has a result, but the metric is <code>None</code> for
+it (for example <code>blocked_rate</code> when nobody tried to move). The per-metric
+summary counts it in <code>undefined</code>.</li>
+</ul>
+<p>For each metric summary:</p>
+<pre tabindex="0" aria-label="Code example"><code>scheduled = observed + missing
+n         = observed - undefined
+</code></pre>
+<p>The statistics use the <code>n</code> defined values only. No value is filled in with
+zero, a mean, a worst case or a value from another episode.</p>
+<h2 id="8-paired-comparison">8. Paired comparison</h2>
+<p><code>compare_results(a, b, suite)</code> uses <code>pair_results(a, b)</code> for the exact episode
+join. An episode is <em>paired</em> only when both results contain the same key
+<code>(manifest hash, index, scenario ID, scenario hash, seed)</code>. Unpaired episodes
+are never compared; they are listed in <code>missing_from_a</code> and <code>missing_from_b</code>.</p>
+<p>For one metric in one group, with paired episodes <code>k</code> where the metric is
+defined for <strong>both</strong> A and B:</p>
+<pre tabindex="0" aria-label="Code example"><code>delta_k = value_A(k) - value_B(k)        (always A - B)
+</code></pre>
+<p>Each <code>PairedMetricComparison</code> reports:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>paired</code></td>
+<td>paired episodes in the group</td>
+</tr>
+<tr>
+<td><code>missing_from_a</code>, <code>missing_from_b</code></td>
+<td>scheduled episodes in the group that A or B does not have</td>
+</tr>
+<tr>
+<td><code>undefined</code></td>
+<td>paired episodes where the metric is <code>None</code> for A or for B</td>
+</tr>
+<tr>
+<td><code>deltas</code></td>
+<td>every <code>(episode index, delta_k)</code>, in manifest order</td>
+</tr>
+<tr>
+<td><code>statistics</code></td>
+<td>§5 statistics of the deltas: mean, median, std, quantiles, … (<code>n = paired - undefined</code>)</td>
+</tr>
+<tr>
+<td><code>mean_delta_ci</code></td>
+<td>§9 interval for the mean delta</td>
+</tr>
+<tr>
+<td><code>delta_positive</code>, <code>delta_negative</code>, <code>delta_zero</code></td>
+<td>counts of <code>delta &gt; 0</code>, <code>&lt; 0</code>, <code>= 0</code></td>
+</tr>
+<tr>
+<td><code>a_better</code>, <code>b_better</code>, <code>ties</code></td>
+<td>win/loss/tie counts by the metric's direction</td>
+</tr>
+</tbody></table></div>
+<p>Win/loss/tie, <strong>per metric</strong>:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Direction</th>
+<th><code>a_better</code></th>
+<th><code>b_better</code></th>
+<th><code>ties</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>higher is better</td>
+<td><code>delta &gt; 0</code></td>
+<td><code>delta &lt; 0</code></td>
+<td><code>delta = 0</code></td>
+</tr>
+<tr>
+<td>lower is better</td>
+<td><code>delta &lt; 0</code></td>
+<td><code>delta &gt; 0</code></td>
+<td><code>delta = 0</code></td>
+</tr>
+<tr>
+<td>descriptive</td>
+<td><code>null</code></td>
+<td><code>null</code></td>
+<td><code>null</code></td>
+</tr>
+</tbody></table></div>
+<p>There is no count across metrics, no majority vote and no composite. Swapping
+A and B negates every delta and swaps <code>a_better</code> and <code>b_better</code>.</p>
+<h2 id="9-confidence-intervals">9. Confidence intervals</h2>
+<p>Each metric summary has <code>mean_ci</code> (aggregate) or <code>mean_delta_ci</code> (paired): a
+<strong>95 % percentile bootstrap</strong> interval for the mean.</p>
+<ol>
+<li>Let <code>x_1, …, x_n</code> be the defined values (aggregate) or the paired deltas
+(paired). If <code>n &lt; 5</code> the interval is <code>null</code>.</li>
+<li>For each of <code>R</code> resamples, draw <code>n</code> indices uniformly with replacement from
+<code>0 … n-1</code> and take the mean of the selected values. In a paired comparison
+the resampling unit is the paired episode, so A and B stay together in the
+delta.</li>
+<li>Sort the <code>R</code> resample means. The bounds are their type-7 quantiles at
+<code>0.025</code> and <code>0.975</code>.</li>
+</ol>
+<p><code>R</code> is <code>resamples</code>: the default is <strong>2000</strong>; any integer in <code>[100, 1 000 000]</code>
+is accepted. All means are exact fractions; only the bounds become floats.</p>
+<p><strong>Determinism.</strong> The bootstrap never uses <code>random</code>, the time or OS entropy.
+Its stream seed is</p>
+<pre tabindex="0" aria-label="Code example"><code>seed = SHA-256( canonical JSON of {
+    statistics_version, purpose ("aggregate_mean" or "paired_mean_delta"),
+    evaluation_manifest_hash, result_digests, group [kind, name], metric, resamples } )
+</code></pre>
+<p>where each result digest is the SHA-256 of the canonical <code>EvaluationResult</code>
+(the artifact as saved). The 64-bit words come from SHAKE-256 in counter mode:
+block <code>k</code> is <code>SHAKE-256("emberbench/statistics/bootstrap/v1\0" || seed || k)</code>
+(<code>k</code> as 8 big-endian bytes), read as 512 big-endian unsigned 64-bit words. An
+index below <code>n</code> is drawn by rejection sampling (<code>word &lt; 2^64 - 2^64 mod n</code>,
+then <code>word mod n</code>), so there is no modulo bias. The seed is in the output for
+audit. Identical inputs give identical intervals on every platform. Different
+data, labels or manifests give different streams. This stream shares nothing
+with the simulator's SplitMix64 streams.</p>
+<p><strong>Interpretation.</strong> An interval describes the uncertainty of the mean <strong>over
+this evaluation sample</strong> of scenarios and seeds, resampled at the episode
+level. It does not prove that one model is better in general, on other
+scenarios or on other seeds. Episodes of one scenario are not independent of
+each other, and the public suite is small, so treat intervals as descriptive.</p>
+<h2 id="10-exact-arithmetic-and-serialization">10. Exact arithmetic and serialization</h2>
+<ul>
+<li>Per-episode values are exact <code>Fraction</code>s rebuilt from integer counts (for
+<code>mean_exposure</code>, from the fire-distance histogram: <code>Σ count_d / d</code>).</li>
+<li>Means, medians, variances, quantiles, min/max, deltas and bootstrap means
+are exact <code>Fraction</code>s in the dataclasses.</li>
+<li>The <strong>output boundary</strong> is <code>to_dict()</code>: each exact value becomes its
+correctly rounded <code>float</code>. The standard deviation is the one irrational
+value: it is <code>math.sqrt(float(variance))</code>, which IEEE 754 rounds correctly.</li>
+<li>Every list is in manifest, suite or <code>ScenarioFamily</code> order. No result
+depends on <code>dict</code> or <code>set</code> iteration order or on <code>PYTHONHASHSEED</code>.</li>
+<li><code>to_json()</code> is canonical JSON (sorted keys, no whitespace, ASCII, no NaN).
+<code>digest()</code> is its SHA-256. The model ID label, the input result digests and
+<code>resamples</code> are part of the artifact, so a change to any of them changes the
+digest.</li>
+</ul>
+<h2 id="11-artifact-layout">11. Artifact layout</h2>
+<p><code>AggregateStatistics.to_dict()</code>:</p>
+<pre tabindex="0" aria-label="Code example"><code>statistics_version, artifact = "aggregate", model_id,
+evaluation_manifest_hash, suite_id, suite_version, suite_hash,
+simulator_version, observation_version, metrics_version,
+result_digest, scheduled_episodes, observed_episodes, missing_episodes[],
+metric_definitions[], methods{quantiles, variance, std, bootstrap},
+overall{kind, name, episode_indices, missing_indices, robustness, metrics[]},
+scenarios[], families[]
+</code></pre>
+<p>Each <code>metrics[]</code> entry: <code>metric, scheduled, observed, missing, undefined, statistics{n, mean, median, variance, std, min, max, quantiles{p25…p95}}, mean_ci{method, statistic, level, resamples, seed, lower, upper} | null</code>.</p>
+<p><code>PairedStatistics.to_dict()</code> has the same header with <code>model_a</code>, <code>model_b</code>,
+<code>result_digest_a</code>, <code>result_digest_b</code>, <code>delta = "A - B"</code>, <code>paired_count</code>,
+<code>missing_from_a[]</code>, <code>missing_from_b[]</code>, and groups with <code>paired_indices</code>,
+<code>missing_from_a</code>, <code>missing_from_b</code> and the §8 fields per metric.</p>
+<h2 id="12-summary-of-what-each-section-is">12. Summary of what each section is</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Where</th>
+<th>Is it a judgement?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Descriptive statistics</td>
+<td>§5, <code>statistics</code></td>
+<td>no: a summary of observed values</td>
+</tr>
+<tr>
+<td>Robustness counts</td>
+<td>§6, <code>robustness</code></td>
+<td>no: raw episode counts</td>
+</tr>
+<tr>
+<td>Missing / undefined</td>
+<td>§7</td>
+<td>no: completeness accounting</td>
+</tr>
+<tr>
+<td>Paired differences</td>
+<td>§8, <code>deltas</code></td>
+<td>no: signed <code>A - B</code> values</td>
+</tr>
+<tr>
+<td>Per-metric win/loss/tie</td>
+<td>§8</td>
+<td>per metric only, by its direction</td>
+</tr>
+<tr>
+<td>Metrics with no direction</td>
+<td>§3, exit metrics</td>
+<td>never a winner</td>
+</tr>
+<tr>
+<td>Confidence intervals</td>
+<td>§9</td>
+<td>uncertainty over this sample only</td>
+</tr>
+</tbody></table></div>
+<p>There is no EMBER score or global winner in this module.</p>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="baselines.html"><span>Previous</span>Reference agents</a><a href="benchmark-methodology.html"><span>Next</span>Benchmark methodology</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/statistics.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-entry-points">1. Entry points</a><a href="#2-fail-closed-input">2. Fail-closed input</a><a href="#3-supported-metrics-and-directions">3. Supported metrics and directions</a><a href="#4-groups-overall-per-scenario-per-family">4. Groups: overall, per scenario, per family</a><a href="#5-descriptive-statistics">5. Descriptive statistics</a><a href="#6-robustness-and-completeness-counts">6. Robustness and completeness counts</a><a href="#7-missing-and-undefined-data">7. Missing and undefined data</a><a href="#8-paired-comparison">8. Paired comparison</a><a href="#9-confidence-intervals">9. Confidence intervals</a><a href="#10-exact-arithmetic-and-serialization">10. Exact arithmetic and serialization</a><a href="#11-artifact-layout">11. Artifact layout</a><a href="#12-summary-of-what-each-section-is">12. Summary of what each section is</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

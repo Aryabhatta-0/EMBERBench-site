@@ -23,7 +23,7 @@ const audit=async label=>{
 };
 try {
   await go('benchmark.html');
-  check('Entry begins with real AI model chart, expert table is optional',await page.locator('.result-chart').isVisible() && !(await page.locator('#leaderboard').isVisible()) && await page.locator('#kind').inputValue()==='Decision model');
+  check('Entry begins with real AI model charts without comparison tables',await page.locator('.result-chart').isVisible() && await page.locator('main table').count()===0 && await page.locator('#kind').inputValue()==='Decision model');
   check('Leading chart uses official scientific order',await page.locator('[data-inspect]').first().getAttribute('data-inspect')===ai[0].id);
   check('Chart uses fixed 0–100 scale',Math.abs(await page.locator('.chart-fill').first().evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d)-ai[0].score/100)<.00001);
   check('Inspector reports actual outcomes',await page.locator('.result-inspector .people-legend dd').allTextContents().then(v=>v.join('|')===[ai[0].totals.evacuated,ai[0].totals.avoidable_casualties,ai[0].totals.avoidable_stranded].join('|')));
@@ -33,11 +33,10 @@ try {
   await page.locator('[data-inspect]').nth(1).click();
   check('Selecting a row updates evidence at full text opacity',await page.locator('#inspector-title').textContent()===ai[1].name && await page.locator('.result-inspector').evaluate(el=>getComputedStyle(el).opacity==='1'));
   check('Reading choice is shareable',new URL(page.url()).searchParams.get('model')===ai[1].id);
-  await page.locator('#compare-against').selectOption(data.models.find(m=>m.kind==='Reference agent').id);
-  const pair=new URL(await page.locator('.quick-compare a').getAttribute('href'),base).searchParams.get('models').split(',');
-  check('Quick comparison retains both exact model identities',pair[0]===ai[1].id && pair[1]===data.models.find(m=>m.kind==='Reference agent').id);
+  const pair=[ai[1].id,data.models.find(m=>m.kind==='Reference agent').id];
+  check('Comparison tools are absent from results',await page.locator('.quick-compare,#compare-against,#scenario-compare').count()===0);
   await page.reload();await page.locator('#inspector-title').waitFor();
-  check('Reload restores selected model and comparison',await page.locator('#inspector-title').textContent()===ai[1].name && await page.locator('#compare-against').inputValue()===pair[1]);
+  check('Reload restores selected model',await page.locator('#inspector-title').textContent()===ai[1].name);
   await page.getByRole('button',{name:'People',exact:true}).click();
   const people=sortModels(ai,'evacuated','desc');
   check('People lens displays actual counts and sorts for that question',await page.locator('[data-inspect]').first().getAttribute('data-inspect')===people[0].id && await page.locator('.plot-heading').innerText().then(t=>t.includes('people')));
@@ -61,9 +60,7 @@ try {
   await page.locator('[data-inspect]').first().focus();await page.keyboard.press('ArrowDown');
   check('Arrow navigation selects and focuses the next model',await page.locator('#inspector-title').textContent()===ai[1].name && await page.locator('[data-inspect]').nth(1).evaluate(el=>el===document.activeElement));
   check('Keyboard navigation has no entrance animation',await page.locator('.result-inspector').evaluate(el=>el.getAnimations().length===0));
-  await page.getByRole('button',{name:'Data table',exact:true}).click();
-  check('Exact sortable evidence remains available',await page.locator('#leaderboard table').isVisible());
-  await page.getByRole('button',{name:'Visual results',exact:true}).click();
+  check('Results remain chart-only after keyboard selection',await page.locator('main table,[data-display]').count()===0);
   await page.getByRole('link',{name:'Inspect this model',exact:true}).click();await page.locator('.profile-readout').waitFor();
   check('Profile leads with human outcomes and difficult worlds',await page.getByRole('heading',{name:'What happened to the people?',exact:true}).isVisible() && await page.locator('.scenario-score-list li').count()===5);
   check('Technical factors remain available on demand',!(await page.locator('#components').isVisible()));

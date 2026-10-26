@@ -33,14 +33,15 @@ try {
     }
   }
   await go('leaderboard.html?display=table');
-  check('Scores view has focused columns',await page.locator('.focused-table thead th').count() === 6);
+  check('Legacy table URLs open chart-only results',await page.locator('main table').count()===0&&await page.locator('.column-chart').isVisible());
   await page.getByRole('button',{name:'API usage',exact:true}).click();
-  check('API view exposes cost',await page.locator('[data-sort="cost"]').isVisible());
-  check('API view removes safety column',await page.locator('[data-sort="safety"]').count() === 0);
+  check('API view plots cost',await page.locator('#metric').inputValue()==='cost'&&await page.locator('#rank-plot-title').textContent()==='API cost');
+  check('API view retains people and safety charts',await page.locator('.scatter-panel,.outcome-panel').count()===2);
   await page.reload(); await page.locator('.site-footer').waitFor();
   check('Measurement lens survives reload',await page.getByRole('button',{name:'API usage',exact:true}).getAttribute('aria-pressed') === 'true');
-  await page.getByRole('button',{name:'All metrics',exact:true}).click();
-  check('All metrics remain available',await page.locator('[data-sort]').count() === 11);
+  check('All eleven measured metrics remain available to plot',await page.locator('#metric option').count()===11);
+  await page.locator('#metric').selectOption('safety');
+  check('Metric selection updates the ranking chart',await page.locator('#rank-plot-title').textContent()==='Safety');
   await go('compare.html');
   await page.getByRole('tab',{name:'Outcomes',exact:true}).focus(); await page.keyboard.press('ArrowRight');
   check('Comparison keyboard view navigation',await page.getByRole('tab',{name:'Scenarios & worlds',exact:true}).getAttribute('aria-selected') === 'true');

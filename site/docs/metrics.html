@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="Raw outcomes, timing, paths and authenticated measurements."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Episode metrics | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/metrics.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" aria-current="page">Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Episode metrics</span></nav><article class="docs-article"><h1 id="per-episode-metrics-metrics-version-10">Per-episode metrics (metrics version 1.0)</h1>
+<p>This document defines every field returned by
+<code>emberbench.compute_episode_metrics(scenario, record) -&gt; EpisodeMetrics</code>.
+The code is in <code>src/emberbench/metrics.py</code>. The exact-value tests are in
+<code>tests/test_metrics.py</code>.</p>
+<p>The metrics describe <strong>one episode</strong>: one scenario, one seed, one action
+log. Aggregation across seeds or scenarios, robustness statistics and
+leaderboards are out of scope here (see Issue #12).</p>
+<h2 id="1-principles">1. Principles</h2>
+<ol>
+<li><strong>Raw metrics are canonical.</strong> Every field is a count, a step number, a
+cell distance or a ratio of named counts. Each ratio states its
+numerator and denominator.</li>
+<li><strong>No composite score in the metrics.</strong> The metrics have no single score
+and <code>METRICS_VERSION</code> does not change. The EMBER Score is a separate,
+separately versioned layer on top of these metrics: see
+<a href="scoring.html">scoring.md</a> and
+<a href="#11-rules-for-any-future-composite-or-ranking">section 11</a>.</li>
+<li><strong>Safety first.</strong> Speed fields that only cover evacuees always come with
+the counts of people who did not evacuate. The person-time-to-safety
+metric counts every person.</li>
+<li><strong>Proxies are named as proxies.</strong> The fire-exposure and replanning fields
+describe observable events. They do not measure risk or model intent.</li>
+<li><strong>Fail closed.</strong> Inputs that do not belong together, a malformed record,
+or a record that the simulator could not have produced raise
+<code>MetricsInputError</code>. No partial result is returned.</li>
+<li><strong>Exact arithmetic.</strong> Every ratio is computed as an exact
+<code>fractions.Fraction</code> and converted to <code>float</code> once. A value is the
+correctly rounded float of an exact rational, on every platform.</li>
+<li><strong>Pure function.</strong> The scenario and the record are not mutated.
+<code>METRICS_VERSION</code> changes whenever a definition in this document changes.</li>
+</ol>
+<h2 id="2-inputs-and-validation">2. Inputs and validation</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Scenario</code></td>
+<td>population and person IDs, initial positions, walls, grid size, exit IDs and positions, <code>termination.max_steps</code></td>
+</tr>
+<tr>
+<td><code>RunRecord</code> header</td>
+<td>versions, <code>scenario_id</code>, <code>scenario_hash</code>, <code>seed</code></td>
+</tr>
+<tr>
+<td><code>RunRecord.initial_state</code></td>
+<td>snapshot <code>s_0</code> (positions and initial burning cells)</td>
+</tr>
+<tr>
+<td><code>RunRecord.steps[t]</code></td>
+<td>actions, movement outcomes, ignitions, evacuations, casualties and snapshot <code>s_t</code></td>
+</tr>
+<tr>
+<td><code>RunRecord.final_state</code></td>
+<td>terminal status of each person, terminal trapped set, termination reason</td>
+</tr>
+</tbody></table></div>
+<p><code>compute_episode_metrics</code> validates its inputs in three stages, in this
+order. All stages always run; there is no option to skip one. It raises
+<code>MetricsInputError</code> when any check fails.</p>
+<p><strong>Stage 1 and 2: compatibility and structural validation.</strong></p>
+<ul>
+<li><strong>Compatibility.</strong> <code>simulator_version</code> equals <code>SIMULATOR_VERSION</code>,
+<code>observation_version</code> equals <code>OBSERVATION_VERSION</code>, and <code>schema_version</code>
+is supported and equals the scenario's. <code>scenario_id</code> equals the
+scenario's. <code>scenario_hash</code> equals <code>scenario.content_hash()</code>.</li>
+<li><strong>Initial state.</strong> Step 0, every scenario person active at the scenario
+position, burning cells equal to the ignitions, not terminated, and a
+trapped set equal to a recomputation.</li>
+<li><strong>Each step <code>t</code>.</strong> Step numbers are <code>1, 2, ..., T</code>. Actions and movements
+cover exactly the people active in <code>s_{t-1}</code>. Each movement agrees with
+its action, origin and outcome; a <code>moved</code> target is in bounds and not a
+wall; no two people end in one cell. Ignitions are new, non-wall cells,
+and <code>burning(s_t) = burning(s_{t-1}) ∪ ignited_t</code>. Every evacuation and
+casualty event matches one status change (with the correct exit ID and
+casualty cause), resolved people never change, no active person stands on
+a burning cell or a usable exit, and the trapped set equals a
+recomputation.</li>
+<li><strong>Termination.</strong> Only the last snapshot is terminated. Its reason is
+<code>all_resolved</code> when nobody is active, otherwise <code>max_steps</code> when
+<code>T = max_steps</code>. A record with no steps, or one that does not reach
+termination, is rejected: metrics need a complete episode.</li>
+</ul>
+<p>These checks give precise diagnostics and confirm every assumption the
+metrics rely on. On their own they only prove internal consistency.</p>
+<p><strong>Stage 3: simulator replay authentication.</strong> <code>compute_episode_metrics</code>
+then calls <code>verify_record(scenario, record)</code>. It replays the recorded action
+log from the recorded seed and requires a byte-identical record. A
+<code>ReplayMismatchError</code> becomes a <code>MetricsInputError</code> whose message starts
+with <code>record failed simulator replay verification:</code>; the original error is
+kept as <code>__cause__</code>. This stage rejects records that pass every structural
+check but are impossible under the simulator, for example a <code>blocked_wall</code>
+outcome for a move into an open cell, or an ignition that the configured
+fire model and RNG stream would not produce. Callers do not need to call
+<code>verify_record</code> themselves.</p>
+<h2 id="3-notation">3. Notation</h2>
+<ul>
+<li><code>N</code> = population = number of people in the scenario (always <code>&gt;= 1</code>).</li>
+<li><code>T</code> = <code>episode_steps</code> = number of recorded steps.</li>
+<li><code>H</code> = <code>scenario.termination.max_steps</code> (the horizon).</li>
+<li><code>s_0</code> = initial snapshot; <code>s_t</code> = snapshot after step <code>t</code>, for <code>t = 1..T</code>.</li>
+<li><code>A(s)</code> = people with status <code>active</code> in snapshot <code>s</code>.</li>
+<li>A <strong>decision</strong> is one movement record: one active person at one step.
+The number of decisions is <code>D = Σ_{t=1..T} |A(s_{t-1})|</code>.</li>
+<li><code>ratio(a, b)</code> = <code>a / b</code>, or <code>null</code> (<code>None</code>) when <code>b = 0</code>.</li>
+</ul>
+<h2 id="4-safety-safety">4. Safety (<code>safety</code>)</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+<th>Unit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>population</code></td>
+<td><code>N</code></td>
+<td>people</td>
+</tr>
+<tr>
+<td><code>evacuated</code></td>
+<td>people with terminal status <code>evacuated</code></td>
+<td>people</td>
+</tr>
+<tr>
+<td><code>casualties</code></td>
+<td>people with terminal status <code>casualty</code></td>
+<td>people</td>
+</tr>
+<tr>
+<td><code>stranded</code></td>
+<td>people still <code>active</code> at termination</td>
+<td>people</td>
+</tr>
+<tr>
+<td><code>evacuated_rate</code></td>
+<td><code>evacuated / N</code></td>
+<td>fraction</td>
+</tr>
+<tr>
+<td><code>casualty_rate</code></td>
+<td><code>casualties / N</code></td>
+<td>fraction</td>
+</tr>
+<tr>
+<td><code>stranded_rate</code></td>
+<td><code>stranded / N</code></td>
+<td>fraction</td>
+</tr>
+<tr>
+<td><code>terminal_trapped_count</code></td>
+<td>`</td>
+<td>final_state.trapped</td>
+</tr>
+<tr>
+<td><code>terminal_trapped_rate</code></td>
+<td><code>terminal_trapped_count / N</code></td>
+<td>fraction</td>
+</tr>
+<tr>
+<td><code>casualties_by_cause</code></td>
+<td>casualties per <code>CasualtyCause</code> (<code>entered_fire</code>, <code>fire_spread</code>)</td>
+<td>people</td>
+</tr>
+</tbody></table></div>
+<p>Invariants: <code>evacuated + casualties + stranded = N</code> exactly (checked; a
+mismatch raises), and <code>terminal_trapped_count &lt;= stranded</code>. When the episode
+ends with <code>all_resolved</code>, <code>stranded = 0</code> and the trapped set is empty.</p>
+<h2 id="5-time-time">5. Time (<code>time</code>)</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+<th>Unit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>episode_steps</code></td>
+<td><code>T</code></td>
+<td>steps</td>
+</tr>
+<tr>
+<td><code>max_steps</code></td>
+<td><code>H</code> (from the scenario)</td>
+<td>steps</td>
+</tr>
+<tr>
+<td><code>evacuees</code></td>
+<td><code>E</code> = number of evacuated people</td>
+<td>people</td>
+</tr>
+<tr>
+<td><code>non_evacuees</code></td>
+<td><code>N - E</code> (casualties and stranded)</td>
+<td>people</td>
+</tr>
+<tr>
+<td><code>evacuation_steps</code></td>
+<td>for each evacuee, the step <code>t</code> whose <code>evacuations</code> list names it; sorted by person ID</td>
+<td>steps</td>
+</tr>
+<tr>
+<td><code>first_evacuation_step</code></td>
+<td><code>min</code> of <code>evacuation_steps</code>; <code>null</code> if <code>E = 0</code></td>
+<td>step</td>
+</tr>
+<tr>
+<td><code>last_evacuation_step</code></td>
+<td><code>max</code> of <code>evacuation_steps</code>; <code>null</code> if <code>E = 0</code></td>
+<td>step</td>
+</tr>
+<tr>
+<td><code>mean_evacuation_step</code></td>
+<td><code>ratio(Σ evacuation_steps, E)</code></td>
+<td>steps</td>
+</tr>
+<tr>
+<td><code>median_evacuation_step</code></td>
+<td>middle value; for even <code>E</code>, the mean of the two middle values; <code>null</code> if <code>E = 0</code></td>
+<td>steps</td>
+</tr>
+<tr>
+<td><code>person_time_to_safety_total</code></td>
+<td><code>Σ_i τ_i</code> (see below)</td>
+<td>person-steps</td>
+</tr>
+<tr>
+<td><code>mean_person_time_to_safety</code></td>
+<td><code>person_time_to_safety_total / N</code></td>
+<td>steps</td>
+</tr>
+</tbody></table></div>
+<p><strong>Person-time-to-safety.</strong> For each person <code>i</code>:</p>
+<pre tabindex="0" aria-label="Code example"><code>τ_i = evacuation step of i     if i evacuated
+τ_i = H                        otherwise (casualty or stranded)
+</code></pre>
+<p>Non-evacuees are censored at the horizon <code>H</code>. Every evacuation step is
+<code>&lt;= H</code>, so a casualty or a stranded person can never look faster than any
+evacuee. The sum covers all <code>N</code> people, so this metric cannot hide a
+casualty. The censoring value is the scenario horizon, not <code>T</code>: an episode
+that ends early because the last people died does not get a smaller value.</p>
+<p><code>mean_evacuation_step</code> and <code>median_evacuation_step</code> are <strong>evacuee-only</strong>
+statistics. They always come with <code>evacuees</code> and <code>non_evacuees</code>, and a run
+must never be compared on them alone. A run that loses its slowest people
+gets a lower evacuee mean.</p>
+<h2 id="6-movement-and-congestion-movement">6. Movement and congestion (<code>movement</code>)</h2>
+<p>Each decision has exactly one <code>MoveOutcome</code>: <code>stayed</code>, <code>moved</code>, or one of
+the six <code>blocked_*</code> outcomes.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+<th>Denominator</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>decisions</code></td>
+<td><code>D</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>stay_actions</code></td>
+<td>decisions with action <code>stay</code> (outcome <code>stayed</code>)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>movement_attempts</code></td>
+<td><code>D - stay_actions</code> (action is a direction)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>successful_moves</code></td>
+<td>outcome <code>moved</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>blocked_moves</code></td>
+<td>outcome <code>blocked_*</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>blocked_by_outcome</code></td>
+<td>count per blocked outcome: <code>boundary</code>, <code>wall</code>, <code>fire</code>, <code>occupied</code>, <code>conflict</code>, <code>cycle</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>congestion_blocks</code></td>
+<td><code>blocked_occupied + blocked_conflict + blocked_cycle</code> (blocks caused by other people)</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>stay_rate</code></td>
+<td><code>ratio(stay_actions, decisions)</code></td>
+<td>decisions</td>
+</tr>
+<tr>
+<td><code>blocked_rate</code></td>
+<td><code>ratio(blocked_moves, movement_attempts)</code></td>
+<td>movement attempts</td>
+</tr>
+<tr>
+<td><code>congestion_block_rate</code></td>
+<td><code>ratio(congestion_blocks, movement_attempts)</code></td>
+<td>movement attempts</td>
+</tr>
+</tbody></table></div>
+<p>Invariant: <code>successful_moves + blocked_moves = movement_attempts</code> (checked).
+Under <code>enter_fire: casualty</code>, a move into fire is <code>moved</code>; the person then
+becomes a casualty in the same step.</p>
+<h2 id="7-path-efficiency-path_efficiency-and-per-person">7. Path efficiency (<code>path_efficiency</code> and per person)</h2>
+<p>For each person <code>i</code>:</p>
+<ul>
+<li><code>cells_moved_i</code> = number of the person's decisions with outcome <code>moved</code>.
+Each such move changes the cell by exactly one 4-neighbour step.</li>
+<li><code>static_exit_distance_i</code> = <code>L_i</code> = length of the shortest 4-neighbour
+path from the initial cell to <strong>any</strong> exit, through any non-wall cell in
+the grid. It ignores <strong>all</strong> fire (including the initial ignitions) and
+<strong>all</strong> people. It is <code>null</code> when no exit can be reached around the walls.</li>
+</ul>
+<p><code>L_i</code> uses only the scenario geometry. It is a <strong>static lower bound</strong>: it
+is not a dynamically feasible path and <strong>not</strong> an oracle-optimal dynamic
+path. Under spreading fire and congestion, the best achievable path can be
+longer.</p>
+<p>For each <strong>evacuee</strong> (<code>L_i</code> is always defined and <code>&gt;= 1</code>, and
+<code>cells_moved_i &gt;= L_i</code>; a violation raises):</p>
+<pre tabindex="0" aria-label="Code example"><code>path_efficiency_i = L_i / cells_moved_i        in (0, 1]
+detour_ratio_i    = cells_moved_i / L_i        in [1, ∞)
+</code></pre>
+<p>Both are <code>null</code> for casualties and stranded people. Episode aggregates, over
+the <code>M</code> evacuees:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>evacuees_measured</code></td>
+<td><code>M</code></td>
+</tr>
+<tr>
+<td><code>total_cells_moved</code></td>
+<td><code>Σ cells_moved_i</code></td>
+</tr>
+<tr>
+<td><code>total_static_lower_bound</code></td>
+<td><code>Σ L_i</code></td>
+</tr>
+<tr>
+<td><code>aggregate_path_efficiency</code></td>
+<td><code>ratio(Σ L_i, Σ cells_moved_i)</code> (ratio of sums)</td>
+</tr>
+<tr>
+<td><code>mean_path_efficiency</code></td>
+<td><code>ratio(Σ path_efficiency_i, M)</code></td>
+</tr>
+<tr>
+<td><code>mean_detour_ratio</code></td>
+<td><code>ratio(Σ detour_ratio_i, M)</code></td>
+</tr>
+</tbody></table></div>
+<p>Path efficiency measures distance, not time. A blocked or <code>stay</code> step costs
+time but no distance.</p>
+<h2 id="8-fire-exposure-proxy-fire_exposure-and-per-person">8. Fire-exposure proxy (<code>fire_exposure</code> and per person)</h2>
+<p>This is a deterministic <strong>proximity proxy</strong>, not a physical model of heat or
+smoke. It has no tuned constants.</p>
+<p>The person-states are all pairs <code>(t, i)</code> with <code>t = 0..T</code> and <code>i ∈ A(s_t)</code>:
+every active person in every recorded snapshot, including <code>s_0</code> and the
+terminal snapshot. Let <code>B_t = burning(s_t)</code>. For each person-state with
+<code>B_t ≠ ∅</code>:</p>
+<pre tabindex="0" aria-label="Code example"><code>d(t, i) = min_{f ∈ B_t} ( |row_i - row_f| + |col_i - col_f| )
+</code></pre>
+<p>This is the Manhattan distance on the grid. It ignores walls: a wall does
+not shield a person in this proxy. An active person is never on a burning
+cell in a snapshot, so <code>d &gt;= 1</code>. The exposure is:</p>
+<pre tabindex="0" aria-label="Code example"><code>exposure_total = Σ_{(t, i) : B_t ≠ ∅} 1 / d(t, i)
+mean_exposure  = exposure_total / active_person_states
+</code></pre>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>active_person_states</code></td>
+<td>`Σ_{t=0..T}</td>
+</tr>
+<tr>
+<td><code>person_states_with_fire</code></td>
+<td>person-states with <code>B_t ≠ ∅</code></td>
+</tr>
+<tr>
+<td><code>person_states_without_fire</code></td>
+<td>person-states with <code>B_t = ∅</code> (they add 0)</td>
+</tr>
+<tr>
+<td><code>distance_histogram</code></td>
+<td><code>(d, count)</code> for each observed <code>d</code>, sorted by <code>d</code></td>
+</tr>
+<tr>
+<td><code>adjacent_person_states</code></td>
+<td>count with <code>d = 1</code></td>
+</tr>
+<tr>
+<td><code>min_fire_distance</code></td>
+<td>smallest observed <code>d</code>; <code>null</code> if no fire was ever present with someone active</td>
+</tr>
+<tr>
+<td><code>exposure_total</code></td>
+<td>as above (unit: person-states weighted by <code>1/d</code>)</td>
+</tr>
+<tr>
+<td><code>mean_exposure</code></td>
+<td>as above</td>
+</tr>
+</tbody></table></div>
+<p>Per person: <code>min_fire_distance</code> and <code>fire_exposure</code> (the same sum, limited
+to that person's states).</p>
+<p><strong>Recomputing alternatives.</strong> <code>distance_histogram</code> and
+<code>person_states_without_fire</code> are the raw components. Any proxy of the form
+<code>Σ g(d)</code> can be recomputed from them, for example a threshold count
+(<code>Σ_{d &lt;= k} count</code>) or another decay. <code>exposure_total</code> equals
+<code>Σ count / d</code> over the histogram.</p>
+<p><strong>Limitation.</strong> People who leave the grid stop accumulating exposure. A
+casualty therefore can have a low exposure. Always read the proxy together
+with the safety counts.</p>
+<h2 id="9-exit-utilization-exits">9. Exit utilization (<code>exits</code>)</h2>
+<p>Let <code>n_e</code> be the number of evacuations through exit <code>e</code>, <code>E = Σ n_e</code>, and
+<code>K</code> the number of exits in the scenario.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>exit_count</code></td>
+<td><code>K</code></td>
+</tr>
+<tr>
+<td><code>exits_used</code></td>
+<td>number of exits with <code>n_e &gt;= 1</code></td>
+</tr>
+<tr>
+<td><code>evacuations_per_exit</code></td>
+<td><code>(exit_id, n_e)</code> for every exit, sorted by exit ID (zeros included)</td>
+</tr>
+<tr>
+<td><code>exit_shares</code></td>
+<td><code>(exit_id, n_e / E)</code>; <code>null</code> when <code>E = 0</code></td>
+</tr>
+<tr>
+<td><code>max_exit_share</code></td>
+<td><code>max_e n_e / E</code>; <code>null</code> when <code>E = 0</code></td>
+</tr>
+<tr>
+<td><code>exit_balance</code></td>
+<td>normalized Gini-Simpson index (below); <code>null</code> when <code>K = 1</code> or <code>E = 0</code></td>
+</tr>
+</tbody></table></div>
+<pre tabindex="0" aria-label="Code example"><code>p_e          = n_e / E
+exit_balance = (1 - Σ_e p_e²) / (1 - 1/K)        in [0, 1]
+</code></pre>
+<p><code>exit_balance = 1</code> when every exit has the same share, and <code>0</code> when one
+exit takes every evacuee. <strong>This is descriptive only.</strong> Equal use is often
+not optimal: one exit can be much closer, or threatened by fire. Do not
+reward or penalize a run for its balance.</p>
+<h2 id="10-replanning-and-recovery-proxies-replanning">10. Replanning and recovery proxies (<code>replanning</code>)</h2>
+<p>These fields count observable reactions to a blocked move. They are
+<strong>proxies</strong>. They do not observe model intent, and a model may change its
+action for reasons that have nothing to do with the block.</p>
+<p>A <strong>blocked event</strong> is a decision with a <code>blocked_*</code> outcome. Its <strong>next
+decision</strong> is the same person's decision at the next step. It exists only
+when the person is still active and the episode has not terminated.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>blocked_events</code></td>
+<td>number of blocked events (equals <code>movement.blocked_moves</code>)</td>
+</tr>
+<tr>
+<td><code>blocks_with_next_decision</code></td>
+<td><code>B'</code> = blocked events that have a next decision</td>
+</tr>
+<tr>
+<td><code>blocks_without_next_decision</code></td>
+<td><code>blocked_events - B'</code></td>
+</tr>
+<tr>
+<td><code>moved_after_block</code></td>
+<td>next decision has outcome <code>moved</code> (recovery proxy)</td>
+</tr>
+<tr>
+<td><code>blocked_after_block</code></td>
+<td>next decision is blocked again (repeated-block proxy)</td>
+</tr>
+<tr>
+<td><code>stayed_after_block</code></td>
+<td>next decision is <code>stay</code></td>
+</tr>
+<tr>
+<td><code>action_changed_after_block</code></td>
+<td>next action differs from the blocked action (a change to <code>stay</code> counts)</td>
+</tr>
+<tr>
+<td><code>max_consecutive_blocks</code></td>
+<td>longest run of consecutive blocked decisions by one person</td>
+</tr>
+<tr>
+<td><code>recovery_proxy_rate</code></td>
+<td><code>ratio(moved_after_block, B')</code></td>
+</tr>
+<tr>
+<td><code>repeated_block_proxy_rate</code></td>
+<td><code>ratio(blocked_after_block, B')</code></td>
+</tr>
+<tr>
+<td><code>action_change_proxy_rate</code></td>
+<td><code>ratio(action_changed_after_block, B')</code></td>
+</tr>
+</tbody></table></div>
+<p>Invariant: <code>moved_after_block + blocked_after_block + stayed_after_block = B'</code>.
+Per person: <code>blocked_moves</code> and <code>max_consecutive_blocks</code>.</p>
+<h2 id="11-rules-for-any-future-composite-or-ranking">11. Rules for any future composite or ranking</h2>
+<p>The metrics deliberately have no single score. Any ranking or composite
+score built on them MUST meet the rules below. The EMBER Score
+(<a href="scoring.html">scoring.md</a>, scoring version 1.0) states how it meets each
+rule in its section 13.</p>
+<p>Any ranking or composite score MUST:</p>
+<ol>
+<li>be <strong>versioned</strong>, separately from <code>METRICS_VERSION</code>, and state the exact
+raw fields and formula it uses;</li>
+<li>be <strong>decomposable</strong>: every published composite value must ship with the
+raw metrics it was computed from;</li>
+<li><strong>never let speed buy safety</strong>: a faster run that is materially less safe
+(more casualties or stranded people) must never outrank a safer run
+because of speed alone. Safety outcomes take precedence, for example
+through a lexicographic order with safety first, not a weighted sum in
+which time can offset lives.</li>
+</ol>
+<p>Cross-seed robustness and statistical aggregation are in <a href="statistics.html">statistics.md</a>.</p>
+<h2 id="12-per-person-fields-people">12. Per-person fields (<code>people</code>)</h2>
+<p>One <code>PersonMetrics</code> per scenario person, sorted by person ID:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>person_id</code>, <code>initial_position</code>, <code>final_position</code></td>
+<td>from the scenario and <code>final_state</code></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>terminal status</td>
+</tr>
+<tr>
+<td><code>resolution_step</code></td>
+<td>evacuation or casualty step; <code>null</code> if stranded</td>
+</tr>
+<tr>
+<td><code>exit_id</code></td>
+<td>exit used; <code>null</code> unless evacuated</td>
+</tr>
+<tr>
+<td><code>casualty_cause</code></td>
+<td>cause; <code>null</code> unless a casualty</td>
+</tr>
+<tr>
+<td><code>decisions</code>, <code>stay_actions</code>, <code>cells_moved</code>, <code>blocked_moves</code>, <code>max_consecutive_blocks</code></td>
+<td>section 6 and 10, for this person</td>
+</tr>
+<tr>
+<td><code>time_to_safety</code></td>
+<td><code>τ_i</code> (section 5)</td>
+</tr>
+<tr>
+<td><code>static_exit_distance</code>, <code>path_efficiency</code>, <code>detour_ratio</code></td>
+<td>section 7</td>
+</tr>
+<tr>
+<td><code>min_fire_distance</code>, <code>fire_exposure</code></td>
+<td>section 8</td>
+</tr>
+</tbody></table></div>
+<h2 id="13-edge-cases">13. Edge cases</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Case</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nobody evacuates</td>
+<td>evacuee statistics, path-efficiency ratios, exit shares and balance are <code>null</code>; <code>person_time_to_safety_total = N · H</code></td>
+</tr>
+<tr>
+<td>One exit</td>
+<td><code>exit_balance</code> is <code>null</code></td>
+</tr>
+<tr>
+<td>No fire ever</td>
+<td>every person-state is without fire; <code>exposure_total = 0</code>, <code>min_fire_distance = null</code></td>
+</tr>
+<tr>
+<td>No movement attempts</td>
+<td><code>blocked_rate</code> and <code>congestion_block_rate</code> are <code>null</code></td>
+</tr>
+<tr>
+<td>No blocked event with a next decision</td>
+<td>the three replanning rates are <code>null</code></td>
+</tr>
+<tr>
+<td>Person walled off from every exit</td>
+<td><code>static_exit_distance = null</code>; the person can never evacuate</td>
+</tr>
+<tr>
+<td>Episode ends with <code>all_resolved</code> before <code>H</code></td>
+<td>non-evacuees are still censored at <code>H</code>, not <code>T</code></td>
+</tr>
+<tr>
+<td>Record not terminated, empty, or from another scenario or version</td>
+<td><code>MetricsInputError</code></td>
+</tr>
+<tr>
+<td>Record consistent but not reproduced by a replay</td>
+<td><code>MetricsInputError</code> (<code>record failed simulator replay verification: ...</code>)</td>
+</tr>
+</tbody></table></div>
+<h2 id="14-serialisation">14. Serialisation</h2>
+<p><code>EpisodeMetrics.to_dict()</code> returns plain JSON types. Pairs become objects
+keyed by ID, outcome, cause or distance (as strings). <code>null</code> marks an
+undefined ratio. No value is <code>NaN</code> or infinite, so the result encodes with
+<code>emberbench.canonical.canonical_json</code>.</p>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="scoring.html"><span>Previous</span>EMBER scoring</a><a href="scenario-suite.html"><span>Next</span>Public scenarios</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/metrics.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-principles">1. Principles</a><a href="#2-inputs-and-validation">2. Inputs and validation</a><a href="#3-notation">3. Notation</a><a href="#4-safety-safety">4. Safety (safety)</a><a href="#5-time-time">5. Time (time)</a><a href="#6-movement-and-congestion-movement">6. Movement and congestion (movement)</a><a href="#7-path-efficiency-path_efficiency-and-per-person">7. Path efficiency (path_efficiency and per person)</a><a href="#8-fire-exposure-proxy-fire_exposure-and-per-person">8. Fire-exposure proxy (fire_exposure and per person)</a><a href="#9-exit-utilization-exits">9. Exit utilization (exits)</a><a href="#10-replanning-and-recovery-proxies-replanning">10. Replanning and recovery proxies (replanning)</a><a href="#11-rules-for-any-future-composite-or-ranking">11. Rules for any future composite or ranking</a><a href="#12-per-person-fields-people">12. Per-person fields (people)</a><a href="#13-edge-cases">13. Edge cases</a><a href="#14-serialisation">14. Serialisation</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

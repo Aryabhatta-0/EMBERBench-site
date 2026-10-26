@@ -1,0 +1,142 @@
+{
+  "repository": "Aryabhatta-0/EMBERBench",
+  "revision": "f0ba4774cecae7c3dad83ebaee4f2e3e8e7d41c8",
+  "license": "Apache-2.0",
+  "documents": [
+    {
+      "id": "quickstart",
+      "path": "README.md",
+      "blob": "0dc3bf6a490433e4eed9d9fa71afbfeb8a00cc06"
+    },
+    {
+      "id": "cli",
+      "path": "docs/cli.md",
+      "blob": "b905d4bfc517aec51d6433143e9fcb1d3c040d47"
+    },
+    {
+      "id": "model-interface",
+      "path": "docs/model-interface.md",
+      "blob": "c416178f458453e61ef84f0de5b7617a21767574"
+    },
+    {
+      "id": "scoring",
+      "path": "docs/scoring.md",
+      "blob": "fc93f2693725c58b0538df3ef985c439ff586ce2"
+    },
+    {
+      "id": "metrics",
+      "path": "docs/metrics.md",
+      "blob": "fd0043dde4193e4d1feb258408efa9949de27d03"
+    },
+    {
+      "id": "scenario-suite",
+      "path": "docs/scenario-suite.md",
+      "blob": "5695c1c6675fdf06e96c1f1ad51d962f3cd700c5"
+    },
+    {
+      "id": "evaluation",
+      "path": "docs/evaluation.md",
+      "blob": "328f77d714546b49d86352425272a684ff8900c0"
+    },
+    {
+      "id": "environment-pack",
+      "path": "docs/environment-pack.md",
+      "blob": "572ae9e658e9b1c8e345a99de159924be1ac2001"
+    },
+    {
+      "id": "simulation-contract",
+      "path": "docs/simulation-contract.md",
+      "blob": "6e10e7338ad0c3d474b146b14a9e28f3bea8adf1"
+    },
+    {
+      "id": "v1-fairness-spec",
+      "path": "docs/v1-fairness-spec.md",
+      "blob": "a2009d716ca1116ba64e7cc82fbf2b95a44efd98"
+    },
+    {
+      "id": "integrity",
+      "path": "docs/integrity.md",
+      "blob": "5cf51db7e70f338b2b3d4c0bb0ac1b7ccb9dea41"
+    },
+    {
+      "id": "baselines",
+      "path": "docs/baselines.md",
+      "blob": "8b83b0a7e5b98062d53414ce7610e49a0bc599ec"
+    },
+    {
+      "id": "statistics",
+      "path": "docs/statistics.md",
+      "blob": "a2c5dbbb042f9b351255f19a87a2efd9584fa9bd"
+    },
+    {
+      "id": "benchmark-methodology",
+      "path": "docs/benchmark-methodology.md",
+      "blob": "aab9879f99a481e42ba3498a0866bc3441eded30"
+    },
+    {
+      "id": "crowd-diagnostics",
+      "path": "docs/crowd-diagnostics.md",
+      "blob": "e5b836d2c46aeb4163b0c26781a6904b49da2aa9"
+    },
+    {
+      "id": "procedural-generation",
+      "path": "docs/procedural-generation.md",
+      "blob": "10ee9960407f423ed035ea88eae4bd750251a7b5"
+    },
+    {
+      "id": "generator",
+      "path": "docs/generator.md",
+      "blob": "0cb0044e97e063cc31548ffbd6e8dec1c00927af"
+    },
+    {
+      "id": "evaluation-suite-design",
+      "path": "docs/evaluation-suite-design.md",
+      "blob": "9c832cb105e68b3f4c2982009689dedb1ab9a760"
+    },
+    {
+      "id": "difficulty-calibration",
+      "path": "docs/difficulty-calibration.md",
+      "blob": "b757c611f0c778d9a978dce97209695e29c697cd"
+    },
+    {
+      "id": "scoring-study-results",
+      "path": "docs/scoring-study-results.md",
+      "blob": "97e717475847016bd2d6e9cfebbc58920a154cef"
+    },
+    {
+      "id": "suite-design-results",
+      "path": "docs/suite-design-results.md",
+      "blob": "8ccbe2358a9cdffde5e4b1111bce072eb91d4148"
+    },
+    {
+      "id": "generator-coverage-results",
+      "path": "docs/generator-coverage-results.md",
+      "blob": "029c8c2fd295a202c465bdd2b6965ab6c01a9971"
+    },
+    {
+      "id": "scenario-schema",
+      "path": "docs/scenario-schema.md",
+      "blob": "f367035d26e0b829f89b2f5c1dc6dc8edec4ee2e"
+    },
+    {
+      "id": "versioning",
+      "path": "docs/versioning.md",
+      "blob": "07d0cb9559db6d08080a3f5f43b13dd60bf68b3f"
+    },
+    {
+      "id": "replay-visualization",
+      "path": "docs/replay-visualization.md",
+      "blob": "a9aaf39c999ba8a0618e376e69bad80054a28735"
+    },
+    {
+      "id": "release-checklist",
+      "path": "docs/release-checklist.md",
+      "blob": "f0b2bca9c67290d7993b94d40c8857ef5480be6c"
+    },
+    {
+      "id": "changelog",
+      "path": "docs/changelog.md",
+      "blob": "398812b3e5e587b4dca77f3474ce54fff496d9bd"
+    }
+  ]
+}

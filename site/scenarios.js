@@ -13,7 +13,7 @@ import {
   errorPage,
   REPO,
   scenarioName,
-} from "./common.js?v=20261027-brand-3";
+} from "./common.js?v=20261027-docs-1";
 import { filterModels, finite, worldKey } from "./analytics.js";
 import { heatmap } from "./charts.js";
 
@@ -90,7 +90,7 @@ const metadata = (id) =>
   };
 const scenarioScore = (model, id) => model.scenarios.find((s) => s.name === id);
 const sourceLink = (id) =>
-  `${REPO}/blob/main/docs/scenario-suite.md#${encodeURIComponent(id)}`;
+  `docs/scenario-suite.html#${encodeURIComponent(id)}`;
 
 function numericOrder(a, b, direction = "desc") {
   if (!finite(a) && !finite(b)) return 0;

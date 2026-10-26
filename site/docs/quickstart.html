@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="What EMBERBench measures, installation and a first evaluation."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Overview &amp; setup | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/quickstart.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" aria-current="page">Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" >Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Overview &amp; setup</span></nav><article class="docs-article"><h1 id="emberbench">EMBERBench</h1>
+<p>EMBERBench is a benchmark for <strong>decision-making models on dynamic fire-evacuation tasks</strong>.
+A model controls the people in a 2D grid building. Fire spreads through the building, and
+the model must decide each timestep how every person moves. The benchmark measures how
+well the model's decisions get people out through the exits before the fire reaches them.</p>
+<blockquote>
+<p><strong>Status: V1 release candidate, benchmark revision 2, not yet released
+(package <code>0.1.0</code>).</strong> This repository contains the benchmark contract, the
+deterministic simulation core, the frozen V1 fairness and semantics
+specification, the matched stochastic hazard contract, auditable
+per-episode metrics, crowd coordination diagnostics, the canonical V1
+public scenario suite, paired evaluation on exact scenario + seed
+schedules, deterministic statistics, reference baselines, the procedural
+generator (1.1, ten V1 scenario families) and the suite-composition rules,
+the hidden-test integrity protocol, the <code>emberbench</code> CLI, replay audit and
+visualization, the official EMBER Score and frozen environment packs. The
+public suite is for development and diagnostics; scored V1 evaluation uses
+a held-out generated suite. Wind, delayed ignitions, burn-out, smoke and
+material flammability are deferred to a future benchmark version. LLM
+provider integrations, a UI and human-behaviour models are out of scope.</p>
+</blockquote>
+<h2 id="what-emberbench-measures">What EMBERBench measures</h2>
+<p>The benchmark looks at the quality of sequential decisions under a changing hazard:</p>
+<ul>
+<li>routing people to exits that are reachable and that stay usable,</li>
+<li>avoiding routes that the fire will cut off,</li>
+<li>managing congestion at corridors and exits,</li>
+<li>reacting when the fire makes an exit unusable.</li>
+</ul>
+<p>Per-episode raw metrics (evacuated, casualties, stranded, timing, congestion,
+path efficiency, a fire-exposure proxy, exit use and replanning proxies) are
+computed from the <code>Scenario</code> and the <code>RunRecord</code> with <code>compute_episode_metrics</code>.
+It scores only records that pass structural validation and a full simulator
+replay (<code>verify_record</code>). See <a href="metrics.html">docs/metrics.md</a>. The metrics have no single score: raw metrics
+are canonical, and safety always comes before speed.</p>
+<p>Crowd coordination diagnostics come from <code>compute_crowd_diagnostics</code> on the
+same authenticated inputs: per-step movement and block counts, contested
+cells, a row-major table of congestion hotspots, per-exit throughput and a
+static nearest-exit demand proxy. They observe the frozen V1 crowd rules and
+do not model human behaviour. See <a href="crowd-diagnostics.html">docs/crowd-diagnostics.md</a>.</p>
+<p><code>build_replay_audit</code> turns the same authenticated inputs into a read-only
+replay audit: a step-by-step timeline, per-person paths, per-step fire deltas
+and an optional congestion overlay. Deterministic ASCII frames
+(<code>render_frame</code>) and a portable JSON animation export (<code>export_animation</code>)
+come from that audit. Visualization never affects benchmark results. See
+<a href="replay-visualization.html">docs/replay-visualization.md</a>.</p>
+<p>Five deterministic, non-LLM reference baselines (random legal, nearest-exit
+greedy, static shortest-path, fire-aware shortest-path and congestion-aware
+routing) run through the same model interface as any evaluated model and see
+only the observation. Reference baselines are anchors, not benchmark winners.
+A separate, privileged escape bound gives an evaluator-side upper bound on
+evacuations. See <a href="baselines.html">docs/baselines.md</a>.</p>
+<h2 id="fairness-principle">Fairness principle</h2>
+<p>Every compared model runs on <strong>exactly the same episode</strong>:</p>
+<ul>
+<li>the same scenario: map, obstacles, exits, initial population (with stable
+person IDs), ignition points and hazard configuration,</li>
+<li>the same simulator version and rules,</li>
+<li>the same evaluator seed schedule, and therefore the same exogenous fire process.</li>
+</ul>
+<p>The evaluator seed is for reproducibility and matched evaluation only. <strong>A model
+never receives the seed</strong>, the RNG state, future random draws or hidden scenario
+metadata. A model receives only the model-visible <code>Observation</code>: the current
+step, the static map, the episode rules (fire model and parameters, fire-entry
+policy, conflict rule, step limit), the people, the burning cells and the
+allowed actions. V1 evaluates decisions under known rules; only the
+evaluator randomness is hidden.</p>
+<p>Fire is exogenous in V1: actions do not change it. For the same scenario and
+seed, every model faces the same fire trajectory, so a difference in outcome
+comes from the decisions only. Model outputs are the only thing that differs
+between two matched runs.</p>
+<p>The normative contract is in <a href="v1-fairness-spec.html">docs/v1-fairness-spec.md</a>.</p>
+<h2 id="deterministic-scenario--seed-evaluation">Deterministic scenario + seed evaluation</h2>
+<p>A <strong>(scenario, seed)</strong> pair fully defines a benchmark episode. The seed belongs to
+the evaluator, not to the model:</p>
+<ul>
+<li>All randomness comes from simulator-owned <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/rng.py">SplitMix64</a>
+streams. Each stream is derived from the seed and a subsystem label (for example
+<code>fire</code>). The code does not use <code>random</code>, the clock, UUIDs or any global state.</li>
+<li>Iteration over sets and dicts is always sorted first, so results do not depend on
+<code>PYTHONHASHSEED</code>. A test checks this across processes.</li>
+<li>The same scenario, seed and action sequence produce <strong>byte-identical</strong> canonical
+JSON run records.</li>
+<li><code>verify_record()</code> replays a stored run and rejects any mismatch. It also rejects a
+different scenario hash, a different <code>SIMULATOR_VERSION</code> or a different
+<code>OBSERVATION_VERSION</code>.</li>
+</ul>
+<h3 id="development-scenarios-are-not-the-test-set">Development scenarios are not the test set</h3>
+<p>The scenarios in <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/tests/fixtures/scenarios/"><code>tests/fixtures/scenarios/</code></a> are tiny
+<strong>test fixtures</strong>. They exist to check simulator behaviour. They are <strong>not</strong>
+benchmark scoring scenarios, and they are <strong>not intended to become the final hidden
+test set</strong>. The scored evaluation set must be kept separate from development
+scenarios, so that models cannot be tuned to it.</p>
+<h3 id="canonical-v1-public-suite">Canonical V1 public suite</h3>
+<p><a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/scenarios/public/v1/"><code>scenarios/public/v1/</code></a> holds the fixed, public V1
+diagnostic suite (<code>emberbench-v1-public</code>, suite version <code>1.0.0</code>): ten scenarios
+that cover twelve diagnostic families, from a sparse single-exit room to a
+100-person crowd and a stochastic route invalidation. A manifest pins each
+scenario's content hash. <code>load_suite()</code> verifies the manifest against the files.
+The suite is public by design. It is not the hidden evaluation set, and its
+seeds are development defaults, not evaluator seeds. See
+<a href="scenario-suite.html">docs/scenario-suite.md</a>.</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">from emberbench import load_suite
+
+suite = load_suite("scenarios/public/v1")
+for scenario in suite.scenarios:
+    print(scenario.scenario_id, scenario.content_hash())
+</code></pre>
+<h3 id="procedural-unseen-scenarios">Procedural unseen scenarios</h3>
+<p><code>generate_suite()</code> builds unseen V1 scenarios from a public <code>GeneratorConfig</code>
+and an evaluator-private generator seed, with no ambient entropy. Every
+scenario must meet explicit generation constraints (route existence, passage
+width, route redundancy, densities, exit separation, ignition distances), or
+generation fails. <code>freeze_generated_suite()</code> writes the suite once, before any
+model runs, and <code>load_generated_suite()</code> verifies it and returns a normal
+<code>Suite</code> for <code>build_evaluation_manifest()</code> and <code>run_evaluation()</code>. The seed is
+never stored. See <a href="procedural-generation.html">docs/procedural-generation.md</a>.</p>
+<p><code>emberbench.composition</code> composes the V1 evaluation suite from a generated
+candidate pool on the evaluator side: unique worlds, the frozen calibration
+panel, admission, difficulty band, the ten V1 family rules, deterministic
+family x band x fire-model quotas with targeted top-up, and a private freeze
+record. See <a href="generator.html">docs/generator.md</a>.</p>
+<h3 id="hidden-test-integrity">Hidden-test integrity</h3>
+<p><code>emberbench.integrity</code> defines the held-out protocol: which assets are public
+and which stay with the evaluator, an evaluator workspace outside the
+repository, a provider-neutral <code>SubmissionIdentity</code>, and an immutable
+<code>EvaluationProvenance</code> record that pins the versions, the frozen suite, the
+evaluation manifest hash, the submission and the result digest by SHA-256. It
+holds no seeds and no timestamps. Signatures are optional and external.
+<code>verify_evaluation_provenance()</code> re-derives every pin and fails closed.
+Post-submission generation binds the generator seed to a frozen submission
+roster. <code>emberbench.leakguard</code> keeps held-out material out of the repository,
+the wheel and the sdist. Hashes prove content identity, not authorship. See
+<a href="integrity.html">docs/integrity.md</a>.</p>
+<h2 id="the-ember-score">The EMBER Score</h2>
+<p><code>score_results(trials, pack)</code> gives one failure-sensitive number in
+<code>[0, 100]</code>: <strong>benchmark-performance points under EMBER scoring version 1.0</strong>,
+never a percentage of people evacuated. It is
+<code>100 * Safety * Quality^beta * Severity</code>. Safety multiplies evacuation, a
+casualty factor and a stranding factor over losses attributed person by
+person (a loss is avoidable when that person could have escaped), and is 0
+when half of the savable people are lost. Quality is a weighted geometric
+mean of time, hazard, path and replanning, each relative to a privileged
+optimum of the same episode; time is relative to a capacity bound that
+counts unavoidable queues at exits and doors. Every input is a function of
+the replayed state trajectory, so identical trajectories score identically.
+Congestion (block rate, contested cells, hotspots, exit throughput) is
+reported in every score report but is never a score input: a bottleneck is
+charged by the delay, exposure and losses it causes. An avoidable casualty
+caps an episode below 60; a severe delay (including a severe realized
+bottleneck), exposure, path or replanning failure caps it below 80. Missing, invalid,
+failed and timed-out episodes score 0 and are counted. Episodes are averaged
+by scenario, then by primary family; the report gives a stratified
+bootstrap 95% interval, every component, per-family scores and lower-tail
+statistics. <code>compare_scores</code> gives a paired outcome (<code>a_better</code>,
+<code>b_better</code>, <code>inconclusive</code> or <code>exact_tie</code>), and <code>leaderboard_order</code> breaks
+ties by safety. Every model is scored on the same frozen
+<code>EnvironmentPack</code> (<code>freeze_environment_pack</code>, <code>verify_environment_pack</code>),
+whose digest pins the scenario bytes, the seed schedule, the versions and
+the fire world of every episode. See <a href="scoring.html">docs/scoring.md</a>,
+<a href="environment-pack.html">docs/environment-pack.md</a> and the research and
+sensitivity study in
+<a href="benchmark-methodology.html">docs/benchmark-methodology.md</a>.</p>
+<h2 id="v1-scope">V1 scope</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Area</th>
+<th>V1 behaviour</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>World</td>
+<td>2D grid. Cells: empty, wall/obstacle, exit, fire, person.</td>
+</tr>
+<tr>
+<td>People</td>
+<td>One cell each. Stable unique IDs. One move per step (N/S/E/W/stay). No panic, health, groups or speed differences.</td>
+</tr>
+<tr>
+<td>Collisions</td>
+<td>Deterministic and documented. The lowest ID wins a contested cell. Swaps and rotations are blocked. Following another person in the same step is allowed.</td>
+</tr>
+<tr>
+<td>Exits</td>
+<td>Entering a non-burning exit evacuates the person in the same step. Each exit cell lets one person through per step.</td>
+</tr>
+<tr>
+<td>Fire</td>
+<td>Spreads to 4-neighbours. It never passes through walls. Model: <code>deterministic</code> or seeded <code>stochastic</code>. <code>exits_flammable</code> is explicit in config. No burn-out.</td>
+</tr>
+<tr>
+<td>Casualties</td>
+<td>An active person on a burning cell becomes a casualty. Moving into fire is either <code>blocked</code> or a <code>casualty</code> (config).</td>
+</tr>
+<tr>
+<td>Termination</td>
+<td><code>all_resolved</code> (nobody is active) or <code>max_steps</code>.</td>
+</tr>
+</tbody></table></div>
+<p>The full rules are in <a href="simulation-contract.html">docs/simulation-contract.md</a>. The
+frozen V1 decisions and their rationale are in
+<a href="v1-fairness-spec.html">docs/v1-fairness-spec.md</a>. The scenario file format is in
+<a href="scenario-schema.html">docs/scenario-schema.md</a>.</p>
+<h3 id="deterministic-phase-order-per-timestep">Deterministic phase order (per timestep)</h3>
+<ol>
+<li>Observation (state snapshot before the step)</li>
+<li>Submitted movement actions (validated, exactly one per active person)</li>
+<li>Movement validation (boundary, wall, fire policy)</li>
+<li>Collision and congestion resolution</li>
+<li>Person movement (simultaneous)</li>
+<li>Evacuation through exits</li>
+<li>Fire propagation</li>
+<li>Casualties and trapping updates</li>
+<li>Termination check</li>
+</ol>
+<h3 id="paired-evaluation">Paired evaluation</h3>
+<p>An <code>EvaluationManifest</code> pins an ordered schedule of (scenario, seed) episodes,
+the suite hash and the simulator, observation and metrics versions. Every model
+runs the same manifest, so all models face the same fire (common random
+numbers). <code>run_evaluation()</code> builds a fresh policy per episode, gives it only
+<code>Observation</code> values, saves an authenticated per-model artifact after every
+episode and resumes it after an interruption. <code>pair_results()</code> reports exactly
+which episodes two artifacts can compare. The seeds come from the evaluator;
+this repository does not generate scored seeds. See
+<a href="evaluation.html">docs/evaluation.md</a>.</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">from emberbench import build_evaluation_manifest, load_suite, pair_results, run_evaluation
+
+suite = load_suite("scenarios/public/v1")
+manifest = build_evaluation_manifest(suite, [3, 1, 4])   # development seeds only
+a = run_evaluation(suite, manifest, "model-a", make_policy_a, "model-a.json")
+b = run_evaluation(suite, manifest, "model-b", make_policy_b, "model-b.json")
+print(pair_results(a, b).paired_count)
+</code></pre>
+<h2 id="architecture">Architecture</h2>
+<pre tabindex="0" aria-label="Code example"><code>src/emberbench/
+  scenario.py   versioned scenario schema, strict parsing and validation, content hash
+  grid.py       positions, cell kinds, actions, neighbourhoods
+  rng.py        simulation-owned SplitMix64 streams, seed derivation
+  fire.py       FireModel protocol, deterministic and stochastic spread
+  movement.py   action parsing, movement validation, collision resolution
+  state.py      immutable, evaluator-private SimState snapshots, render()
+  observation.py the versioned model-visible Observation, MapView and RulesView
+  simulator.py  Simulator: runs the 9 phases, run_episode()
+  events.py     StepRecord / RunRecord, the replay and audit log
+  replay.py     replay() and verify_record()
+  metrics.py    compute_episode_metrics(): auditable raw per-episode metrics
+  crowd.py      compute_crowd_diagnostics(): congestion, hotspots, exit load signals
+  baselines.py  fair reference baseline agents and their registry
+  oracle.py     PRIVILEGED evaluator-side escape bound (not a model)
+  suite.py      scenario suite manifests: strict parsing, load_suite() verification
+  evaluation.py evaluation manifests, run_evaluation() with resume, pair_results()
+  integrity.py  held-out protocol: asset classes, submission identity, provenance, verification
+  leakguard.py  path allowlist and leak checks for the repository, wheel and sdist
+  canonical.py  canonical JSON and SHA-256 hashing
+  cli.py        the `emberbench` command line (also `python -m emberbench`)
+  errors.py     explicit exception types
+</code></pre>
+<p>The concepts stay separate. The <strong>scenario</strong> is static input. The <strong>simulator</strong> owns
+the mutable run and produces immutable <strong>state</strong> snapshots. <strong>Fire dynamics</strong> and
+<strong>movement resolution</strong> are pure functions of their inputs (and of the passed RNG
+stream). <strong>Events</strong> record what happened. <strong>Metrics</strong> (<code>metrics.py</code>) use the
+<code>Scenario</code> and the <code>RunRecord</code> together. Some metrics need the static map or the
+configuration from the scenario, so not every metric can come from <code>RunRecord</code> alone.</p>
+<h3 id="minimal-use">Minimal use</h3>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">from emberbench import Simulator, load_scenario
+
+scenario = load_scenario("tests/fixtures/scenarios/one_person_one_exit.json")
+sim = Simulator(scenario)            # or Simulator(scenario, seed=123)
+while not sim.done:
+    obs = sim.observe()              # phase 1: the only thing a model may see
+    sim.step({p.id: "east" for p in obs.active})
+record = sim.record()                # replayable, canonical RunRecord
+print(record.final_state.termination_reason, record.digest())
+</code></pre>
+<h2 id="replay-and-events">Replay and events</h2>
+<p>A <code>RunRecord</code> holds everything needed to replay and audit a run:</p>
+<ul>
+<li><code>simulator_version</code>, <code>observation_version</code>, <code>schema_version</code>, <code>scenario_id</code>,
+<code>scenario_hash</code>, <code>seed</code></li>
+<li><code>initial_state</code></li>
+<li>for each step: the submitted <code>actions</code>, the resolved <code>movements</code> (intent, final
+cell and outcome such as <code>moved</code> or <code>blocked_conflict</code>), the <code>ignited</code> cells,
+the <code>evacuations</code> (person and exit), the <code>casualties</code> (person, cell and cause),
+and the full post-step <code>state</code> (people, burning cells, trapped set, RNG
+position and termination).</li>
+</ul>
+<p>All records serialise to canonical JSON (<code>record.to_json()</code>) and load back with no
+loss (<code>RunRecord.from_json</code>).</p>
+<h2 id="command-line-interface">Command-line interface</h2>
+<p>The package installs an <code>emberbench</code> command (also <code>python -m emberbench</code>). It is a thin,
+deterministic, provider-free front end to the library: no network access, no ambient
+configuration, no generated seeds and no implicit code loading.</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench suite validate scenarios/public/v1
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench evaluation manifest --suite scenarios/public/v1 --seed 0 --seed 1 --seed 2 --out manifest.json
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">emberbench evaluation run --suite scenarios/public/v1 --manifest manifest.json --model-id my-model --agent my_agents:make_agent --agent-path . --out result.json
+</code></pre>
+<p>Every command supports <code>--json</code>, refuses to overwrite files and exits with a stable code.
+See <a href="cli.html">docs/cli.md</a>.</p>
+<h2 id="running-the-tests">Running the tests</h2>
+<p>Requires Python 3.12+ and has no runtime dependencies. The development tools are pinned
+in <code>tools/dev-constraints.txt</code>, the same versions CI uses.</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">python -m pip install -c tools/dev-constraints.txt -e ".[dev]"
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">python -m pytest
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">python -m mypy
+</code></pre>
+<pre tabindex="0" aria-label="Code example"><code class="language-bash">python tools/check_public_assets.py
+</code></pre>
+<p>The suite covers deterministic replay, two independent simulator instances,
+cross-process <code>PYTHONHASHSEED</code> independence, serialisation round trips, walls blocking
+movement and fire, exit behaviour, explicit rejection of invalid scenarios and
+actions, collision rules, termination, ID stability, golden trajectory digests,
+every frozen V1 rule, the observation contract (no seed, RNG state or hidden
+metadata), the fire trajectory invariance across different actions, and the
+canonical public suite (pinned hashes, strict manifest checks and per-scenario
+diagnostic properties), and paired evaluation (manifest hashing, seed privacy,
+fresh policies per episode, identical fire across models, resume and tamper
+rejection, exact pairing), and the stochastic hazard contract (exact ignition
+probability, one draw per frontier edge, matched fire across policies and
+pinned cross-platform golden fire traces), and crowd diagnostics (the frozen
+queue and throughput rules, exact reconciliation with the run record and the
+metrics, hotspots in the public crowd scenarios, 50/100/200-person stress
+runs and golden diagnostic digests).
+Any change to simulator output fails the golden test until you bump
+<code>SIMULATOR_VERSION</code> on purpose.</p>
+<h2 id="versions-and-releases">Versions and releases</h2>
+<p>The package version (<code>emberbench.__version__</code>), the benchmark revision
+(<code>BENCHMARK_REVISION</code>) and the component contract versions are separate; <code>emberbench version --json</code> reports all of them. The rules are in <a href="versioning.html">docs/versioning.md</a>,
+the history in <a href="changelog.html">docs/changelog.md</a> and the release steps, including the
+regression digest registry and <code>tools/check_release.py</code>, in
+<a href="release-checklist.html">docs/release-checklist.md</a>.</p>
+<h2 id="license">License</h2>
+<p>EMBERBench is licensed under the Apache License 2.0 (<code>Apache-2.0</code>); see <a href="SOURCE-LICENSE.txt">LICENSE</a>.
+The license covers the benchmark implementation, the public suite and the protocol in this
+repository. Hidden evaluation suites are never part of this repository
+(<a href="integrity.html">docs/integrity.md</a>).</p>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><span></span><a href="cli.html"><span>Next</span>Command line</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/quickstart.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#what-emberbench-measures">What EMBERBench measures</a><a href="#fairness-principle">Fairness principle</a><a href="#deterministic-scenario--seed-evaluation">Deterministic scenario + seed evaluation</a><a href="#the-ember-score">The EMBER Score</a><a href="#v1-scope">V1 scope</a><a href="#architecture">Architecture</a><a href="#replay-and-events">Replay and events</a><a href="#command-line-interface">Command-line interface</a><a href="#running-the-tests">Running the tests</a><a href="#versions-and-releases">Versions and releases</a><a href="#license">License</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>

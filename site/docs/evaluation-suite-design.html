@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="Suite composition, coverage and hidden evaluation."><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>Evaluation suite design | Anantam</title><link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/docs/evaluation-suite-design.html"><link rel="icon" href="../assets/anantam-logo.png"><link rel="stylesheet" href="../style.css?v=20261027-docs-1"><link rel="stylesheet" href="../anantam.css?v=20261027-docs-1"><link rel="stylesheet" href="../docs.css?v=20261027-docs-1"></head><body data-page="docs" data-root="../"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img src="../assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions">Our work</a><a href="../benchmark.html">EMBERBench</a><a href="../methodology.html">Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub</a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness specification</a><a href="../docs/integrity.html" data-doc-id="integrity" >Integrity &amp; provenance</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a></section><section class="docs-nav-group"><h2>Research & design</h2><a href="../docs/benchmark-methodology.html" data-doc-id="benchmark-methodology" >Benchmark methodology</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/procedural-generation.html" data-doc-id="procedural-generation" >Procedural generation</a><a href="../docs/generator.html" data-doc-id="generator" >Generator specification</a><a href="../docs/evaluation-suite-design.html" data-doc-id="evaluation-suite-design" aria-current="page">Evaluation suite design</a><a href="../docs/difficulty-calibration.html" data-doc-id="difficulty-calibration" >Difficulty calibration</a><a href="../docs/scoring-study-results.html" data-doc-id="scoring-study-results" >Scoring study</a><a href="../docs/suite-design-results.html" data-doc-id="suite-design-results" >Suite design study</a><a href="../docs/generator-coverage-results.html" data-doc-id="generator-coverage-results" >Generator coverage</a></section><section class="docs-nav-group"><h2>Reference</h2><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versioning</a><a href="../docs/replay-visualization.html" data-doc-id="replay-visualization" >Replay audit tools</a><a href="../docs/release-checklist.html" data-doc-id="release-checklist" >Release checklist</a><a href="../docs/changelog.html" data-doc-id="changelog" >Changelog</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Evaluation suite design</span></nav><article class="docs-article"><h1 id="unseen-evaluation-suite-scientific-design-research-v1">Unseen evaluation suite: scientific design (research, V1)</h1>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Status</td>
+<td><strong>Research design. Not merged.</strong> Final for V1 on the official EMBER Score.</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Design of the official V1 unseen (hidden) evaluation suite. No simulator, observation, scenario-format, generator or scoring change.</td>
+</tr>
+<tr>
+<td>Score</td>
+<td>The official EMBER Score (<code>emberbench.scoring</code>, scoring version 1.0). Every number in this document comes from it.</td>
+</tr>
+<tr>
+<td>Companion documents</td>
+<td><a href="difficulty-calibration.html">difficulty-calibration.md</a>, <a href="suite-design-results.html">suite-design-results.md</a></td>
+</tr>
+<tr>
+<td>Library support</td>
+<td><code>environment_world_digest</code>, <code>build_unique_world_manifest</code> (<code>emberbench.worlds</code>)</td>
+</tr>
+<tr>
+<td>Analysis tool</td>
+<td><a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/tools/analyze_suite_design.py"><code>tools/analyze_suite_design.py</code></a> (<code>audit-public</code>, <code>study</code>, <code>gap-probe</code>)</td>
+</tr>
+<tr>
+<td>Tests</td>
+<td><a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/tests/test_suite_design.py"><code>tests/test_suite_design.py</code></a></td>
+</tr>
+</tbody></table></div>
+<p>This document is named "evaluation suite", not "held-out suite", on purpose:
+the leak guard (<code>emberbench.leakguard</code>) rejects any repository path with a
+<code>heldout-</code> component, so that private material cannot be committed by
+accident. The document holds no private scenario, seed or result. Every
+number comes from public development seeds.</p>
+<h2 id="0-summary">0. Summary</h2>
+<ul>
+<li><strong>One design:</strong> 10 primary families x 16 scenarios = <strong>160 scenarios,
+240 unique worlds</strong>. Per family: Easy 2, Moderate 4, Hard 6, Stress 4;
+12 deterministic-fire scenarios (1 world each) and 4 stochastic-fire
+scenarios (3 distinct fire worlds each).</li>
+<li><strong>World identity:</strong> <code>environment_world_digest</code>, a seed-free digest of the
+scenario and its burning trajectory. The public suite is 640 nominal episodes
+but only <strong>73 unique worlds</strong> (88.6% duplicates).</li>
+<li><strong>Difficulty:</strong> bands from the best official score <code>B</code> of a frozen
+four-baseline calibration panel: Easy <code>B &gt;= 80</code>, Moderate <code>[30, 80)</code>, Hard
+<code>[10, 30)</code>, Stress <code>&lt; 10</code>. A capacity filter (<code>M_cap</code>, official
+<code>score_evidence</code>) excludes worlds that are hard only because <code>M*</code> ignores
+exit and cut capacity.</li>
+<li><strong>Model trials:</strong> K = 1 for a verified-deterministic model, K = 3 for every
+other model, on the same frozen worlds: 240 or 720 episodes.</li>
+<li><strong>Precision:</strong> within-suite 95% CI about 7.9 points wide (about +-3.9);
+paired 95% width between adjacent comparators at most 5.8 points; comparator
+pairs more than 1.12 points apart keep their order in at least 95% of
+simulated suites.</li>
+<li><strong>Candidate pool:</strong> about 4,000 candidates (25x the suite) with the current
+recipes plus the probe recipes, then targeted top-up batches for any
+shortfall cell. The earlier "10x" figure is <strong>not</strong> supported: 1,120
+candidates (7x) filled 87.6% of the quotas and never all of them.</li>
+<li><strong>Generator gap:</strong> the generator names 3 primary families. Nine of the ten
+primary families need some generator work (section 6): new proxies or
+constraints for three, fire-dependent evaluator-side tags for two, labels or
+recipes for four. Until then the evaluator assigns families by measured tags.</li>
+</ul>
+<h2 id="1-literature-review">1. Literature review</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Finding</th>
+<th>Implication for EMBERBench</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cobbe, Hesse, Hilton, Schulman. <em>Leveraging Procedural Generation to Benchmark RL</em> (Procgen), ICML 2020, arXiv:1912.01588</td>
+<td>16 procedurally generated environments. Train on a finite level set, test on the full distribution; agents need many thousands of levels to close the generalization gap. Scores are normalized per environment by <code>R_min</code> and <code>R_max</code>.</td>
+<td>A fixed public suite of 10 scenarios is memorizable. Scored evaluation must draw from a procedural distribution that no model saw. Per-world normalization by a privileged reference (EMBER's <code>M*</code>) is the analogue of <code>R_max</code>; <code>random-legal-v1</code> is the analogue of <code>R_min</code>.</td>
+</tr>
+<tr>
+<td>Cobbe, Klimov, Hesse, Kim, Schulman. <em>Quantifying Generalization in RL</em> (CoinRun), ICML 2019, arXiv:1812.02341</td>
+<td>Agents overfit to surprisingly large training-level sets.</td>
+<td>The number of distinct worlds, not the number of episodes, is the unit of evidence.</td>
+</tr>
+<tr>
+<td>Machado et al. <em>Revisiting the Arcade Learning Environment</em>, JAIR 2018, arXiv:1709.06009</td>
+<td>A deterministic environment lets an agent memorize an open-loop action sequence; sticky actions break it. Separate tuning games from reporting games.</td>
+<td>Deterministic worlds are memorizable when public. Repeating a deterministic world with a deterministic policy adds no evidence. Calibration and reporting use different worlds.</td>
+</tr>
+<tr>
+<td>Agarwal et al. <em>Deep RL at the Edge of the Statistical Precipice</em>, NeurIPS 2021, arXiv:2108.13264</td>
+<td>With few runs, point estimates mislead. Use stratified intervals, robust aggregates and the probability of improvement.</td>
+<td>Stratify by family. A stratum with one unit has no variance estimate. Every family needs several independent scenarios.</td>
+</tr>
+<tr>
+<td>Henderson et al. <em>Deep RL that Matters</em>, AAAI 2018, arXiv:1709.06560</td>
+<td>Two groups of 5 seeds of one algorithm can differ significantly.</td>
+<td>Seeds are a variance source to control and freeze, not a free sample-size multiplier.</td>
+</tr>
+<tr>
+<td>Colas, Sigaud, Oudeyer. <em>How Many Random Seeds?</em>, 2018, arXiv:1806.08295</td>
+<td>Power analysis for RL comparisons; small-sample tests are anti-conservative.</td>
+<td>Size the suite from a precision target, with margin, not from cost.</td>
+</tr>
+<tr>
+<td>Bouthillier et al. <em>Accounting for Variance in Machine Learning Benchmarks</em>, MLSys 2021, arXiv:2103.03098</td>
+<td>Data sampling is the largest variance source.</td>
+<td>In EMBER the analogue is <strong>which worlds are drawn</strong>. The study measures suite-sampling variance directly (section 11).</td>
+</tr>
+<tr>
+<td>Miller. <em>Adding Error Bars to Evals</em>, 2024, arXiv:2411.00640</td>
+<td>Clustered standard errors when items are grouped; K resamples per item cut within-item variance to sigma^2/K; paired differences.</td>
+<td>Worlds of one scenario are a cluster. K model trials on the same frozen worlds. Paired comparison on one pack.</td>
+</tr>
+<tr>
+<td>Ray, Achiam, Amodei. <em>Safety Gym</em>, 2019; Ji et al. <em>Safety-Gymnasium</em>, 2023, arXiv:2310.12567</td>
+<td>Difficulty levels by hazard count.</td>
+<td>EMBER needs evidence that its proxies track difficulty. They do not (difficulty-calibration.md, section 3): obstacle density correlates negatively.</td>
+</tr>
+<tr>
+<td>Mattson et al. <em>MLPerf Training</em>, MLSys 2020, arXiv:1910.01500; Reddi et al. <em>MLPerf Inference</em>, ISCA 2020, arXiv:1911.02549</td>
+<td>Run counts from measured variance; frozen rules per round; stated statistical confidence.</td>
+<td>Choose K and worlds per stochastic scenario from measured variance. Freeze rules and suite per round.</td>
+</tr>
+<tr>
+<td>Liang et al. <em>HELM</em>, TMLR 2023, arXiv:2211.09110</td>
+<td>Every model on the same instances; repeated trials for model randomness.</td>
+<td>One frozen pack for all models; model randomness by trials, not by new worlds.</td>
+</tr>
+<tr>
+<td>Recht et al. <em>Do ImageNet Classifiers Generalize to ImageNet?</em>, ICML 2019, arXiv:1902.10811</td>
+<td>A new test set from the same process changes absolute accuracy but mostly keeps the ranking.</td>
+<td>Scores are comparable only inside one suite revision.</td>
+</tr>
+<tr>
+<td>Blum, Hardt. <em>The Ladder</em>, ICML 2015; Dwork et al. <em>The Reusable Holdout</em>, Science 2015</td>
+<td>Repeated adaptive queries overfit a holdout.</td>
+<td>Limit scored submissions per suite; no per-world results while a suite is live.</td>
+</tr>
+<tr>
+<td>Kiela et al. <em>Dynabench</em>, NAACL 2021; Ott et al., Nature Communications 2022</td>
+<td>Static benchmarks saturate.</td>
+<td>Define saturation triggers in advance (section 16).</td>
+</tr>
+<tr>
+<td>Jacovi et al. <em>Stop Uploading Test Data in Plain Text</em>, EMNLP 2023, arXiv:2305.10160</td>
+<td>Public plain-text test data contaminates later models.</td>
+<td>Never publish a live pack. Publish digests only.</td>
+</tr>
+<tr>
+<td>Zhang et al. <em>GSM1k</em>, 2024, arXiv:2405.00332</td>
+<td>Some models drop on a fresh equivalent test set.</td>
+<td>A fresh suite from the same frozen rules is the contamination check (section 15).</td>
+</tr>
+<tr>
+<td>White et al. <em>LiveBench</em>, 2024; Jain et al. <em>LiveCodeBench</em>, 2024</td>
+<td>Dated, refreshed releases limit contamination.</td>
+<td>Each round gets a new suite identity; old suites are retired, not edited.</td>
+</tr>
+<tr>
+<td>Rodriguez et al., ACL 2021; Polo et al. <em>tinyBenchmarks</em>, ICML 2024</td>
+<td>Items differ in difficulty and discrimination.</td>
+<td>Prefer worlds that separate methods (admission rule). EMBER scores are bimodal, so a tiny suite is not enough.</td>
+</tr>
+<tr>
+<td>Dennis et al. <em>PAIRED</em>, NeurIPS 2020, arXiv:2012.02096</td>
+<td>Environment difficulty as regret against a strong reference.</td>
+<td>Band = score kept by the best fair reference heuristic (difficulty-calibration.md).</td>
+</tr>
+<tr>
+<td>Kirk et al. <em>A Survey of Zero-Shot Generalisation in Deep RL</em>, JAIR 2023</td>
+<td>Train and test contexts disjoint and drawn by a stated process.</td>
+<td>Development (public) and evaluation (private) seeds come from disjoint domains.</td>
+</tr>
+<tr>
+<td>Card et al. <em>With Little Power Comes Great Responsibility</em>, EMNLP 2020</td>
+<td>Many test sets are too small for the effects they report.</td>
+<td>State the smallest difference the suite resolves (section 11).</td>
+</tr>
+</tbody></table></div>
+<h2 id="2-audit-of-the-public-v1-suite">2. Audit of the public V1 suite</h2>
+<p>Full tables: <a href="suite-design-results.html#part-a-public-v1-suite-audit">suite-design-results.md, part A</a>.
+Schedule: <code>build_evaluation_manifest</code> with 64 public development seeds.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>nominal scheduled episodes</td>
+<td>640</td>
+</tr>
+<tr>
+<td>unique scenarios</td>
+<td>10</td>
+</tr>
+<tr>
+<td>unique environment worlds</td>
+<td><strong>73</strong></td>
+</tr>
+<tr>
+<td>deterministic-fire worlds</td>
+<td>9 (one per deterministic scenario)</td>
+</tr>
+<tr>
+<td>stochastic-fire worlds</td>
+<td>64 (all from <code>v1-pub-10</code>)</td>
+</tr>
+<tr>
+<td>duplicate episodes</td>
+<td>567 (88.6%)</td>
+</tr>
+<tr>
+<td><code>build_unique_world_manifest</code>, 3 worlds per stochastic scenario</td>
+<td>12 episodes</td>
+</tr>
+<tr>
+<td>worlds per primary family</td>
+<td>1 for nine families; 64 for <code>route_invalidation_replanning</code></td>
+</tr>
+</tbody></table></div>
+<p>Official score of the calibration panel (difficulty-calibration.md):
+pub-01 and pub-04 are saturated (every member at 95 or more); pub-03 and pub-08
+Easy; pub-02 and pub-10 Moderate; pub-06, pub-07 and pub-09 Hard; pub-05
+Stress. <code>random-legal-v1</code> scores 0 on every world. <code>M_cap = M*</code> on every
+world (no capacity artifact).</p>
+<p>The public suite is a good development suite and a poor scored suite: one
+scenario per family (family intervals not estimable), 73 worlds of which 64
+belong to one scenario, two saturated scenarios, small populations (seven of
+ten have 9 people or fewer), and every scenario is public.</p>
+<h2 id="3-world-identity-and-unique-world-scheduling">3. World identity and unique-world scheduling</h2>
+<p>In V1 the episode seed reaches a run only through the simulator's fire stream.
+The fire ignores the agents' actions, and the observation contains no seed or
+RNG state. A policy's view of an episode is therefore fixed by the scenario
+and the burning trajectory:</p>
+<blockquote>
+<p><strong>Environment world</strong> = (simulator version, observation version, scenario
+content hash, burning cells at every snapshot <code>0..H</code>).</p>
+</blockquote>
+<pre tabindex="0" aria-label="Code example"><code class="language-text">environment_world_digest = sha256(canonical_json({
+    environment_world_version: "1.0", simulator_version, observation_version,
+    scenario_hash, burning: [sorted [row, col] per snapshot 0..H]}))
+</code></pre>
+<ul>
+<li>The seed is <strong>not</strong> an input. Two seeds with equal trajectories are one
+world; a deterministic-fire scenario is one world for every seed.</li>
+<li>The model is <strong>not</strong> an input. Tests check that every baseline sees exactly
+the precomputed trajectory.</li>
+<li>PR #32's <code>fire_world_digest</code> is unchanged. It hashes the seed with the
+trajectory and stays the per-episode pack attribute. It is not used for
+deduplication.</li>
+<li><code>build_unique_world_manifest(suite, candidate_seeds, *, stochastic_worlds)</code>
+schedules each deterministic scenario once (the first candidate seed) and
+each stochastic scenario with the first <code>stochastic_worlds</code> candidate seeds
+of pairwise-different worlds. It raises <code>EvaluationError</code> when the
+candidates give fewer worlds. The result is a normal, validated
+<code>EvaluationManifest</code>; it freezes into an <code>EnvironmentPack</code> unchanged. It
+takes no model input. <code>build_evaluation_manifest</code> is unchanged.</li>
+<li>Every count in this document is a count of unique worlds. Seed duplicates
+are never counted as evidence.</li>
+</ul>
+<h2 id="4-families-audit-and-final-list">4. Families: audit and final list</h2>
+<p>Audit criteria (the brief's five): V1-supported (needs only V1 mechanics: grid,
+walls, exits, people, deterministic or stochastic fire), independently
+meaningful (tests a distinct decision capability), non-redundant (tag overlap,
+Jaccard), scoreable (admitted scenarios exist and the panel separates on them),
+generatable (the current generator produces it without hand-authoring). No
+V2 concept (smoke, psychology, floors, communication) is used.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Capability tested</th>
+<th>Tag rule (measured)</th>
+<th>Supported</th>
+<th>Meaningful</th>
+<th>Non-redundant (max Jaccard)</th>
+<th>Scoreable (admitted)</th>
+<th>Generatable now</th>
+<th>Decision</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>single_exit_low_density</code></td>
+<td>Basic evacuation planning: route every person to the only exit before the fire cuts the route. The control family.</td>
+<td>one exit, crowd density &lt; 0.15</td>
+<td>yes</td>
+<td>yes</td>
+<td>0.23</td>
+<td>89</td>
+<td>yes</td>
+<td><strong>primary</strong></td>
+</tr>
+<tr>
+<td><code>single_exit_high_density</code></td>
+<td>Queue management at one exit: order and timing so that the queue drains before the exit burns; conflict-free moves.</td>
+<td>one exit, density &gt;= 0.15</td>
+<td>yes</td>
+<td>yes</td>
+<td>0.07</td>
+<td>59</td>
+<td>yes (28% capacity artifacts)</td>
+<td><strong>primary</strong></td>
+</tr>
+<tr>
+<td><code>narrow_corridor_bottleneck</code></td>
+<td>Sequencing through a width-1 cut without blocked or conflicting moves.</td>
+<td>passage width 1 and <code>N / cut &gt;= 4</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>0.23</td>
+<td>200</td>
+<td>yes</td>
+<td><strong>primary</strong></td>
+</tr>
+<tr>
+<td><code>split_flow_across_exits</code></td>
+<td>Load balancing: assign people to exits by expected queue time, not by distance.</td>
+<td>several exits, split pressure &gt; 1, <code>N &gt;= 20</code></td>
+<td>yes</td>
+<td>yes</td>
+<td><strong>0.87 with <code>crowd_100</code></strong> in the pool</td>
+<td>39</td>
+<td>partly (only at crowd scale)</td>
+<td><strong>primary</strong>; needs a medium-population recipe</td>
+</tr>
+<tr>
+<td><code>crowd_100</code></td>
+<td>Scale: one decision per step for 100 or more people; long observations and action lists.</td>
+<td><code>N &gt;= 100</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>0.87 (see above)</td>
+<td>35</td>
+<td>yes (slow)</td>
+<td><strong>primary</strong></td>
+</tr>
+<tr>
+<td><code>maze_obstacle_routing</code></td>
+<td>Path finding with detours in obstacle-rich layouts.</td>
+<td>obstacle density &gt;= 0.25 or detour ratio &gt;= 1.5</td>
+<td>yes</td>
+<td>yes</td>
+<td>0.24</td>
+<td>97</td>
+<td>yes, but no Moderate band in the default recipe</td>
+<td><strong>primary</strong></td>
+</tr>
+<tr>
+<td><code>deceptive_nearest_exit</code></td>
+<td>Exit choice by true path length, not by straight-line distance.</td>
+<td>share of people whose nearest exit by distance is a dead end or longer by route &gt;= 0.25</td>
+<td>yes</td>
+<td>yes</td>
+<td>0.24</td>
+<td>58</td>
+<td>only by rejection sampling</td>
+<td><strong>primary</strong></td>
+</tr>
+<tr>
+<td><code>threatened_nearest_exit</code></td>
+<td>Fire anticipation: avoid the nearest exit when the fire reaches it first.</td>
+<td>mean threatened share &gt;= 0.2 (evaluator-side, needs the trajectory)</td>
+<td>yes</td>
+<td>yes</td>
+<td>0.30</td>
+<td>61</td>
+<td>only by rejection sampling</td>
+<td><strong>primary</strong></td>
+</tr>
+<tr>
+<td><code>multiple_ignitions</code></td>
+<td>Reasoning about several fire fronts at once.</td>
+<td>2 or more ignitions</td>
+<td>yes</td>
+<td>yes</td>
+<td>0.22</td>
+<td>125</td>
+<td>yes</td>
+<td><strong>primary</strong></td>
+</tr>
+<tr>
+<td><code>route_invalidation_replanning</code></td>
+<td>Replanning when the fire cuts the planned route while another route stays open.</td>
+<td>mean recoverable invalidation share &gt;= 0.2 (evaluator-side)</td>
+<td>yes</td>
+<td>yes</td>
+<td>0.30</td>
+<td>113</td>
+<td>only by rejection sampling</td>
+<td><strong>primary</strong></td>
+</tr>
+<tr>
+<td><code>central_ignition</code></td>
+<td>A fire geometry, not a separate decision capability: its failures are the threatened-exit and invalidation failures.</td>
+<td>ignition centrality &lt;= 0.34</td>
+<td>yes</td>
+<td>weak</td>
+<td>0.22</td>
+<td>89</td>
+<td>no label</td>
+<td>secondary tag</td>
+</tr>
+<tr>
+<td><code>multiple_exits_unequal_distance</code></td>
+<td>A layout property of almost every multi-exit scenario (49.5% of the pool); exit choice is tested by the deceptive, threatened and split-flow families.</td>
+<td>exit-gap median &gt;= 4</td>
+<td>yes</td>
+<td>weak</td>
+<td>0.22</td>
+<td>346</td>
+<td>implicit</td>
+<td>secondary tag</td>
+</tr>
+</tbody></table></div>
+<p><strong>Final list: 10 primary families.</strong> Twelve is not correct for V1: two values
+of <code>ScenarioFamily</code> are scenario attributes, not capabilities. They stay valid
+<code>ScenarioFamily</code> values and secondary tags; no enum changes. <code>crowd_100</code> and
+<code>split_flow_across_exits</code> overlap 0.87 in the development pool only because
+the crowd recipe is the only source of split pressure. The capabilities differ
+(scale against load balancing), so both stay primary, and the gap table asks
+for a medium-population split-flow recipe.</p>
+<p>What fails per family (congestion-aware-v1 on admitted tagged worlds, official
+score, Safety, Quality): the families separate both in Safety (0.33 for route
+invalidation to 0.92 for mazes) and in Quality; severe replanning failures
+range from 2.6% (maze) to 29.8% (threatened exit). Table:
+<a href="suite-design-results.html">suite-design-results.md, part B, section 6</a>.</p>
+<p>Stochastic fire is an orthogonal stratum, not a family.</p>
+<h2 id="5-difficulty">5. Difficulty</h2>
+<p>The full rule and its evidence are in
+<a href="difficulty-calibration.html">difficulty-calibration.md</a>. In short:</p>
+<ul>
+<li>Frozen calibration panel 1.0: <code>nearest-exit-greedy-v1</code>,
+<code>static-shortest-path-v1</code>, <code>fire-aware-shortest-path-v1</code>,
+<code>congestion-aware-v1</code>. <code>random-legal-v1</code> is the floor reference only. The
+privileged reference is a bound only.</li>
+<li><code>B</code> = best panel mean official score over the scenario's worlds. Easy
+<code>B &gt;= 80</code> (best member has no avoidable loss), Moderate <code>[30, 80)</code> (about
+one), Hard <code>[10, 30)</code> (about two), Stress <code>&lt; 10</code> (three or more).</li>
+<li>Admission, in order: not applicable; capacity artifact (mean capacity
+ceiling &lt; 50); saturated (every member &gt;= 95); floor (every member &lt; 1);
+no separation (spread &lt; 1 point, the official practical difference).</li>
+<li>Development pool: 55.7% admitted. Structural proxies do not predict
+difficulty (largest <code>|rho|</code> 0.48, and negative for obstacle density).</li>
+<li>Not circular: no model under evaluation is an input; thresholds are fixed
+numbers with a meaning on the score scale; rank stability is checked with
+two non-panel comparators.</li>
+</ul>
+<h2 id="6-generator-coverage-gap">6. Generator Coverage Gap</h2>
+<p>The current generator (version 1.0.0) produces scenarios from a config
+(grid, population, exits, ignitions, partitions, doors, door width, scatter,
+fire model, spread interval and probability, flammable exits) and accepts or
+rejects them by structural constraints (route length, obstacle density, crowd
+density, exit separation, passage width, route redundancy, ignition-person and
+ignition-exit distance). Its <code>describe_families</code> names only <strong>three primary
+families</strong> (<code>single_exit_low_density</code>, <code>single_exit_high_density</code>,
+<code>split_flow_across_exits</code>; every multi-exit scenario becomes
+<code>split_flow_across_exits</code>) and four secondary labels. It cannot target a
+difficulty band.</p>
+<p>Evidence: the development pool (10 recipes, 1,120 scenarios) and the
+<code>gap-probe</code> command (four config-only recipes, development seeds; results in
+<a href="suite-design-results.html#part-c-generator-coverage-probe">suite-design-results.md, part C</a>).</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Current generator support</th>
+<th>Missing generator capability</th>
+<th>Procedural generation feasible?</th>
+<th>Required engineering work</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>single_exit_low_density</code></td>
+<td>Primary label; any recipe with one exit and few people</td>
+<td>none</td>
+<td>yes (shown)</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>single_exit_high_density</code></td>
+<td>Primary label; <code>dense-single</code> recipe</td>
+<td>A capacity check at generation time: 34 of 120 deterministic and 24 of 40 stochastic dense scenarios are capacity artifacts</td>
+<td>yes (shown; stochastic variant shown by the probe)</td>
+<td>Optional constraint "capacity ceiling &gt;= 50" in the generator, or keep the evaluator-side filter; add a stochastic dense recipe</td>
+</tr>
+<tr>
+<td><code>narrow_corridor_bottleneck</code></td>
+<td>Secondary label; <code>door_width</code> and <code>passage_width</code> controls</td>
+<td>Primary-family assignment</td>
+<td>yes (shown)</td>
+<td>Label only</td>
+</tr>
+<tr>
+<td><code>split_flow_across_exits</code></td>
+<td>Primary label, but given to <strong>every</strong> multi-exit scenario</td>
+<td>A split-pressure proxy and constraint (exit load imbalance at <code>N &gt;= 20</code>); a medium-population multi-exit recipe. In the pool the tag appears almost only at crowd scale</td>
+<td>yes (proxy is structural and seed-free; the probe's crowded-maze recipe gives 5 split-flow scenarios with <code>N &lt; 100</code>)</td>
+<td>New proxy, new constraint, fixed label rule, new recipe (new generator version)</td>
+</tr>
+<tr>
+<td><code>crowd_100</code></td>
+<td>Secondary label; population control</td>
+<td>none (stochastic crowd shown by the probe)</td>
+<td>yes (shown; slow: about 30x the CPU of a small scenario)</td>
+<td>Recipe only</td>
+</tr>
+<tr>
+<td><code>maze_obstacle_routing</code></td>
+<td>Secondary label; partitions and scatter</td>
+<td>The default recipe never gives the Moderate band (0 of 120)</td>
+<td>yes: the probe's crowded maze (more people, faster fire) and stochastic maze recipes give Moderate mazes</td>
+<td>Recipe only</td>
+</tr>
+<tr>
+<td><code>deceptive_nearest_exit</code></td>
+<td>None (no label, proxy or constraint)</td>
+<td>A deceptive-exit proxy (share of people whose nearest exit by distance is not the nearest by route) and a constraint</td>
+<td>yes (structural, seed-free)</td>
+<td>New proxy and constraint; label (new generator version)</td>
+</tr>
+<tr>
+<td><code>threatened_nearest_exit</code></td>
+<td>Indirect: <code>ignition_exit_distance</code> constraint</td>
+<td>A fire-aware tag. It needs the fire trajectory, so for stochastic fire it depends on the evaluation seed</td>
+<td>yes for deterministic fire (rejection on the one trajectory); for stochastic fire only evaluator-side</td>
+<td>Constraint for deterministic fire; keep the evaluator-side tag (this tool's <code>family_tags</code>) for stochastic fire and promote it to a supported API</td>
+</tr>
+<tr>
+<td><code>multiple_ignitions</code></td>
+<td>Secondary label; ignition-count control</td>
+<td>Primary-family assignment</td>
+<td>yes (shown)</td>
+<td>Label only</td>
+</tr>
+<tr>
+<td><code>route_invalidation_replanning</code></td>
+<td>None</td>
+<td>An invalidation tag; it needs the trajectory (same limit as above)</td>
+<td>yes, by evaluator-side rejection sampling (10.1% of the pool qualifies)</td>
+<td>Same as <code>threatened_nearest_exit</code></td>
+</tr>
+<tr>
+<td><code>central_ignition</code> (secondary)</td>
+<td>None</td>
+<td>not needed for V1 strata</td>
+<td>yes</td>
+<td>none for V1</td>
+</tr>
+<tr>
+<td><code>multiple_exits_unequal_distance</code> (secondary)</td>
+<td>Implicit (<code>exit_separation</code>)</td>
+<td>not needed for V1 strata</td>
+<td>yes</td>
+<td>none for V1</td>
+</tr>
+</tbody></table></div>
+<p>Cross-cutting work for the next generator PR:</p>
+<ol>
+<li>A family-assignment rule for all ten primary families (today: three), with
+the thresholds frozen in a generator version.</li>
+<li>Recipes that target cells: a medium-population split-flow recipe, a
+crowded-maze recipe and stochastic variants of the dense, maze and crowd
+recipes. The probe shows that the last three need configuration only.</li>
+<li>Fire-dependent tags (threatened exit, route invalidation) cannot be a
+seed-free generator property for stochastic fire. They stay evaluator-side,
+measured on the selected unique worlds, and the freeze record stores them.</li>
+<li>Difficulty cannot be targeted by the generator. Bands come from the
+evaluator's calibration (section 5) and rejection sampling.</li>
+</ol>
+<p><strong>Until this work lands, the V1 suite is composed by evaluator-side tagging
+and rejection sampling from a large pool</strong> (section 12). This works for every
+cell (shown by the pool and the probe), but it is not yet a supported library
+feature. The design does not claim that the generator alone produces the
+10-family suite.</p>
+<h3 id="61-status-after-phase-11">6.1 Status after Phase 11</h3>
+<p>The four items above are implemented; the table above is kept as the PR #33
+audit. Details: <a href="generator.html">generator.md</a>.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Phase 11 implementation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. Family rule for all ten families</td>
+<td><code>emberbench.families</code> (family rules 1.0, the exact thresholds of section 4). Generator 1.1.0 labels with its structural part (<code>structural_tags</code>); multi-exit alone is no longer split flow.</td>
+</tr>
+<tr>
+<td>2. Recipes that target cells</td>
+<td>Recipe catalog 1.0 (<code>emberbench.composition.V1_RECIPES</code>): the PR #33 recipes and probes, plus medium-population split flow, deceptive exit, narrow corridor, threatened exit, route invalidation, multiple ignitions and open single exit, each deterministic and stochastic. Config 1.1 adds <code>split_pressure</code>, <code>deceptive_share</code> and <code>bottleneck_severity</code> constraints.</td>
+</tr>
+<tr>
+<td>3. Fire-dependent tags</td>
+<td>Evaluator-side: <code>emberbench.calibration.fire_evidence</code> on each selected unique world, frozen in the suite freeze record. Never a generator label.</td>
+</tr>
+<tr>
+<td>4. Difficulty</td>
+<td>Evaluator-side only: <code>emberbench.calibration</code> (panel 1.0, difficulty rules 1.0, admission rules 1.0). The generator never labels a band.</td>
+</tr>
+<tr>
+<td>Pool, selection, top-up, freeze</td>
+<td><code>compose_pool</code>, <code>select_suite</code> (selection rules 1.0), <code>compose_suite</code>, <code>freeze_composed_suite</code>, <code>schedule_composed_worlds</code></td>
+</tr>
+</tbody></table></div>
+<p>The empirical check is section 6.2.</p>
+<h3 id="62-generator-coverage-validation">6.2 Generator coverage validation</h3>
+<p><code>tools/validate_generator_coverage.py</code> runs the library pipeline on a
+<strong>development</strong> pool (public seed labels; never a hidden suite). Full report:
+<a href="generator-coverage-results.html">generator-coverage-results.md</a>.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Side</th>
+<th>Fire-world-dependent</th>
+<th>Private during live evaluation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Proxies, structural family tags, recipes, constraints</td>
+<td>generator</td>
+<td>no</td>
+<td>recipes and rules public; hidden scenarios and generator seeds private</td>
+</tr>
+<tr>
+<td>Threatened-exit and route-invalidation tags</td>
+<td>evaluator</td>
+<td>yes (one trajectory for deterministic fire, mean over the 3 scheduled worlds for stochastic fire)</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Calibration panel scores, <code>M*</code>, <code>M_cap</code>, capacity filter, admission, band</td>
+<td>evaluator</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Selection, top-up, relabeling, <code>suite-freeze.json</code></td>
+<td>evaluator</td>
+<td>uses the frozen worlds</td>
+<td>yes; only <code>public_commitment()</code> is published</td>
+</tr>
+</tbody></table></div>
+<p>Results on 4,000 development candidates (generator 1.1.0, family rules 1.0,
+calibration panel 1.0):</p>
+<ul>
+<li>Admitted 63.0%; eligible (admitted with a primary family) 54.8%. Capacity
+artifacts 5.7%, saturated 18.8%, floor 2.6%, no separation 9.4%.</li>
+<li>All <strong>70 family x band x fire-model cells</strong> and all <strong>40 family x band
+cells</strong> filled in round 0: 160 scenarios, 0 short slots, no top-up round.</li>
+<li>The frozen development suite schedules <strong>240 unique worlds</strong>; every world
+digest equals the calibrated world.</li>
+<li>Rarest cells (eligible / quota): <code>single_exit_low_density</code> Hard
+deterministic 5/4, Stress deterministic 8/3; <code>maze_obstacle_routing</code> Hard
+stochastic 6/2.</li>
+<li>Pool size: a keyed 50% subsample (1,970) leaves 3 slots short; 75% (2,978)
+fills every cell. 4,000 has margin; the top-up rule covers the rest.</li>
+<li>Split flow below 100 people: 344 eligible; 14 of the 16 selected split-flow
+scenarios have 20-56 people.</li>
+<li>Overlap (Jaccard on eligible candidates): <code>crowd_100</code> / split flow 0.38,
+threatened / route invalidation 0.33, maze / deceptive 0.23. Each selected
+scenario has exactly one primary family.</li>
+<li>Runtime on 11 workers: 49 min wall, 8.7 CPU hours (7.9 s per candidate);
+generation 52 s wall. A <code>crowd_100</code> candidate costs 30 s (deterministic) or
+125 s (stochastic, 3 worlds); a small one 1.5 s or 5.1 s.</li>
+</ul>
+<h2 id="7-suite-size">7. Suite size</h2>
+<p>400 simulated suites per size, drawn cell by cell from the 517 admitted
+development units, with the final shares (2/4/6/4 of 16, 25% stochastic, 3
+worlds each). Six comparators: the four panel members and two non-panel
+noisy policies. Widths are in official EMBER points.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Scenarios / family</th>
+<th>Scenarios</th>
+<th>Unique worlds (simulated)</th>
+<th>Max 95% suite-sampling width</th>
+<th>Within-suite CI width (mean)</th>
+<th>Max paired width</th>
+<th>Largest gap reversing in &gt; 5% of suites</th>
+<th>Kendall tau</th>
+<th>Family-mean width</th>
+<th>Decision calls / model run</th>
+<th>Evaluator CPU / run</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10</td>
+<td>100</td>
+<td>124</td>
+<td>6.59</td>
+<td>9.26</td>
+<td>7.02</td>
+<td>1.16</td>
+<td>0.88</td>
+<td>17.40</td>
+<td>3,054</td>
+<td>2.4 min</td>
+</tr>
+<tr>
+<td>12</td>
+<td>120</td>
+<td>158</td>
+<td>6.46</td>
+<td>10.02</td>
+<td>7.20</td>
+<td>2.08</td>
+<td>0.89</td>
+<td>14.49</td>
+<td>3,843</td>
+<td>3.0 min</td>
+</tr>
+<tr>
+<td><strong>16</strong></td>
+<td><strong>160</strong></td>
+<td><strong>210</strong></td>
+<td><strong>5.36</strong></td>
+<td><strong>7.91</strong></td>
+<td><strong>5.74</strong></td>
+<td><strong>1.12</strong></td>
+<td><strong>0.90</strong></td>
+<td><strong>14.20</strong></td>
+<td><strong>5,108</strong></td>
+<td><strong>3.9 min</strong></td>
+</tr>
+<tr>
+<td>20</td>
+<td>200</td>
+<td>264</td>
+<td>4.67</td>
+<td>7.44</td>
+<td>5.47</td>
+<td>1.77</td>
+<td>0.92</td>
+<td>11.48</td>
+<td>6,497</td>
+<td>5.0 min</td>
+</tr>
+<tr>
+<td>24</td>
+<td>240</td>
+<td>316</td>
+<td>4.24</td>
+<td>6.44</td>
+<td>4.85</td>
+<td>1.27</td>
+<td>0.92</td>
+<td>11.06</td>
+<td>7,746</td>
+<td>5.9 min</td>
+</tr>
+</tbody></table></div>
+<p>(Simulated suites have fewer worlds than the design because four families have
+no stochastic candidate in the development pool and fall back to deterministic
+slots; with the probe recipes the design has 24 worlds per family.)</p>
+<p><strong>Decision: 16 per family.</strong></p>
+<ul>
+<li>16 is the smallest size with a paired width of about 6 points or less
+(5.7 to 6.2 in independent simulations; half-width about 3 points) for every
+adjacent comparator pair; 10 and 12 are above 7.</li>
+<li>It gives every family at least 4 scenarios in each of Moderate, Hard and
+Stress and 2 Easy controls, so every family x band cell has more than one
+unit.</li>
+<li>20 per family narrows the widths by about 5% to 13% for 25% more episodes,
+API calls and rare-cell candidates. That is not worth its cost in V1.</li>
+<li>The "largest gap reversing" metric depends on which comparator pairs exist,
+so it is not monotone in size; at 16 every pair more than 1.12 points apart
+kept its order in at least 95% of suites.</li>
+<li>Family coverage: all 10 families x 4 bands at every size from 10.</li>
+</ul>
+<h2 id="8-difficulty-allocation">8. Difficulty allocation</h2>
+<p>Same simulation, 16 per family, different band shares:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Allocation (E/M/H/S)</th>
+<th>nearest-exit</th>
+<th>static</th>
+<th>fire-aware</th>
+<th>congestion</th>
+<th>noisy 0.05</th>
+<th>noisy 0.2</th>
+<th>Scores &lt; 1</th>
+<th>Mean P(paired CI resolves)</th>
+<th>Mean 95% width</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>uniform 4/4/4/4</td>
+<td>7.1</td>
+<td>23.6</td>
+<td>36.5</td>
+<td>38.2</td>
+<td>35.3</td>
+<td>19.1</td>
+<td>20.3%</td>
+<td>0.57</td>
+<td>4.50</td>
+</tr>
+<tr>
+<td>previous 2/4/8/6 (scaled to 2/3/6/5)</td>
+<td>5.0</td>
+<td>15.0</td>
+<td>25.1</td>
+<td>26.9</td>
+<td>25.8</td>
+<td>14.4</td>
+<td>25.2%</td>
+<td>0.70</td>
+<td>3.89</td>
+</tr>
+<tr>
+<td><strong>final 2/4/6/4</strong></td>
+<td><strong>5.6</strong></td>
+<td><strong>16.3</strong></td>
+<td><strong>27.1</strong></td>
+<td><strong>28.9</strong></td>
+<td><strong>28.0</strong></td>
+<td><strong>15.2</strong></td>
+<td><strong>22.4%</strong></td>
+<td><strong>0.68</strong></td>
+<td><strong>3.91</strong></td>
+</tr>
+<tr>
+<td>hard-heavy 1/3/8/4</td>
+<td>4.4</td>
+<td>11.9</td>
+<td>20.9</td>
+<td>23.1</td>
+<td>23.0</td>
+<td>13.2</td>
+<td>23.3%</td>
+<td>0.56</td>
+<td>3.52</td>
+</tr>
+<tr>
+<td>stress-heavy 1/3/4/8</td>
+<td>3.9</td>
+<td>10.5</td>
+<td>18.6</td>
+<td>20.0</td>
+<td>19.1</td>
+<td>10.6</td>
+<td>27.5%</td>
+<td>1.00</td>
+<td>3.22</td>
+</tr>
+<tr>
+<td>no easy 0/6/6/4</td>
+<td>4.4</td>
+<td>10.5</td>
+<td>20.0</td>
+<td>22.0</td>
+<td>21.4</td>
+<td>10.9</td>
+<td>23.3%</td>
+<td>0.70</td>
+<td>3.16</td>
+</tr>
+</tbody></table></div>
+<p>Why 2/4/6/4 is scientifically useful:</p>
+<ul>
+<li><strong>Headroom.</strong> The best V1 comparator scores about 29 points. A strong model
+has 70 points of room before saturation.</li>
+<li><strong>Not a floor suite.</strong> 22.4% of comparator x world scores are below 1
+point, against 27.5% for the stress-heavy mix. Stress worlds give headroom,
+but every Stress world scores about 0 for weak policies and carries no
+information about them.</li>
+<li><strong>Separation.</strong> Moderate and Hard are where the panel spreads most (mean
+spread 36 and 15 points). The final mix has the most Moderate slots of the
+separating mixes. It matches the previous 2/4/8/6 in resolving power with
+fewer floor scores.</li>
+<li><strong>Controls.</strong> Two Easy worlds per family detect basic faults (a model that
+fails an Easy world has a bug, not a weakness). "No easy" removes them for
+no gain.</li>
+<li>The stress-heavy mix resolves every counted pair only because three of its
+five adjacent pairs fall below the 1-point practical difference there and are
+not counted; it is not more precise.</li>
+</ul>
+<h2 id="9-deterministic-and-stochastic-fire">9. Deterministic and stochastic fire</h2>
+<p>Variance components over admitted stochastic units (up to 6 worlds each):
+the world-to-world share of the variance is 24% to 42% depending on the
+comparator. So for a fixed episode budget, more scenarios always beat more
+worlds per scenario (<code>Var = sigma_b^2 / S + sigma_w^2 / (S W)</code>); extra worlds
+are worth their cost only to measure robustness to fire realisations inside a
+scenario.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Stochastic scenarios x worlds (per family)</th>
+<th>Unique worlds</th>
+<th>Max 95% width</th>
+<th>Max paired width</th>
+<th>CVaR10 width</th>
+<th>Fallback slots</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0 x 1</td>
+<td>160</td>
+<td>5.12</td>
+<td>6.19</td>
+<td>0.45</td>
+<td>7.5%</td>
+</tr>
+<tr>
+<td>4 x 1</td>
+<td>160</td>
+<td>5.76</td>
+<td>6.22</td>
+<td>0.40</td>
+<td>16.9%</td>
+</tr>
+<tr>
+<td>4 x 2</td>
+<td>185</td>
+<td>5.65</td>
+<td>6.02</td>
+<td>0.36</td>
+<td>16.9%</td>
+</tr>
+<tr>
+<td><strong>4 x 3</strong></td>
+<td><strong>210</strong></td>
+<td><strong>5.85</strong></td>
+<td><strong>6.19</strong></td>
+<td><strong>0.33</strong></td>
+<td><strong>16.9%</strong></td>
+</tr>
+<tr>
+<td>4 x 5</td>
+<td>260</td>
+<td>5.03</td>
+<td>5.17</td>
+<td>0.32</td>
+<td>16.9%</td>
+</tr>
+<tr>
+<td>8 x 3</td>
+<td>264</td>
+<td>5.08</td>
+<td>5.42</td>
+<td>0.26</td>
+<td>25.0%</td>
+</tr>
+<tr>
+<td>16 x 3</td>
+<td>368</td>
+<td>5.71</td>
+<td>5.38</td>
+<td>0.18</td>
+<td>42.5%</td>
+</tr>
+</tbody></table></div>
+<p>(Simulated, 400 suites each; differences below about 0.5 points are Monte
+Carlo noise.)</p>
+<p><strong>Decision: 12 deterministic + 4 stochastic scenarios per family, 3 unique
+fire worlds per stochastic scenario.</strong></p>
+<ul>
+<li>Precision barely depends on the mix; the decision rests on coverage. Four
+stochastic scenarios per family (25% of scenarios, 50% of worlds) test
+robustness to fire randomness in every family, and 3 worlds give each one a
+within-scenario spread (the lower-tail CVaR10 width falls from 0.40 at 1
+world to 0.33 at 3; 5 worlds add little).</li>
+<li>More stochastic scenarios need stochastic candidates in every family. The
+development pool has none for four families (fallback 17% to 43%); the probe
+shows they need recipes only.</li>
+<li>The previous 14/6 x 3 out of 20 is not kept: at 16 per family, 4 x 3 gives
+the same precision with fewer rare stochastic candidates.</li>
+<li>Worlds come from <code>build_unique_world_manifest</code>: three seeds with pairwise
+different trajectories, never duplicates.</li>
+</ul>
+<h2 id="10-model-trials-k">10. Model trials (K)</h2>
+<p>Model randomness is separate from environment randomness: trials repeat the
+same frozen worlds. Surrogate: congestion-aware-v1 with ε random actions, 10
+trials on 60 admitted worlds; trial noise of the suite mean for 240 worlds.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>ε</th>
+<th>K</th>
+<th>Trial-noise SD of the suite mean (points)</th>
+<th>CI width inflation vs K = infinity</th>
+<th>Width saved vs K = 1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.05</td>
+<td>1</td>
+<td>1.00</td>
+<td>1.073</td>
+<td>—</td>
+</tr>
+<tr>
+<td>0.05</td>
+<td>3</td>
+<td>0.58</td>
+<td>1.025</td>
+<td>4.8%</td>
+</tr>
+<tr>
+<td>0.05</td>
+<td>5</td>
+<td>0.45</td>
+<td>1.015</td>
+<td>5.8%</td>
+</tr>
+<tr>
+<td>0.05</td>
+<td>10</td>
+<td>0.32</td>
+<td>1.008</td>
+<td>6.6%</td>
+</tr>
+<tr>
+<td>0.2</td>
+<td>1</td>
+<td>1.21</td>
+<td>1.146</td>
+<td>—</td>
+</tr>
+<tr>
+<td>0.2</td>
+<td>3</td>
+<td>0.70</td>
+<td>1.051</td>
+<td>9.5%</td>
+</tr>
+<tr>
+<td>0.2</td>
+<td>5</td>
+<td>0.54</td>
+<td>1.031</td>
+<td>11.5%</td>
+</tr>
+<tr>
+<td>0.2</td>
+<td>10</td>
+<td>0.38</td>
+<td>1.016</td>
+<td>13.0%</td>
+</tr>
+</tbody></table></div>
+<p><strong>Decision: K = 3 for every model that is not verified deterministic; K = 1
+for a verified-deterministic model</strong> (two runs on the first 10 worlds give
+identical action sequences; otherwise K = 3). K = 3 removes about 70% to 75% of
+the possible gain; K = 5 adds 1 to 2 percentage points for 67% more calls.
+Re-check with the measured trial variance of the first real models: if the
+within-world share of a model's variance is above 0.5, use K = 5 for it.</p>
+<h2 id="11-sample-size-ci-and-rank-stability-final-design">11. Sample size, CI and rank stability (final design)</h2>
+<p>All values for 16 per family, 400 simulated suites, paired worlds (every
+comparator on the same worlds), unique worlds only.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>95% suite-sampling width of the family-balanced score (max over comparators)</td>
+<td>5.63 points</td>
+</tr>
+<tr>
+<td>within-suite 95% CI width (stratified CLT, mean)</td>
+<td>7.89 points (about +-3.9)</td>
+</tr>
+<tr>
+<td>paired 95% width, adjacent comparators (max)</td>
+<td>5.76 points</td>
+</tr>
+<tr>
+<td>largest expected gap that reverses in &gt; 5% of suites</td>
+<td>1.12 points</td>
+</tr>
+<tr>
+<td>P(every adjacent pair &gt;= 1 point apart in the right order)</td>
+<td>0.63</td>
+</tr>
+<tr>
+<td>mean Kendall tau to the expected order (6 comparators)</td>
+<td>0.90</td>
+</tr>
+<tr>
+<td>family-mean 95% width (one family, best comparator)</td>
+<td>13.9 points</td>
+</tr>
+<tr>
+<td>CVaR10 95% width over unique worlds</td>
+<td>0.33 points</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><strong>Overall score:</strong> about +-4 points. Two models whose paired difference is
+more than about 3 points are resolved. Differences near the official
+practical difference (1 point) are not: the two comparator pairs about
+1.1 points apart reverse in about 20% of suites. Reports must call such pairs
+ties, not rank them.</li>
+<li><strong>Family scores</strong> are coarse (about +-7 points with 16 scenarios). Report
+them with intervals; never rank models on one family.</li>
+<li><strong>Lower tail:</strong> p10 and CVaR10 are 0 for every V1 comparator (the worst 10%
+of worlds are lost by every heuristic), so the lower-tail statistics are
+stable but carry information only for strong models.</li>
+<li>Use paired differences on the same pack for model comparison.</li>
+</ul>
+<h2 id="12-candidate-pool-size">12. Candidate-pool size</h2>
+<p>Acceptance per generated candidate = admitted, tagged with the family and in
+the band (1,120 development candidates, current recipe mix):</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Acceptance (any family)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Easy</td>
+<td>29.5%</td>
+</tr>
+<tr>
+<td>Moderate</td>
+<td>7.9%</td>
+</tr>
+<tr>
+<td>Hard</td>
+<td>8.4%</td>
+</tr>
+<tr>
+<td>Stress</td>
+<td>10.0%</td>
+</tr>
+</tbody></table></div>
+<p>Per family: 3.1% (<code>crowd_100</code>) to 17.9% (<code>narrow_corridor_bottleneck</code>).
+Rarest cells (current mix): <code>maze_obstacle_routing</code>/Moderate (0 hits),
+<code>crowd_100</code>/Moderate, <code>deceptive_nearest_exit</code>/Stress and
+<code>maze_obstacle_routing</code>/Stress (0.36%), the deceptive and maze Hard cells
+(0.45%).</p>
+<p>Binomial requirement per cell at 99.875% (a 95% family-wise guarantee over 40
+cells, Bonferroni): <strong>3,611 candidates</strong> (22.6x the suite) for all cells
+except maze Moderate, which the current mix never produced. The probe's maze
+recipes produce it at 10% (crowded maze) and 20% (stochastic maze), so a
+targeted batch of 59 to 123 candidates fills it. The real selector filled
+30%, 49%, 69% and 88% of the quotas from 140, 280, 560 and 1,120 candidates,
+and never all of them.</p>
+<p><strong>Decision:</strong> generate <strong>4,000 candidates</strong> (25x the suite; 11% margin over
+the binomial requirement) with the current recipes plus the probe recipes.
+Then, for every cell with a shortfall, generate targeted batches of 200 with
+the best recipe for that cell until the cell is full or 10,000 candidates in
+total are reached. The stopping rule depends only on cell counts, never on a
+model. A cell still short at the cap is reported in the freeze record. The
+binomial model ignores competition between cells (one candidate serves one
+cell), so the empirical fill, not the binomial number, is the reason for the
+top-up rule. Evaluator cost: about 6.4 CPU hours for the panel on 4,000
+candidates (1.79 h for 1,120).</p>
+<h2 id="13-api-workload-final-design">13. API workload (final design)</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>episodes, verified-deterministic model (K = 1)</td>
+<td>240</td>
+</tr>
+<tr>
+<td>episodes, other model (K = 3)</td>
+<td>720</td>
+</tr>
+<tr>
+<td>expected decision calls (one per simulator step; congestion-aware step counts)</td>
+<td>5,825 (K = 1); 17,475 (K = 3)</td>
+</tr>
+<tr>
+<td>worst-case calls (every episode to <code>max_steps</code>)</td>
+<td>21,972 (K = 1); 65,916 (K = 3)</td>
+</tr>
+<tr>
+<td>step-0 observation size</td>
+<td>1,906 characters mean</td>
+</tr>
+<tr>
+<td>approximate input tokens (calls x step-0 characters / 4)</td>
+<td>2.8 M (K = 1); 8.3 M (K = 3)</td>
+</tr>
+<tr>
+<td>evaluator CPU (simulator + official scoring)</td>
+<td>about 4 minutes per model run</td>
+</tr>
+</tbody></table></div>
+<p>Observation size grows with population: <code>crowd_100</code> worlds dominate the
+token count. Cost does not decide validity; it is shown for planning.</p>
+<h2 id="14-hidden-evaluation-protocol">14. Hidden evaluation protocol</h2>
+<p>In this order. No step uses any model under evaluation, and there is no
+model-specific regeneration.</p>
+<ol>
+<li><strong>Freeze versions.</strong> Benchmark, simulator, observation, scoring
+(<code>SCORING_VERSION</code>), generator and generator-config versions; calibration
+panel 1.0; environment-world version 1.0; analysis tool version. Publish a
+hash of this rule set.</li>
+<li><strong>Freeze quotas.</strong> 10 families x 16 (2/4/6/4), 4 stochastic x 3 worlds,
+admission rule, band thresholds, tag thresholds, pool size and top-up rule.
+Include them in the rule-set hash.</li>
+<li><strong>Choose private seeds.</strong> From a CSPRNG in the evaluator's private
+workspace: one high-entropy generator seed per recipe, one evaluation-seed
+stream, one selection key. Publish SHA-256 commitments only.</li>
+<li><strong>Generate the candidate pool</strong> (section 12). Drop duplicate scenario
+hashes and any scenario equal to a public or earlier-round scenario.</li>
+<li><strong>Run the fixed calibration panel</strong> on every candidate's unique worlds
+(<code>world_seeds_for</code>, the same walk as <code>build_unique_world_manifest</code>, 3
+worlds for stochastic fire): official
+EMBER Score, <code>M*</code>, <code>M_cap</code>, capacity ceiling, admission, band, tags.</li>
+<li><strong>Stratify</strong> admitted candidates by family x band x fire model.</li>
+<li><strong>Select deterministically</strong> with <code>select_suite</code> and the private key
+(steps 4 to 7 with top-up: <code>emberbench.composition.compose_pool</code>).
+Report every shortfall; never borrow another band.</li>
+<li><strong>Freeze the unique evaluator worlds</strong> with <code>build_unique_world_manifest</code>
+(1 world per deterministic scenario, 3 per stochastic one). Check that every
+<code>environment_world_digest</code> is unique. In the library: <code>compose_suite</code>,
+<code>freeze_composed_suite</code> (suite directory + private <code>suite-freeze.json</code>) and
+<code>schedule_composed_worlds</code>, which also checks every scheduled world against
+the frozen calibrated world.</li>
+<li><strong>Create one immutable <code>EnvironmentPack</code></strong> (<code>freeze_environment_pack</code>) with
+a new suite ID, version and batch ID.</li>
+<li><strong>Commit only digests publicly before evaluation:</strong> pack digest, suite
+hash, manifest hash, rule-set hash, counts per family x band x fire model.
+Seeds, key, scenarios and measurements stay in the private freeze record.</li>
+<li><strong>Evaluate every model on the same pack</strong>, with its K, replay-verified.
+Record provider, model ID and version, date and K for every run.</li>
+</ol>
+<h2 id="15-leakage-and-contamination">15. Leakage and contamination</h2>
+<ul>
+<li><strong>No hidden material to developers.</strong> They get the public suite, the
+generator, the rules and the commitments. They never get hidden scenarios,
+seeds, world digests, bands or per-world results of a live suite. The
+observation contains no seed.</li>
+<li><strong>No per-world results while a suite is live.</strong> Publish overall and
+per-family scores with intervals only.</li>
+<li><strong>Provider and model identity</strong> are recorded per run (section 14, step 11).
+A suite is treated as exposed to every provider that served it.</li>
+<li><strong>No hidden suite in release artifacts.</strong> Private material lives only under
+leak-guarded paths; <code>tools/check_public_assets.py</code> checks the built
+distribution; tests check that no study cache or generated suite is
+committed and that the tool and <code>worlds.py</code> contain no seed literal.</li>
+<li><strong>Reveal only after retirement:</strong> generator seeds, selection key, pack and
+freeze record, so that anybody can check the suite with
+<code>verify_regeneration</code>.</li>
+<li><strong>Canary policy.</strong> A canary string in prompts or archives can show, after
+the fact, that a <strong>copy of the material</strong> appeared somewhere it was searched
+for (a crawl, a dataset, a model output that reproduces it verbatim). It
+cannot show that a model was trained on the suite, and its absence proves
+nothing. EMBER observations are grid states, which a model can learn from
+without reproducing any string. This design therefore does <strong>not</strong> use a
+canary as a contamination test. A harness may add one to pack archives for
+provenance tracing only, and must describe it that way.</li>
+<li><strong>Contamination check (when required).</strong> Before a round closes, if a model
+is suspected (for example a large jump between rounds), generate a fresh
+check suite with the same frozen rules, a new seed and a new key, and run
+that model and the calibration panel on it. A model whose paired score
+(against the panel) on the live suite exceeds its paired score on the check
+suite by more than the paired 95% interval is flagged for review. This is a
+statistical check of overfitting to the live suite, not proof of training
+contamination.</li>
+</ul>
+<h2 id="16-refresh-and-version-policy">16. Refresh and version policy</h2>
+<p>A live suite is replaced, never edited, and never replaced silently. Every
+replacement has a <strong>new suite ID and version, a new pack digest and a
+published reason</strong>. Scores on different suites are not pooled or ranked
+together. The scoring version is separate from the suite version: a suite
+records the scoring version it was calibrated with, and a scoring change does
+not rename a suite by itself.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Leak of hidden material</td>
+<td>Retire at once; new suite; re-run affected models</td>
+</tr>
+<tr>
+<td>Contamination flag confirmed (section 15)</td>
+<td>Retire; new suite</td>
+</tr>
+<tr>
+<td>Saturation: the best model scores &gt;= 90 overall or on Stress</td>
+<td>New calibration-panel version with a stronger reference; new suite</td>
+</tr>
+<tr>
+<td>Generator bug that affects selected worlds</td>
+<td>Retire; fix; new generator version; new suite</td>
+</tr>
+<tr>
+<td>Scoring or benchmark revision (<code>SCORING_VERSION</code> or rule change)</td>
+<td>Re-calibrate the bands on the new score; new suite</td>
+</tr>
+<tr>
+<td>Simulator or observation revision</td>
+<td>New suite (world digests change)</td>
+</tr>
+<tr>
+<td>Invalid hidden world (for example a wrong <code>M*</code> or a capacity artifact found later)</td>
+<td>Retire the suite and publish the defect; never drop a world from a live suite</td>
+</tr>
+<tr>
+<td>Scheduled</td>
+<td>New suite each evaluation round (at least every 6 months); retire and reveal the previous one</td>
+</tr>
+</tbody></table></div>
+<p>To compare rounds, run the calibration panel on every suite and report models
+relative to it (a linking set), not raw scores across suites.</p>
+<h2 id="17-final-v1-proposal">17. Final V1 proposal</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Primary families</td>
+<td><strong>10</strong>: <code>single_exit_low_density</code> (basic evacuation planning), <code>single_exit_high_density</code> (queue management at one exit), <code>narrow_corridor_bottleneck</code> (sequencing through a width-1 cut), <code>split_flow_across_exits</code> (load balancing across exits), <code>crowd_100</code> (scale), <code>maze_obstacle_routing</code> (path finding with detours), <code>deceptive_nearest_exit</code> (exit choice by true route length), <code>threatened_nearest_exit</code> (fire anticipation), <code>multiple_ignitions</code> (several fire fronts), <code>route_invalidation_replanning</code> (replanning). <code>central_ignition</code> and <code>multiple_exits_unequal_distance</code> are secondary tags.</td>
+</tr>
+<tr>
+<td>Scenarios per family</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Difficulty per family</td>
+<td>Easy 2, Moderate 4, Hard 6, Stress 4</td>
+</tr>
+<tr>
+<td>Deterministic / stochastic per family</td>
+<td>12 / 4</td>
+</tr>
+<tr>
+<td>Unique fire trajectories per stochastic scenario</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Total scenarios</td>
+<td>160</td>
+</tr>
+<tr>
+<td>Total unique worlds</td>
+<td><strong>240</strong> (120 deterministic, 120 stochastic)</td>
+</tr>
+<tr>
+<td>Model trials</td>
+<td>K = 1 verified-deterministic; K = 3 otherwise</td>
+</tr>
+<tr>
+<td>Model episodes</td>
+<td>240 (K = 1); 720 (K = 3)</td>
+</tr>
+<tr>
+<td>Expected 95% CI width</td>
+<td>about 7.9 points within a suite (about +-3.9); paired width between models at most about 5.8 points</td>
+</tr>
+<tr>
+<td>Candidate pool</td>
+<td>4,000 candidates, then targeted top-up batches of 200 per short cell, cap 10,000</td>
+</tr>
+<tr>
+<td>API calls per model</td>
+<td>about 5,800 (K = 1) or 17,500 (K = 3); worst case 22,000 or 66,000</td>
+</tr>
+<tr>
+<td>Calibration panel</td>
+<td>version 1.0: nearest-exit-greedy, static-shortest-path, fire-aware-shortest-path, congestion-aware; random-legal as floor; privileged reference as bound only</td>
+</tr>
+<tr>
+<td>Admission and bands</td>
+<td>difficulty-calibration.md sections 4 to 6</td>
+</tr>
+<tr>
+<td>World identity</td>
+<td><code>environment_world_digest</code> (version 1.0); schedule <code>build_unique_world_manifest</code></td>
+</tr>
+<tr>
+<td>Generation and freeze</td>
+<td>Section 14 (11 ordered steps)</td>
+</tr>
+<tr>
+<td>Refresh</td>
+<td>Section 16</td>
+</tr>
+<tr>
+<td>Prerequisite</td>
+<td>Generator work in section 6 for a library-supported pipeline; until then evaluator-side tagging and rejection sampling</td>
+</tr>
+</tbody></table></div>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="generator.html"><span>Previous</span>Generator specification</a><a href="difficulty-calibration.html"><span>Next</span>Difficulty calibration</a></nav><p class="docs-source-note">Benchmark documentation. Apache License 2.0. <a href="source/evaluation-suite-design.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#0-summary">0. Summary</a><a href="#1-literature-review">1. Literature review</a><a href="#2-audit-of-the-public-v1-suite">2. Audit of the public V1 suite</a><a href="#3-world-identity-and-unique-world-scheduling">3. World identity and unique-world scheduling</a><a href="#4-families-audit-and-final-list">4. Families: audit and final list</a><a href="#5-difficulty">5. Difficulty</a><a href="#6-generator-coverage-gap">6. Generator Coverage Gap</a><a href="#7-suite-size">7. Suite size</a><a href="#8-difficulty-allocation">8. Difficulty allocation</a><a href="#9-deterministic-and-stochastic-fire">9. Deterministic and stochastic fire</a><a href="#10-model-trials-k">10. Model trials (K)</a><a href="#11-sample-size-ci-and-rank-stability-final-design">11. Sample size, CI and rank stability (final design)</a><a href="#12-candidate-pool-size">12. Candidate-pool size</a><a href="#13-api-workload-final-design">13. API workload (final design)</a><a href="#14-hidden-evaluation-protocol">14. Hidden evaluation protocol</a><a href="#15-leakage-and-contamination">15. Leakage and contamination</a><a href="#16-refresh-and-version-policy">16. Refresh and version policy</a><a href="#17-final-v1-proposal">17. Final V1 proposal</a></nav></details></aside></div></main><footer class="site-footer container"><div><a href="../index.html" class="footer-brand">Anantam</a><p class="muted">An experimental AI company.</p></div><div><a href="../benchmark.html">Results</a><a href="../docs.html">Docs</a><a href="../docs/SOURCE-LICENSE.txt">Documentation license</a></div></footer><script type="module" src="../docs.js?v=20261027-docs-1"></script></body></html>
