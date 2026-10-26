@@ -1,4 +1,10 @@
-# Anantam — EMBERBench results explorer
+# Anantam
+
+An experimental AI company. **EMBERBenchmark** is its first and only published contribution; future work is described as experiments ahead, without speculative product launches.
+
+The company homepage has three sections: a concise introduction, one contribution card using real benchmark results, and a short outlook. The complete results explorer now starts at `site/benchmark.html`. All analytical routes and model deep links remain available.
+
+See [the current skill-by-skill report](docs/COMPANY_REDESIGN.md) for the fifteen requested skills, references, implementation choices, validation, and limits. Earlier implementation notes below describe the benchmark explorer's history.
 
 A dependency-free, GitHub Pages-compatible explorer of official **public development** score reports from [EMBERBench](https://github.com/Aryabhatta-0/EMBERBench). The portal does not present a hidden-suite leaderboard.
 
@@ -24,7 +30,8 @@ If EMBERBench changes its scoring or report format, update the `emberbench` pin 
 
 ## Pages
 
-- `index.html`: Anantam introduction, tabbed rankings/trade-offs/scenarios, expandable analytical charts and provenance.
+- `index.html`: Anantam company introduction, EMBERBenchmark contribution and future outlook.
+- `benchmark.html`: tabbed rankings/trade-offs/scenarios, expandable analytical charts and provenance.
 - `leaderboard.html`: searchable, sortable table with type/provider filters, score CIs, API metrics and comparison selection. Query parameters preserve filters and sorting.
 - `compare.html?models=ID,ID`: 2–4 model profiles, components, scenarios, world scores, robustness, congestion and API metrics. Exactly two entries also show descriptive paired world differences.
 - `model.html?id=ID`: model profile with nine evidence sections and reproducibility metadata.
@@ -69,7 +76,7 @@ EMBERBENCH_ROOT=../EMBERBench python -m pytest -q
 python -m mypy
 ```
 
-Open `http://127.0.0.1:8765/`. The site must be served over HTTP because it uses JavaScript modules. No application build step, external font requests, analytics, CDNs, or production JavaScript dependencies are required. The fonts and supplied Anantam logo are served locally.
+Open `http://127.0.0.1:8765/`. The site must be served over HTTP because it uses JavaScript modules. No application build step, external font requests, analytics, CDNs, or production package installation are required. The fonts, supplied Anantam logo and pinned GSAP distribution are served locally; only the company homepage loads GSAP.
 
 The builder tests need the public suite of an EMBERBench checkout: set `EMBERBENCH_ROOT`, or clone EMBERBench into `./emberbench` (ignored by Git). CI checks out the pinned commit there. CI runs the Node tests and the builder tests as separate jobs.
 

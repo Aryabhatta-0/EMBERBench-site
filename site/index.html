@@ -1,42 +1,66 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#15283f" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Anantam" />
-    <meta property="og:description" content="Explore Anantam: compare AI decision models with reproducible EMBERBench evidence from dynamic fire evacuation worlds." />
-    <meta property="og:title" content="Anantam | Intelligence, measured" />
-    <meta
-      name="description"
-      content="Explore Anantam: compare AI decision models with reproducible EMBERBench evidence from dynamic fire evacuation worlds."
-    />
-    <title>Anantam | Intelligence, measured</title>
-    <link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0e1825" media="(prefers-color-scheme: dark)">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title>Anantam | An experimental AI company</title>
+    <meta name="description" content="Anantam is an experimental AI company. Our first contribution, EMBERBenchmark, explores how AI makes decisions under pressure.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Anantam">
+    <meta property="og:title" content="Anantam | An experimental AI company">
+    <meta property="og:description" content="An experimental AI company. Starting with EMBERBenchmark, and leaving room for what comes next.">
+    <meta property="og:url" content="https://aryabhatta-0.github.io/EMBERBench-site/">
+    <meta property="og:image" content="https://aryabhatta-0.github.io/EMBERBench-site/assets/anantam-social.png">
+    <meta property="og:image:alt" content="Anantam. An experimental AI company.">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://aryabhatta-0.github.io/EMBERBench-site/">
+    <link rel="icon" type="image/png" href="assets/anantam-logo.png">
+    <link rel="preload" href="assets/fonts/instrument-serif.ttf" as="font" type="font/ttf" crossorigin>
     <script src="theme-init.js"></script>
-    <script src="boot.js" defer></script>
-    <link rel="icon" type="image/png" href="assets/anantam-logo.png" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="anantam.css" />
-    <link rel="stylesheet" href="loader.css" />
+    <script src="assets/vendor/gsap.min.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="anantam.css">
+    <link rel="stylesheet" href="company.css">
   </head>
-  <body data-page="index">
+  <body data-page="company">
     <main id="main" tabindex="-1">
-      <section class="anantam-hero" aria-labelledby="hero-title">
-        <div class="hero-copy"><h1 id="hero-title">Intelligence,<br>measured.</h1><p>Explore how AI makes decisions when every move matters.</p><div class="hero-actions"><a class="button primary" href="leaderboard.html">Explore the benchmark</a><a class="quiet-link" href="methodology.html">How it works</a></div></div>
-        <div class="hero-art"><img src="assets/anantam-logo.png" width="1254" height="1254" alt="Anantam’s star-filled infinity emblem" fetchpriority="high"></div>
+      <section class="company-hero" aria-labelledby="hero-title">
+        <div class="company-intro">
+          <h1 id="hero-title">Intelligence.<br>An open question.</h1>
+          <p>We’re Anantam, an experimental AI company.<br class="desktop-break"> Exploring what intelligence can become.</p>
+          <a class="button primary" href="#contributions">Explore our work</a>
+        </div>
+        <div class="hero-art">
+          <div class="cosmos-emblem"><img src="assets/anantam-logo.png" width="1254" height="1254" alt="Anantam’s star-filled infinity emblem" fetchpriority="high"><canvas class="cosmos-sky" aria-hidden="true" hidden></canvas></div>
+          <p class="emblem-caption"><span lang="sa">अनन्तम्</span> Without end.</p>
+        </div>
+      </section>
+      <section class="contributions" id="contributions" aria-labelledby="contributions-title">
+        <div class="contribution-heading"><h2 id="contributions-title">Our first contribution.</h2><p>A starting point. More to come.</p></div>
+        <article class="ember-contribution" aria-labelledby="ember-title">
+          <div class="ember-copy">
+            <h3 id="ember-title">EMBERBenchmark</h3>
+            <p>How does AI decide<br>when every move matters?</p>
+            <p class="ember-description">A reproducible benchmark for AI decision-making in dynamic fire evacuations.</p>
+            <div class="contribution-actions"><a class="button" href="benchmark.html">Explore the benchmark</a><a class="ember-source" href="https://github.com/Aryabhatta-0/EMBERBench">Source code</a></div>
+          </div>
+          <div class="ember-evidence" aria-label="A preview of recorded benchmark results">
+            <div class="evidence-heading"><span>Decision models</span><span>EMBER Score</span></div>
+            <div id="contribution-results"><p class="evidence-fallback">Explore the published results, model comparisons, and evaluation methodology.</p><a href="leaderboard.html">View the leaderboard</a></div>
+            <p class="evidence-scope">Public development results. Descriptive ranks.<br>One trial per model; results do not establish generalization.</p>
+          </div>
+        </article>
+      </section>
+      <section class="company-outlook research-note" id="about" aria-labelledby="outlook-title">
+        <h2 id="outlook-title">Room for<br>what comes next.</h2>
+        <div><p>EMBERBenchmark is our first contribution.<br>We’re at the beginning, with more experiments ahead.</p><a class="quiet-link" href="https://github.com/Aryabhatta-0">Follow the work on GitHub</a></div>
       </section>
     </main>
-    <noscript
-      >Anantam explores public development results from EMBERBench. Enable JavaScript for interactive rankings and comparisons, or read the
-      <a
-        href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/docs/scoring.md"
-        >scoring specification</a
-      >.</noscript
-    >
+    <noscript><p class="company-noscript">Our work is open to explore. Interactive benchmark tools require JavaScript; the <a href="https://github.com/Aryabhatta-0/EMBERBench">benchmark source and documentation</a> are available on GitHub.</p></noscript>
     <script type="module" src="index.js"></script>
   </body>
 </html>

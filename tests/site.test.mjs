@@ -506,6 +506,7 @@ test("charts preserve accessible links, missing values and descriptive compariso
 test("all portal entry points use local modules, viewport metadata and an accessible main landmark", async () => {
   for (const page of [
     "index",
+    "benchmark",
     "leaderboard",
     "compare",
     "model",

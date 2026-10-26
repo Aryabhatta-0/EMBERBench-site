@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aryabhatta-0.github.io/EMBERBench-site/sitemap.xml

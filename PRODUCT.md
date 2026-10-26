@@ -1,11 +1,11 @@
 # Anantam
 
-Anantam is a public results explorer for EMBERBench, a deterministic benchmark of AI decision policies in dynamic fire evacuations. The primary audience is researchers and developers comparing models and inspecting reproducible evidence.
+Anantam is an experimental AI company, at the beginning of its work. EMBERBenchmark (the underlying project is named EMBERBench) is its first and only published contribution. More experiments are intended; no other products, launches, customers, dates or achievements may be claimed.
 
-The visitor's main task is to open the leaderboard, compare models, and understand the evidence behind scores. The homepage introduces that task; it does not claim to be a general AI platform.
+The company homepage introduces Anantam, presents one real contribution, and closes with a short future outlook. It uses three sections, concise copy, minimal borders, the existing navy infinity emblem, and the existing local typography. Sarvam and Gnani inform product hierarchy and card interaction, without copying their assets.
 
-The supplied navy, star-filled infinity emblem is the brand asset. The user requested UI/UX informed by sarvam.ai and gnani.ai, concise copy, fewer decorative lines, and fewer layouts. The homepage has three main sections. Deep analytical pages retain their existing functions.
+The benchmark overview lives at benchmark.html. Its leaderboard, comparison, scenarios, model profiles and methodology remain the analytical product. Researchers can inspect real public-development results and their provenance.
 
-Benchmark definitions, scores, authoritative ranks, generated data, public-development scope, uncertainty, and provenance remain scientific source material. Never edit site/data/results.js by hand or invent metrics, customers, dates, certifications, or product capabilities.
+Never edit site/data/results.js by hand, invent benchmark scores or change scoring definitions. Preserve model IDs, deep links, uncertainty and public-development scope.
 
-Deployment remains a static, dependency-free GitHub Pages site. Browser testing dependencies are development-only.
+Deployment remains static GitHub Pages. The local GSAP distribution enhances the company homepage only; the site requires no production install or build step. The homepage stays readable without JavaScript or benchmark data.

@@ -6,7 +6,7 @@ const require=createRequire(import.meta.url);
 const {chromium}=require(process.env.ANANTAM_PLAYWRIGHT_PATH || 'playwright');
 const axe=await readFile(process.env.ANANTAM_AXE_PATH || require.resolve('axe-core/axe.min.js'),'utf8');
 const out=resolve(process.env.ANANTAM_QA_DIR || 'work/browser');
-const base=process.env.ANANTAM_BASE_URL || 'http://127.0.0.1:8917/';
+const base=new URL('benchmark.html',process.env.ANANTAM_BASE_URL || 'http://127.0.0.1:8917/').href;
 await mkdir(out,{recursive:true});
 const browser=await chromium.launch();
 const checks=[],audits=[];

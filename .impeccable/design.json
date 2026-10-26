@@ -10,23 +10,42 @@
       "body": {
         "displayName": "DM Sans",
         "purpose": "Reading, data and controls."
+      },
+      "company-display": {
+        "displayName": "Company display",
+        "purpose": "Company introduction, with a more open line height than the analytical overview."
       }
     },
     "motion": [
       {
         "name": "ease-out",
         "value": "cubic-bezier(.2,0,0,1)",
-        "purpose": "Calm state changes."
+        "purpose": "Calm shared state changes."
       },
       {
         "name": "quick",
         "value": "150ms",
-        "purpose": "Press response."
+        "purpose": "Shared press response; disabled under reduced motion."
       },
       {
-        "name": "entrance",
+        "name": "benchmark-entrance",
         "value": "600ms",
-        "purpose": "One emblem entrance; disabled under reduced motion."
+        "purpose": "Existing analytical overview emblem entrance; disabled under reduced motion."
+      },
+      {
+        "name": "company-entrance",
+        "value": "550ms, power3.out",
+        "purpose": "Finite GSAP 3.15 introduction and artwork entrance; static under reduced motion or without GSAP."
+      },
+      {
+        "name": "company-flight",
+        "value": "4500ms",
+        "purpose": "Stop the company emblem flight after 4.5 seconds; the benchmark overview retains continuous flight."
+      },
+      {
+        "name": "company-pointer-depth",
+        "value": "450ms, power3.out; rotationY +/-3deg, y -6px",
+        "purpose": "Evidence pane pointer depth returns to rest on leave; fine hover pointers with reduced motion off only."
       }
     ],
     "breakpoints": [
@@ -38,7 +57,153 @@
         "name": "navigation",
         "value": "1100px"
       }
-    ]
+    ],
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Navy",
+        "tonalRamp": [
+          "oklch(15% 0.075 257)",
+          "oklch(26% 0.075 257)",
+          "oklch(38% 0.075 257)",
+          "oklch(49% 0.075 257)",
+          "oklch(61% 0.075 257)",
+          "oklch(72% 0.075 257)",
+          "oklch(84% 0.075 257)",
+          "oklch(95% 0.075 257)"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Paper canvas",
+        "tonalRamp": [
+          "oklch(15% 0.004 105)",
+          "oklch(26% 0.004 105)",
+          "oklch(38% 0.004 105)",
+          "oklch(49% 0.004 105)",
+          "oklch(61% 0.004 105)",
+          "oklch(72% 0.004 105)",
+          "oklch(84% 0.004 105)",
+          "oklch(95% 0.004 105)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White surface",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(49% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(72% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Primary text",
+        "tonalRamp": [
+          "oklch(15% 0.05 255)",
+          "oklch(26% 0.05 255)",
+          "oklch(38% 0.05 255)",
+          "oklch(49% 0.05 255)",
+          "oklch(61% 0.05 255)",
+          "oklch(72% 0.05 255)",
+          "oklch(84% 0.05 255)",
+          "oklch(95% 0.05 255)"
+        ]
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Secondary text",
+        "tonalRamp": [
+          "oklch(15% 0.035 254)",
+          "oklch(26% 0.035 254)",
+          "oklch(38% 0.035 254)",
+          "oklch(49% 0.035 254)",
+          "oklch(61% 0.035 254)",
+          "oklch(72% 0.035 254)",
+          "oklch(84% 0.035 254)",
+          "oklch(95% 0.035 254)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted text",
+        "tonalRamp": [
+          "oklch(15% 0.027 250)",
+          "oklch(26% 0.027 250)",
+          "oklch(38% 0.027 250)",
+          "oklch(49% 0.027 250)",
+          "oklch(61% 0.027 250)",
+          "oklch(72% 0.027 250)",
+          "oklch(84% 0.027 250)",
+          "oklch(95% 0.027 250)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Focus blue",
+        "tonalRamp": [
+          "oklch(15% 0.135 256)",
+          "oklch(26% 0.135 256)",
+          "oklch(38% 0.135 256)",
+          "oklch(49% 0.135 256)",
+          "oklch(61% 0.135 256)",
+          "oklch(72% 0.135 256)",
+          "oklch(84% 0.135 256)",
+          "oklch(95% 0.135 256)"
+        ]
+      },
+      "ember-ground": {
+        "role": "primary",
+        "displayName": "Contribution ground",
+        "tonalRamp": [
+          "oklch(15% 0.075 257)",
+          "oklch(26% 0.075 257)",
+          "oklch(38% 0.075 257)",
+          "oklch(49% 0.075 257)",
+          "oklch(61% 0.075 257)",
+          "oklch(72% 0.075 257)",
+          "oklch(84% 0.075 257)",
+          "oklch(95% 0.075 257)"
+        ]
+      },
+      "ember-ink": {
+        "role": "neutral",
+        "displayName": "Contribution ink",
+        "tonalRamp": [
+          "oklch(15% 0.006 250)",
+          "oklch(26% 0.006 250)",
+          "oklch(38% 0.006 250)",
+          "oklch(49% 0.006 250)",
+          "oklch(61% 0.006 250)",
+          "oklch(72% 0.006 250)",
+          "oklch(84% 0.006 250)",
+          "oklch(95% 0.006 250)"
+        ]
+      },
+      "ember-muted": {
+        "role": "neutral",
+        "displayName": "Contribution supporting text",
+        "tonalRamp": [
+          "oklch(15% 0.029 249)",
+          "oklch(26% 0.029 249)",
+          "oklch(38% 0.029 249)",
+          "oklch(49% 0.029 249)",
+          "oklch(61% 0.029 249)",
+          "oklch(72% 0.029 249)",
+          "oklch(84% 0.029 249)",
+          "oklch(95% 0.029 249)"
+        ]
+      }
+    },
+    "companyEmblemGround": {
+      "value": "#e7edf5",
+      "purpose": "Pale circular mat behind the unchanged navy company emblem in dark mode."
+    }
   },
   "components": [
     {
@@ -60,7 +225,7 @@
       "name": "Navigation",
       "kind": "nav",
       "description": "Current-page cue stays visible.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a aria-current=\"page\" href=\"#\">Home</a><a href=\"#\">Leaderboard</a></nav>",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a aria-current=\"page\" href=\"#\">Home</a><a href=\"#\">EMBERBenchmark</a></nav>",
       "css": ".ds-nav{display:flex;gap:27px}.ds-nav a{font-family:var(--font-body);font-size:13px;color:var(--text-primary);padding:8px 0;text-decoration:none}.ds-nav a[aria-current]{font-weight:650;text-decoration:underline;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--focus);outline-offset:4px}"
     },
     {
@@ -80,40 +245,55 @@
     {
       "name": "Anantam logo loader",
       "kind": "custom",
-      "description": "One supplied infinity emblem with transparent forward-space trails while actual route data is pending. This static preview shows its wordmark and status; site/loader.css, boot.js and the shared cosmos.js own the artwork and lifecycle.",
-      "html": "<section class=\"ds-loading\" aria-label=\"Loading Anantam\"><h2 class=\"ds-loading-name\">Anantam</h2><p class=\"ds-loading-copy\" role=\"status\">Opening Anantam.</p></section>",
+      "description": "Shared pending-data loader on the six analytical pages: benchmark, leaderboard, compare, model, scenarios and methodology. The company homepage has no loader. This static preview shows the wordmark and status; loader.css, boot.js and cosmos.js own the supplied artwork and lifecycle.",
+      "html": "<section class=\"ds-loading\" aria-label=\"Loading Anantam\"><h2 class=\"ds-loading-name\">Anantam</h2><p class=\"ds-loading-copy\" role=\"status\">Opening the benchmark.</p></section>",
       "css": ".ds-loading{font-family:var(--font-body);display:grid;justify-items:center;text-align:center;padding:40px 24px;background:var(--loading-ground,var(--surface-0));color:var(--text-primary)}.ds-loading-name{font:500 28px/1.2 var(--font-body);letter-spacing:-.025em;margin:0}.ds-loading-copy{font-size:13px;line-height:1.6;color:var(--text-muted);max-width:32ch;min-height:42px;margin:12px 0 0}"
+    },
+    {
+      "name": "Company contribution",
+      "kind": "card",
+      "refersTo": "company-contribution",
+      "description": "The sole current contribution, EMBERBenchmark: a fixed navy surface with static copy, route action and an optional genuine top-three result preview.",
+      "html": "<article class=\"ds-contribution\"><h3>EMBERBenchmark</h3><p class=\"ds-contribution-title\">How does AI decide<br>when every move matters?</p><p class=\"ds-contribution-copy\">A reproducible benchmark for AI decision-making in dynamic fire evacuations.</p><a href=\"benchmark.html\">Explore the benchmark</a></article>",
+      "css": ".ds-contribution{font-family:var(--font-body,\"DM Sans\",system-ui,sans-serif);padding:54px;border-radius:var(--company-radius,20px);background:var(--ember-ground,#142e51);color:var(--ember-ink,#fafcff)}.ds-contribution h3{font-size:18px;font-weight:500;letter-spacing:-.02em;margin:0 0 22px}.ds-contribution-title{font:400 clamp(32px,3.1vw,44px)/1.12 var(--font-display,\"Instrument Serif\",Georgia,serif);margin:0 0 18px}.ds-contribution-copy{font-size:14px;line-height:1.6;max-width:36ch;color:var(--ember-muted,#c1d0e1);margin:0 0 30px}.ds-contribution a{display:inline-flex;align-items:center;min-height:44px;padding:0 22px;border-radius:999px;background:var(--ember-ink,#fafcff);color:var(--ember-ground,#142e51);font-size:13px;text-decoration:none}.ds-contribution a:focus-visible{outline:2px solid var(--ember-ink,#fafcff);outline-offset:4px}@media(hover:hover) and (pointer:fine){.ds-contribution a:hover{background:var(--ember-muted,#c1d0e1)}}@media(prefers-reduced-motion:no-preference){.ds-contribution a{transition:transform 150ms ease-out,background-color 150ms ease-out}.ds-contribution a:active{transform:scale(.96)}}@media(max-width:700px){.ds-contribution{padding:30px 25px;border-radius:16px}}"
     }
   ],
   "narrative": {
-    "northStar": "Intelligence, measured.",
-    "overview": "The spacious three-section homepage leads to task-specific evidence tools: a focused leaderboard, juxtaposed comparisons, tabbed model profiles, a challenge navigator, and a continuous methodology guide. The supplied star-filled infinity emblem carries the brand and becomes the single focal pending-data loader across all six routes.",
+    "northStar": "Intelligence. An open question.",
+    "overview": "The supplied navy infinity emblem anchors a quiet, spacious identity. Local serif display type gives the introduction its voice; practical sans type keeps reading, controls and evidence clear. Sarvam informs product display and card interaction; Gnani informs the company-to-contribution hierarchy. Their assets and source styles are not copied.\n\nThe company introduction gives Anantam room to speak before presenting its first contribution. Analytical surfaces retain the same identity with task-specific density, visible scope and progressive disclosure. The benchmark is evidence of the company's work, rather than the entirety of its identity.",
     "keyCharacteristics": [
-      "Navy emblem",
-      "Serif display and practical sans",
-      "Task-specific evidence workspaces",
-      "Native disclosures",
-      "One original-colour infinity emblem during actual pending data"
+      "Supplied navy infinity emblem",
+      "Local serif display and practical sans",
+      "Spacious company introduction and focused analytical workspaces",
+      "Tonal surfaces with restrained borders",
+      "Native disclosures and visible evidence scope"
     ],
     "rules": [
       {
-        "name": "Evidence before claims",
-        "body": "All numbers come from generated official reports.",
-        "section": "components"
+        "name": "The Semantic Role Rule",
+        "body": "Use the shared semantic roles across themes; use the fixed contribution roles inside the navy company card.",
+        "section": "colors"
       },
       {
-        "name": "Honest branded loading",
-        "body": "Use the supplied emblem, concise status and native motion/recovery controls only while data is pending. Keep one forward-depth loop, respect reduced motion, and replace it immediately on ready or error without a forced delay.",
+        "name": "The Honest Loading Rule",
+        "body": "Show branded loading only while analytical data is pending; never hold content for a brand sequence.",
         "section": "components"
       }
     ],
     "dos": [
-      "Keep scope and uncertainty visible.",
-      "Use semantic color roles."
+      "**Do** preserve the supplied navy infinity emblem and local type system.",
+      "**Do** use semantic color roles and keep scope and uncertainty visible.",
+      "**Do** preserve useful company content without JavaScript or benchmark data.",
+      "**Do** respect reduced motion with static artwork and immediate state changes.",
+      "**Do** retain benchmark model IDs, deep links and generated-data provenance."
     ],
     "donts": [
-      "Do not invent metrics or trust logos.",
-      "Do not edit generated results by hand."
+      "**Don't** invent metrics, customers, trust logos or future product launches.",
+      "**Don't** edit generated results or scoring definitions by hand.",
+      "**Don't** show a pending-data loader on the company homepage.",
+      "**Don't** turn the finite company introduction into continuous decorative motion.",
+      "**Don't** force analytical chart geometry into the company's three-section composition."
     ]
-  }
+  },
+  "generatedAt": "2026-10-26T05:45:19.0453211Z"
 }

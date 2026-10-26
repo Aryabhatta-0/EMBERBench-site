@@ -35,7 +35,7 @@ const audit = async label => {
 try {
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: width < 700 ? 844 : 1000 });
-    for (const route of ['index.html','leaderboard.html','compare.html','scenarios.html','methodology.html',`model.html?id=${encodeURIComponent(data.models[0].id)}`]) {
+    for (const route of ['index.html','benchmark.html','leaderboard.html','compare.html','scenarios.html','methodology.html',`model.html?id=${encodeURIComponent(data.models[0].id)}`]) {
       await go(route);
       await overflow(`${width}px ${route}`);
       check(`${width}px ${route}: heading`, (await page.locator('h1').count()) === 1);
@@ -45,6 +45,7 @@ try {
   await go('index.html');
   await page.screenshot({ animations: "disabled", path: resolve(out,'home-desktop.png'), fullPage: true });
   await audit('Home light desktop');
+  await go('benchmark.html');
   await page.getByRole('tab', {name:'Rankings',exact:true}).focus();
   await page.keyboard.press('ArrowRight');
   check('Keyboard tabs select trade-offs', await page.locator('#tab-tradeoffs').getAttribute('aria-selected') === 'true');
@@ -95,8 +96,8 @@ try {
   const fallback = await nojs.newPage(); await fallback.goto(base);
   check('No-JavaScript introduction visible', await fallback.locator('h1').isVisible());
   await nojs.close();
-  await go('index.html');
-  check('Home shows JEV 1.14 as leading decision model',await page.locator('.featured-result').first().innerText().then(t=>t.includes('typesafe/jev-1.14')));
+  await go('benchmark.html');
+  check('Benchmark shows JEV 1.14 as leading decision model',await page.locator('.featured-result').first().innerText().then(t=>t.includes('typesafe/jev-1.14')));
   await go('leaderboard.html?q=jev');
   check('Both evaluated JEV versions are searchable',await page.locator('[data-select-model]').count() === 2);
   check('Leaderboard replaces latest alias with evaluated 1.13',await page.locator('#leaderboard').innerText().then(t=>t.includes('typesafe/jev-1.13') && !t.includes('jev-latest')));
