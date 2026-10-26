@@ -1,4 +1,4 @@
-import {esc,fmt,scenarioName} from './common.js?v=20261027-docs-1';
+import {esc,fmt,scenarioName} from './common.js?v=20261027-boundless-1';
 import {finite} from './analytics.js';
 import {peopleReadout} from './result-explorer.js';
 

@@ -60,7 +60,7 @@ All active marketing colors and fonts use root tokens in anantam.css and experie
 
 ## Hero and composition
 
-The centered identity stacks the original 76px emblem over Anantam at clamp(112px,10vw,144px). It sits directly on a full-width flat mist-blue field, without gradient, fabricated illustration, decorative grid or extra slogan. Fine suspended particles frame the identity; see the motion specification below. One sentence identifies the company and one primary action opens benchmark.html directly. Content is capped within the hero; the colored field spans the viewport.
+The centered identity stacks the supplied emblem, rendered in fine particles at 156px desktop and 112px phone, over Anantam at clamp(112px,10vw,144px). It sits on a full-width light gradient: mist blue, porcelain and a soft ivory edge. The exact tagline is **Boundless Possibilities**. One primary action opens benchmark.html directly. The gradient stays still; pale side contours drift continuously without a darker traveling overlay. Content is capped within the hero; the colored field spans the viewport.
 
 Desktop hero padding is 44px above and 52px below. The first contribution follows with 54px top padding, within a centered 1328px measure and 44px gutters. On phones the emblem is 64px, title clamp(82px,17vw,112px), gutters 20px, hero padding 35px/40px and contribution top spacing 34px. The action stays visible in the first screen. The hero uses height: calc(100svh - measured header height), with a compact identity arrangement in short landscape windows. The layout remains two main sections, respecting the user's preference for fewer layouts and less copy.
 
@@ -68,7 +68,7 @@ The contribution contains its title and direct action, existing published outcom
 
 ## Motion and interactions
 
-Fine particles assemble into the actual supplied emblem, using sampled alpha/ink targets. The emblem is 156px desktop and112px phone. The particle emblem assembles once over three seconds and stays complete; resize and returning from offscreen do not replay it. Side ribbons draw once, with highlights traveling continuously alongside the settled emblem. The title and action stay still. One Canvas renders up to1,800 desktop or1,000 phone particles at30fps and capped1.5 pixel density. Reduced motion shows the completed mark; hidden/offscreen suspends work; resize recalculates targets and navigation cleans up. The original emblem remains the Canvas/sampling/no-JavaScript fallback. No pointer tracking or motion-control button; the companion side ribbons remain clipped within the hero.
+Fine particles assemble into the actual supplied emblem, using sampled alpha/ink targets. The emblem is 156px desktop and112px phone. The particle emblem assembles once over three seconds and stays complete; resize and returning from offscreen do not replay it. Pale side contours draw once, then drift continuously with a slow transform. No dark traveling highlight is present. The title and action stay still. One Canvas renders up to1,800 desktop or1,000 phone particles at30fps and capped1.5 pixel density. Reduced motion shows the completed mark; hidden/offscreen suspends work; resize recalculates targets and navigation cleans up. The original emblem remains the Canvas/sampling/no-JavaScript fallback. No pointer tracking or motion-control button; the companion side ribbons remain clipped within the hero.
 
 The existing outcome pictographs encode exact published people counts, with visible numeric labels. Hover regroups the same people through interruptible CSS transforms over 580ms; the explicit Separate outcomes button serves touch and keyboard. Keyboard and reduced motion are immediate. These are labeled statistical charts, not evacuation simulation maps or invented marketing counts.
 
@@ -76,7 +76,7 @@ The evaluation loop uses immediate selection and a small pointer-only explanatio
 
 ## Data and scope
 
-Anantam is an experimental AI company; EMBERBench is its sole published contribution. Do not invent launches, testimonials, customer metrics or future products. Published results, ranks, scoring definitions and model identities are unchanged. Scores are composite results, not survival percentages. Keep one-trial, public-development and descriptive-comparison qualifications visible.
+Anantam’s tagline is always **Boundless Possibilities**; EMBERBench is its sole published contribution. Do not invent launches, testimonials, customer metrics or future products. Published results, ranks, scoring definitions and model identities are unchanged. Scores are composite results, not survival percentages. Keep one-trial, public-development and descriptive-comparison qualifications visible.
 
 The removed reference player, geometry data, replay records, animation exports and generator are no longer shipped. Scientific simulation remains part of the underlying benchmark and its methodology; removing its website visualization does not change that research process.
 

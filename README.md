@@ -1,6 +1,6 @@
 # Anantam
 
-An experimental AI company. **EMBERBench** is its first and only published contribution.
+**Boundless Possibilities.** **EMBERBench** is its first and only published contribution.
 
 The light-only company homepage presents a centered identity, a mist-blue hero with flowing brand ribbons and direct benchmark access, exact people-outcome pictographs and a connected explanation. The benchmark uses the browser width for four open chart sections, with ten-model ranking pages and selected-model scenario bars. Comparison controls and tables belong on the separate comparison page. Complete documentation is hosted on the site, with local search and section navigation.
 

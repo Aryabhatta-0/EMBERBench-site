@@ -10,7 +10,7 @@ import {
   provider,
   providerInfo,
   errorPage,
-} from "./common.js?v=20261027-docs-1";
+} from "./common.js?v=20261027-boundless-1";
 import {
   METRICS,
   filterModels,

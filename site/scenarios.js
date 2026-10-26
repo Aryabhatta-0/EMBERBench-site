@@ -13,7 +13,7 @@ import {
   errorPage,
   REPO,
   scenarioName,
-} from "./common.js?v=20261027-docs-1";
+} from "./common.js?v=20261027-boundless-1";
 import { filterModels, finite, worldKey } from "./analytics.js";
 import { heatmap } from "./charts.js";
 

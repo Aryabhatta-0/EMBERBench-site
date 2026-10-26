@@ -1,4 +1,4 @@
-import {esc,fmt,count,scenarioName,isDecision} from './common.js?v=20261027-docs-1';
+import {esc,fmt,count,scenarioName,isDecision} from './common.js?v=20261027-boundless-1';
 import {METRICS,finite,leaderboardOrder} from './analytics.js';
 
 export const PAGE_SIZE=10;
