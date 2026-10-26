@@ -1,4 +1,4 @@
-import { editorHeader, workspaceTabs, disclosure } from "./workspace.js?v=20261027-distill-1";
+import { editorHeader, disclosure } from "./workspace.js?v=20261027-guide-footer-1";
 import {
   loadResults,
   shell,
@@ -13,7 +13,7 @@ import {
   errorPage,
   REPO,
   scenarioName,
-} from "./common.js?v=20261027-distill-1";
+} from "./common.js?v=20261027-guide-footer-1";
 import { filterModels, finite, worldKey } from "./analytics.js";
 import { heatmap } from "./charts.js";
 
@@ -140,8 +140,8 @@ async function main() {
   };
 
   document.getElementById("main").innerHTML = `
-    ${editorHeader('Every world is a test.', 'Explore the challenges behind the headline score.', '<a class="quiet-link" href="methodology.html">Understand the evaluation</a>')}
-    <div class="scenario-studio"><nav class="challenge-nav" aria-label="Choose a challenge">${ids.map((id,i) => `<button type="button" data-challenge="${esc(id)}" aria-pressed="${id === state.scenario}"><span>${String(i+1).padStart(2,'0')}</span>${esc(metadata(id).title)}</button>`).join('')}</nav><div class="scenario-canvas">
+    ${editorHeader('Scenarios', `${ids.length} public challenges, one shared evaluation protocol.`)}
+    <div class="scenario-studio"><nav class="challenge-nav" aria-label="Choose a challenge"><span class="guide-nav-label">Public scenarios</span>${ids.map((id,i) => `<button type="button" data-challenge="${esc(id)}" aria-pressed="${id === state.scenario}">${esc(metadata(id).title)}</button>`).join('')}</nav><div class="scenario-canvas">
     <section class="scenario-introduction" aria-labelledby="explore-title">
       <div class="section-head"><h2 id="explore-title">Explore a scenario</h2><span class="badge">Public development suite</span></div>
       <div class="toolbar">
@@ -178,6 +178,7 @@ async function main() {
   intro.append(intro.querySelector('.toolbar'));
   document.getElementById('scenario-select').closest('.field').classList.add('scenario-phone-choice');
   document.getElementById('scenario-summary').before(document.getElementById('scenario-select').closest('.field'));
+  const filters=disclosure(intro.querySelector('.toolbar'),'Filter models');filters.classList.add('scenario-filters');intro.append(filters);
   const ranking = canvas.querySelector("[aria-labelledby=ranking-title]");
   ranking.querySelector('.section-head').insertAdjacentHTML('beforeend', '<button type="button" class="button scenario-columns" aria-pressed="false">More columns</button>');
   document.querySelector('.scenario-columns').addEventListener('click', e => {
@@ -187,7 +188,7 @@ async function main() {
   });
   const matrix = canvas.querySelector("[aria-labelledby=matrix-title]");
   const catalogue = canvas.querySelector("[aria-labelledby=catalogue-title]");
-  workspaceTabs(canvas, [["ranking","Rankings",[ranking]],["matrix","Across all scenarios",[matrix]]], "scenario");
+  canvas.append(disclosure(matrix,'Across all scenarios'));
   canvas.append(disclosure(catalogue,"The full diagnostic suite"));
   document.querySelectorAll("[data-challenge]").forEach(button => button.addEventListener("click", () => {
     document.getElementById("scenario-select").value = button.dataset.challenge;
@@ -239,7 +240,7 @@ async function main() {
     const selected = metadata(state.scenario);
     document.querySelectorAll('[data-challenge]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.challenge === state.scenario)));
     const choices=document.querySelector('.challenge-nav'),chosen=choices.querySelector('[aria-pressed="true"]');
-    if(chosen)choices.scrollLeft=Math.max(0,chosen.offsetLeft-choices.offsetLeft-(choices.clientWidth-chosen.offsetWidth)/2);
+    if(chosen&&choices.offsetParent&&choices.scrollHeight>choices.clientHeight){if(chosen.offsetTop<choices.scrollTop)choices.scrollTop=chosen.offsetTop;else if(chosen.offsetTop+chosen.offsetHeight>choices.scrollTop+choices.clientHeight)choices.scrollTop=chosen.offsetTop+chosen.offsetHeight-choices.clientHeight;}
     const byScore = sortByScenario(models);
     const best = byScore.find((m) =>
       finite(scenarioScore(m, state.scenario)?.score),
@@ -387,9 +388,8 @@ async function main() {
         state.scenario = link.dataset.scenario;
         document.getElementById("scenario-select").value = state.scenario;
         update();
-        document
-          .getElementById("scenario-select")
-          .focus({ preventScroll: true });
+        const choice=matchMedia('(max-width:700px)').matches?document.getElementById('scenario-select'):document.querySelector(`[data-challenge="${CSS.escape(state.scenario)}"]`);
+        choice?.focus({preventScroll:true});
         document
           .getElementById("scenario-summary")
           .scrollIntoView({ block: "start", behavior: "instant" });
@@ -436,6 +436,8 @@ async function main() {
       render();
     });
   render();
+  const revealHash=()=>{let id;try{id=decodeURIComponent(location.hash.slice(1));}catch{return;}const target=document.getElementById(id);if(!target)return;for(let node=target;node&&node!==canvas;node=node.parentElement)if(node.tagName==='DETAILS')node.open=true;requestAnimationFrame(()=>target.scrollIntoView({block:'start'}));};
+  addEventListener('hashchange',revealHash);revealHash();
 }
 
 main().catch(errorPage);

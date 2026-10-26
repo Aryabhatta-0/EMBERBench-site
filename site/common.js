@@ -1,3 +1,4 @@
+import {siteFooter} from './footer.js?v=20261027-guide-footer-1';
 import {
   provider,
   providerInfo,
@@ -163,16 +164,9 @@ export function shell(data, active) {
     "afterbegin",
     `<a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="index.html" class="brand" aria-label="Anantam home"><img class="brand-logo" src="assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation">${pages.map(([id, url, label]) => `<a href="${url}" class="${id === active ? "active" : ""}" ${id === active ? 'aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="header-actions"><a class="repo-link" href="${REPO}">GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></header><div class="status-banner"><span class="status-copy">Public development results</span><a href="methodology.html#public-development">Read the scope</a></div>`,
   );
-  main.insertAdjacentHTML(
-    "afterend",
-    `<footer class="site-footer container"><div><a href="index.html" class="footer-brand"><img src="assets/anantam-logo.png" width="30" height="30" alt="">Anantam</a><p class="muted">Boundless Possibilities</p></div><div><a href="leaderboard.html">Leaderboard</a><a href="scenarios.html">Scenarios</a><a href="methodology.html#provenance">Data provenance</a><a href="docs/scoring.html">Scoring specification <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></footer>`,
-  );
-  if (company || active==='methodology') document.querySelector('.status-banner')?.remove();
-  document.querySelector('.site-footer > div:first-child').innerHTML = `<a href="index.html" class="footer-brand"><img src="assets/anantam-logo.png" width="30" height="30" alt="">Anantam</a><p class="muted">Boundless Possibilities</p>`;
-  if (company) {
-    document.querySelector('.site-footer > div:last-child').remove();
-  }
-  if (!company && active!=='methodology') {
+  main.insertAdjacentHTML('afterend',siteFooter());
+  if (company || ['methodology','scenarios'].includes(active)) document.querySelector('.status-banner')?.remove();
+  if (!company && !['methodology','scenarios'].includes(active)) {
     const links = [['leaderboard','benchmark.html','Results'],['compare','compare.html','Compare'],['scenarios','scenarios.html','Scenarios']];
     document.querySelector('.status-banner').outerHTML = `<nav class="benchmark-subnav" aria-label="Benchmark navigation">${links.map(([id,href,label]) => `<a href="${href}" ${id === active ? 'aria-current="page"' : ''}>${label}</a>`).join('')}</nav>`;
   }

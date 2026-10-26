@@ -43,6 +43,7 @@ try {
       await overflow(`${width}px ${route}`);
       check(`${width}px ${route}: heading`, (await page.locator('h1').count()) === 1);
     }
+    check(`${width}px shared company footer has full-width curve and separate bottom row`,await page.locator('.company-footer').evaluate(el=>{const r=el.getBoundingClientRect(),grid=el.querySelector('.footer-grid').getBoundingClientRect(),bottom=el.querySelector('.footer-bottom').getBoundingClientRect();return r.left===0&&Math.abs(r.right-document.documentElement.clientWidth)<1&&bottom.top>=grid.bottom&&el.querySelector('.footer-tagline').textContent==='Boundless Possibilities'&&getComputedStyle(el.querySelector('.footer-content')).display==='block';}));
   }
   await page.setViewportSize({ width: 1440, height: 1000 });
   await go('index.html');

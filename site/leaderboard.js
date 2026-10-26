@@ -1,4 +1,4 @@
-import {PAGE_SIZE} from './benchmark-dashboard.js?v=20261027-distill-1';
+import {PAGE_SIZE} from './benchmark-dashboard.js?v=20261027-guide-footer-1';
 import {
   loadResults,
   shell,
@@ -10,7 +10,7 @@ import {
   provider,
   providerInfo,
   errorPage,
-} from "./common.js?v=20261027-distill-1";
+} from "./common.js?v=20261027-guide-footer-1";
 import {
   METRICS,
   filterModels,
@@ -18,7 +18,7 @@ import {
   finite,
   leaderboardOrder,
 } from "./analytics.js";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-distill-1';
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-guide-footer-1';
 
 const columns = [
   ["score", "EMBER"],

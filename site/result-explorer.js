@@ -1,5 +1,5 @@
-import {dashboard,bindDashboard} from './benchmark-dashboard.js?v=20261027-distill-1';
-import {esc, fmt, count, providerChip, scenarioName, ciText, isDecision} from './common.js?v=20261027-distill-1';
+import {dashboard,bindDashboard} from './benchmark-dashboard.js?v=20261027-guide-footer-1';
+import {esc, fmt, count, providerChip, scenarioName, ciText, isDecision} from './common.js?v=20261027-guide-footer-1';
 import {finite, leaderboardOrder} from './analytics.js';
 
 const arrow = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>';

@@ -1,4 +1,4 @@
-import { redesignProfile } from "./workspace.js?v=20261027-distill-1";
+import { redesignProfile } from "./workspace.js?v=20261027-guide-footer-1";
 import {
   loadResults,
   shell,
@@ -20,7 +20,7 @@ import {
   providerChip,
   scenarioName,
   errorPage,
-} from "./common.js?v=20261027-distill-1";
+} from "./common.js?v=20261027-guide-footer-1";
 import { leaderboardOrder, finite } from "./analytics.js";
 import { scoreBars, componentChart, heatmap } from "./charts.js";
 

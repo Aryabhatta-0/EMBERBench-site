@@ -1,4 +1,4 @@
-import {shell,loadResults,esc,fmt} from './common.js?v=20261027-distill-1';
+import {shell,loadResults,esc,fmt} from './common.js?v=20261027-guide-footer-1';
 import {mountEvaluationLoop} from './evaluation-loop.js';
 import {mountHeroMotion} from './hero-motion.js?v=20261027-continuous-lines-1';
 
