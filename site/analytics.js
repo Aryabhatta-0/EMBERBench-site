@@ -1,18 +1,18 @@
 // Pure operations shared by the UI and its Node tests. Missing values stay missing.
 export const finite = (v) => typeof v === "number" && Number.isFinite(v);
 export const PROVIDER_BRANDS = Object.freeze({
-  typesafe: { name: "TypeSafe", mark: "T", color: "#b94f2c" },
-  "nace-ai": { name: "Nace.AI", mark: "N", color: "#536b84" },
-  liquid: { name: "Liquid AI", mark: "L", color: "#5666d8" },
-  openai: { name: "OpenAI", mark: "O", color: "#14715e" },
-  perplexity: { name: "Perplexity", mark: "P", color: "#20727d" },
-  subq: { name: "SubQ", mark: "S", color: "#a43b32" },
-  respan: { name: "Respan", mark: "R", color: "#7740b8" },
-  cloudflare: { name: "Cloudflare", mark: "C", color: "#c95706" },
-  microsoft: { name: "Microsoft", mark: "M", color: "#0078d4" },
-  inception: { name: "Inception", mark: "I", color: "#ad4059" },
-  togethercomputer: { name: "Together AI", mark: "T", color: "#5945a5" },
-  upstage: { name: "Upstage", mark: "U", color: "#525bc3" },
+  typesafe: { name: "TypeSafe", logo: "typesafe.png", color: "#e551ba" },
+  "nace-ai": { name: "Nace.AI", logo: "nace-ai.svg", color: "#171717" },
+  liquid: { name: "Liquid AI", logo: "liquid.ico", color: "#000000" },
+  openai: { name: "OpenAI", logo: "openai.svg", color: "#000000" },
+  perplexity: { name: "Perplexity", logo: "perplexity.svg", color: "#20808d" },
+  subq: { name: "SubQ", logo: "subq.svg", color: "#e04e1f" },
+  respan: { name: "Respan", logo: "respan.png", color: "#f55656" },
+  cloudflare: { name: "Cloudflare", logo: "cloudflare.ico", color: "#ff500a" },
+  microsoft: { name: "Microsoft", logo: "microsoft.ico", color: "#00a4ef" },
+  inception: { name: "Inception", logo: "inception.png", color: "#17c4c4" },
+  togethercomputer: { name: "Together AI", logo: "togethercomputer.png", color: "#fc4c02" },
+  upstage: { name: "Upstage", logo: "upstage.svg", color: "#805cfb" },
   Reference: { name: "Reference agent", mark: "R", color: "#8798aa" },
 });
 export function provider(m) {

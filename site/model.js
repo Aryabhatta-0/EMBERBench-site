@@ -20,8 +20,8 @@ import {
   providerChip,
   scenarioName,
   errorPage,
-} from "./common.js?v=20261027-guide-footer-2";
-import { leaderboardOrder, finite } from "./analytics.js";
+} from "./common.js?v=20261027-brands-1";
+import { leaderboardOrder, finite } from "./analytics.js?v=20261027-brands-1";
 import { scoreBars, componentChart, heatmap } from "./charts.js";
 
 function diagnosticRows(object) {

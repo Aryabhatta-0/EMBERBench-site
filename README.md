@@ -2,7 +2,7 @@
 
 **Boundless Possibilities.** **EMBERBench** is its first and only published contribution.
 
-The light-only company homepage presents a centered identity, a mist-blue hero with flowing brand ribbons and direct benchmark access, followed by a concise typographic introduction to EMBERBench. It does not load result data or display a leaderboard. The benchmark uses the browser width for four open chart sections, with ten-model ranking pages and selected-model scenario bars. Comparison controls and tables belong on the separate comparison page. Complete documentation is hosted on the site, with local search and section navigation.
+The light-only company homepage presents a centered identity, a mist-blue hero with flowing brand ribbons and direct benchmark access, followed by a concise typographic introduction to EMBERBench. It does not load result data or display a leaderboard. The benchmark uses the browser width for four open chart sections, with every matching model in the main ranking, people outcomes and ten scenario comparisons, using local provider logos and observed brand colours. Comparison controls and tables belong on the separate comparison page. Complete documentation is hosted on the site, with local search and section navigation.
 
 See [the motion and charts revision](docs/MOTION_AND_CHARTS.md) for the latest changes. See [the earlier skill-by-skill report](docs/COMPANY_REDESIGN.md) for the fifteen requested skills, references, implementation choices, validation, and limits. Earlier implementation notes below describe the benchmark explorer's history.
 
@@ -32,7 +32,7 @@ If EMBERBench changes its scoring or report format, update the `emberbench` pin 
 
 - `index.html`: centered company identity and a static introduction explaining the benchmark's task and evaluation.
 - `benchmark.html`: full-width charts, model evidence, searchable filters and metric sorting, without comparison tables or selectors.
-- `leaderboard.html`: compatibility URL for the same results page. Query parameters preserve selected model, filters, ranking page and sorting.
+- `leaderboard.html`: compatibility URL for the same results page. Query parameters preserve explicit model selection, filters and sorting.
 - `compare.html?models=ID,ID`: 2–4 model profiles, components, scenarios, world scores, robustness, congestion and API metrics. Exactly two entries also show descriptive paired world differences.
 - `model.html?id=ID`: model profile with nine evidence sections and reproducibility metadata.
 - `scenarios.html?scenario=ID`: documented public scenarios, generated populations/world counts, sortable scenario rankings and heatmap ordering.

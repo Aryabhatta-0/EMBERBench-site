@@ -13,8 +13,8 @@ import {
   errorPage,
   REPO,
   scenarioName,
-} from "./common.js?v=20261027-guide-footer-2";
-import { filterModels, finite, worldKey } from "./analytics.js";
+} from "./common.js?v=20261027-brands-1";
+import { filterModels, finite, worldKey } from "./analytics.js?v=20261027-brands-1";
 import { heatmap } from "./charts.js";
 
 // Descriptions and fire-model labels come from docs/scenario-suite.md.

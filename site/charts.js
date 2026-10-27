@@ -6,8 +6,8 @@ import {
   table,
   COMPONENTS,
   ratio,
-} from "./common.js?v=20261027-guide-footer-2";
-import { finite, METRICS, paretoFrontier, provider, providerInfo } from "./analytics.js";
+} from "./common.js?v=20261027-brands-1";
+import { finite, METRICS, paretoFrontier, provider, providerInfo } from "./analytics.js?v=20261027-brands-1";
 
 export const legend = () =>
   `<div class="chart-legend"><span><i class="legend-dot decision"></i>Decision model</span><span><i class="legend-dot reference"></i>Reference agent (square)</span><span>Hover or focus marks for values. Select a name to open its profile.</span></div>`;

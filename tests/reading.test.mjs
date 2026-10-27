@@ -27,6 +27,8 @@ try {
   check('Entry begins with real AI model charts without comparison tables',await page.locator('.result-chart').isVisible() && await page.locator('main table').count()===0 && await page.locator('#kind').inputValue()==='Decision model');
   check('Leading chart uses official scientific order',await page.locator('[data-inspect]').first().getAttribute('data-inspect')===ai[0].id);
   check('Chart uses fixed 0–100 scale',Math.abs(await page.locator('.chart-fill').first().evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d)-ai[0].score/100)<.00001);
+  check('Overview has no preselected model',await page.locator('#result-inspector').count()===0);
+  await page.locator('[data-inspect]').first().click();
   check('Inspector reports actual outcomes',await page.locator('.result-inspector .people-legend dd').allTextContents().then(v=>v.join('|')===[ai[0].totals.evacuated,ai[0].totals.avoidable_casualties,ai[0].totals.avoidable_stranded].join('|')));
   check('Visible explanation distinguishes score from survival percentage',(await page.locator('.plot-note').textContent()).includes('not the percentage'));
   await audit('Visual score results desktop');
@@ -40,7 +42,7 @@ try {
   check('Reload restores selected model',await page.locator('#inspector-title').textContent()===ai[1].name);
   await openFilters();await page.locator('#metric').selectOption('evacuated');
   const people=sortModels(ai,'evacuated','desc');
-  check('People lens displays actual counts and sorts for that question',await page.locator('[data-inspect]').first().getAttribute('data-inspect')===people[0].id && await page.locator('.plot-heading').innerText().then(t=>t.includes('people')));
+  check('People lens displays actual counts and sorts for that question',await page.locator('[data-inspect]').first().getAttribute('data-inspect')===people[0].id && await page.locator('.rank-panel .dashboard-panel-head').innerText().then(t=>t.includes('people')));
   await openFilters();await page.locator('#metric').selectOption('cost');
   check('API chart makes measurement limits visible',(await page.locator('.plot-note').textContent()).includes('Missing data is not zero'));
   await page.locator('#kind').selectOption('Reference agent');
@@ -51,12 +53,7 @@ try {
   await page.locator('#search').fill('nothing-matches');
   check('Visual search has a recovery state',await page.getByRole('heading',{name:'No matching models.',exact:true}).isVisible());
   await openFilters();await page.getByRole('button',{name:'Reset filters',exact:true}).click();
-  const seen=new Set();
-  do{
-    for(const id of await page.locator('[data-inspect]').evaluateAll(els=>els.map(el=>el.dataset.inspect)))seen.add(id);
-    const next=page.getByRole('button',{name:'Next ten models',exact:true});if(await next.isDisabled())break;await next.click();
-  }while(true);
-  check('All models can be reached in a readable full-width chart',seen.size===ai.length&&await page.locator('.rank-panel').evaluate(el=>el.getBoundingClientRect().height>480));
+  check('All decision models appear together without chart pagination',await page.locator('[data-inspect]').count()===ai.length&&await page.locator('[data-chart-page]').count()===0);
   await go('benchmark.html');
   await page.locator('[data-inspect]').first().focus();await page.keyboard.press('ArrowDown');
   check('Arrow navigation selects and focuses the next model',await page.locator('#inspector-title').textContent()===ai[1].name && await page.locator('[data-inspect]').nth(1).evaluate(el=>el===document.activeElement));

@@ -5,7 +5,7 @@ import {
   rankOf,
   selectedIds,
   leaderboardOrder,
-} from "./analytics.js";
+} from "./analytics.js?v=20261027-brands-1";
 
 export const esc = (v) =>
   String(v ?? "").replace(
@@ -35,7 +35,7 @@ export const modelLink = (m) =>
   `<a class="model-name" href="model.html?id=${encodeURIComponent(m.id)}">${esc(m.name)}</a>`;
 export const providerChip = (m) => {
   const info = providerInfo(m);
-  return `<span class="provider-chip" style="--provider-color:${info.color}"><span class="provider-mark" aria-hidden="true">${esc(info.mark)}</span><span>${esc(info.name)}</span></span>`;
+  return `<span class="provider-chip" style="--provider-color:${info.color}">${info.logo?`<img class="provider-mark" src="assets/providers/${esc(info.logo)}" width="20" height="20" alt="">`:`<span class="provider-mark" aria-hidden="true">${esc(info.mark)}</span>`}<span>${esc(info.name)}</span></span>`;
 };
 export const kindBadge = (m) =>
   `<span class="badge ${isDecision(m) ? "decision" : "reference"}">${esc(m.kind)}</span>`;

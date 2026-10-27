@@ -2191,3 +2191,6 @@ caption {
     min-width: 0;
   }
 }
+
+/* Provider artwork retains its original colours and proportions. */
+.provider-chip img.provider-mark{object-fit:contain;background:transparent;border-radius:0;}

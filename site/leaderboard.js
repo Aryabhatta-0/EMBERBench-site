@@ -1,4 +1,3 @@
-import {PAGE_SIZE} from './benchmark-dashboard.js?v=20261027-guide-footer-1';
 import {
   loadResults,
   shell,
@@ -10,15 +9,15 @@ import {
   provider,
   providerInfo,
   errorPage,
-} from "./common.js?v=20261027-guide-footer-2";
+} from "./common.js?v=20261027-brands-1";
 import {
   METRICS,
   filterModels,
   sortModels,
   finite,
   leaderboardOrder,
-} from "./analytics.js";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-guide-footer-1';
+} from "./analytics.js?v=20261027-brands-1";
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-all-models-1';
 
 const columns = [
   ["score", "EMBER"],
@@ -52,7 +51,6 @@ async function main() {
     sort: params.get("metric") ?? ({people:"evacuated",api:"cost"}[params.get("view")] || "score"),
     direction: params.get("direction") ?? (params.get("view")==="api" ? "asc" : "desc"),
     inspect: params.get('model') ?? '',
-    page: params.has('page') ? Math.max(0,Number(params.get('page'))||0) : null,
   };
   if (!['all','Decision model','Reference agent'].includes(state.kind)) state.kind = 'Decision model';
   if (!Object.hasOwn(METRICS, state.sort)) state.sort = "score";
@@ -87,11 +85,10 @@ async function main() {
     visual.innerHTML = resultExplorer(data,models,state,value);
     bindResultExplorer(visual,{
       inspect:(id,pointer,source)=>{
-        state.inspect=id;state.page=Math.floor(models.findIndex(m=>m.id===id)/PAGE_SIZE);update();
+        state.inspect=id;update();
         const target=source==='scatter'?document.querySelector(`[data-plot-select="${CSS.escape(id)}"]`):document.querySelector(`[data-inspect="${CSS.escape(id)}"]`);target?.focus({preventScroll:true});
         if (pointer && !matchMedia('(prefers-reduced-motion:reduce)').matches) document.getElementById('result-inspector')?.animate([{transform:'translateY(6px)'},{transform:'translateY(0)'}],{duration:220,easing:'cubic-bezier(.2,0,0,1)'});
       },
-      page:(page,direction)=>{state.page=page;update();(document.querySelector(`.chart-pagination button[aria-label^="${direction==='next'?'Next':'Previous'}"]:not([disabled])`)||document.querySelector('.chart-pagination button:not([disabled])'))?.focus({preventScroll:true});},
     });
     if (focusInspect) document.querySelector(`[data-inspect="${CSS.escape(focusInspect)}"]`)?.focus({preventScroll:true});
   };
@@ -103,13 +100,12 @@ async function main() {
       metric: state.sort,
       direction: state.direction,
       ...(state.inspect ? {model:state.inspect} : {}),
-      ...(state.page!==null ? {page:String(state.page)} : {}),
     });
     history.replaceState(null, "", `?${p}`);
     render();
   };
   document.getElementById("search").addEventListener("input", (e) => {
-    state.query = e.target.value;state.page=null;
+    state.query = e.target.value;
     update();
   });
   for (const [id, key] of [
@@ -118,14 +114,14 @@ async function main() {
     ["metric", "sort"],
   ])
     document.getElementById(id).addEventListener("change", (e) => {
-      state[key] = e.target.value;state.page=null;
+      state[key] = e.target.value;
       if (key === "sort")
         state.direction =
           METRICS[state.sort].direction === "higher" ? "desc" : "asc";
       update();
     });
   document.getElementById("reset-filters").addEventListener("click", () => {
-    state.query = "";state.page=null;
+    state.query = "";
     state.kind = "Decision model";
     state.creator = "all";
     state.sort = "score";

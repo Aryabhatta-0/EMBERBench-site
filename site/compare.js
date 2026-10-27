@@ -22,13 +22,13 @@ import {
   scenarioName,
   errorPage,
   isDecision,
-} from "./common.js?v=20261027-guide-footer-2";
+} from "./common.js?v=20261027-brands-1";
 import {
   selectedIds,
   pairedDifferences,
   leaderboardOrder,
   finite,
-} from "./analytics.js";
+} from "./analytics.js?v=20261027-brands-1";
 import { componentChart, heatmap, differenceChart } from "./charts.js";
 
 const fields = [

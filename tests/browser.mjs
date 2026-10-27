@@ -83,7 +83,7 @@ try {
   check('No-JavaScript introduction visible', await fallback.locator('h1').isVisible());
   await nojs.close();
   await go('benchmark.html');
-  check('Benchmark shows JEV 1.14 as leading decision model',await page.locator('#visual-results').innerText().then(t=>t.includes('typesafe/jev-1.14')));
+  check('Benchmark opens with all decision models and no featured model',await page.locator('.column-model').count()===19&&await page.locator('#result-inspector').count()===0);
   await go('leaderboard.html?q=jev');
   check('Both evaluated JEV versions are searchable',await page.locator('[data-plot-select]').count() === 2);
   check('Leaderboard replaces latest alias with evaluated 1.13',await page.locator('.column-model').evaluateAll(els=>els.map(el=>el.getAttribute('aria-label')).join('|')).then(t=>t.includes('typesafe/jev-1.13')&&!t.includes('jev-latest')));

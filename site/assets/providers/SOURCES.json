@@ -1,0 +1,114 @@
+{
+  "retrieved": "2026-10-27",
+  "usage": "Provider identification in benchmark results; trademarks belong to their respective owners. Artwork is displayed without recolouring. OpenAI artwork from svgl, visually checked against official OpenAI brand guidance.",
+  "providers": [
+    {
+      "provider": "typesafe",
+      "homepage": "https://typesafe.ai/",
+      "asset": "typesafe.png",
+      "assetSource": "https://framerusercontent.com/images/aNFzSFxM4fjICmnibw7npfZjcQ.png",
+      "chartColor": "#e551ba",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "fcb8f554778c45ff62b97ca05df643588b39c8c66913736b7fe3485cedd96180"
+    },
+    {
+      "provider": "nace-ai",
+      "homepage": "https://www.nace.ai/",
+      "asset": "nace-ai.svg",
+      "assetSource": "https://www.nace.ai/icon.svg",
+      "chartColor": "#171717",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "4ada36fffcd3c84b1d82da3a0a6dea750ea9c669c373763eaab71f114f2f1197"
+    },
+    {
+      "provider": "liquid",
+      "homepage": "https://www.liquid.ai/",
+      "asset": "liquid.ico",
+      "assetSource": "https://www.liquid.ai/favicon.ico?favicon.2y0c-hpb4ow2i.ico",
+      "chartColor": "#000000",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "2220757330bfbbb1b25f88d71040e5396c692031ee200e8fd1b7f19397a12249"
+    },
+    {
+      "provider": "subq",
+      "homepage": "https://subq.ai/",
+      "asset": "subq.svg",
+      "assetSource": "https://subq.ai/favicon.svg",
+      "chartColor": "#e04e1f",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "3441b4b4550d9c70853ad56e3f485e2c170512e4654b25ec6816a1e6faaf0f23"
+    },
+    {
+      "provider": "respan",
+      "homepage": "https://www.respan.ai/",
+      "asset": "respan.png",
+      "assetSource": "https://www.respan.ai/favicon-48x48.png",
+      "chartColor": "#f55656",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "ec9467821dc610dc010f71cd5f2152a9ad72ac81fcc0473db038c0a67421d4d0"
+    },
+    {
+      "provider": "cloudflare",
+      "homepage": "https://www.cloudflare.com/",
+      "asset": "cloudflare.ico",
+      "assetSource": "https://www.cloudflare.com/favicon.ico",
+      "chartColor": "#ff500a",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "5414bc6e4b3f6e10f99b5d37abf4420da4dcaece66f8f2c08e090e87267adbc5"
+    },
+    {
+      "provider": "microsoft",
+      "homepage": "https://www.microsoft.com/en-in",
+      "asset": "microsoft.ico",
+      "assetSource": "https://www.microsoft.com/favicon.ico?v2",
+      "chartColor": "#00a4ef",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "90cdaf487716184e4034000935c605d1633926d348116d198f355a98b8c6cd21"
+    },
+    {
+      "provider": "inception",
+      "homepage": "https://www.inceptionlabs.ai/",
+      "asset": "inception.png",
+      "assetSource": "https://framerusercontent.com/images/u3lyX8mBY8mLYJQ0zOr4Y0ucwe4.png",
+      "chartColor": "#17c4c4",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "eb576fbfc4d4a8b3c93c8269ec52ec8ec70872d8c51558c085db04074dcc255d"
+    },
+    {
+      "provider": "togethercomputer",
+      "homepage": "https://www.together.ai/",
+      "asset": "togethercomputer.png",
+      "assetSource": "https://cdn.prod.website-files.com/69654e88dce9154b5f1206dd/699e382b218f39bfa0a115d9_favicon.png",
+      "chartColor": "#fc4c02",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "2c02a5d635eae4f63153e9eacb24e001e21f84a4b667a5925f120c1492c58f30"
+    },
+    {
+      "provider": "upstage",
+      "homepage": "https://www.upstage.ai/",
+      "asset": "upstage.svg",
+      "assetSource": "https://cdn.prod.website-files.com/6743d5190bb2b52f38e99e37/6748713db65988aab4e2dbf7_G.WEB.svg",
+      "chartColor": "#805cfb",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "b1e56323951892332bdc7bce41968301ee0887c08f67c33f738c0db224ca8958"
+    },
+    {
+      "provider": "openai",
+      "homepage": "https://openai.com/brand/",
+      "asset": "openai.svg",
+      "assetSource": "https://raw.githubusercontent.com/pheralb/svgl/main/static/library/openai.svg",
+      "chartColor": "#000000",
+      "colorSource": "Official homepage or linked identity asset; observed colour, not a claim of a published brand standard.",
+      "sha256": "71eba8e11d265af0e3375ad610db95b4a5fedf9f07c40e5252e73942b8c5982e"
+    },
+    {
+      "provider": "perplexity",
+      "homepage": "https://www.perplexity.ai/",
+      "asset": "perplexity.svg",
+      "assetSource": "https://www.perplexity.ai/favicon.svg",
+      "chartColor": "#20808d",
+      "colorSource": "https://live.standards.site/perplexity",
+      "sha256": "00180a688c194d684a69b247769cdf24a7720712256dbe0f334f97e8a15821e4"
+    }
+  ]
+}

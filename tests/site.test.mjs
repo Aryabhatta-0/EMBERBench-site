@@ -34,21 +34,17 @@ import {
   differenceChart,
 } from "../site/charts.js";
 import data from "../site/data/results.js";
-import {rankingPage,outcomeParts,PAGE_SIZE} from '../site/benchmark-dashboard.js';
+import {metricScale,outcomeParts} from '../site/benchmark-dashboard.js';
 
-test('bounded chart pages cover a filtered cohort exactly without changing its order',()=>{
-  const models=data.models.filter(m=>m.kind==='Decision model'),snapshot=[...models];
-  const pages=Array.from({length:Math.ceil(models.length/PAGE_SIZE)},(_,i)=>rankingPage(models,i));
-  assert.deepEqual(pages.flatMap(p=>p.models),models);
-  assert.ok(pages.every(p=>p.models.length<=PAGE_SIZE));
-  assert.equal(rankingPage(models,-5).current,0);
-  assert.equal(rankingPage(models,Infinity).current,0);
-  assert.equal(rankingPage(models,999).current,pages.length-1);
-  assert.deepEqual(rankingPage([],0).models,[]);
-  assert.deepEqual(models,snapshot);
+test('chart scales retain a shared zero baseline and ignore unavailable measurements',()=>{
+  assert.equal(metricScale(data.models,'score'),100);
+  assert.equal(metricScale(data.models,'safety'),1);
+  assert.equal(metricScale(data.models,'quality'),1);
+  assert.equal(metricScale([{api:{cost_usd:null}},{api:{cost_usd:0}},{api:{cost_usd:2.5}}],'cost'),2.5);
+  assert.equal(metricScale([],'cost'),0);
 });
 
-test('donut geometry uses published people counts rather than the composite EMBER score',()=>{
+test('outcome segments use published people counts rather than the composite EMBER score',()=>{
   for(const model of data.models){
     const parts=outcomeParts(model);
     assert.deepEqual(parts.map(p=>p[2]),[model.totals.evacuated,model.totals.avoidable_casualties,model.totals.avoidable_stranded,model.totals.unavoidable_losses||0]);

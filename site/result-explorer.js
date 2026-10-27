@@ -1,6 +1,6 @@
-import {dashboard,bindDashboard} from './benchmark-dashboard.js?v=20261027-guide-footer-1';
-import {esc, fmt, count, providerChip, scenarioName, ciText, isDecision} from './common.js?v=20261027-guide-footer-2';
-import {finite, leaderboardOrder} from './analytics.js';
+import {dashboard,bindDashboard} from './benchmark-dashboard.js?v=20261027-all-models-1';
+import {esc, fmt, count, providerChip, scenarioName, ciText, isDecision} from './common.js?v=20261027-brands-1';
+import {finite, leaderboardOrder} from './analytics.js?v=20261027-brands-1';
 
 const arrow = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>';
 const outcome = (value, label, cls) => `<span class="outcome-segment ${cls}" style="flex-grow:${Math.max(0,value)}" title="${esc(`${count(value)} ${label}`)}"></span>`;
@@ -20,8 +20,8 @@ function inspector(data, model) {
 
 export function resultExplorer(data, models, state, value) {
   if (!models.length) return `<div class="empty"><h2>No matching models.</h2><p>Try another search or reset filters.</p></div>`;
-  const selected = models.find(m=>m.id===state.inspect) || models[0];
-  return `${dashboard(data,models,selected,state,value)}<section class="selected-evidence" aria-label="Selected model evidence">${inspector(data,selected)}</section>`;
+  const selected = models.find(m=>m.id===state.inspect) || null;
+  return `${dashboard(data,models,selected,state,value)}${selected?`<section class="selected-evidence" aria-label="Selected model evidence">${inspector(data,selected)}</section>`:''}`;
 }
 
 export function bindResultExplorer(root, handlers) {
