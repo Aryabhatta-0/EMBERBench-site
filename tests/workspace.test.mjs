@@ -47,6 +47,12 @@ try {
   check('Escape closes filter options and restores focus',await page.locator('.results-options').evaluate(el=>!el.open&&document.activeElement===el.querySelector('summary')));
   await openFilters();await page.locator('.benchmark-heading h1').click();
   check('Clicking outside dismisses filter options',await page.locator('.results-options').evaluate(el=>!el.open));
+  await go('benchmark.html');await openFilters();
+  check('Provider choices match the selected entry type',await page.locator('#provider option[value="Reference"]').count()===0);
+  await page.locator('#provider').selectOption('OpenAI');await page.locator('#kind').selectOption('Reference agent');
+  check('Changing entry type clears an incompatible provider',await page.locator('#provider').inputValue()==='all'&&await page.locator('.column-model').count()===8);
+  await page.locator('#reset-filters').click();
+  check('Reset restores the complete decision-model cohort',await page.locator('.column-model').count()===19&&await page.locator('.filter-count').isHidden());
   await go('compare.html');
   await page.getByRole('tab',{name:'Outcomes',exact:true}).focus(); await page.keyboard.press('ArrowRight');
   check('Comparison keyboard view navigation',await page.getByRole('tab',{name:'Scenarios & worlds',exact:true}).getAttribute('aria-selected') === 'true');

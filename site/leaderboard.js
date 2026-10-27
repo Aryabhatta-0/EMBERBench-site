@@ -54,6 +54,9 @@ async function main() {
   if (!['all','Decision model','Reference agent'].includes(state.kind)) state.kind = 'Decision model';
   if (!Object.hasOwn(METRICS, state.sort)) state.sort = "score";
   if (!["asc", "desc"].includes(state.direction)) state.direction = "desc";
+  const providersForKind=()=>[...new Set(data.models.filter(m=>state.kind==='all'||m.kind===state.kind).map(provider))].sort();
+  const normalizeProvider=()=>{if(!providersForKind().includes(state.creator))state.creator='all';};
+  normalizeProvider();
   document.getElementById("main").innerHTML =
     `<header class="benchmark-heading"><div><h1>EMBERBench</h1><p>Can AI guide people to safety as a fire spreads?</p></div><p class="benchmark-scope">${esc(data.world_count)} worlds · ${data.models.filter(m=>m.kind==='Decision model').length} decision models · ${data.models.filter(m=>m.kind==='Reference agent').length} reference agents<span>Public development snapshot · 1 trial per model</span></p></header>
     <section class="evaluation-scope" aria-label="Evaluation scope"><h2 class="sr-only">Public development leaderboard</h2><p><strong>Public development results.</strong> Models may train or tune here; scores are reproducible, but not contamination-resistant. Official EMBERBench requires separate hidden evaluation. No official hidden-test results or submission service are published here. <a href="docs/evaluation-boundary.html">About this evaluation</a></p></section>
@@ -72,6 +75,9 @@ async function main() {
   ])
     document.getElementById(id).value = state[key];
   const render = () => {
+    const providerField=document.getElementById('provider');
+    providerField.innerHTML=`<option value="all">All providers</option>${providersForKind().map(p=>`<option value="${esc(p)}">${esc(providerInfo(p).name)}</option>`).join('')}`;
+    providerField.value=state.creator;
     const active = document.activeElement;
     const focusInspect = active?.dataset?.inspect;
     const filtered = filterModels(data.models, state),
@@ -116,6 +122,7 @@ async function main() {
   ])
     document.getElementById(id).addEventListener("change", (e) => {
       state[key] = e.target.value;
+      if(key==='kind')normalizeProvider();
       if (key === "sort")
         state.direction = "desc";
       update();
