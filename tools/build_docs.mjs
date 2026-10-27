@@ -1,70 +1,43 @@
 import {siteFooter} from '../site/footer.js';
 // Build a static, self-contained documentation library. No runtime GitHub dependency.
-import {readFile,writeFile,mkdir,readdir,copyFile} from 'node:fs/promises';
-import {resolve,posix} from 'node:path';
+import {readFile,writeFile,mkdir,readdir,copyFile,unlink,lstat,realpath} from 'node:fs/promises';
+import {resolve,posix,relative,isAbsolute} from 'node:path';
+import {createHash} from 'node:crypto';
+import {groups,docs,upstreamIds,retired,constructionTokens} from './docs-policy.mjs';
 import {execFileSync} from 'node:child_process';
 import {marked} from 'marked';
 import sanitizeHtml from 'sanitize-html';
 
 const root=resolve('site'),out=resolve(root,'docs'),sources=resolve(out,'source');
-const version='20261027-boundless-1';
-const groups=[
- ['Start here',[
-  ['quickstart','Overview & setup','What EMBERBench measures, installation and a first evaluation.'],
-  ['cli','Command line','Commands, arguments and repeatable workflows.'],
-  ['model-interface','Model interface','Observations, actions and the decision-model contract.'],
-  ['site-data','Published site data','How this site is generated and how to interpret API measurements.'],
- ]],
- ['Evaluation & scoring',[
-  ['scoring','EMBER scoring','The complete score definition, aggregation and ranking rules.'],
-  ['metrics','Episode metrics','Raw outcomes, timing, paths and authenticated measurements.'],
-  ['scenario-suite','Public scenarios','The ten diagnostic scenarios and their design intent.'],
-  ['evaluation','Running evaluations','Paired evaluation schedules, records and result handling.'],
-  ['environment-pack','Frozen environments','EnvironmentPack construction, digests and matched fire worlds.'],
-  ['simulation-contract','Simulation contract','Movement, collisions, exits and fire semantics.'],
-  ['v1-fairness-spec','Fairness specification','Information boundaries and the frozen V1 protocol.'],
-  ['integrity','Integrity & provenance','Validation, replay authentication and held-out evaluation.'],
-  ['baselines','Reference agents','Hand-coded agents and planning references.'],
-  ['statistics','Statistical analysis','Intervals, resampling and paired comparisons.'],
- ]],
- ['Research & design',[
-  ['benchmark-methodology','Benchmark methodology','The scientific rationale behind the benchmark.'],
-  ['crowd-diagnostics','Crowd diagnostics','Coordination and congestion diagnostics.'],
-  ['procedural-generation','Procedural generation','Scenario families and generated environments.'],
-  ['generator','Generator specification','Generation constraints, configuration and validation.'],
-  ['evaluation-suite-design','Evaluation suite design','Suite composition, coverage and hidden evaluation.'],
-  ['difficulty-calibration','Difficulty calibration','Calibrating generated-world difficulty.'],
-  ['scoring-study-results','Scoring study','Published score sensitivity and validation results.'],
-  ['suite-design-results','Suite design study','Published suite coverage and interval analysis.'],
-  ['generator-coverage-results','Generator coverage','Published procedural coverage results.'],
- ]],
- ['Reference',[
-  ['scenario-schema','Scenario schema','Scenario fields and validation rules.'],
-  ['versioning','Versioning','Simulation, metric, scoring and package versions.'],
-  ['replay-visualization','Replay audit tools','Command-line replay audit and visualization documentation.'],
-  ['release-checklist','Release checklist','Protocol and release validation requirements.'],
-  ['changelog','Changelog','Recorded benchmark changes.'],
- ]],
-];
-const docs=groups.flatMap(([group,items])=>items.map(([id,title,description])=>({id,title,description,group})));
-await mkdir(sources,{recursive:true});
-const sourceArg=process.argv.indexOf('--source');
-if(sourceArg!==-1){
- const checkout=resolve(process.argv[sourceArg+1]);
- for(const name of await readdir(resolve(checkout,'docs')))if(name.endsWith('.md'))await copyFile(resolve(checkout,'docs',name),resolve(sources,name));
- await copyFile(resolve(checkout,'README.md'),resolve(sources,'quickstart.md'));
- await copyFile(resolve('docs/SITE_DATA.md'),resolve(sources,'site-data.md'));
- await copyFile(resolve(checkout,'LICENSE'),resolve(out,'SOURCE-LICENSE.txt'));
- await mkdir(resolve(out,'figures'),{recursive:true});
- await copyFile(resolve(checkout,'docs/figures/suite-ci-width.svg'),resolve(out,'figures/suite-ci-width.svg'));
- const revision=execFileSync('git',['-C',checkout,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
- const manifest={repository:'Aryabhatta-0/EMBERBench',revision,license:'Apache-2.0',documents:[]};
- for(const doc of docs.filter(d=>d.id!=='site-data')){
-  const path=doc.id==='quickstart'?'README.md':`docs/${doc.id}.md`;
-  manifest.documents.push({id:doc.id,path,blob:execFileSync('git',['-C',checkout,'hash-object',path],{encoding:'utf8'}).trim()});
- }
- await writeFile(resolve(out,'source-manifest.json'),JSON.stringify(manifest,null,2)+'\n');
+const version='20261027-public-boundary-1';
+async function rejectSymlinks(dir){const info=await lstat(dir);if(info.isSymbolicLink())throw new Error('Symlinks are not allowed in the publication tree');if(info.isDirectory())for(const name of await readdir(dir))await rejectSymlinks(resolve(dir,name));}
+await rejectSymlinks(root);
+
+const hash=text=>createHash('sha256').update(text.replace(/\r\n/g,'\n')).digest('hex');
+const reviewed=JSON.parse(await readFile('tools/docs-reviewed-hashes.json','utf8'));
+const sourceArg=process.argv.indexOf('--source'),checkout=sourceArg===-1?null:resolve(process.argv[sourceArg+1]);
+const previous=JSON.parse(await readFile(resolve(out,'source-manifest.json'),'utf8'));
+const manifest={repository:'Aryabhatta-0/EMBERBench',revision:checkout?execFileSync('git',['-C',checkout,'rev-parse','HEAD'],{encoding:'utf8'}).trim():previous.revision,license:'Apache-2.0',policy:'reviewed-public-contracts-v1',documents:[]};
+const contents=new Map();
+for(const doc of docs){
+ const upstream=upstreamIds.has(doc.id),path=upstream?`docs/${doc.id}.md`:doc.id==='site-data'?'docs/SITE_DATA.md':`docs/public/${doc.id}.md`;
+ const input=upstream?(checkout?resolve(checkout,path):resolve(sources,doc.id+'.md')):resolve(path);
+ const canonicalInput=await realpath(input),inputRoot=await realpath(upstream&&checkout?checkout:resolve('.')),inside=relative(inputRoot,canonicalInput);
+ if((await lstat(input)).isSymbolicLink()||isAbsolute(inside)||inside==='..'||inside.startsWith('..\\')||inside.startsWith('../'))throw new Error('Document source crosses the reviewed input boundary');
+ const markdown=(await readFile(input,'utf8')).replace(/\r\n/g,'\n'),digest=hash(markdown);
+ if(upstream&&digest!==reviewed[doc.id])throw new Error(`Unreviewed upstream document: ${doc.id}. Publication stopped.`);
+ if(constructionTokens.some(pattern=>pattern.test(markdown)))throw new Error(`Construction material rejected: ${doc.id}`);
+ contents.set(doc.id,markdown);manifest.documents.push({id:doc.id,path,origin:upstream?'reviewed-upstream':'curated-site',sha256:digest});
 }
+// No writes happen until every input passes the explicit publication policy.
+await mkdir(sources,{recursive:true});
+for(const name of await readdir(sources))if(name.endsWith('.md')&&!contents.has(name.slice(0,-3)))await unlink(resolve(sources,name));
+for(const [id,markdown] of contents)await writeFile(resolve(sources,id+'.md'),markdown);
+for(const name of await readdir(out))if(name.endsWith('.html')&&!docs.some(d=>d.id+'.html'===name)&&!Object.hasOwn(retired,name.slice(0,-5)))await unlink(resolve(out,name));
+const figures=resolve(out,'figures');
+try{for(const name of await readdir(figures))if(name==='suite-ci-width.svg')await unlink(resolve(figures,name));}catch(e){if(e.code!=='ENOENT')throw e;}
+if(checkout)await copyFile(resolve(checkout,'LICENSE'),resolve(out,'SOURCE-LICENSE.txt'));
+
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const plain=s=>sanitizeHtml(s,{allowedTags:[],allowedAttributes:{}}).replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
 const docIds=new Set(docs.map(d=>d.id));
@@ -74,19 +47,16 @@ function localLink(href,doc){
  const remote=path.match(/^https:\/\/(?:github\.com\/Aryabhatta-0\/EMBERBench\/blob\/[^/]+\/|raw\.githubusercontent\.com\/Aryabhatta-0\/EMBERBench\/[^/]+\/)(.*)$/i);
  if(remote)path=remote[1];
  if(/^[a-z][a-z\d+.-]*:/i.test(path))return path;
- const [file,hash]=path.split('#');
- const base=file.split('/').pop();
- const id=base==='README.md'?'quickstart':base?.replace(/\.md$/,'');
- if(docIds.has(id)&&(/\.md$/.test(file)))return `${id}.html${hash?'#'+hash:''}`;
- if(file.includes('figures/'))return `figures/${base}`;
+ const [file,fragment]=path.split('#'),base=file.split('/').pop(),id=base==='README.md'?'quickstart':base?.replace(/\.md$/,'');
+ if(docIds.has(id)&&/\.md$/.test(file))return `${id}.html${fragment&&upstreamIds.has(id)?'#'+fragment:''}`;
+ if(Object.hasOwn(retired,id))return `${retired[id]}.html`;
  if(file==='../data/results.js')return file;
  if(base==='LICENSE')return 'SOURCE-LICENSE.txt';
- // These links explicitly reference implementation files, not documentation.
- if(file){
-  const parent=['quickstart','site-data'].includes(doc.id)?'':'docs/';
-  const repo=doc.id==='site-data'?'EMBERBench-site':'EMBERBench';
-  return `https://github.com/Aryabhatta-0/${repo}/blob/main/${posix.normalize(parent+file)}${hash?'#'+hash:''}`;
- }
+ if(/\.md$/.test(file))return 'evaluation-boundary.html';
+ const safeCode=new Set(['scoring.py','metrics.py','simulator.py','observation.py','agent.py','evaluation.py','environment_pack.py','statistics.py','scenario.py','movement.py','fire.py','rng.py','replay.py','cli.py']);
+ if(safeCode.has(base))return `https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/${base}${fragment?'#'+fragment:''}`;
+ if(file.startsWith('../scenarios/public/'))return `https://github.com/Aryabhatta-0/EMBERBench/tree/main/${file.slice(3)}`;
+ if(file)return 'evaluation-boundary.html';
  return href;
 }
 function renderMarkdown(markdown,doc){
@@ -114,19 +84,29 @@ function template({title,description,body,prefix='',active='',toc=''}){return `<
 
 const search=[];
 for(const [i,doc] of docs.entries()){
- const markdown=await readFile(resolve(sources,doc.id+'.md'),'utf8');
+ const markdown=contents.get(doc.id);
  const {html,headings}=renderMarkdown(markdown,doc);
  search.push({...doc,text:plain(html).replace(/\s+/g,' ')});
  const toc=`<aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page">${headings.map(h=>`<a href="#${esc(h.id)}">${esc(h.label)}</a>`).join('')}</nav></details></aside>`;
- const body=`<nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>${esc(doc.title)}</span></nav><article class="docs-article">${html}</article><nav class="docs-paging" aria-label="Adjacent guides">${i?`<a href="${docs[i-1].id}.html"><span>Previous</span>${esc(docs[i-1].title)}</a>`:'<span></span>'}${i<docs.length-1?`<a href="${docs[i+1].id}.html"><span>Next</span>${esc(docs[i+1].title)}</a>`:''}</nav><p class="docs-source-note">${doc.id==='site-data'?'Site operations guide.':'Benchmark documentation. Apache License 2.0.'} <a href="source/${doc.id}.md" download>Download Markdown</a></p>`;
- await writeFile(resolve(out,doc.id+'.html'),template({title:doc.title,description:doc.description,body,prefix:'../',active:doc.id,toc}));
+ const body=`<nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>${esc(doc.title)}</span></nav><p class="docs-scope-note">Public task and development documentation. <a href="evaluation-boundary.html">Official evaluation boundary</a>.</p><article class="docs-article">${html}</article><nav class="docs-paging" aria-label="Adjacent guides">${i?`<a href="${docs[i-1].id}.html"><span>Previous</span>${esc(docs[i-1].title)}</a>`:'<span></span>'}${i<docs.length-1?`<a href="${docs[i+1].id}.html"><span>Next</span>${esc(docs[i+1].title)}</a>`:''}</nav><p class="docs-source-note">${upstreamIds.has(doc.id)?'Reviewed public benchmark contract. Apache License 2.0.':'Curated public guide. No private evaluation recipe is included.'} <a href="source/${doc.id}.md" download>Download Markdown</a></p>`;
+ const page=template({title:doc.title,description:doc.description,body,prefix:'../',active:doc.id,toc});
+ await writeFile(resolve(out,doc.id+'.html'),page);
+ manifest.documents.find(entry=>entry.id===doc.id).htmlSha256=hash(page);
 }
-const body=`<header class="docs-intro"><h1>EMBERBench docs</h1><p>Understand the benchmark. Read the protocol. Run an evaluation.</p><a class="button primary" href="docs/quickstart.html">Get started</a></header><div class="docs-index">${groups.map(([group,items])=>`<section><h2>${group}</h2><ul>${items.map(([id,title,description])=>`<li><a href="docs/${id}.html"><strong>${esc(title)}</strong><span>${esc(description)}</span></a></li>`).join('')}</ul></section>`).join('')}</div>`;
-await writeFile(resolve(root,'docs.html'),template({title:'EMBERBench docs',description:'The EMBERBench documentation library: scoring, scenarios, evaluation, model integration and research.',body}));
-await writeFile(resolve(out,'search-index.json'),JSON.stringify(search));
+manifest.retiredPages=[];
+for(const [oldId,target] of Object.entries(retired)){
+ const body=`<article class="docs-article docs-retired"><h1>This guide has moved</h1><p>This website hosts reviewed public contracts and curated development guides. It does not publish official test-distribution construction recipes.</p><p><a href="${target}.html">Read the current guide</a></p></article>`;
+ const page=template({title:'Documentation update',description:'Read the current reviewed public guide.',body,prefix:'../',active:oldId}).replace('<meta name="description"','<meta name="robots" content="noindex"><meta name="description"');
+ await writeFile(resolve(out,oldId+'.html'),page);manifest.retiredPages.push({id:oldId,target,sha256:hash(page)});
+}
+const body=`<header class="docs-intro"><h1>EMBERBench docs</h1><p>The open task, transparent scoring and public development workflow. Private official test construction stays outside this library.</p><a class="button primary" href="docs/quickstart.html">Get started</a></header><div class="docs-index">${groups.map(([group,items])=>`<section><h2>${group}</h2><ul>${items.map(([id,title,description])=>`<li><a href="docs/${id}.html"><strong>${esc(title)}</strong><span>${esc(description)}</span></a></li>`).join('')}</ul></section>`).join('')}</div>`;
+const indexPage=template({title:'EMBERBench docs',description:'Reviewed public EMBERBench contracts, development guides, scoring and evaluation boundaries.',body});
+await writeFile(resolve(root,'docs.html'),indexPage);manifest.indexSha256=hash(indexPage);
+const searchText=JSON.stringify(search);await writeFile(resolve(out,'search-index.json'),searchText);manifest.searchSha256=hash(searchText);
+await writeFile(resolve(out,'source-manifest.json'),JSON.stringify(manifest,null,2)+'\n');
 const missingPath=resolve(root,'404.html');
 let missing=(await readFile(missingPath,'utf8')).replace(/\r\n/g,'\n');
 missing=missing.replace(/\s*<!-- Shared company footer -->[\s\S]*?<\/footer>\s*(?=<\/body>)/,'\n');
 if(!missing.includes('/footer.css?'))missing=missing.replace('</head>','  <link rel="stylesheet" href="/EMBERBench-site/footer.css?v=20261027-guide-footer-1">\n</head>');
 await writeFile(missingPath,missing.replace('</body>',`<!-- Shared company footer -->\n${siteFooter('/EMBERBench-site/')}\n</body>`));
-console.log(`Built ${docs.length} complete guides, documentation index and local full-text search.`);
+console.log(`Built ${docs.length} reviewed public guides, documentation index and local full-text search.`);

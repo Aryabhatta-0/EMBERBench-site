@@ -9,7 +9,7 @@ import {
   provider,
   providerInfo,
   errorPage,
-} from "./common.js?v=20261027-brands-1";
+} from "./common.js?v=20261027-public-boundary-1";
 import {
   METRICS,
   filterModels,
@@ -55,7 +55,8 @@ async function main() {
   if (!Object.hasOwn(METRICS, state.sort)) state.sort = "score";
   if (!["asc", "desc"].includes(state.direction)) state.direction = "desc";
   document.getElementById("main").innerHTML =
-    `<header class="benchmark-heading"><div><h1>EMBERBench</h1><p>Can AI guide people to safety as a fire spreads?</p></div><p class="benchmark-scope">${esc(data.world_count)} worlds · ${data.models.filter(m=>m.kind==='Decision model').length} AI models · ${data.models.filter(m=>m.kind==='Reference agent').length} reference agents<span>Public development snapshot · 1 trial per model</span></p></header>
+    `<header class="benchmark-heading"><div><h1>EMBERBench</h1><p>Can AI guide people to safety as a fire spreads?</p></div><p class="benchmark-scope">${esc(data.world_count)} worlds · ${data.models.filter(m=>m.kind==='Decision model').length} decision models · ${data.models.filter(m=>m.kind==='Reference agent').length} reference agents<span>Public development snapshot · 1 trial per model</span></p></header>
+    <section class="evaluation-scope" aria-label="Evaluation scope"><div><h2>Public development leaderboard</h2><p>Models may train or tune against this environment. Scores are reproducible, but not contamination-resistant.</p></div><div><h2>Official EMBERBench</h2><p>Requires separate server-side hidden evaluation. No official hidden-test results or submission service are published here.</p></div></section>
     <section class="leaderboard-workspace" aria-label="Model explorer">
       <div class="results-toolbar"><label class="results-search" for="search"><span class="sr-only">Search models</span><input id="search" type="search" placeholder="Search models" value="${esc(state.query)}"></label><details class="results-options"><summary>Filters</summary><div class="results-option-fields"><label class="field">Entry type<select id="kind"><option value="all">All entries</option><option>Decision model</option><option>Reference agent</option></select></label><label class="field">Provider<select id="provider"><option value="all">All providers</option>${[...new Set(data.models.map(provider))].sort().map(p => `<option value="${esc(p)}">${esc(providerInfo(p).name)}</option>`).join('')}</select></label><label class="field">Ranking metric<select id="metric">${columns.map(([key,label]) => `<option value="${key}">${label}</option>`).join('')}</select></label><button class="button small" id="reset-filters" type="button">Reset filters</button></div></details></div>
       <p id="result-count" class="sr-only" aria-live="polite"></p><div id="visual-results"></div>

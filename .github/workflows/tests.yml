@@ -13,7 +13,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
-      - run: node --test tests/site.test.mjs
+      - run: node --test tests/site.test.mjs tests/docs-policy.test.mjs
+      - run: node tools/check_public_site.mjs
 
   builder:
     runs-on: ubuntu-latest

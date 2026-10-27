@@ -1,5 +1,5 @@
 import {dashboard,bindDashboard} from './benchmark-dashboard.js?v=20261027-vertical-zoom-1';
-import {esc, fmt, count, providerChip, scenarioName, ciText, isDecision} from './common.js?v=20261027-brands-1';
+import {esc, fmt, count, providerChip, scenarioName, ciText, isDecision} from './common.js?v=20261027-public-boundary-1';
 import {finite, leaderboardOrder} from './analytics.js?v=20261027-brands-1';
 
 const arrow = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>';

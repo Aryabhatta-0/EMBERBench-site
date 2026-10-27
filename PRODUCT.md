@@ -18,7 +18,7 @@ Methodology and Scenarios share a reading layout with a sticky index on the left
 
 The latest footer request explicitly adds a shared company end section. It uses the same asymmetric shore above a light ambient gradient, with the supplied emblem, Anantam name, exact tagline, first-contribution statement, five useful research/resource links and copyright. It appears on the main site, static docs and not-found page. Do not invent contact details or company achievements. Use the shared footer renderer for generated pages so branding stays consistent.
 
-Documentation lives at docs.html and docs/*.html, with 28 complete static guides, local full-text search, contents links and original Markdown downloads. Protocol links stay on the website. Reading works without JavaScript or the results artifact. Benchmark source revision and license are recorded. Explicit implementation-source links may open GitHub.
+Documentation lives at docs.html and docs/*.html, with reviewed public contracts and locally written boundary guides, local full-text search, contents links and reviewed Markdown downloads. Protocol links stay on the website. Reading works without JavaScript or the results artifact. Imported source revisions and licenses are recorded. Explicit implementation-source links may open GitHub.
 
 Published results come exclusively from site/data/results.js. Never edit that generated snapshot, scores, ranks, model identities or scientific qualifications by hand. EMBER is a family-balanced composite, not a survival percentage. Preserve the one-trial public-development limitations and missing API measurements.
 

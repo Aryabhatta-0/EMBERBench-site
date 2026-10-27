@@ -6,7 +6,7 @@ import {
   table,
   COMPONENTS,
   ratio,
-} from "./common.js?v=20261027-brands-1";
+} from "./common.js?v=20261027-public-boundary-1";
 import { finite, METRICS, paretoFrontier, provider, providerInfo } from "./analytics.js?v=20261027-brands-1";
 
 export const legend = () =>

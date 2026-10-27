@@ -147,7 +147,7 @@ export function provenance(data, m = null) {
       ["Trials", m.totals?.trials],
       ["Result digests", m.provenance?.result_digests?.join(", ")],
     );
-  return `<dl class="provenance">${fields.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd><code>${esc(v ?? "—")}</code></dd></div>`).join("")}</dl><p class="note">Generated official report data. Missing fields are shown as —. No evaluation timestamp is recorded in this data snapshot. Scoring and benchmark results are unchanged.</p>`;
+  return `<dl class="provenance">${fields.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd><code>${esc(v ?? "—")}</code></dd></div>`).join("")}</dl><p class="note">Generated public-development report data. Missing fields are shown as —. No evaluation timestamp is recorded in this data snapshot. Scoring and benchmark results are unchanged.</p>`;
 }
 export function shell(data, active) {
   if (active === "model") active = "leaderboard";
@@ -165,6 +165,7 @@ export function shell(data, active) {
     `<a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="index.html" class="brand" aria-label="Anantam home"><img class="brand-logo" src="assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation">${pages.map(([id, url, label]) => `<a href="${url}" class="${id === active ? "active" : ""}" ${id === active ? 'aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="header-actions"><a class="repo-link" href="${REPO}">GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></header><div class="status-banner"><span class="status-copy">Public development results</span><a href="methodology.html#public-development">Read the scope</a></div>`,
   );
   main.insertAdjacentHTML('afterend',siteFooter());
+  if(!company&&document.body.dataset.page!=='leaderboard')main.insertAdjacentHTML('beforebegin','<p class="public-evaluation-notice"><strong>Public development results.</strong> Models may train or tune on these environments. No official hidden-test results are published here. <a href="docs/evaluation-boundary.html">Evaluation scope</a></p>');
   requestAnimationFrame(revealCompanyFooter);addEventListener('hashchange',revealCompanyFooter);
   if (company || ['methodology','scenarios'].includes(active)) document.querySelector('.status-banner')?.remove();
   if (!company && !['methodology','scenarios'].includes(active)) {

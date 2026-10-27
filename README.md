@@ -37,15 +37,15 @@ If EMBERBench changes its scoring or report format, update the `emberbench` pin 
 - `model.html?id=ID`: model profile with nine evidence sections and reproducibility metadata.
 - `scenarios.html?scenario=ID`: documented public scenarios, generated populations/world counts, sortable scenario rankings and heatmap ordering.
 - `methodology.html`: scoring, frozen environments, replay verification, uncertainty, public/hidden distinction and provenance.
-- `docs.html` and `docs/*.html`: a searchable library of 28 complete guides. Articles and navigation are static HTML; JavaScript enhances search, mobile navigation and code copying.
+- `docs.html` and `docs/*.html`: a searchable library of reviewed public contracts and locally written scope guides. Articles and navigation are static HTML; JavaScript enhances search, mobile navigation and code copying.
 
 All routes use relative assets and ordinary HTML paths. Model links stay in the same tab and support normal browser open-in-new-tab behavior. The separate comparison page supports two to four models. Appearance is light only, regardless of OS or old saved theme preferences.
 
 ## Build documentation
 
-The checked-in static guides need no runtime backend. Run `npm ci`, then `npm run build:docs` to regenerate them from `site/docs/source/`. Markdown is rendered at build time and sanitized; no Markdown parser ships to the browser. Local guide links and heading anchors are preserved.
+The checked-in static guides need no runtime backend. Run `npm ci`, then `npm run build:docs` to regenerate the curated set from `site/docs/source/`. The build rejects symlinks, unreviewed upstream changes and evaluator-construction markers before writing output. Markdown is rendered at build time and sanitized; no Markdown parser ships to the browser. Local guide links and heading anchors are preserved.
 
-To deliberately update the benchmark documentation snapshot, run `node tools/build_docs.mjs --source /path/to/EMBERBench`. This copies the 26 benchmark guides, benchmark README, original license and statistical figure, records source revision/blob identities in `site/docs/source-manifest.json`, and adds the local [site-data guide](docs/SITE_DATA.md). Review the source changes alongside the generated pages. It never modifies `site/data/results.js`.
+To deliberately refresh reviewed upstream guides, review and update the allowlist and source hashes in `tools/docs-policy.mjs` and `tools/docs-reviewed-hashes.json`, then run `node tools/build_docs.mjs --source /path/to/EMBERBench`. The builder imports only listed guides, retains their source revision, adds local scope guides and never modifies `site/data/results.js`.
 
 ## Data and scientific boundaries
 
