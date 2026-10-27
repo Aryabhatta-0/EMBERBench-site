@@ -2,7 +2,7 @@
 
 **Boundless Possibilities.** **EMBERBench** is its first and only published contribution.
 
-The light-only company homepage presents a centered identity, a mist-blue hero with flowing brand ribbons and direct benchmark access, exact people-outcome pictographs and a connected explanation. The benchmark uses the browser width for four open chart sections, with ten-model ranking pages and selected-model scenario bars. Comparison controls and tables belong on the separate comparison page. Complete documentation is hosted on the site, with local search and section navigation.
+The light-only company homepage presents a centered identity, a mist-blue hero with flowing brand ribbons and direct benchmark access, followed by a concise typographic introduction to EMBERBench. It does not load result data or display a leaderboard. The benchmark uses the browser width for four open chart sections, with ten-model ranking pages and selected-model scenario bars. Comparison controls and tables belong on the separate comparison page. Complete documentation is hosted on the site, with local search and section navigation.
 
 See [the motion and charts revision](docs/MOTION_AND_CHARTS.md) for the latest changes. See [the earlier skill-by-skill report](docs/COMPANY_REDESIGN.md) for the fifteen requested skills, references, implementation choices, validation, and limits. Earlier implementation notes below describe the benchmark explorer's history.
 
@@ -30,7 +30,7 @@ If EMBERBench changes its scoring or report format, update the `emberbench` pin 
 
 ## Pages
 
-- `index.html`: centered company identity and visible experiment, outcome and evaluation sequence.
+- `index.html`: centered company identity and a static introduction explaining the benchmark's task and evaluation.
 - `benchmark.html`: full-width charts, model evidence, searchable filters and metric sorting, without comparison tables or selectors.
 - `leaderboard.html`: compatibility URL for the same results page. Query parameters preserve selected model, filters, ranking page and sorting.
 - `compare.html?models=ID,ID`: 2–4 model profiles, components, scenarios, world scores, robustness, congestion and API metrics. Exactly two entries also show descriptive paired world differences.

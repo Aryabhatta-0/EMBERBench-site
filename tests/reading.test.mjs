@@ -82,7 +82,7 @@ try {
     if(width===390) {await page.evaluate(()=>{document.activeElement?.blur();scrollTo({top:0,behavior:'instant'});});await page.screenshot({path:resolve(out,'results-mobile.png'),fullPage:true});}
   }
   await page.setViewportSize({width:1440,height:1000});await go('index.html');
-  check('Home retains published outcomes without evacuation maps',await page.locator('.outcome-card').count()===2&&await page.locator('.world-map,[data-play]').count()===0);
+  check('Home introduces the benchmark without results or evacuation maps',await page.locator('.contribution-description').isVisible()&&await page.locator('.outcome-card,.result-chart,.world-map,[data-play]').count()===0);
   await page.locator('.hero-action').click();await page.locator('.result-chart').waitFor();
   check('Centered hero action opens published results directly',await page.locator('.result-chart').isVisible());
   await go('scenarios.html?scenario=v1-pub-04-unequal-exits');
