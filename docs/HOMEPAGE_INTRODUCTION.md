@@ -2,7 +2,7 @@
 
 Updated 27 October 2026.
 
-The homepage introduces EMBERBench through one title and two factual sentences. It explains the simulated evacuation task, changing routes and queues, and verified safety and execution quality. Model scores, outcome displays and the evaluation stepper are removed from this introduction. There is no stock image, right-hand feature column, extra link or duplicate benchmark button. Results remain on the results page; Methodology retains its evaluation explanation.
+The homepage introduces EMBERBench through one title, a lead description and two supporting paragraphs. It explains the simulated evacuation task, step-by-step decisions without future fire information, shared frozen environments, replay verification and the public-development scope of the results. The additional copy gives the section more presence without enlarging the type or adding another layout. Model scores, outcome displays and the evaluation stepper are removed from this introduction. There is no stock image, right-hand feature column, extra link or duplicate benchmark button. Results remain on the results page; Methodology retains its evaluation explanation.
 
 The existing navy identity, local Instrument Serif and DM Sans fonts, full-window hero, one-time emblem assembly, continuous pale contours and asymmetric transitions remain.
 
