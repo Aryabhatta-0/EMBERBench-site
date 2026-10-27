@@ -1,4 +1,4 @@
-import {dashboard,bindDashboard} from './benchmark-dashboard.js?v=20261027-vertical-zoom-1';
+import {dashboard,bindDashboard} from './benchmark-dashboard.js?v=20261027-production-1';
 import {esc, fmt, count, providerChip, scenarioName, ciText, isDecision} from './common.js?v=20261027-public-boundary-1';
 import {finite, leaderboardOrder} from './analytics.js?v=20261027-brands-1';
 

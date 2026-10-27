@@ -30,3 +30,36 @@ body[data-page='leaderboard'] .leaderboard-workspace{background:transparent;bord
 .selected-evidence .people-readout{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px 20px;}.selected-evidence .people-strip{height:180px;width:28px;flex-direction:column-reverse;margin:0;grid-column:1;grid-row:1;}.selected-evidence .people-legend{grid-column:2;grid-row:1;}.selected-evidence .readout-note{grid-column:1/-1;}
 
 .evaluation-scope{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 48px;padding:20px 0 24px;border-block:1px solid var(--border);margin-bottom:28px;}.evaluation-scope h2{font:500 17px/1.4 var(--font-body);margin:0 0 8px;}.evaluation-scope p{font-size:14px;line-height:1.65;color:var(--text-secondary);max-width:70ch;margin:0;}@media(max-width:700px){.evaluation-scope{grid-template-columns:minmax(0,1fr);gap:20px;}}
+/* Open reading space; filters expand in the flow instead of covering charts. */
+.benchmark-heading{margin-bottom:20px;}
+.evaluation-scope{display:block;border:0;padding:0;margin:0 0 28px;}
+.evaluation-scope p{max-width:112ch;}
+.evaluation-scope strong{font-weight:500;color:var(--text-primary);}
+.evaluation-scope a{color:var(--link);text-underline-offset:3px;}
+.results-toolbar{display:grid;grid-template-columns:minmax(0,300px) max-content;justify-content:start;align-items:center;gap:16px 12px;margin-bottom:40px;}
+.results-search{width:100%;margin:0;}
+.results-search input{display:block;height:44px;padding:10px 14px;}
+.results-options{display:contents;border:0;margin:0;padding:0;}
+.results-options>summary{display:flex;align-items:center;justify-content:center;gap:10px;height:44px;margin:0;padding:10px 16px;border-color:var(--input-border);border-radius:8px;background:var(--surface-1);font-weight:500;line-height:22px;}
+.results-options>summary::after{content:none;}
+.results-options>summary svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;}
+.results-options[open]>summary{margin-bottom:0;background:var(--surface-2);}
+.results-options[open]>summary svg{transform:rotate(180deg);}
+.filter-count{font-size:12px;font-variant-numeric:tabular-nums;}
+.results-option-fields{position:static;grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) max-content;align-items:end;gap:16px;width:min(100%,920px);max-width:100%;padding:20px;border:0;border-radius:8px;background:var(--surface-2);}
+.results-options:not([open])>.results-option-fields{display:none;}
+.results-option-fields .field{min-width:0;margin:0;font-size:14px;}
+.results-option-fields select{width:100%;}
+.results-option-fields button{height:44px;}
+.results-option-fields button:disabled{color:var(--text-muted);cursor:default;}
+.dashboard-panel{border:0;padding-top:0;}
+.chart-zoom{display:none;}
+@media(max-width:700px){.results-toolbar{grid-template-columns:minmax(0,1fr) max-content;}.results-option-fields{width:100%;grid-template-columns:minmax(0,1fr);padding:16px;}.results-option-fields button{justify-self:start;}}
+/* Native details keeps its content box; place only its trigger beside search. */
+.results-toolbar{display:block;position:relative;}
+.results-search{display:block;width:min(300px,calc(100% - 124px));}
+.results-options{display:block;position:static;}
+.results-options>summary{position:absolute;left:min(312px,calc(100% - 112px));top:0;}
+.results-options>summary::after,.results-options[open]>summary::after{content:none;}
+.results-option-fields{margin-top:16px;}
+@media(max-width:700px){.results-options>summary{left:auto;right:0;width:112px;}}

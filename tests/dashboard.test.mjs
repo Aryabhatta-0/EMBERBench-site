@@ -27,10 +27,7 @@ try{
   await page.screenshot({path:resolve(out,`benchmark-${width}.png`),fullPage:false});
  }
  await page.setViewportSize({width:1280,height:800});await go('benchmark.html');
- const zoomIn=page.getByRole('button',{name:'Zoom in EMBER Score chart',exact:true}),zoomOut=page.getByRole('button',{name:'Zoom out EMBER Score chart',exact:true});
- const beforeZoom=await page.locator('#ranking .chart-band').count();await zoomIn.click();
- check('Zoom gives columns more space without hiding models or scrolling sideways',await page.locator('#ranking .chart-band').count()>beforeZoom&&await page.locator('.column-model').count()===models.length&&await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
- await zoomOut.click();check('Zoom out restores the full-width overview',await page.locator('#ranking .chart-band').count()===beforeZoom&&await zoomOut.isDisabled());
+ check('Charts have no zoom buttons',await page.locator('[data-zoom],.chart-zoom').count()===0);
  await go('benchmark.html?metric=cost&direction=asc');
  check('Legacy ascending URLs render highest-to-lowest cost while keeping lower-is-better guidance',await page.locator('.column-model').first().getAttribute('data-chart-value').then(v=>Number(v)===Math.max(...models.map(m=>m.api?.cost_usd).filter(Number.isFinite)))&&new URL(page.url()).searchParams.get('direction')==='desc'&&(await page.locator('.rank-panel .dashboard-panel-head').innerText()).includes('Lower is better'));
  await go('benchmark.html');
@@ -38,7 +35,8 @@ try{
  check('Overview does not feature a default model',await page.locator('#result-inspector,.is-inspected,.factor-point.is-selected').count()===0);
  check('Every people-outcome row represents a different model',await page.locator('.outcome-rows li').count()===models.length);
  check('All ten scenarios include every model',await page.locator('.scenario-mini').count()===10&&await page.locator('.scenario-models a').count()===models.length*10);
- check('Every decision provider has a real local logo',await page.locator('.column-identity .chart-logo').evaluateAll(els=>els.every(i=>i.complete&&i.naturalWidth>0&&i.src.includes('/assets/providers/'))));
+ await page.waitForFunction(()=>[...document.querySelectorAll('#ranking .chart-logo')].every(i=>i.complete&&i.naturalWidth>0));
+ check('Every decision provider has a real local logo',await page.locator('#ranking .column-identity .chart-logo').evaluateAll(els=>els.every(i=>i.complete&&i.naturalWidth>0&&i.src.includes('/assets/providers/'))));
  await page.locator(`#safety-chart [data-plot-select="${models[12].id}"]`).focus();await page.keyboard.press('Enter');
  const selected=models[12];
  check('Selecting a model opens its evidence without replacing cohort charts',await page.locator('#inspector-title').textContent()===selected.name&&await page.locator('.outcome-rows li').count()===models.length&&await page.locator('.scenario-models a').count()===models.length*10);
@@ -52,6 +50,7 @@ try{
  check('Results contain no comparison table or comparison controls',await page.locator('main table,#scenario-compare,#compare-against,.quick-compare,[data-select-model]').count()===0);
  check('Results use the viewport without an enclosing card',await page.locator('main').evaluate(el=>{const r=el.getBoundingClientRect();return r.left===0&&r.width===document.documentElement.clientWidth&&getComputedStyle(document.querySelector('.leaderboard-workspace')).backgroundColor==='rgba(0, 0, 0, 0)'&&getComputedStyle(document.querySelector('.rank-panel')).borderRadius==='0px';}));
  check('Redundant chart tabs and model selector are absent',await page.locator('.chart-nav,.dashboard-selection,#inspect-model,[data-metric-view]').count()===0);
+ check('Search and filter trigger align',await page.locator('.results-toolbar').evaluate(el=>{const input=el.querySelector('input').getBoundingClientRect(),button=el.querySelector('summary').getBoundingClientRect();return input.top===button.top&&input.height===button.height;}));
  check('Filter options are closed by default',!(await page.locator('.results-options').evaluate(el=>el.open))&&await page.locator('#search').isVisible());
  await page.locator(`#safety-chart [data-plot-select="${models[1].id}"]`).focus();await page.keyboard.press('Enter');
  const point=page.locator(`#safety-chart [data-plot-select="${models[2].id}"]`);await point.focus();await page.keyboard.press('Enter');
@@ -66,8 +65,8 @@ try{
  check('Hero has no pause-motion button',await page.locator('[data-motion-toggle],.hero-motion-toggle').count()===0);
  await page.mouse.move(2,2);await page.waitForTimeout(150);const before=await page.locator('.hero-particles').evaluate(el=>getComputedStyle(el).transform);await page.mouse.move(1100,300);await page.waitForTimeout(450);
  check('Particle field stays fixed when the pointer moves',await page.locator('.hero-particles').evaluate(el=>getComputedStyle(el).transform)===before);
- await page.locator('.site-footer').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('.company-hero').dataset.motion==='paused');
- check('Particle motion pauses offscreen',await page.locator('.company-hero').getAttribute('data-motion')==='paused');
+ await page.locator('.site-footer').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('.company-hero').dataset.animationVisible==='false');
+ check('Particle motion pauses offscreen or has already completed',await page.locator('.company-hero').getAttribute('data-motion').then(m=>['paused','complete'].includes(m)));
  await page.emulateMedia({reducedMotion:'reduce'});await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
  await page.waitForFunction(()=>document.querySelector('.company-hero').dataset.motion==='reduced');
  check('Reduced motion leaves a static visible hero',await page.locator('[data-motion-toggle]').count()===0&&await page.locator('.company-hero').getAttribute('data-motion')==='reduced'&&await page.locator('.hero-action').isVisible());
@@ -90,6 +89,20 @@ try{
  const noCanvas=await browser.newPage();await noCanvas.addInitScript(()=>{HTMLCanvasElement.prototype.getContext=()=>null;});await noCanvas.goto(new URL('index.html',base).href);await noCanvas.locator('.site-footer').waitFor();
  check('Canvas failure preserves the original static emblem',await noCanvas.locator('.hero-emblem').isVisible()&&await noCanvas.locator('.particle-canvas').isHidden()&&await noCanvas.locator('.hero-action').isVisible());
  check('Only pale contours accompany the one-time logo assembly',await page.locator('.brand-ribbon').isVisible()&&await page.locator('.ribbon-contour').count()===2&&await page.locator('.ribbon-current').count()===0);
+ // Hold cold-cache dependencies to reproduce the refresh race deterministically.
+ for(const width of [1440,390]){
+  const cold=await browser.newContext({viewport:{width,height:900}}),refresh=await cold.newPage();
+  let release;const pending=new Promise(resolve=>{release=resolve;});
+  await refresh.route(/\/assets\/(?:fonts\/.*|anantam-logo\.png)/,async route=>{await pending;await route.continue();});
+  await refresh.goto(new URL('index.html',base).href,{waitUntil:'domcontentloaded'});
+  check(`${width}px cold refresh never flashes the image emblem`,await refresh.locator('.hero-emblem').isHidden());
+  check(`${width}px pending layout does not start particle or contour motion`,await refresh.locator('.particle-canvas').isHidden()&&await refresh.locator('.ribbon-contour').first().evaluate(el=>getComputedStyle(el).animationPlayState.split(',').every(s=>s.trim()==='paused')));
+  release();await refresh.waitForFunction(()=>document.querySelector('.company-hero').dataset.particlePhase==='assembled');
+  check(`${width}px cold refresh forms the particle emblem after fonts load`,await refresh.locator('.particle-canvas').isVisible()&&await refresh.locator('.hero-emblem').isHidden()&&await refresh.evaluate(()=>document.fonts.status==='loaded'));
+  await refresh.reload();await refresh.waitForFunction(()=>document.querySelector('.company-hero').dataset.motion==='complete');
+  check(`${width}px ordinary refresh completes without showing the source image`,await refresh.locator('.hero-emblem').isHidden());
+  await cold.close();
+ }
  check('No runtime errors in dashboard and motion journeys',errors.length===0);
 }finally{await writeFile(resolve(out,'report.json'),JSON.stringify({checks,audits,errors},null,2));await browser.close();}
 console.log(`${checks.length} dashboard and hero checks passed; ${audits.length} accessibility scans.`);

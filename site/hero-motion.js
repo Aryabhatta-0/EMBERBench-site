@@ -5,7 +5,7 @@ export function mountHeroMotion(hero) {
   try{context=canvas?.getContext('2d',{alpha:true});}catch{}
   if(!context){hero.dataset.motion='static';return;}
   const reduced=matchMedia('(prefers-reduced-motion:reduce)'),abort=new AbortController();
-  let width=0,height=0,points=[],frame=0,previous=0,lastPaint=0,elapsed=0,visible=true,disposed=false,ready=false;
+  let width=0,height=0,points=[],frame=0,previous=0,lastPaint=0,elapsed=0,visible=true,disposed=false,ready=false,starting=false;
   const ink=getComputedStyle(hero).getPropertyValue('--particle-ink').trim();
   function particles(){
     const sample=document.createElement('canvas');sample.width=sample.height=220;
@@ -55,15 +55,23 @@ export function mountHeroMotion(hero) {
     else if(document.hidden||!visible)hero.dataset.motion='paused';
     else{hero.dataset.motion='playing';frame=requestAnimationFrame(tick);}
   }
-  function start(){
-    if(ready||disposed)return;
-    try{ready=true;resize();canvas.hidden=false;hero.classList.add('particles-ready');sync();}
+  async function start(){
+    if(ready||starting||disposed)return;
+    starting=true;
+    try{
+      // Font metrics and the inserted header must settle before sampling targets.
+      await Promise.all([document.fonts.ready,image.decode()]);
+      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+      if(disposed)return;
+      ready=true;resize();canvas.hidden=false;hero.classList.add('particles-ready');sync();
+    }
     catch{ready=false;canvas.hidden=true;hero.classList.remove('particles-ready');hero.dataset.motion='static';}
   }
   const sizing=new ResizeObserver(()=>{const b=hero.getBoundingClientRect();if(Math.abs(b.width-width)>.5||Math.abs(b.height-height)>.5)resize();});
   const observer=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();},{threshold:.05});
   sizing.observe(hero);observer.observe(hero);
   reduced.addEventListener('change',sync,{signal:abort.signal});document.addEventListener('visibilitychange',sync,{signal:abort.signal});
-  if(image.complete&&image.naturalWidth)start();else image.addEventListener('load',start,{once:true,signal:abort.signal});
+  image.addEventListener('error',()=>{hero.dataset.motion='static';},{once:true,signal:abort.signal});
+  if(image.complete&&image.naturalWidth)start();else if(image.complete)hero.dataset.motion='static';else image.addEventListener('load',start,{once:true,signal:abort.signal});
   return ()=>{disposed=true;cancelAnimationFrame(frame);abort.abort();sizing.disconnect();observer.disconnect();};
 }
