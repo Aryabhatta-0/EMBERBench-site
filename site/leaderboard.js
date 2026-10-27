@@ -15,9 +15,8 @@ import {
   filterModels,
   sortModels,
   finite,
-  leaderboardOrder,
 } from "./analytics.js?v=20261027-brands-1";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-all-models-1';
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-vertical-zoom-1';
 
 const columns = [
   ["score", "EMBER"],
@@ -49,7 +48,7 @@ async function main() {
     kind: params.get("kind") ?? "Decision model",
     creator: params.get("provider") ?? "all",
     sort: params.get("metric") ?? ({people:"evacuated",api:"cost"}[params.get("view")] || "score"),
-    direction: params.get("direction") ?? (params.get("view")==="api" ? "asc" : "desc"),
+    direction: "desc",
     inspect: params.get('model') ?? '',
   };
   if (!['all','Decision model','Reference agent'].includes(state.kind)) state.kind = 'Decision model';
@@ -75,10 +74,7 @@ async function main() {
     const active = document.activeElement;
     const focusInspect = active?.dataset?.inspect;
     const filtered = filterModels(data.models, state),
-      models =
-        state.sort === "score" && state.direction === "desc"
-          ? leaderboardOrder(filtered)
-          : sortModels(filtered, state.sort, state.direction);
+      models = sortModels(filtered, state.sort, "desc");
     document.getElementById("result-count").textContent =
       `${models.length} of ${data.models.length} entries · ${METRICS[state.sort].label} ${state.direction === "asc" ? "ascending" : "descending"}`;
     const visual = document.getElementById('visual-results');
@@ -86,7 +82,7 @@ async function main() {
     bindResultExplorer(visual,{
       inspect:(id,pointer,source)=>{
         state.inspect=id;update();
-        const target=source==='scatter'?document.querySelector(`[data-plot-select="${CSS.escape(id)}"]`):document.querySelector(`[data-inspect="${CSS.escape(id)}"]`);target?.focus({preventScroll:true});
+        const target=source?document.querySelector(`[data-chart-id="${CSS.escape(source)}"] [data-plot-select="${CSS.escape(id)}"]`):document.querySelector(`[data-inspect="${CSS.escape(id)}"]`);target?.focus({preventScroll:true});
         if (pointer && !matchMedia('(prefers-reduced-motion:reduce)').matches) document.getElementById('result-inspector')?.animate([{transform:'translateY(6px)'},{transform:'translateY(0)'}],{duration:220,easing:'cubic-bezier(.2,0,0,1)'});
       },
     });
@@ -116,8 +112,7 @@ async function main() {
     document.getElementById(id).addEventListener("change", (e) => {
       state[key] = e.target.value;
       if (key === "sort")
-        state.direction =
-          METRICS[state.sort].direction === "higher" ? "desc" : "asc";
+        state.direction = "desc";
       update();
     });
   document.getElementById("reset-filters").addEventListener("click", () => {
@@ -132,6 +127,6 @@ async function main() {
     document.getElementById("metric").value = "score";
     update();
   });
-  render();
+  if(params.get("direction")&&params.get("direction")!=="desc")update();else render();
 }
 main().catch(errorPage);

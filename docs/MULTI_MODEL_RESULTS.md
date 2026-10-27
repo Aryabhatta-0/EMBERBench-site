@@ -10,11 +10,11 @@ EMBERBench adopts that comparison structure within Anantam's existing light them
 
 ## Resulting behaviour
 
-- All 19 published decision models appear together in the main desktop chart. There is no ranking pagination or horizontal chart scrolling. Phones use readable labeled rows.
+- All 19 published decision models appear together in the main desktop chart. There is no ranking pagination or horizontal chart scrolling. Phones retain vertical columns in readable bands with repeated axes. Per-chart zoom adds column space and larger labels.
 - The unparameterized page has no selected or featured model. Explicit selection reveals model evidence while every overview chart continues to represent the filtered cohort.
-- Four open sections contain 13 comparative plots: ranking, safety versus execution quality, people outcomes, and ten scenario charts.
+- Four open sections contain 14 comparative plots: ranking, Safety, execution quality, people outcomes, and ten scenario charts. Every series is independently ordered highest to lowest.
 - People outcomes compare every matching model using its own evaluated population as the denominator. Hover and keyboard focus expose exact counts. The evacuation percentage is explicitly distinguished from EMBER.
-- Each scenario contains every matching model on a shared 0–100 scale, in the same order as the main chart. Its links preserve the exact scenario and model.
+- Each scenario contains every matching model on a shared 0–100 scale, independently ordered by its own score. Its links preserve the exact scenario and model.
 - One search and a closed Filters disclosure control the whole cohort. Reference agents, metric changes, unavailable API values, explicit model bookmarks and keyboard navigation remain available.
 - Comparison tables remain absent from results. Published `site/data/results.js` is unchanged.
 
@@ -41,7 +41,7 @@ Exact downloaded asset URLs, SHA-256 hashes and retrieval date are recorded in `
 
 ## Skills applied
 
-- **UI/UX Pro Max:** searched its multi-category comparison guidance. Applied common zero baselines, ordered columns, direct numeric/model labels, brand identity as an additional cue and full-width responsive charts. The phone layout uses readable horizontal rows rather than squeezed desktop columns. Hover information is also available through focus.
+- **UI/UX Pro Max:** searched its multi-category comparison guidance. Applied common zero baselines, ordered columns, direct numeric/model labels, brand identity as an additional cue and full-width responsive charts. The phone layout keeps vertical columns, automatically allocating additional bands when labels need space. Hover information is also available through focus.
 - **Firecrawl / Brand Identity:** retrieved the reference page and official provider sites, located linked identity assets and recorded observed colours and source URLs. Browser inspection supplemented extraction for chart composition and navigation.
 - **Hallmark's existing-project guidance:** kept the locked Anantam palette, local fonts and open page system. This was a targeted chart revision, not a new Hallmark theme or a new theme-generation run.
 
@@ -49,6 +49,8 @@ The required skills were already installed. No new skill installation was needed
 
 ## Verification
 
-All eight browser suites passed: **414 checks and 64 accessibility scans**, with no reported violations. The **19 Node checks** passed. Width checks covered 320, 390, 768, 1280, 1440 and 1920px. At 1280px the main chart fits its 1176px available plotting width, and all 19 models are present simultaneously. All provider images loaded without resource errors. Filter panels fit at desktop and phone widths; filtering to Liquid AI consistently produced two models and twenty scenario bars.
+The original multi-model revision passed all eight browser suites: **414 checks and 64 accessibility scans**, with no reported violations. The **19 Node checks** passed. Width checks covered 320, 390, 768, 1280, 1440 and 1920px. At 1280px the main chart fits its 1176px available plotting width, and all 19 models are present simultaneously. All provider images loaded without resource errors. Filter panels fit at desktop and phone widths; filtering to Liquid AI consistently produced two models and twenty scenario bars.
 
 Desktop ranking, scenario labels and phone layouts were visually inspected. Checks cover the complete cohort, exact counts and scenario scores, selection and reload, keyboard navigation, missing API values, recovery, shared pages, hosted docs and existing hero motion. No merge or deployment is included.
+
+The later vertical-only, descending-order and zoom revision is documented in [Persistent chart rules](VERTICAL_CHART_RULES.md), including its current verification results.

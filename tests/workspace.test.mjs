@@ -34,7 +34,7 @@ try {
     }
   }
   await go('leaderboard.html?display=table');
-  check('Legacy table URLs open chart-only results',await page.locator('main table').count()===0&&await page.locator('.column-chart').isVisible());
+  check('Legacy table URLs open chart-only results',await page.locator('main table').count()===0&&await page.locator('.rank-panel .column-chart').first().isVisible());
   await openFilters();await page.locator('#metric').selectOption('cost');
   check('API view plots cost',await page.locator('#metric').inputValue()==='cost'&&await page.locator('#rank-plot-title').textContent()==='API cost');
   check('API view retains people and safety charts',await page.locator('.scatter-panel,.outcome-panel').count()===2);

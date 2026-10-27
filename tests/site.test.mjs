@@ -34,7 +34,13 @@ import {
   differenceChart,
 } from "../site/charts.js";
 import data from "../site/data/results.js";
-import {metricScale,outcomeParts} from '../site/benchmark-dashboard.js';
+import {metricScale,outcomeParts,descendingModels} from '../site/benchmark-dashboard.js';
+
+test('each displayed series descends numerically while unavailable values stay last',()=>{
+  const series=[{value:0.2},{value:null},{value:0.21},{value:1},{value:0}],snapshot=[...series];
+  assert.deepEqual(descendingModels(series,m=>m.value).map(m=>m.value),[1,0.21,0.2,0,null]);
+  assert.deepEqual(series,snapshot);
+});
 
 test('chart scales retain a shared zero baseline and ignore unavailable measurements',()=>{
   assert.equal(metricScale(data.models,'score'),100);
