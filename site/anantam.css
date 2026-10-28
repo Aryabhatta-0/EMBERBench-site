@@ -159,9 +159,9 @@ body[data-page='index'] .status-banner { display: none; }
   th, .badge { font-size: 12px; }
   /* Phones: the open menu is a full-screen sheet under a pinned header; the page behind it does not scroll. */
   html:has(.site-nav.open) { overflow: hidden; }
-  .site-header:has(.site-nav.open) { position: fixed; inset: 0 0 auto; z-index: 90; }
-  .site-nav.open { position: fixed; inset: var(--site-header-height, 78px) 0 0; z-index: 90; flex-direction: column; flex-wrap: nowrap; gap: 0; padding: 8px max(22px, env(safe-area-inset-left), env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)); background: var(--surface-0); overflow-y: auto; overscroll-behavior: contain; animation: menu-sheet-enter 200ms var(--ease-out); }
-  .site-nav.open a { display: flex; align-items: center; min-height: 64px; padding: 0; border-bottom: 1px solid var(--border); font-family: var(--font-display); font-size: 34px; font-weight: 400; }
+  .site-header:has(.site-nav.open) { position: fixed; inset: 0 0 auto; z-index: 90; background: var(--hero-surface, #e9eff7); }
+  .site-nav.open { position: fixed; inset: var(--site-header-height, 78px) 0 0; z-index: 90; flex-direction: column; flex-wrap: nowrap; justify-content: center; align-items: center; gap: 8px; border: 0; padding: 8px max(20px, env(safe-area-inset-left), env(safe-area-inset-right)) calc(var(--site-header-height, 78px) + env(safe-area-inset-bottom)); background: var(--hero-surface, #e9eff7); overflow-y: auto; overscroll-behavior: contain; animation: menu-sheet-enter 200ms var(--ease-out); }
+  .site-nav.open a { display: flex; align-items: center; justify-content: center; min-height: 64px; padding: 0 24px; font-family: var(--font-display); font-size: 38px; font-weight: 400; }
   .site-nav.open a.active { color: var(--accent); }
   .site-nav.open a.active::after { display: none; }
   @keyframes menu-sheet-enter { from { opacity: 0; transform: translateY(-8px); } }
