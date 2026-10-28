@@ -1,13 +1,13 @@
-import {siteHeader} from './chrome.js?v=20261028-reading-3';
-import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261028-reading-3';
-import {siteFooter,revealCompanyFooter} from './footer.js?v=20261028-reading-3';
+import {siteHeader} from './chrome.js?v=20261028-mobile-2';
+import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261028-mobile-2';
+import {siteFooter,revealCompanyFooter} from './footer.js?v=20261028-mobile-2';
 import {
   provider,
   providerInfo,
   rankOf,
   selectedIds,
   leaderboardOrder,
-} from "./analytics.js?v=20261028-reading-3";
+} from "./analytics.js?v=20261028-mobile-2";
 
 export const esc = (v) =>
   String(v ?? "").replace(
@@ -166,6 +166,7 @@ export function shell(data, active) {
   };
   const toggleNav = (expanded) => {
     navButton.setAttribute("aria-expanded", String(expanded));
+    navButton.textContent = expanded ? "Close" : "Menu";
     document.getElementById("site-nav").classList.toggle("open", expanded);
     updateOffset();
   };

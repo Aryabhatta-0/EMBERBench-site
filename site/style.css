@@ -29,6 +29,9 @@
 }
 html {
   scroll-padding-top: var(--header-offset, 92px);
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 body {
   margin: 0;
@@ -53,6 +56,7 @@ input,
 select,
 summary {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 button,
 select,
@@ -2195,4 +2199,4 @@ caption {
 /* Provider artwork retains its original colours and proportions. */
 .provider-chip img.provider-mark{object-fit:contain;background:transparent;border-radius:0;}
 
-.public-evaluation-notice{max-width:1440px;margin:16px auto 0;padding:0 32px;font-size:14px;line-height:1.65;color:var(--text-secondary);}.public-evaluation-notice strong{color:var(--text-primary);font-weight:500;}.public-evaluation-notice a{color:var(--accent);text-underline-offset:3px;}@media(max-width:700px){.public-evaluation-notice{padding-inline:20px;}}
+.public-evaluation-notice{margin:16px 0 0;padding:0 var(--page-edge);font-size:14px;line-height:1.65;color:var(--text-secondary);}.public-evaluation-notice strong{color:var(--text-primary);font-weight:500;}.public-evaluation-notice a{color:var(--accent);text-underline-offset:3px;}@media(max-width:700px){.public-evaluation-notice{padding-inline:20px;}}

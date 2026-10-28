@@ -199,7 +199,7 @@ body[data-page='model'] .profile-head { display: grid; grid-template-columns: mi
   .focused-table[data-lens='scores'] tr > :first-child { padding-inline: 0; width: 44px; }
   .focused-table[data-lens='scores'] .model-kind { display: none; }
   .focused-table[data-lens='scores'] .score-confidence { font-size: 9px; white-space: normal; }
-  .mobile-rank { display: block; font-size: 10px; color: var(--text-muted); font-weight: 400; margin-bottom: 4px; }
+  .mobile-rank { display: block; font-size: 12px; color: var(--text-muted); font-weight: 400; margin-bottom: 4px; }
   .focused-table .model-name { font-size: 13px; }
   .focused-table .model-provider { align-items: flex-start; flex-direction: column; gap: 5px; }
   .workspace-tabs { border-radius: 16px; gap: 4px; padding: 4px; width: 100%; }
@@ -241,7 +241,7 @@ body[data-page='model'] .profile-head { display: grid; grid-template-columns: mi
   #scenario-summary .metrics { gap: 32px; }
   .scenario-canvas .workspace-panel { padding: 24px 16px; }
   .scenario-canvas .workspace-panel .badge { display: none; }
-  .scenario-columns.button { display: inline-flex; min-height: 44px; padding: 8px 12px; font-size: 11px; }
+  .scenario-columns.button { display: inline-flex; min-height: 44px; padding: 8px 12px; font-size: 12px; }
   #scenario-ranking:not([data-expanded='true']) table { min-width: 0; }
   #scenario-ranking:not([data-expanded='true']) tr > :nth-child(3), #scenario-ranking:not([data-expanded='true']) tr > :nth-child(n+5) { display: none; }
   #scenario-ranking:not([data-expanded='true']) th, #scenario-ranking:not([data-expanded='true']) td { padding-inline: 7px; }
@@ -251,7 +251,7 @@ body[data-page='model'] .profile-head { display: grid; grid-template-columns: mi
   .method-layout { display: block; margin-top: 36px; }
   .method-contents { position: static; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px 24px; background: var(--surface-2); border-radius: 16px; padding: 24px; margin-bottom: 44px; }
   .method-contents > span { grid-column: 1 / -1; }
-  .method-contents a { font-size: 11px; }
+  .method-contents a { font-size: 12px; }
   .method-article .panel.prose h2 { font-size: 32px; }
   .method-article .panel.prose p { font-size: 13px; }
   .method-article .pipeline { grid-template-columns: repeat(2,minmax(0,1fr)); padding: 20px; }
@@ -271,7 +271,15 @@ body[data-page='model'] .profile-head { display: grid; grid-template-columns: mi
   .explorer-search { display:block; }
   .explorer-views { margin:4px 0 12px; gap:0; }
   .metric-views { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); width:100%; border-radius:12px; gap:0; }
-  .metric-views button { font-size:11px; padding:9px 4px; min-height:44px; }
+  .metric-views button { font-size:12px; padding:9px 4px; min-height:44px; }
   .leaderboard-workspace #result-count { margin:8px 0; }
   .leaderboard-workspace #selection-status { position:absolute; }
+  /* Phones: 12px minimum for secondary labels. */
+  .workspace-caveat, .comparison-controls > .note, .model-kind, .score-confidence, .method-article .badge { font-size:12px; }
+  /* Phones: extend table model links to a 44px tap area without changing row layout. */
+  td .model-name, .compare-card .model-name { display:inline-block; padding-block:14px; margin-block:-14px; }
+  /* Phones: fit the model chooser table without hiding the EMBER column off-screen. */
+  body[data-page='model'] .table-wrap th, body[data-page='model'] .table-wrap td { padding-inline:8px; }
+  body[data-page='model'] td .badge { white-space:normal; }
+  body[data-page='model'] td .model-name { overflow-wrap:anywhere; }
 }
