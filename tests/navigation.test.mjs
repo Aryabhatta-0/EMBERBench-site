@@ -14,6 +14,7 @@ try{
   page.on('console',m=>{if(m.type()==='error'&&/Content Security Policy|violates/i.test(m.text()))errors.push(m.text());});
   await page.goto(new URL('about.html',base).href);
   await page.locator('.cookie-notice').waitFor();
+  check(`${width}px notice text stays opaque throughout its entrance`,await page.locator('.cookie-notice').evaluate(el=>el.getAnimations().every(animation=>animation.effect.getKeyframes().every(frame=>frame.opacity===undefined||Number(frame.opacity)===1))));
   check(`${width}px first visit offers both choices without saving`,await page.getByRole('button',{name:'Accept optional',exact:true}).isVisible()&&await page.getByRole('button',{name:'Reject optional',exact:true}).isVisible()&&await page.evaluate(()=>localStorage.getItem('anantam-preferences')===null));
   await page.evaluate(axe);audits.push({name:`First visit ${width}`,violations:await page.evaluate(async()=>(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}})).violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})))});
   await page.screenshot({path:`work/navigation/about-notice-${width}.png`});
