@@ -1,6 +1,6 @@
-import { redesignMethodology } from "./workspace.js?v=20261028-mobile-1";
+import { redesignMethodology } from "./workspace.js?v=20261028-mobile-2";
 import {mountEvaluationLoop} from './evaluation-loop.js';
-import { loadResults, shell, esc, fmt } from "./common.js?v=20261028-mobile-1";
+import { loadResults, shell, esc, fmt } from "./common.js?v=20261028-mobile-2";
 
 // The site, its data and the data builder live in their own repository.
 const SITE_REPO = "https://github.com/Aryabhatta-0/EMBERBench-site/blob/main/";
