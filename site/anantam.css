@@ -6,7 +6,7 @@
   --font-body: 'DM Sans', system-ui, sans-serif;
   --on-provider: #fcfcfd; --print-background: #ffffff; --print-text: #000000;
   --font-display: 'Instrument Serif', Georgia, serif;
-  --surface-0: #f8f9fc; --surface-1: #fff; --surface-2: #edf1f7;
+  --page-edge: max(48px, calc((100% - 1264px) / 2)); --surface-0: #f8f9fc; --surface-1: #fff; --surface-2: #edf1f7;
   --text-primary: #172c46; --text-secondary: #445671; --text-muted: #53647a;
   --border: #d7dfeb; --grid: #e3e9f1; --accent: #142e51; --accent-soft: #e9eff6;
   --series-1: #246d76; --series-2: #ab5839; --series-3: #416994;
@@ -136,6 +136,7 @@ body[data-page='index'] .status-banner { display: none; }
   @keyframes emblem-arrive { from { opacity: .35; transform: translateY(12px); filter: blur(4px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 }
 @media (max-width: 1100px) {
+  :root { --page-edge: 32px; }
   .site-header { gap: 20px; padding-inline: max(32px, env(safe-area-inset-left), env(safe-area-inset-right)); flex-wrap: wrap; }
   .site-header .nav-toggle { display: inline-flex; order: 2; margin-left: 0; }
   .header-actions { margin-left: auto; order: 1; }
@@ -151,7 +152,8 @@ body[data-page='index'] .status-banner { display: none; }
   .site-footer.container { padding-inline: 32px; }
 }
 @media (max-width: 700px) {
-  .site-header { min-height: 78px; padding-inline: max(22px, env(safe-area-inset-left), env(safe-area-inset-right)); gap: 14px; }
+  :root { --page-edge: 20px; }
+  .site-header { min-height: 78px; padding-inline: max(20px, env(safe-area-inset-left), env(safe-area-inset-right)); gap: 14px; }
   .brand { font-size: 23px; min-height: 44px; }
   .brand-logo { width: 32px; height: 32px; }
   th, .badge { font-size: 12px; }
@@ -164,7 +166,7 @@ body[data-page='index'] .status-banner { display: none; }
   .site-nav.open a.active::after { display: none; }
   @keyframes menu-sheet-enter { from { opacity: 0; transform: translateY(-8px); } }
   .header-actions .repo-link { display: none; }
-  main.container { padding: 35px 22px 55px; }
+  main.container { padding: 35px 20px 55px; }
   .page-head { gap: 20px; flex-direction: column; align-items: flex-start; }
   .anantam-hero { grid-template-columns: minmax(0, 1fr); min-height: auto; padding-top: 44px; }
   .anantam-hero::before { inset: -30px -22px 0; background: radial-gradient(ellipse at 85% 62%, var(--hero-glow), transparent 67%); }
