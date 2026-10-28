@@ -55,6 +55,16 @@ try{
   }
   await context.close();
  }
+ const cold=await browser.newPage({viewport:{width:1440,height:900}});let releaseCommon;const commonGate=new Promise(r=>releaseCommon=r);
+ await cold.route('**/common.js*',async route=>{await commonGate;await route.continue();});
+ await cold.goto(new URL('about.html',base).href,{waitUntil:'commit'});await cold.locator('.legal-index').waitFor();
+ await cold.evaluate(()=>{window.coldIndex=document.querySelector('.legal-index');});
+ await cold.locator('.legal-index').getByRole('link',{name:'Cookies & preferences',exact:true}).click();await cold.waitForFunction(()=>location.pathname.endsWith('/cookies.html'));
+ check('A cold click retains the index before shared modules have loaded',await cold.evaluate(()=>window.coldIndex===document.querySelector('.legal-index')));
+ releaseCommon();await cold.waitForFunction(()=>document.querySelector('.site-header')?.dataset.bound==='true');
+ await cold.locator('#remember-comparisons').check();await cold.getByRole('button',{name:'Save preferences',exact:true}).click();
+ check('Late preference enhancement binds the currently selected article',await cold.evaluate(()=>localStorage.getItem('anantam-preferences')==='remember-comparisons'));
+ await cold.close();
  const page=await browser.newPage();await page.goto(new URL('index.html',base).href);
  await page.getByRole('button',{name:'Accept optional',exact:true}).click();
  check('Accept enables only the named comparison preference',await page.evaluate(()=>localStorage.getItem('anantam-preferences')==='remember-comparisons'&&localStorage.getItem('ember-compare')===null));

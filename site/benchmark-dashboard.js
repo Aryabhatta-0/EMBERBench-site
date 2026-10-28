@@ -1,5 +1,5 @@
-import {esc,fmt,count,scenarioName,isDecision,providerInfo} from './common.js?v=20261028-navigation-2';
-import {METRICS,finite,leaderboardOrder} from './analytics.js?v=20261028-navigation-2';
+import {esc,fmt,count,scenarioName,isDecision,providerInfo} from './common.js?v=20261028-reading-3';
+import {METRICS,finite,leaderboardOrder} from './analytics.js?v=20261028-reading-3';
 const bounded=v=>Math.max(0,Math.min(1,v)),layouts=new WeakMap();
 export function outcomeParts(model){return [['evacuated','Evacuated',model.totals.evacuated],['deaths','Avoidable deaths',model.totals.avoidable_casualties],['stranded','Avoidable stranded',model.totals.avoidable_stranded],['unavoidable','Unavoidable losses',model.totals.unavoidable_losses||0]];}
 export function metricScale(models,key){return key==='score'?100:['safety','quality','congestion'].includes(key)?1:Math.max(0,...models.map(METRICS[key].get).filter(finite));}

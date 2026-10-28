@@ -9,7 +9,7 @@ import {siteHeader} from '../site/chrome.js';
 import {siteFooter} from '../site/footer.js';
 import {docs,retired} from './docs-policy.mjs';
 import {publicResults,publicScenarioNames} from './public_results.mjs';
-const root=resolve('site'),origin='https://anantam-labs.vercel.app',version='20261028-navigation-2';
+const root=resolve('site'),origin='https://anantam-labs.vercel.app',version='20261028-reading-3';
 const assets=JSON.parse(await readFile('tools/asset-map.json','utf8'));
 const artwork=html=>html.replaceAll('assets/anantam-logo.png',assets.mark).replace(/assets\/anantam-mark\.[a-f0-9]+\.webp/g,assets.mark);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -109,6 +109,7 @@ for(const file of allHtml){
   html=html.replace('<main id="main" tabindex="-1">','<main id="main" tabindex="-1" class="container">');
   html=html.replace(/(<body\b[^>]*>)/,`$1<!-- production:chrome -->${artwork(siteHeader(active,prefix))}<!-- /production:chrome -->`);
  }
+ if(company[id])html=html.replace('</head>',`<script src="legal-navigation.js?v=${version}"></script></head>`);
  const noFooter=isDoc||file==='docs.html'||file==='methodology.html'||Boolean(company[id]);
  html=html.replace(/\sdata-footer="none"/g,'');
  if(noFooter)html=html.replace(/(<body\b[^>]*)(>)/,'$1 data-footer="none"$2');
@@ -156,7 +157,7 @@ for(const entry of manifest.documents)entry.htmlSha256=hash(await readFile(resol
 for(const entry of manifest.retiredPages)entry.sha256=hash(await readFile(resolve(root,'docs',entry.id+'.html'),'utf8'));
 manifest.indexSha256=hash(await readFile(resolve(root,'docs.html'),'utf8'));await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');
 const policy=JSON.parse(await readFile('tools/site-publication-policy.json','utf8'));
-const additions=[...Object.keys(company).flatMap(id=>[id+'.html',id+'.md']),'index.md','benchmark.md','methodology.md','scenarios.md','docs.md','404.md','llms.txt','.well-known/security.txt','data/leaderboard.json','chrome.js','preferences.js','legal.js','legal.css','consent.js','consent.css',indexnow.key+'.txt',...Object.values(assets).filter(v=>typeof v==='string'),...Object.values(assets.fonts)];
+const additions=[...Object.keys(company).flatMap(id=>[id+'.html',id+'.md']),'index.md','benchmark.md','methodology.md','scenarios.md','docs.md','404.md','llms.txt','.well-known/security.txt','data/leaderboard.json','chrome.js','preferences.js','legal.js','legal.css','legal-navigation.js','consent.js','consent.css',indexnow.key+'.txt',...Object.values(assets).filter(v=>typeof v==='string'),...Object.values(assets.fonts)];
 policy.rootHtml=[...new Set([...policy.rootHtml,...Object.keys(company).map(id=>id+'.html')])].sort();
 policy.jsonPaths=[...new Set([...policy.jsonPaths,'data/leaderboard.json'])].sort();
 policy.staticFiles=[...new Set([...policy.staticFiles,...additions])].sort();await writeFile('tools/site-publication-policy.json',JSON.stringify(policy,null,2)+'\n');
