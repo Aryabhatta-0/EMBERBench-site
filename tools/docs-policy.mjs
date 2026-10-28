@@ -1,0 +1,41 @@
+export const groups=[
+ ['Start here',[
+  ['quickstart','Overview & setup','The open task, public development results and first steps.'],
+  ['cli','Command line','Public generation, evaluation, replay and scoring commands.'],
+  ['model-interface','Model interface','Observations, actions and the decision-model contract.'],
+  ['site-data','Published site data','How this site is generated and what its snapshot establishes.'],
+ ]],
+ ['The open task',[
+  ['simulation-contract','Simulation contract','Movement, collisions, exits and fire semantics.'],
+  ['scenario-schema','Scenario schema','Public scenario fields and validation rules.'],
+  ['scenario-suite','Public scenarios','The diagnostic scenarios available for training and development.'],
+  ['baselines','Reference agents','Public hand-coded agents and planning references.'],
+  ['development-generator','Development generator','Open training worlds, separate from the official distribution.'],
+ ]],
+ ['Evaluation & scoring',[
+  ['scoring','EMBER scoring','The full formula, weights, gates, aggregation and failure handling.'],
+  ['metrics','Episode metrics','Raw outcomes and authenticated measurements.'],
+  ['crowd-diagnostics','Crowd diagnostics','Observed congestion and throughput signals; no crowd score.'],
+  ['evaluation','Running evaluations','Public paired schedules, records and result handling.'],
+  ['environment-pack','Frozen environments','Public pack identity, digests and matched fire worlds.'],
+  ['statistics','Statistical analysis','Intervals, resampling and paired comparisons.'],
+  ['v1-fairness-spec','Fairness contract','Model-visible information and simulator fairness.'],
+ ]],
+ ['Scope & verification',[
+  ['evaluation-boundary','Evaluation boundary','What stays public and what remains evaluator-private.'],
+  ['replay-verification','Replay verification','Public verification rules and safe artifact publication.'],
+  ['archived-validation','Archived validation','Disclosed research holdouts are historical evidence.'],
+  ['versioning','Versions & identity','Public contract versions and private-policy commitments.'],
+ ]],
+];
+export const docs=groups.flatMap(([group,items])=>items.map(([id,title,description])=>({id,title,description,group})));
+export const upstreamIds=new Set(['cli','model-interface','scoring','metrics','crowd-diagnostics','scenario-suite','evaluation','environment-pack','simulation-contract','v1-fairness-spec','baselines','statistics','scenario-schema']);
+export const retired={
+ 'benchmark-methodology':'archived-validation','scoring-study-results':'archived-validation',
+ 'procedural-generation':'development-generator','generator':'development-generator',
+ 'evaluation-suite-design':'evaluation-boundary','difficulty-calibration':'evaluation-boundary',
+ 'suite-design-results':'evaluation-boundary','generator-coverage-results':'evaluation-boundary',
+ 'integrity':'replay-verification','replay-visualization':'replay-verification',
+ 'release-checklist':'evaluation-boundary','changelog':'versioning',
+};
+export const constructionTokens=[/\bINITIAL_POOL_SIZE\b/,/\bTOP_UP_BATCH_SIZE\b/,/\bPOOL_CAP\b/,/\bV1_RECIPES\b/,/\bV1_INITIAL_PLAN\b/,/\bV1_TOP_UP\b/,/\bV1_DESIGN\b/,/src\/emberbench\/composition\.py/,/tools\/analyze_suite_design\.py/];

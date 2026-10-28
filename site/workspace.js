@@ -1,5 +1,5 @@
 // Shared structure for analytical routes. Existing evidence nodes retain their IDs.
-import { esc } from './common.js?v=20261027-brand-3';
+import { esc } from './common.js?v=20261028-reading-3';
 import {profileReadout} from './evidence-readout.js';
 
 export function workspaceTabs(root, groups, key = 'workspace', initialView) {
@@ -99,7 +99,7 @@ export function redesignProfile(model) {
 
 export function redesignMethodology() {
   const main = document.getElementById('main');
-  main.querySelector('.page-head').outerHTML = editorHeader('How decisions<br>become evidence.', 'The worlds, the scoring, and the limits behind every result.', '<a class="quiet-link" href="leaderboard.html">Explore the results</a>');
+  main.querySelector('.page-head').outerHTML = editorHeader('How decisions<br>become evidence.', 'The worlds, the scoring, and the limits behind every result.');
   const article = document.createElement('article'); article.className = 'method-article';
   const sections = [...main.querySelectorAll('section.panel')];
   const aside = document.createElement('nav'); aside.className = 'method-contents'; aside.setAttribute('aria-label','On this page');
