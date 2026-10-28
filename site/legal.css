@@ -20,7 +20,7 @@
 .static-reading{max-width:780px;margin-inline:auto;}.static-reading p,.static-reading li{font-size:16px;line-height:1.75;color:var(--text-secondary);}.static-reading h2{margin-top:32px;}.static-reading a{color:var(--link);text-underline-offset:3px;}
 @media(max-width:700px){.legal-layout{grid-template-columns:minmax(0,1fr);gap:28px;}.legal-index{position:static;display:flex;flex-wrap:wrap;gap:0 20px;}.static-models{columns:1;}}
 /* Hallmark: preserve the supplied reading system and one stationary index. */
-html:has(body[data-page='legal']){scrollbar-gutter:stable;}
+
 body[data-page='legal'] main.container{padding-top:32px;min-height:calc(100svh - var(--site-header-height,88px));}
 .legal-index{top:calc(var(--site-header-height,88px) + 32px);}
 .legal-article{min-width:0;}
