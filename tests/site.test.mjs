@@ -282,7 +282,7 @@ test("comparison links require 2–4 valid selected models and survive blocked s
     ]) {
       Object.defineProperty(globalThis, "localStorage", {
         configurable: true,
-        value: { getItem: () => JSON.stringify(chosen) },
+        value: { getItem: key => key==='anantam-preferences'?'remember-comparisons':JSON.stringify(chosen) },
       });
       const html = selectionBar({ models });
       assert.equal(html.includes('aria-disabled="true"'), chosen.length < 2);
@@ -540,7 +540,7 @@ test("all portal entry points use local modules, viewport metadata and an access
       html = await readFile(url, "utf8");
     assert.match(html, /<html lang="en">/);
     assert.match(html, /name="viewport"/);
-    assert.match(html, /<main id="main" tabindex="-1">/);
+    assert.match(html, /<main id="main" tabindex="-1"(?: class="container")?>/);
     assert.match(html, /type="module" src="[^" ]+\.js(?:\?[^" ]+)?"/);
     assert.match(html, /<noscript\s*>/);
     for (const [, src] of html.matchAll(/(?:src|href)="([^"#]+)"/g))

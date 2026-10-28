@@ -1,11 +1,13 @@
-import {siteFooter,revealCompanyFooter} from './footer.js?v=20261027-guide-footer-2';
+import {siteHeader} from './chrome.js?v=20261028-production-1';
+import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261028-production-1';
+import {siteFooter,revealCompanyFooter} from './footer.js?v=20261028-production-1';
 import {
   provider,
   providerInfo,
   rankOf,
   selectedIds,
   leaderboardOrder,
-} from "./analytics.js?v=20261027-brands-1";
+} from "./analytics.js?v=20261028-production-1";
 
 export const esc = (v) =>
   String(v ?? "").replace(
@@ -80,20 +82,11 @@ export async function loadResults() {
     });
   return data;
 }
-function safeStorage(key, value) {
-  try {
-    if (value !== undefined) localStorage.setItem(key, value);
-    else return localStorage.getItem(key);
-  } catch {
-    /* Storage is optional. */
-  }
-  return null;
-}
 export function getSelection(data) {
-  return selectedIds(safeStorage("ember-compare"), data.models);
+  return selectedIds(readComparisonSelection(), data.models);
 }
 export function setSelection(ids) {
-  safeStorage("ember-compare", JSON.stringify([...new Set(ids)].slice(0, 4)));
+  saveComparisonSelection(ids);
 }
 export function selectionBar(data) {
   const ids = getSelection(data);
@@ -152,26 +145,15 @@ export function provenance(data, m = null) {
 export function shell(data, active) {
   if (active === "model") active = "leaderboard";
   const company = active === 'company';
-  const pages = [
-    ['company', 'index.html#contributions', 'Our work'],
-    ['leaderboard', 'benchmark.html', 'EMBERBench'],
-    ['methodology', 'methodology.html', 'Methodology'],
-    ['docs', 'docs.html', 'Docs'],
-  ];
-  const main = document.querySelector("main");
-  main.classList.add("container");
-  document.body.insertAdjacentHTML(
-    "afterbegin",
-    `<a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="index.html" class="brand" aria-label="Anantam home"><img class="brand-logo" src="assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation">${pages.map(([id, url, label]) => `<a href="${url}" class="${id === active ? "active" : ""}" ${id === active ? 'aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="header-actions"><a class="repo-link" href="${REPO}">GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></header><div class="status-banner"><span class="status-copy">Public development results</span><a href="methodology.html#public-development">Read the scope</a></div>`,
-  );
-  main.insertAdjacentHTML('afterend',siteFooter());
-  if(!company&&document.body.dataset.page!=='leaderboard')main.insertAdjacentHTML('beforebegin','<p class="public-evaluation-notice"><strong>Public development results.</strong> Models may train or tune on these environments. No official hidden-test results are published here. <a href="docs/evaluation-boundary.html">Evaluation scope</a></p>');
+  const main = document.querySelector('main');
+  main.classList.add('container');
+  if(!document.querySelector('.site-header'))document.body.insertAdjacentHTML('afterbegin',siteHeader(active));
+  if(!document.querySelector('.site-footer'))main.insertAdjacentHTML('afterend',siteFooter());
+  if(['methodology','scenarios','compare','model'].includes(document.body.dataset.page)&&!document.querySelector('.public-evaluation-notice'))main.insertAdjacentHTML('beforebegin','<p class="public-evaluation-notice"><strong>Public development results.</strong> Models may train or tune on these environments. No official hidden-test results are published here. <a href="docs/evaluation-boundary.html">Evaluation scope</a></p>');
   requestAnimationFrame(revealCompanyFooter);addEventListener('hashchange',revealCompanyFooter);
-  if (company || ['methodology','scenarios'].includes(active)) document.querySelector('.status-banner')?.remove();
-  if (!company && !['methodology','scenarios'].includes(active)) {
-    const links = [['leaderboard','benchmark.html','Results'],['compare','compare.html','Compare'],['scenarios','scenarios.html','Scenarios']];
-    document.querySelector('.status-banner').outerHTML = `<nav class="benchmark-subnav" aria-label="Benchmark navigation">${links.map(([id,href,label]) => `<a href="${href}" ${id === active ? 'aria-current="page"' : ''}>${label}</a>`).join('')}</nav>`;
-  }
+  const header=document.querySelector('.site-header');
+  if(header.dataset.bound==='true')return;
+  header.dataset.bound='true';
   const navButton = document.querySelector(".nav-toggle");
   const updateOffset = () => {
     const height = Math.ceil(document.querySelector('.site-header').getBoundingClientRect().height);
@@ -264,6 +246,6 @@ export function installTooltip() {
 }
 export function errorPage(error) {
   document.querySelector("main").innerHTML =
-    `<div class="empty"><h1>Results unavailable</h1><p>${esc(error.message)}</p><a href="index.html">Return to overview</a></div>`;
+    `<div class="empty"><h1>Results unavailable</h1><p>The interactive results could not be loaded. Reload to try again, or read the <a href="benchmark.md">published results</a> and <a href="docs.html">documentation</a>.</p><a href="index.html">Return to overview</a></div>`;
 }
 export { provider, providerInfo, rankOf };

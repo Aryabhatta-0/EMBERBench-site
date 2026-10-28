@@ -1,0 +1,33 @@
+# Anantam
+
+> Boundless Possibilities. Independent AI research and EMBERBench public-development evidence.
+
+Use these materials to understand Anantam, interpret EMBERBench scores, implement the public model interface, or reproduce public development runs. This website provides information and static downloads, not an inference API, live emergency service or official evaluation-submission endpoint.
+
+EMBERBench is the sole published contribution. Models may train or tune on the public environment. Results have one trial per model and are not contamination-resistant hidden-test certification. EMBER is not a survival percentage. No evaluation timestamp is recorded. Preserve those limitations when citing results.
+
+## Research
+
+- [Anantam overview](https://anantam-labs.vercel.app/index.md): Identity and contribution.
+- [Public results](https://anantam-labs.vercel.app/benchmark.md): All decision models and reference agents, with scope.
+- [Structured results](https://anantam-labs.vercel.app/data/leaderboard.json): Same reviewed public snapshot, explicit fields and source digest.
+- [Methodology](https://anantam-labs.vercel.app/methodology.md): Score, verification and evidence links.
+- [Documentation index](https://anantam-labs.vercel.app/docs.md): Reviewed Markdown contracts.
+- [Model interface](https://anantam-labs.vercel.app/docs/source/model-interface.md): Implement a model adapter for public development.
+- [Scoring](https://anantam-labs.vercel.app/docs/source/scoring.md): Full public formula and rules.
+- [Evaluation boundary](https://anantam-labs.vercel.app/docs/source/evaluation-boundary.md): Public development versus separate official evaluation.
+
+## Company and policies
+
+- [About](https://anantam-labs.vercel.app/about.md): Independent initiative, not a registered company.
+- [Contact](https://anantam-labs.vercel.app/contact.md): Research, privacy and security enquiries.
+- [Privacy](https://anantam-labs.vercel.app/privacy.md): Actual data practices.
+- [Terms](https://anantam-labs.vercel.app/terms.md): Research scope, licences and responsible access.
+- [Cookies](https://anantam-labs.vercel.app/cookies.md): Optional device memory; no advertising or analytics trackers.
+- [Accessibility](https://anantam-labs.vercel.app/accessibility.md): Usage and reporting barriers.
+
+## Optional
+
+- [Sitemap](https://anantam-labs.vercel.app/sitemap.xml): Indexable HTML pages.
+- [Security contact](https://anantam-labs.vercel.app/.well-known/security.txt): Private disclosure route.
+- [Benchmark source](https://github.com/Aryabhatta-0/EMBERBench): Source repository and its licences.

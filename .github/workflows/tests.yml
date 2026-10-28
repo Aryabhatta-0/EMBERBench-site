@@ -13,6 +13,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - run: git diff --exit-code -- site tools/site-publication-policy.json vercel.json
       - run: node --test tests/site.test.mjs tests/docs-policy.test.mjs
       - run: node tools/check_public_site.mjs
 

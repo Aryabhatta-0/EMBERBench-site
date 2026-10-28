@@ -25,3 +25,5 @@ body[data-page] footer.company-footer p{display:block;}
  .company-footer .footer-tagline{font-size:17px;margin-top:18px;}.company-footer .footer-description{font-size:14px;}.footer-navigation{gap:32px;}.footer-navigation a{font-size:14px;}
  .footer-bottom{margin-top:32px;padding-top:20px;flex-wrap:wrap;gap:8px 24px;}
 }
+
+.footer-legal{display:flex;flex-wrap:wrap;gap:4px 20px;}.footer-legal a{font-size:12px;}

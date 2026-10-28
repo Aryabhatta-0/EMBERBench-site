@@ -9,14 +9,14 @@ import {
   provider,
   providerInfo,
   errorPage,
-} from "./common.js?v=20261027-public-boundary-1";
+} from "./common.js?v=20261028-production-1";
 import {
   METRICS,
   filterModels,
   sortModels,
   finite,
-} from "./analytics.js?v=20261027-brands-1";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261027-production-1';
+} from "./analytics.js?v=20261028-production-1";
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261028-production-1';
 
 const columns = [
   ["score", "EMBER"],
@@ -141,4 +141,11 @@ async function main() {
   });
   if(params.get("direction")&&params.get("direction")!=="desc")update();else render();
 }
-main().catch(errorPage);
+main().catch(error=>{
+  const summary=document.querySelector('[data-static-results]');
+  if(!summary){errorPage(error);return;}
+  const status=summary.querySelector('[data-static-status]');
+  status.setAttribute('role','status');
+  status.innerHTML='Interactive charts are unavailable. The published text results above remain readable. <button type="button" class="button small" data-retry-charts>Retry charts</button> <a href="data/leaderboard.json">Download public results as JSON</a> or read the <a href="docs.html">documentation</a>.';
+  status.querySelector('[data-retry-charts]').addEventListener('click',()=>location.reload());
+});

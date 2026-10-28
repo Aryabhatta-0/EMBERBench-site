@@ -1,5 +1,7 @@
 // The emblem is the loading indicator. Never hold content for a brand sequence.
 const main = document.getElementById('main');
+// Static navigation must work even when a larger results import is delayed.
+if(document.querySelector('.site-header'))import('./common.js?v=20261028-production-1').then(({shell})=>shell(null,document.body.dataset.page)).catch(()=>{});
 if (main?.querySelector('.loading-shell')) {
   const shell = main.querySelector('.loading-shell');
   let stopMotion;

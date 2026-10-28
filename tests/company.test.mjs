@@ -9,7 +9,7 @@ const axe=await readFile(require.resolve('axe-core/axe.min.js'),'utf8');
 const browser=await chromium.launch();const checks=[],audits=[],errors=[];
 const check=(name,ok)=>{assert.ok(ok,name);checks.push(name);};
 const audit=async(page,label)=>{await page.evaluate(axe);audits.push({label,violations:await page.evaluate(async()=>(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})).violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})))});};
-const go=async(page,route='')=>{await page.goto(new URL(route,base).href);await page.locator('.site-footer').waitFor();await page.evaluate(()=>document.fonts.ready);};
+const go=async(page,route='')=>{await page.goto(new URL(route,base).href);await page.locator('.site-footer').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));await page.evaluate(()=>document.fonts.ready);};
 try{
  const page=await browser.newPage({viewport:{width:1440,height:1000},colorScheme:'dark'});page.on('pageerror',e=>errors.push(e.message));
  const resultRequests=[];page.on('request',request=>{if(/\/data\/results\.js(?:\?|$)/.test(request.url()))resultRequests.push(request.url());});
@@ -28,7 +28,7 @@ try{
  }
  check('Homepage introduction does not request benchmark results data',resultRequests.length===0);
  await page.setViewportSize({width:1440,height:1000});await go(page);
- check('Anantam uses its exact requested tagline',await page.locator('.company-hero>p').textContent()==='Boundless Possibilities'&&await page.title()==='Anantam | Boundless Possibilities');
+ check('Anantam uses its exact requested tagline',await page.locator('.company-hero>p').textContent()==='Boundless Possibilities'&&await page.title()==='Anantam | AI research & EMBERBench');
  check('Light gradient spans the hero and no dark runner remains',await page.locator('.hero-stage').evaluate(el=>getComputedStyle(el).backgroundImage.includes('gradient'))&&await page.locator('.ribbon-current').count()===0);
  check('The hero ends in an asymmetric curved shore',await page.locator('.hero-shore path').evaluate(el=>el.isPointInFill(new DOMPoint(72,70))!==el.isPointInFill(new DOMPoint(720,70))));
  check('Homepage contribution has no duplicate navigation or CTA',await page.locator('#contributions a').count()===0&&await page.locator('.hero-action').count()===1);

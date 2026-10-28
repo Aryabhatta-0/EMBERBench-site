@@ -1,5 +1,5 @@
-import {esc,fmt,scenarioName} from './common.js?v=20261027-public-boundary-1';
-import {finite} from './analytics.js?v=20261027-brands-1';
+import {esc,fmt,scenarioName} from './common.js?v=20261028-production-1';
+import {finite} from './analytics.js?v=20261028-production-1';
 import {peopleReadout} from './result-explorer.js';
 
 export function profileReadout(model) {

@@ -107,6 +107,6 @@ await writeFile(resolve(out,'source-manifest.json'),JSON.stringify(manifest,null
 const missingPath=resolve(root,'404.html');
 let missing=(await readFile(missingPath,'utf8')).replace(/\r\n/g,'\n');
 missing=missing.replace(/\s*<!-- Shared company footer -->[\s\S]*?<\/footer>\s*(?=<\/body>)/,'\n');
-if(!missing.includes('/footer.css?'))missing=missing.replace('</head>','  <link rel="stylesheet" href="/EMBERBench-site/footer.css?v=20261027-guide-footer-1">\n</head>');
-await writeFile(missingPath,missing.replace('</body>',`<!-- Shared company footer -->\n${siteFooter('/EMBERBench-site/')}\n</body>`));
+if(!missing.includes('/footer.css?'))missing=missing.replace('</head>','  <link rel="stylesheet" href="/footer.css?v=20261027-guide-footer-1">\n</head>');
+await writeFile(missingPath,missing.replace('</body>',`<!-- Shared company footer -->\n${siteFooter('/')}\n</body>`));
 console.log(`Built ${docs.length} reviewed public guides, documentation index and local full-text search.`);

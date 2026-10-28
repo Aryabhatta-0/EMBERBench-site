@@ -14,7 +14,7 @@ const page=await browser.newPage({viewport:{width:1440,height:1000}});
 const checks=[],audits=[],errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 const check=(name,value)=>{assert.ok(value,name);checks.push(name);};
-const go=async route=>{await page.goto(new URL(route,base).href);await page.locator('.site-footer').waitFor();await page.evaluate(()=>document.fonts.ready);};
+const go=async route=>{await page.goto(new URL(route,base).href);await page.locator('.site-footer').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));await page.evaluate(()=>document.fonts.ready);};
 const ai=leaderboardOrder(data.models.filter(m=>m.kind==='Decision model').map(m=>({...m,name:evaluatedModelName(m)})));
 const axe=await readFile(require.resolve('axe-core/axe.min.js'),'utf8');
 const audit=async label=>{
