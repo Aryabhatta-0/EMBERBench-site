@@ -142,7 +142,7 @@ for(const [path,md] of markdownRoutes)if(!markdownCanonical.has(md))markdownCano
 for(const [md,path] of markdownCanonical)routes.push({src:'/'+md.replaceAll('.','\\.'),headers:{'Link':`<${origin}${path}>; rel="canonical", </llms.txt>; rel="describedby"`},continue:true});
 routes.push({src:'/assets/anantam-social\\.png',status:308,headers:{Location:'/'+assets.social}});
 routes.push({src:'/(.*\\.md)',headers:{'Content-Type':'text/markdown; charset=utf-8'},continue:true},{src:'/data/leaderboard\\.json',headers:{'Content-Type':'application/json; charset=utf-8'},continue:true},{src:'/index\\.html',status:308,headers:{Location:'/'}},{handle:'filesystem'},{src:'/(.*)',has:markdownAccept,dest:'/404.md',status:404,headers:{'Content-Type':'text/markdown; charset=utf-8','Vary':'Accept','X-Robots-Tag':'noindex'}},{src:'/(.*)',dest:'/404.html',status:404,headers:{'X-Robots-Tag':'noindex'}});
-await writeFile('vercel.json',JSON.stringify({$schema:'https://openapi.vercel.sh/vercel.json',framework:null,installCommand:'',buildCommand:'node ../tools/check_public_site.mjs . && node ../tools/check_production.mjs .',outputDirectory:'.',routes},null,2)+'\n');
+await writeFile('vercel.json',JSON.stringify({$schema:'https://openapi.vercel.sh/vercel.json',framework:null,installCommand:'',buildCommand:'node tools/check_public_site.mjs site && node tools/check_production.mjs site',outputDirectory:'site',routes},null,2)+'\n');
 // Metadata transforms are part of this reviewed build; source content stays pinned.
 const manifestPath=resolve(root,'docs/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
 for(const entry of manifest.documents)entry.htmlSha256=hash(await readFile(resolve(root,'docs',entry.id+'.html'),'utf8'));

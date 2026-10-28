@@ -2,8 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "",
-  "buildCommand": "node ../tools/check_public_site.mjs . && node ../tools/check_production.mjs .",
-  "outputDirectory": ".",
+  "buildCommand": "node tools/check_public_site.mjs site && node tools/check_production.mjs site",
+  "outputDirectory": "site",
   "routes": [
     {
       "src": "/(.*)",
