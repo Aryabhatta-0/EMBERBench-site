@@ -43,15 +43,15 @@ try{
   check(`${width}px refresh keeps the chosen preference without another notice`,await page.locator('#remember-comparisons').isChecked()&&await page.locator('.cookie-notice').count()===0);
   check(`${width}px no sideways overflow`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.evaluate(axe);audits.push({name:`Cookie controls ${width}`,violations:await page.evaluate(async()=>(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}})).violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})))});
-  if(width===1440){
+  {
    await page.locator('.legal-index').getByRole('link',{name:'Privacy',exact:true}).click();await page.waitForURL('**/privacy.html');
    await page.evaluate(()=>scrollTo({top:400,behavior:'instant'}));
    const scrolled=await page.locator('.legal-index').boundingBox();
    await page.locator('.legal-index').getByRole('link',{name:'About',exact:true}).click();await page.waitForURL('**/about.html');
    const top=await page.locator('.legal-index').boundingBox();
-   check('Changing a scrolled article keeps the desktop index stationary',Math.abs(scrolled.y-top.y)<1);
+   check(`${width}px changing a scrolled article keeps the index stationary`,Math.abs(scrolled.y-top.y)<1);
    await page.goBack();await page.waitForURL('**/privacy.html');
-   check('Back restores the previous reading position',await page.evaluate(()=>Math.abs(scrollY-400)<2));
+   check(`${width}px Back restores the previous reading position`,await page.evaluate(()=>Math.abs(scrollY-400)<2));
   }
   await context.close();
  }

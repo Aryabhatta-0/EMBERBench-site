@@ -27,4 +27,4 @@ body[data-page='legal'] main.container{padding-top:32px;min-height:calc(100svh -
 .legal-article h1:focus{outline:none;}
 .legal-article h1:focus-visible{outline:2px solid var(--focus);outline-offset:4px;}
 .legal-article[aria-busy='true']{cursor:progress;}
-@media(max-width:700px){.legal-index{position:sticky;top:var(--site-header-height,78px);z-index:20;background:var(--surface-0);padding-block:8px;}.legal-index a{font-size:14px;}.legal-article h1{scroll-margin-top:calc(var(--site-header-height,78px) + 160px);}}
+@media(max-width:700px){.legal-index{position:sticky;top:calc(var(--site-header-height,78px) + 32px);z-index:20;background:var(--surface-0);padding-block:8px;}.legal-index a{font-size:14px;}.legal-article h1{scroll-margin-top:calc(var(--site-header-height,78px) + 160px);}}
