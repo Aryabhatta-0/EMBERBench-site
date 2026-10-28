@@ -11,6 +11,8 @@ test('raw construction source cannot be reintroduced without publication review'
 test('a modified upstream contract fails the reviewed content pin',async t=>{const root=await fixture(t);const file=resolve(root,'docs/source/scoring.md');await writeFile(file,(await readFile(file,'utf8'))+'\nUnreviewed change.');assert.notEqual(run(root).status,0);});
 test('an unlisted HTML guide cannot bypass the source allowlist',async t=>{const root=await fixture(t);await writeFile(resolve(root,'docs/unlisted.html'),'<h1>Unreviewed guide</h1>');assert.notEqual(run(root).status,0);});
 test('a private JSON artifact under an innocent path cannot be published',async t=>{const root=await fixture(t);await writeFile(resolve(root,'data/helper.json'),'{}');assert.notEqual(run(root).status,0);});
+
+test('an evaluation artifact cannot publish while its independent release gate is off',async t=>{const root=await fixture(t);await writeFile(resolve(root,'data/evaluation.json'),'{}');const result=run(root);assert.notEqual(result.status,0);assert.match(result.stderr,/Unreviewed evaluation artifact/);});
 test('the immutable public snapshot cannot silently become a different evaluation',async t=>{const root=await fixture(t);await writeFile(resolve(root,'data/results.js'),'export default {};');assert.notEqual(run(root).status,0);});
 
 test('a nested source filename cannot bypass the reviewed download paths',async t=>{const root=await fixture(t);await mkdir(resolve(root,'docs/source/extra'));await cp(resolve(root,'docs/source/scoring.md'),resolve(root,'docs/source/extra/scoring.md'));assert.notEqual(run(root).status,0);});

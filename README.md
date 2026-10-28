@@ -47,6 +47,8 @@ Maintain `/.well-known/security.txt` before its expiry, re-audit dependencies be
 
 ## Add or update results
 
+The following legacy workflow is for **public-development** data. Private batch `b20261028a` is currently unevaluated: leave the live leaderboard unchanged and do not run models from this website task. The disabled aggregate importer/section and separate evaluation-session handoff are documented in [Private evaluation release preparation](docs/production/EVALUATION-RELEASE.md). Future external inputs are read in place, never copied into this repository.
+
 1. In an EMBERBench checkout, run the benchmark: the offline evaluation pack (`tools/experiments/v1/run_public_benchmark.py`) for the reference agents, and `tools/experiments/remote/run_remote.py` for each remote model. Each run writes a directory with `scores/` and, for a remote model, `summary.json`.
 2. Here, install the requirements and rebuild the data from every run directory (see [Generate data](#generate-data)).
 3. Run the tests, preview the site and commit `site/data/results.js`.

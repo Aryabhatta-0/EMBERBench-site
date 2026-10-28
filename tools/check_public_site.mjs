@@ -3,6 +3,7 @@ import {readFile,readdir,lstat} from 'node:fs/promises';
 import {resolve,relative} from 'node:path';
 import {createHash} from 'node:crypto';
 import {docs,upstreamIds,retired,constructionTokens} from './docs-policy.mjs';
+import {readApprovedEvaluation} from './evaluation/publication.mjs';
 const root=resolve(process.argv[2]||'site'),ids=new Set(docs.map(d=>d.id)),hash=s=>createHash('sha256').update(s.replace(/\r\n/g,'\n')).digest('hex');
 const rootInfo=await lstat(root);assert(rootInfo.isDirectory()&&!rootInfo.isSymbolicLink(),'Publication root must be a real directory');
 const reviewed=JSON.parse(await readFile(new URL('./docs-reviewed-hashes.json',import.meta.url),'utf8'));
@@ -15,6 +16,7 @@ for(const entry of manifest.documents){
  if(upstreamIds.has(entry.id))assert.equal(hash(source),reviewed[entry.id],`Unreviewed upstream change: ${entry.id}`);
 }
 const publication=JSON.parse(await readFile(new URL('./site-publication-policy.json',import.meta.url),'utf8'));
+await readApprovedEvaluation(root);
 assert.equal(hash(await readFile(resolve(root,'data/results.js'),'utf8')),publication.snapshotSha256,'Published data requires an explicit public-development provenance review');
 const activeHtml=new Set([...ids,...Object.keys(retired)].map(id=>id+'.html'));
 for(const name of await readdir(resolve(root,'docs')))if(name.endsWith('.html'))assert(activeHtml.has(name),`Unreviewed documentation page: ${name}`);

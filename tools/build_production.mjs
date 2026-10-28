@@ -9,8 +9,14 @@ import {siteHeader} from '../site/chrome.js';
 import {siteFooter} from '../site/footer.js';
 import {docs,retired} from './docs-policy.mjs';
 import {publicResults,publicScenarioNames} from './public_results.mjs';
+import {readApprovedEvaluation} from './evaluation/publication.mjs';
+import {evaluationSection} from './evaluation/render.mjs';
 const root=resolve('site'),origin='https://anantam-labs.vercel.app',version='20261028-reading-3';
 const assets=JSON.parse(await readFile('tools/asset-map.json','utf8'));
+// Disabled until a reviewed aggregate artifact is explicitly digest-pinned.
+const approvedEvaluation=await readApprovedEvaluation(root);
+if(approvedEvaluation)await writeFile(resolve(root,'evaluation-section.css'),await readFile('design/evaluation-section.css'));
+else try{await unlink(resolve(root,'evaluation-section.css'));}catch(error){if(error.code!=='ENOENT')throw error;}
 const artwork=html=>html.replaceAll('assets/anantam-logo.png',assets.mark).replace(/assets\/anantam-mark\.[a-f0-9]+\.webp/g,assets.mark);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const hash=s=>createHash('sha256').update(s.replace(/\r\n/g,'\n')).digest('hex');
@@ -83,6 +89,7 @@ for(const file of allHtml){
  let html=(await readFile(resolve(root,file),'utf8')).replace(/\r\n/g,'\n'),prefix=file.startsWith('docs/')?'../':file==='404.html'?'/':'';
  html=html.replace(/<!-- production:seo -->[\s\S]*?<!-- \/production:seo -->/g,'').replace(/<!-- production:chrome -->[\s\S]*?<!-- \/production:chrome -->/g,'').replace(/<!-- production:footer -->[\s\S]*?<!-- \/production:footer -->/g,'');
  html=html.replace(/<footer\b[^>]*class="[^"]*company-footer[^"]*"[\s\S]*?<\/footer>/g,'');
+ html=html.replace(/<!-- evaluation:section -->[\s\S]*?<!-- \/evaluation:section -->/g,'').replace(/<!-- evaluation:style -->[\s\S]*?<!-- \/evaluation:style -->/g,'');
  if(file==='404.html')html=html.replace('<body data-page="legal">','<body data-page="legal" data-root="/">');
  html=html.replace(/(?:\.\.\/|\/EMBERBench-site\/)?assets\/anantam-logo\.png/g,m=>m.replace('assets/anantam-logo.png',assets.mark));
  html=html.replace(/<link\b[^>]*rel="(?:canonical|icon|apple-touch-icon)"[^>]*>/g,'').replace(/<meta\b[^>]*(?:name="(?:description|robots|color-scheme|theme-color|referrer|twitter:[^"]+)"|property="og:[^"]+")[^>]*>/g,'').replace(/<meta\b[^>]*http-equiv="Content-Security-Policy"[^>]*>/g,'');
@@ -114,6 +121,10 @@ for(const file of allHtml){
  html=html.replace(/\sdata-footer="none"/g,'');
  if(noFooter)html=html.replace(/(<body\b[^>]*)(>)/,'$1 data-footer="none"$2');
  else html=html.replace(/<\/main>/,`</main><!-- production:footer -->${artwork(siteFooter(prefix))}<!-- /production:footer -->`);
+ if(approvedEvaluation&&['benchmark.html','leaderboard.html'].includes(file)){
+  html=html.replace('<!-- production:footer -->',`<!-- evaluation:section -->${evaluationSection(approvedEvaluation,{download:true})}<!-- /evaluation:section --><!-- production:footer -->`);
+  html=html.replace('</head>',`<!-- evaluation:style --><link rel="stylesheet" href="evaluation-section.css?v=${version}"><!-- /evaluation:style --></head>`);
+ }
  html=html.replace(/<!-- production:consent -->[\s\S]*?<!-- \/production:consent -->/g,'');
  html=html.replace('</head>',`<!-- production:consent --><link rel="stylesheet" href="${prefix}consent.css?v=${version}"><script type="module" src="${prefix}consent.js?v=${version}"></script><!-- /production:consent --></head>`);
  if(!html.includes('<noscript'))html=html.replace('</body>','<noscript><p>Interactive tools need JavaScript. Read the <a href="docs.html">documentation</a>.</p></noscript></body>');
@@ -157,8 +168,11 @@ for(const entry of manifest.documents)entry.htmlSha256=hash(await readFile(resol
 for(const entry of manifest.retiredPages)entry.sha256=hash(await readFile(resolve(root,'docs',entry.id+'.html'),'utf8'));
 manifest.indexSha256=hash(await readFile(resolve(root,'docs.html'),'utf8'));await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');
 const policy=JSON.parse(await readFile('tools/site-publication-policy.json','utf8'));
+policy.jsonPaths=policy.jsonPaths.filter(path=>path!=='data/evaluation.json');
+policy.staticFiles=policy.staticFiles.filter(path=>!['data/evaluation.json','evaluation-section.css'].includes(path));
 const additions=[...Object.keys(company).flatMap(id=>[id+'.html',id+'.md']),'index.md','benchmark.md','methodology.md','scenarios.md','docs.md','404.md','llms.txt','.well-known/security.txt','data/leaderboard.json','chrome.js','preferences.js','legal.js','legal.css','legal-navigation.js','consent.js','consent.css',indexnow.key+'.txt',...Object.values(assets).filter(v=>typeof v==='string'),...Object.values(assets.fonts)];
 policy.rootHtml=[...new Set([...policy.rootHtml,...Object.keys(company).map(id=>id+'.html')])].sort();
 policy.jsonPaths=[...new Set([...policy.jsonPaths,'data/leaderboard.json'])].sort();
+if(approvedEvaluation){policy.jsonPaths=[...new Set([...policy.jsonPaths,'data/evaluation.json'])].sort();policy.staticFiles=[...new Set([...policy.staticFiles,'data/evaluation.json','evaluation-section.css'])].sort();}
 policy.staticFiles=[...new Set([...policy.staticFiles,...additions])].sort();await writeFile('tools/site-publication-policy.json',JSON.stringify(policy,null,2)+'\n');
 console.log(`Built production policies, metadata, ${indexable.length} sitemap URLs, public JSON and agent-readable Markdown.`);
