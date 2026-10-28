@@ -1,11 +1,11 @@
-import { redesignMethodology } from "./workspace.js";
-import { loadResults, shell, esc, fmt } from "./common.js";
+import { redesignMethodology } from "./workspace.js?v=20261028-reading-3";
+import {mountEvaluationLoop} from './evaluation-loop.js';
+import { loadResults, shell, esc, fmt } from "./common.js?v=20261028-reading-3";
 
-const REPO = "https://github.com/Aryabhatta-0/EMBERBench/blob/main/";
 // The site, its data and the data builder live in their own repository.
 const SITE_REPO = "https://github.com/Aryabhatta-0/EMBERBench-site/blob/main/";
-const source = (path, label) => `<a href="${REPO}${path}">${esc(label)}</a>`;
-const siteSource = (path, label) => `<a href="${SITE_REPO}${path}">${esc(label)}</a>`;
+const source = (path, label) => `<a href="${path.replace('benchmark-methodology.md','archived-validation.html').replace('integrity.md','replay-verification.html').replace('.md','.html')}">${esc(label)}</a>`;
+const siteSource = (path, label) => `<a href="${path === 'README.md' ? 'docs/site-data.html' : SITE_REPO+path}">${esc(label)}</a>`;
 
 const components = [
   [
@@ -131,7 +131,7 @@ async function render() {
       <section class="panel prose" aria-labelledby="public-development">
         <h2 id="public-development">What these results can establish</h2>
         <p><strong>Public development.</strong> These fixed diagnostic scenarios are available for development. Performance here does not establish generalization to hidden environments. The current pack schedules ${esc(worlds)} frozen worlds; deterministic scenarios are scheduled once and the stochastic scenario contributes distinct fire worlds.</p>
-        <p><strong>Hidden evaluation.</strong> Held-out evaluation uses scenarios unavailable during development. This portal contains no hidden-suite results.</p>
+        <p><strong>Hidden evaluation.</strong> Official evaluation requires a separately maintained evaluator-private distribution and server-side execution. This portal publishes no official hidden-suite results or submission service. Public generator thresholds and archived research holdouts do not define an official private distribution.</p>
         <p><strong>Decision models and reference agents.</strong> Decision models use external inference services. Reference agents are local benchmark programs with prescribed rules or planning algorithms; they do not use an LLM. Both choose actions through the same model interface.</p>
         <p><strong>API efficiency.</strong> Cost is provider-reported or estimated from token counts and published list prices, as labeled. Mean decision latency is the wait for one decision. Run wall time can include rate-limit waits; a resumed run may record only its last segment. Missing measurements remain unavailable.</p>
         <p>${source("docs/scenario-suite.md", "Public scenario suite")} · ${source("docs/baselines.md", "Reference agents")} · ${siteSource("README.md", "Site data and operational measurements")}</p>
@@ -139,7 +139,7 @@ async function render() {
     </div>
 
     <section class="panel prose" aria-labelledby="provenance">
-      <div class="section-head"><h2 id="provenance">Evaluation identity and provenance</h2><span class="badge">Generated official score data</span></div>
+      <div class="section-head"><h2 id="provenance">Evaluation identity and provenance</h2><span class="badge">Generated public-development data</span></div>
       <p>Every displayed result comes from the generated data module. The pack digest identifies the shared frozen environment. Scoring version ${esc(data.scoring_version)} defines the score arithmetic separately from simulation and metric versions.</p>
       <div class="table-wrap" tabindex="0" role="region" aria-label="Methodology reference table"><table>
         <caption>Identity attached to this published evaluation</caption>
@@ -156,11 +156,20 @@ async function render() {
       <p class="muted">The generated artifact contains no evaluation timestamp. No “last evaluated” date is inferred from model order or page load time.</p>
     </section>`;
   redesignMethodology();
+  const pipeline=document.querySelector('.pipeline');
+  const diagram=document.createElement('div');diagram.id='method-evaluation-loop';
+  pipeline.replaceWith(diagram);mountEvaluationLoop(diagram);
+  const repeated=diagram.nextElementSibling;
+  if(repeated?.textContent.startsWith('Observation →'))repeated.remove();
 }
 
 render().catch(() => {
   const main = document.querySelector("#main");
+  if(main?.querySelector('[data-static-reading]')){
+    main.querySelector('[data-page-loader]')?.remove();main.removeAttribute('data-loading');
+    return;
+  }
   if (main)
     main.innerHTML =
-      '<section class="panel empty"><h1>Methodology data unavailable</h1><p>The generated evaluation data could not be loaded. Reload the page or open the <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/docs/scoring.md">scoring definition</a>.</p></section>';
+      '<section class="panel empty"><h1>Methodology data unavailable</h1><p>The generated evaluation data could not be loaded. Reload the page or open the <a href="docs/scoring.html">scoring definition</a>.</p></section>';
 });

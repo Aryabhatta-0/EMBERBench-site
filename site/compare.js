@@ -1,4 +1,5 @@
-import { editorHeader, workspaceTabs, disclosure } from "./workspace.js";
+import { editorHeader, workspaceTabs, disclosure } from "./workspace.js?v=20261028-reading-3";
+import {comparisonReadout} from './evidence-readout.js';
 import {
   loadResults,
   shell,
@@ -21,13 +22,13 @@ import {
   scenarioName,
   errorPage,
   isDecision,
-} from "./common.js";
+} from "./common.js?v=20261028-reading-3";
 import {
   selectedIds,
   pairedDifferences,
   leaderboardOrder,
   finite,
-} from "./analytics.js";
+} from "./analytics.js?v=20261028-reading-3";
 import { componentChart, heatmap, differenceChart } from "./charts.js";
 
 const fields = [
@@ -99,7 +100,7 @@ async function main() {
     const keepView = document.querySelector('[data-workspace="comparison"] [aria-selected="true"]')?.dataset.view;
     const models = ids.map((id) => all.find((m) => m.id === id));
     document.getElementById("main").innerHTML =
-      `${editorHeader('Decisions, side by side.', 'Start with the outcomes. Follow the differences into the evidence.', '<a class="quiet-link" href="leaderboard.html">Select from leaderboard</a>')}<section class="comparison-controls"><div class="comparison-selection"><h2>Your comparison</h2><span>Choose 2–4 models</span></div><div class="toolbar compare-picker">${Array.from({ length: 4 }, (_, i) => `<label class="field">Model ${i + 1}${i > 1 ? " (optional)" : ""}<select data-model-slot="${i}"><option value="">Choose a model</option>${all.map((m) => `<option value="${esc(m.id)}" ${ids[i] === m.id ? "selected" : ""} ${ids.includes(m.id) && ids[i] !== m.id ? "disabled" : ""}>${esc(m.name)}</option>`).join("")}</select></label>`).join("")}</div><p class="note">Your selection is saved in this link. ${models.length} selected.</p><p class="note">Public-development comparison only. These are descriptive differences; no official paired inference or significance result is present in this snapshot.</p></section><div id="comparison-content"></div>`;
+      `${editorHeader('Decisions, side by side.', 'Start with the outcomes. Follow the differences into the evidence.', '<a class="quiet-link" href="leaderboard.html">Select from leaderboard</a>')}<section class="comparison-controls" aria-label="Choose models to compare"><div class="toolbar compare-picker">${Array.from({ length: 4 }, (_, i) => `<label class="field">Model ${i + 1}${i > 1 ? " (optional)" : ""}<select data-model-slot="${i}"><option value="">Choose a model</option>${all.map((m) => `<option value="${esc(m.id)}" ${ids[i] === m.id ? "selected" : ""} ${ids.includes(m.id) && ids[i] !== m.id ? "disabled" : ""}>${esc(m.name)}</option>`).join("")}</select></label>`).join("")}</div><p class="note">Public development · 1 trial per model · Descriptive comparison, not a significance test.</p></section><div id="comparison-content"></div>`;
     const picker = document.querySelector('.compare-picker');
     const extra = document.createElement('details'); extra.className = 'optional-models'; extra.open = keepPickerOpen || ids.length > 2;
     extra.innerHTML = '<summary>Add more models</summary><div class="optional-model-fields"></div>';
@@ -131,13 +132,7 @@ async function main() {
     const cards = `<div class="compare-grid">${models
       .map(
         (m, i) =>
-          `<article class="compare-card series-card-${i}"><span class="compare-kind">${esc(m.kind)}</span><h2>${modelLink(m)}</h2><span class="muted">Overall rank ${rankOf(all, m)} / ${all.length}</span><strong class="metric-value">${fmt(m.score)}</strong><span class="metric-note">EMBER points · 95% CI ${ciText(m)}</span><dl class="metric-list">${fields
-            .slice(0, 3)
-            .map(
-              ([label, get]) =>
-                `<div class="metric-row"><dt>${label}</dt><dd>${esc(get(m))}</dd></div>`,
-            )
-            .join("")}</dl></article>`,
+          `<article class="compare-card series-card-${i}"><div><span class="compare-kind">${esc(m.kind)}</span><h2>${modelLink(m)}</h2><span class="muted">Overall rank ${rankOf(all, m)} / ${all.length}</span></div><div class="compare-score"><strong class="metric-value">${fmt(m.score)}</strong><span class="metric-note">EMBER / 100<br>95% CI ${ciText(m)}</span></div></article>`,
       )
       .join("")}</div>`;
     const metrics = table(
@@ -241,8 +236,11 @@ async function main() {
     if (note) note.classList.add('workspace-caveat');
     const metricTable = panels[0];
     if (metricTable) disclosure(metricTable, 'All outcome & API measurements');
+    const people=document.createElement('div');
+    people.innerHTML=comparisonReadout(models);
+    const components=panels[1] ? disclosure(panels[1],'Inspect all seven score components') : null;
     workspaceTabs(content, [
-      ['outcomes','Outcomes',[panels[1], metricTable?.parentElement]],
+      ['outcomes','Outcomes',[people, components, metricTable?.parentElement]],
       ['worlds','Scenarios & worlds',[panels[2], panels[3], disclosure(panels[4], 'Per-world score table')]],
       ['diagnostics','Diagnostics',[panels[5], panels[6]]]
     ], 'comparison', keepView);

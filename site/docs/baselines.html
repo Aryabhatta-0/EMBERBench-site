@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Reference agents | EMBERBench docs — Anantam</title><link rel="stylesheet" href="../style.css?v=20261028-reading-3"><link rel="stylesheet" href="../anantam.css?v=20261028-reading-3"><link rel="stylesheet" href="../docs.css?v=20261028-reading-3"><link rel="stylesheet" href="../footer.css?v=20261028-reading-3"><!-- production:seo --><meta name="description" content="Public hand-coded agents and planning references."><meta name="robots" content="index, follow, max-image-preview:large"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="referrer" content="strict-origin-when-cross-origin"><meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-hK1RJVOxso17a+5bezMjq7I6wtgog7B4nl/hn4OeDy4=&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data:; font-src &#39;self&#39;; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;; upgrade-insecure-requests"><link rel="canonical" href="https://anantam-labs.vercel.app/docs/baselines.html"><meta property="og:type" content="website"><meta property="og:site_name" content="Anantam"><meta property="og:title" content="Reference agents | EMBERBench docs — Anantam"><meta property="og:description" content="Public hand-coded agents and planning references."><meta property="og:url" content="https://anantam-labs.vercel.app/docs/baselines.html"><meta property="og:image" content="https://anantam-labs.vercel.app/assets/anantam-social.248f284c6684.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:alt" content="Anantam — Boundless Possibilities. Introducing EMBERBench."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Reference agents | EMBERBench docs — Anantam"><meta name="twitter:description" content="Public hand-coded agents and planning references."><meta name="twitter:image" content="https://anantam-labs.vercel.app/assets/anantam-social.248f284c6684.jpg"><meta name="twitter:image:alt" content="Anantam — Boundless Possibilities. Introducing EMBERBench."><link rel="icon" type="image/png" sizes="48x48" href="../assets/anantam-favicon.41bee4474433.png"><link rel="apple-touch-icon" sizes="180x180" href="../assets/anantam-touch.fc2b3f8035fa.png"><link rel="describedby" href="../llms.txt" type="text/plain"><link rel="alternate" type="text/markdown" href="https://anantam-labs.vercel.app/docs/source/baselines.md"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://anantam-labs.vercel.app/#organization","name":"Anantam","alternateName":"Anantam Labs","sameAs":["https://github.com/Aryabhatta-0"],"url":"https://anantam-labs.vercel.app/","description":"Anantam Labs is an independent AI research initiative, not currently a registered company. EMBERBench is its sole published contribution.","slogan":"Boundless Possibilities","logo":{"@type":"ImageObject","url":"https://anantam-labs.vercel.app/assets/anantam-mark.b03ee4d301aa.webp","width":480,"height":480},"contactPoint":{"@type":"ContactPoint","email":"arsathvik48@gmail.com","contactType":"Research, privacy and website enquiries"}},{"@type":"WebSite","@id":"https://anantam-labs.vercel.app/#website","url":"https://anantam-labs.vercel.app/","name":"Anantam","alternateName":"Anantam Labs","description":"Anantam Labs: independent AI research and EMBERBench public-development evidence.","publisher":{"@id":"https://anantam-labs.vercel.app/#organization"}},{"@type":"TechArticle","@id":"https://anantam-labs.vercel.app/docs/baselines.html#page","url":"https://anantam-labs.vercel.app/docs/baselines.html","name":"Reference agents | EMBERBench docs — Anantam","description":"Public hand-coded agents and planning references.","inLanguage":"en","isPartOf":{"@id":"https://anantam-labs.vercel.app/#website"},"publisher":{"@id":"https://anantam-labs.vercel.app/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Docs","item":"https://anantam-labs.vercel.app/docs.html"},{"@type":"ListItem","position":2,"name":"Reference agents","item":"https://anantam-labs.vercel.app/docs/baselines.html"}]}]}</script><noscript><style>.site-header .nav-toggle,.privacy-controls,.docs-search{display:none}.site-header .site-nav{display:flex;position:static;flex-wrap:wrap;width:100%;padding:12px 0;min-height:0}.site-header{flex-wrap:wrap}</style></noscript><!-- /production:seo --><!-- production:consent --><link rel="stylesheet" href="../consent.css?v=20261028-reading-3"><script type="module" src="../consent.js?v=20261028-reading-3"></script><!-- /production:consent --></head><body data-page="docs" data-root="../" data-footer="none"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img class="brand-logo" src="../assets/anantam-mark.b03ee4d301aa.webp" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions" class="" >Our work</a><a href="../benchmark.html" class="" >EMBERBench</a><a href="../methodology.html" class="" >Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a><a href="../about.html" class="" >About</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>The open task</h2><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/baselines.html" data-doc-id="baselines" aria-current="page">Reference agents</a><a href="../docs/development-generator.html" data-doc-id="development-generator" >Development generator</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness contract</a></section><section class="docs-nav-group"><h2>Scope & verification</h2><a href="../docs/evaluation-boundary.html" data-doc-id="evaluation-boundary" >Evaluation boundary</a><a href="../docs/replay-verification.html" data-doc-id="replay-verification" >Replay verification</a><a href="../docs/archived-validation.html" data-doc-id="archived-validation" >Archived validation</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versions &amp; identity</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Reference agents</span></nav><p class="docs-scope-note">Public task and development documentation. <a href="evaluation-boundary.html">Official evaluation boundary</a>.</p><article class="docs-article"><h1 id="reference-baselines-baselines-version-10">Reference baselines (baselines version 1.0)</h1>
+<p><strong>Reference baselines are anchors, not benchmark winners.</strong></p>
+<p>EMBERBench ships five deterministic, non-LLM reference agents. They make
+benchmark results readable: a model that does no better than
+<code>static-shortest-path-v1</code> on a scenario family has not shown more than a
+textbook routing rule. The baselines are not tuned to win, and no result here
+is a leaderboard entry or a ranking. Their EMBER Scores
+(<a href="scoring.html">scoring.md</a>) are reference anchors, not entries.</p>
+<p>The module is <code>emberbench.baselines</code>. A separate, <strong>privileged</strong> upper-bound
+analysis is in <code>emberbench.oracle</code> (section 5). It is not a baseline and not a
+model.</p>
+<h2 id="1-the-fair-baseline-contract">1. The fair-baseline contract</h2>
+<p>Every registered baseline is a <em>fair</em> model. It uses the public model
+interface only (<a href="model-interface.html">model-interface.md</a>):</p>
+<ul>
+<li>A zero-argument <code>AgentFactory</code> builds a new agent for every episode. The
+agent is built from its public baseline configuration only.</li>
+<li><code>act(observation)</code> receives one <code>Observation</code> and returns one action for
+every active person.</li>
+<li>It never receives the scenario, the evaluator seed, the
+<code>EvaluationManifest</code>, a <code>RunRecord</code>, <code>SimState</code>, RNG state, future fire,
+the scenario ID or hash, or generation metadata.</li>
+</ul>
+<p>Every decision is a pure function of the observation and the configuration.
+No baseline keeps state between steps. No baseline reads the clock, the OS,
+environment variables, the <code>random</code> module or any simulator RNG. No output
+depends on hash order, dict insertion order or the order of people in the
+observation.</p>
+<p>Baselines run through the normal evaluation path with no special case:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">from emberbench import agent_policy_factory, baseline_factory, run_evaluation
+
+factory = baseline_factory("fire-aware-shortest-path-v1")
+result = run_evaluation(suite, manifest, "fire-aware-shortest-path-v1",
+                        agent_policy_factory(factory), "fire-aware.json")
+</code></pre>
+<p>Use the same <code>EvaluationManifest</code> for every baseline and every model, so the
+results pair exactly (<a href="evaluation.html">evaluation.md</a>).</p>
+<h2 id="2-registry">2. Registry</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Version</th>
+<th>Config</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>random-legal-v1</code></td>
+<td>1.0</td>
+<td><code>{"seed": 0}</code></td>
+<td>Uniform seeded choice among stay and moves into in-bounds non-wall cells.</td>
+</tr>
+<tr>
+<td><code>nearest-exit-greedy-v1</code></td>
+<td>1.0</td>
+<td><code>{}</code></td>
+<td>Beeline (Manhattan) toward the exit with the shortest wall-only path; ignores fire and people.</td>
+</tr>
+<tr>
+<td><code>static-shortest-path-v1</code></td>
+<td>1.0</td>
+<td><code>{}</code></td>
+<td>Shortest wall-only path to the nearest exit, replanned each step; ignores fire and people.</td>
+</tr>
+<tr>
+<td><code>fire-aware-shortest-path-v1</code></td>
+<td>1.0</td>
+<td><code>{}</code></td>
+<td>Shortest path avoiding currently burning cells and exits; flees the fire if no safe route exists.</td>
+</tr>
+<tr>
+<td><code>congestion-aware-v1</code></td>
+<td>1.0</td>
+<td><code>{}</code></td>
+<td>Fire-aware shortest paths with exits assigned by current load (one person per exit per step).</td>
+</tr>
+</tbody></table></div>
+<p>The registry is a fixed, read-only table (<code>emberbench.baselines.BASELINES</code>).
+Nothing is imported or instantiated from a string.</p>
+<ul>
+<li><code>get_baseline(baseline_id)</code> returns a <code>BaselineSpec</code>. An unknown ID (or a
+value that is not a string) raises <code>BaselineError</code>. There is no fuzzy
+match and no default.</li>
+<li><code>baseline_factory(baseline_id, config=None)</code> returns a zero-argument
+factory. <code>config</code> is the baseline's config object, its <code>to_dict()</code> form
+(parsed strictly: exact keys, exact types, ranges) or <code>None</code> for the
+default. A config of the wrong type raises <code>BaselineError</code>.</li>
+<li><code>BaselineSpec.descriptor(config)</code> is the canonical description:
+<code>baselines_version</code>, <code>baseline_id</code>, <code>baseline_version</code>, <code>privileged</code>
+(always <code>false</code> here) and <code>config</code>.</li>
+<li><code>BaselineSpec.config_digest(config)</code> is the SHA-256 of the canonical JSON of
+the descriptor. Record it next to the <code>model_id</code> when you publish a
+baseline result. The default digests are pinned in
+<code>tests/test_baselines.py</code>.</li>
+</ul>
+<p><code>model_id</code> in <code>run_evaluation</code> stays a free-text label. A baseline run with
+a non-default config should use a label that says so, for example
+<code>random-legal-v1+seed=7</code>.</p>
+<h2 id="3-shared-conventions">3. Shared conventions</h2>
+<ul>
+<li><strong>Distance.</strong> Breadth-first search over 4-neighbours, one BFS per exit,
+from the observation's static map. "Wall-only" means walls block and
+nothing else does.</li>
+<li><strong>Move order.</strong> Moves are tried in the order of
+<code>observation.allowed_actions</code> without <code>stay</code>: north, south, east, west in
+V1. The first move that meets the rule wins. This is how equal shortest
+paths are broken: the path is the one whose next move comes first in that
+order.</li>
+<li><strong>Equal exits.</strong> The exit with the lowest exit ID (plain string order) wins.</li>
+<li><strong>Burning cells.</strong> V1 rules R5 and R6: a burning exit never evacuates, and
+a move into a burning cell is refused (<code>blocked</code>) or fatal (<code>casualty</code>).
+The fire-aware baselines therefore treat every currently burning cell as
+impassable and every currently burning exit as unusable, under both
+<code>enter_fire</code> policies.</li>
+<li><strong>Fallback (fire-aware and congestion-aware).</strong> When a person has no
+currently safe route to any usable exit, the person flees: among <code>stay</code> and
+every move into an in-bounds, non-wall, non-burning cell, it takes the one
+with the largest wall-only distance to the nearest burning cell. Ties go to
+<code>stay</code>, then to the move order.</li>
+</ul>
+<p>Complexity is per step. <code>N</code> is the number of grid cells, <code>E</code> the number of
+exits and <code>P</code> the number of active people.</p>
+<h2 id="4-the-baselines">4. The baselines</h2>
+<h3 id="random-legal-v1"><code>random-legal-v1</code></h3>
+<ul>
+<li><strong>Visible information:</strong> map walls and size, <code>allowed_actions</code>, each
+active person's ID and position, the step number.</li>
+<li><strong>Algorithm:</strong> the legal set of a person is <code>stay</code> plus every move into an
+in-bounds, non-wall cell, in <code>allowed_actions</code> order. One element is
+chosen uniformly.</li>
+<li><strong>Randomness:</strong> no evaluator randomness. The draw is SHA-256 of the
+canonical JSON of
+<code>["emberbench/baseline/random-legal/1", seed, step, person_id, counter]</code>.
+The first 8 bytes are a 64-bit word. Words at or above the largest
+multiple of the set size are rejected (the counter goes up), so the choice
+is exactly uniform. <code>seed</code> is a <strong>public baseline parameter</strong> in
+<code>[0, 2**64 - 1]</code> (default 0). It is model configuration, not an evaluator
+seed, and its domain label differs from every simulator stream label. The
+same observation and config always give the same actions. Different
+people and steps get independent draws.</li>
+<li><strong>Tie-breaking:</strong> none needed.</li>
+<li><strong>Complexity:</strong> <code>O(P)</code>. Each draw needs about one hash.</li>
+<li><strong>Known weakness:</strong> it does not try to leave. It ignores exits, fire and
+people. It anchors the floor of the scale.</li>
+<li><strong>Fair or privileged:</strong> fair.</li>
+</ul>
+<h3 id="nearest-exit-greedy-v1"><code>nearest-exit-greedy-v1</code></h3>
+<ul>
+<li><strong>Visible information:</strong> map walls, size and exits; active people.</li>
+<li><strong>Algorithm:</strong> the target is the exit with the shortest wall-only path from
+the person. The person then takes the first move into an in-bounds,
+non-wall cell that lowers the straight-line (Manhattan) distance to that
+exit. If no move does, the person stays.</li>
+<li><strong>Tie-breaking:</strong> equal exits by exit ID; equal moves by move order.</li>
+<li><strong>Complexity:</strong> <code>O(E * N + P * E)</code>.</li>
+<li><strong>Known weakness (intentional):</strong> it is a beeline. It stalls for good when
+a wall lies between the person and the exit (it scores 0 on
+<code>v1-pub-08-maze-deceptive-exit</code>). It ignores fire and people.</li>
+<li><strong>Interpretation note:</strong> the exit is chosen by wall-only path distance, but
+each step only has to lower the straight-line distance. If each step had to
+lower the path distance, this baseline would be identical to
+<code>static-shortest-path-v1</code>.</li>
+<li><strong>Fair or privileged:</strong> fair.</li>
+</ul>
+<h3 id="static-shortest-path-v1"><code>static-shortest-path-v1</code></h3>
+<ul>
+<li><strong>Visible information:</strong> map walls, size and exits; active people.</li>
+<li><strong>Algorithm:</strong> one BFS per exit over non-wall cells. The target is the exit
+with the shortest path from the person's current position. The person
+takes a move that lowers that distance by one. It replans from the observed
+position every step. Fire, burning exits and other people are ignored. A
+person with no wall-only route to any exit stays.</li>
+<li><strong>Tie-breaking:</strong> equal exits by exit ID; equal shortest paths and equal
+actions by move order.</li>
+<li><strong>Complexity:</strong> <code>O(E * N + P * E)</code>.</li>
+<li><strong>Known weakness:</strong> it walks into fire and toward burning exits, and it
+sends every person to the same nearest exit, whatever the queue.</li>
+<li><strong>Fair or privileged:</strong> fair.</li>
+</ul>
+<h3 id="fire-aware-shortest-path-v1"><code>fire-aware-shortest-path-v1</code></h3>
+<ul>
+<li><strong>Visible information:</strong> as above, plus the <strong>currently</strong> burning cells.</li>
+<li><strong>Algorithm:</strong> like <code>static-shortest-path-v1</code>, but every currently burning
+cell is impassable and every currently burning exit is unusable. It
+recomputes from each observation. It never predicts future spread, and it
+never uses the evaluator seed or the spread probability. With no currently
+safe route the person uses the flee fallback.</li>
+<li><strong>Tie-breaking:</strong> as <code>static-shortest-path-v1</code>; the fallback as in
+section 3.</li>
+<li><strong>Complexity:</strong> <code>O(E * N + P * E)</code>, plus <code>O(N)</code> for the fallback map when
+at least one person needs it.</li>
+<li><strong>Known weakness:</strong> a route that is safe now can burn before the person
+passes. It reacts only after the fire blocks a route, and it ignores
+congestion.</li>
+<li><strong>Fair or privileged:</strong> fair.</li>
+</ul>
+<h3 id="congestion-aware-v1"><code>congestion-aware-v1</code></h3>
+<ul>
+<li><strong>Visible information:</strong> map, currently burning cells, and the current
+positions of all active people. It does <strong>not</strong> use <code>CrowdDiagnostics</code>,
+which are evaluator-side and never reach a model.</li>
+<li><strong>Algorithm:</strong><ol>
+<li>The fire-aware distance fields, one per usable exit.</li>
+<li>People with a safe route are sorted by their nearest-exit distance, then
+by person ID. In that order, each person takes the exit with the lowest
+estimated evacuation step <code>max(distance, load + 1)</code>, where <code>load</code> is the
+number of people already assigned to that exit. An exit lets one person
+through per step (V1 rule R4), so this is the earliest step that exit
+could take the person if everyone ahead used it.</li>
+<li>The person takes a move that lowers the distance to the assigned exit by
+one. A move into a cell that no active person occupies now is
+preferred.</li>
+<li>People with no safe route use the flee fallback.</li>
+</ol>
+</li>
+<li><strong>Tie-breaking:</strong> equal estimates go to the shorter distance, then to the
+lowest exit ID; equal moves to a free cell first, then by move order.</li>
+<li><strong>Complexity:</strong> <code>O(E * N + P log P + P * E)</code>.</li>
+<li><strong>Known weakness:</strong> the load is a snapshot count, not a forecast. People
+can switch exits from one step to the next as the counts change. It does
+not plan around other people's paths, and it is not a model of human
+crowd behaviour.</li>
+<li><strong>Fair or privileged:</strong> fair.</li>
+</ul>
+<h2 id="5-the-privileged-escape-bound-not-a-baseline">5. The privileged escape bound (not a baseline)</h2>
+<p><code>emberbench.oracle</code> is <strong>privileged</strong>. It reads the <code>Scenario</code> and the
+evaluator seed, and therefore the whole future fire. It is an upper-bound
+reference analysis. It is <strong>not</strong> an agent: it has no <code>act</code> method, it is not
+in the registry, it is not exported from the top-level package, and it
+produces no actions and no <code>EvaluationResult</code>. Its numbers must never be
+shown as a model competitor.</p>
+<p><strong>Why it is correct.</strong> In V1 the fire never sees people or actions
+(<code>emberbench.fire</code>). Under one scenario and seed, the burning set at every
+step is the same for every policy. <code>fire_trajectory(scenario, seed)</code>
+reproduces that set from the fire model and the seed-derived fire stream. A
+test checks it against the simulator on every public scenario.</p>
+<p>For each person <strong>alone</strong>, a time-expanded BFS over <code>(cell, step)</code> finds the
+earliest step at which the person can reach a usable exit. It follows the
+simulator's phase order: a move into a cell that burns at the start of the
+step is never useful, an exit that is not burning at the start of the step
+evacuates at once, and a person on a cell that burns after fire spread is a
+casualty. Other people can only block moves (rules R1-R4), so ignoring them is
+a relaxation. Hence, for every policy and every episode:</p>
+<ul>
+<li><code>max_evacuated</code> (people who can escape alone) is an upper bound on
+<code>safety.evacuated</code>,</li>
+<li><code>min_person_time_to_safety_total</code> is a lower bound on
+<code>time.person_time_to_safety_total</code>, and</li>
+<li>each evacuated person's step is at least that person's bound.</li>
+</ul>
+<p>The tests check these three facts for every baseline on the development
+manifest. The bound is tight for a single person. With crowds it is usually
+not attainable, because people compete for exits. It says nothing about
+casualties versus stranded people.</p>
+<p><strong>Cost.</strong> <code>O(T * N)</code> per person, where <code>T</code> is <code>max_steps</code>.</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">from emberbench.oracle import privileged_manifest_bounds  # privileged: evaluator-side only
+
+bounds = privileged_manifest_bounds(suite, manifest)
+</code></pre>
+<p>A full multi-person oracle (a joint plan with the known fire) is not
+included. An optimal joint plan is a combinatorial multi-agent search, and a
+prioritized planner is not an upper bound, so it would be a misleading
+"oracle".</p>
+<h2 id="6-development-results">6. Development results</h2>
+<p>Public V1 suite, development seeds <code>(0, 1, 2)</code> (manifest hash
+<code>7b9aae45e5e2828f881b2f14d8e5585627e5f8bdbb137a1ed2331bf10ce8c876</code>), 30
+episodes, 561 person-episodes. These are development numbers for
+orientation only. They are not scored results, and the order between
+baselines can differ on other scenarios. <code>always-stay</code> is a test control, not
+a registered baseline.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Evacuated</th>
+<th>Casualties</th>
+<th>Stranded</th>
+<th>Person-time to safety</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>always-stay</code> (control)</td>
+<td>0</td>
+<td>555</td>
+<td>6</td>
+<td>80310</td>
+</tr>
+<tr>
+<td><code>random-legal-v1</code></td>
+<td>12</td>
+<td>546</td>
+<td>3</td>
+<td>78540</td>
+</tr>
+<tr>
+<td><code>nearest-exit-greedy-v1</code></td>
+<td>404</td>
+<td>148</td>
+<td>9</td>
+<td>31358</td>
+</tr>
+<tr>
+<td><code>static-shortest-path-v1</code></td>
+<td>419</td>
+<td>142</td>
+<td>0</td>
+<td>29933</td>
+</tr>
+<tr>
+<td><code>fire-aware-shortest-path-v1</code></td>
+<td>433</td>
+<td>128</td>
+<td>0</td>
+<td>29084</td>
+</tr>
+<tr>
+<td><code>congestion-aware-v1</code></td>
+<td>526</td>
+<td>35</td>
+<td>0</td>
+<td>14960</td>
+</tr>
+<tr>
+<td>privileged escape bound</td>
+<td>≤ 561</td>
+<td>–</td>
+<td>–</td>
+<td>≥ 5432</td>
+</tr>
+</tbody></table></div>
+<p>Evacuated people per scenario (sum over the three seeds):</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>People</th>
+<th>stay</th>
+<th>random</th>
+<th>greedy</th>
+<th>static</th>
+<th>fire-aware</th>
+<th>congestion</th>
+<th>bound</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>v1-pub-01-single-exit-sparse</code></td>
+<td>12</td>
+<td>0</td>
+<td>0</td>
+<td>12</td>
+<td>12</td>
+<td>12</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td><code>v1-pub-02-single-exit-dense</code></td>
+<td>108</td>
+<td>0</td>
+<td>3</td>
+<td>81</td>
+<td>81</td>
+<td>81</td>
+<td>102</td>
+<td>108</td>
+</tr>
+<tr>
+<td><code>v1-pub-03-corridor-bottleneck</code></td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>21</td>
+<td>21</td>
+<td>21</td>
+<td>24</td>
+<td>24</td>
+</tr>
+<tr>
+<td><code>v1-pub-04-unequal-exits</code></td>
+<td>15</td>
+<td>0</td>
+<td>0</td>
+<td>15</td>
+<td>15</td>
+<td>15</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td><code>v1-pub-05-central-ignition</code></td>
+<td>24</td>
+<td>0</td>
+<td>0</td>
+<td>18</td>
+<td>18</td>
+<td>18</td>
+<td>18</td>
+<td>24</td>
+</tr>
+<tr>
+<td><code>v1-pub-06-threatened-exit</code></td>
+<td>18</td>
+<td>0</td>
+<td>0</td>
+<td>9</td>
+<td>9</td>
+<td>15</td>
+<td>15</td>
+<td>18</td>
+</tr>
+<tr>
+<td><code>v1-pub-07-multiple-ignitions</code></td>
+<td>27</td>
+<td>0</td>
+<td>0</td>
+<td>21</td>
+<td>21</td>
+<td>21</td>
+<td>24</td>
+<td>27</td>
+</tr>
+<tr>
+<td><code>v1-pub-08-maze-deceptive-exit</code></td>
+<td>15</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>15</td>
+<td>15</td>
+<td>15</td>
+<td>15</td>
+</tr>
+<tr>
+<td><code>v1-pub-09-crowd-100-split-flow</code></td>
+<td>300</td>
+<td>0</td>
+<td>9</td>
+<td>216</td>
+<td>216</td>
+<td>219</td>
+<td>285</td>
+<td>300</td>
+</tr>
+<tr>
+<td><code>v1-pub-10-route-invalidation</code></td>
+<td>18</td>
+<td>0</td>
+<td>0</td>
+<td>11</td>
+<td>11</td>
+<td>16</td>
+<td>16</td>
+<td>18</td>
+</tr>
+</tbody></table></div>
+<p>How to read this:</p>
+<ul>
+<li>Every person is escapable alone in every development episode (the bound
+is 561 of 561). Every loss is a matter of routing, fire timing and
+coordination, not of an impossible start.</li>
+<li>Fire awareness matters where the fire threatens a route or an exit
+(<code>threatened-exit</code>, <code>route-invalidation</code>). Exit load matters in dense and
+crowded scenarios. Even the best baseline leaves a gap to the bound in
+person-time to safety (14960 against at least 5432).</li>
+<li>On the single-exit scenarios, <code>congestion-aware-v1</code> gains from its
+free-cell move preference, not from exit choice.</li>
+</ul>
+<p>The tests do not pin this table. They pin only broad, robust facts (section
+7), plus exact digests of the baseline runs on a smaller development
+manifest.</p>
+<h2 id="7-what-the-tests-prove">7. What the tests prove</h2>
+<p><code>tests/test_baselines.py</code>:</p>
+<ul>
+<li><strong>Registry:</strong> the five IDs, versions, descriptions and descriptors; pinned
+config digests; a read-only registry; unknown IDs and invalid configs fail
+closed.</li>
+<li><strong>Integration:</strong> every baseline runs unchanged through
+<code>run_evaluation(..., agent_policy_factory(...))</code> on one shared manifest,
+including the canonical sparse, corridor-bottleneck, 100-person and
+stochastic route-invalidation scenarios, and a generated suite.</li>
+<li><strong>Leakage:</strong> the factory is called with no arguments; <code>act</code> gets exactly
+one <code>Observation</code> and nothing else; the evaluator seed, the manifest hash
+and the scenario ID never occur in it; the same observation gives the same
+actions under four different evaluator seeds; the module imports no
+scenario, manifest, run-record, simulator, state, RNG, fire, generator,
+crowd-diagnostics or oracle API (an AST check plus a check of the module
+namespace).</li>
+<li><strong>Determinism:</strong> a repeated run gives a byte-identical artifact; reversing
+the action dict's insertion order gives a byte-identical artifact;
+reordering people and burning cells in the observation gives the same
+actions; three <code>PYTHONHASHSEED</code> values in fresh processes give identical
+outputs; golden digests of all runs and golden two-step action traces are
+pinned, and CI checks them on Linux, Windows and macOS with Python 3.12
+and 3.13.</li>
+<li><strong>Sanity (no total ranking):</strong> the shortest-path baselines evacuate more
+than always-stay; fire-aware avoids a currently burning route that static
+takes; congestion-aware lowers person-time and the largest exit share in a
+designed door bottleneck; greedy stalls behind a wall that static goes
+around; the random baseline is deterministic for its seed and changes with
+it.</li>
+<li><strong>Privileged bound:</strong> it is separated from the fair interface; its fire
+trajectory matches the simulator; it holds for every baseline and episode;
+it is tight for one person and finds a person who cannot escape.</li>
+</ul>
+<h2 id="8-versioning">8. Versioning</h2>
+<p><code>BASELINES_VERSION = "1.0"</code> is independent of every other version. Bump it
+when any baseline can act differently for the same observation and
+configuration, or when the registry or config format changes. A baseline's
+own <code>baseline_version</code> (and its <code>-vN</code> ID suffix) changes when that
+baseline's algorithm changes.</p>
+<p>This phase changes no other version: <code>SIMULATOR_VERSION</code>,
+<code>OBSERVATION_VERSION</code>, <code>ACTION_SCHEMA_VERSION</code>, <code>SCHEMA_VERSION</code>,
+<code>METRICS_VERSION</code>, <code>STATISTICS_VERSION</code> and the suite formats are unchanged,
+and all public scenario and suite hashes are unchanged.</p>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="scenario-suite.html"><span>Previous</span>Public scenarios</a><a href="development-generator.html"><span>Next</span>Development generator</a></nav><p class="docs-source-note">Reviewed public benchmark contract. Apache License 2.0. <a href="source/baselines.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-the-fair-baseline-contract">1. The fair-baseline contract</a><a href="#2-registry">2. Registry</a><a href="#3-shared-conventions">3. Shared conventions</a><a href="#4-the-baselines">4. The baselines</a><a href="#5-the-privileged-escape-bound-not-a-baseline">5. The privileged escape bound (not a baseline)</a><a href="#6-development-results">6. Development results</a><a href="#7-what-the-tests-prove">7. What the tests prove</a><a href="#8-versioning">8. Versioning</a></nav></details></aside></div></main><script type="module" src="../docs.js?v=20261028-reading-3"></script></body></html>

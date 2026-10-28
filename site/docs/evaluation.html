@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Running evaluations | EMBERBench docs — Anantam</title><link rel="stylesheet" href="../style.css?v=20261028-reading-3"><link rel="stylesheet" href="../anantam.css?v=20261028-reading-3"><link rel="stylesheet" href="../docs.css?v=20261028-reading-3"><link rel="stylesheet" href="../footer.css?v=20261028-reading-3"><!-- production:seo --><meta name="description" content="Public paired schedules, records and result handling."><meta name="robots" content="index, follow, max-image-preview:large"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="referrer" content="strict-origin-when-cross-origin"><meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-Jaj40KtB2sNUOwQ68YpKZq/CoUZdPLrZThAQcZzXZXQ=&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data:; font-src &#39;self&#39;; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;; upgrade-insecure-requests"><link rel="canonical" href="https://anantam-labs.vercel.app/docs/evaluation.html"><meta property="og:type" content="website"><meta property="og:site_name" content="Anantam"><meta property="og:title" content="Running evaluations | EMBERBench docs — Anantam"><meta property="og:description" content="Public paired schedules, records and result handling."><meta property="og:url" content="https://anantam-labs.vercel.app/docs/evaluation.html"><meta property="og:image" content="https://anantam-labs.vercel.app/assets/anantam-social.248f284c6684.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:alt" content="Anantam — Boundless Possibilities. Introducing EMBERBench."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Running evaluations | EMBERBench docs — Anantam"><meta name="twitter:description" content="Public paired schedules, records and result handling."><meta name="twitter:image" content="https://anantam-labs.vercel.app/assets/anantam-social.248f284c6684.jpg"><meta name="twitter:image:alt" content="Anantam — Boundless Possibilities. Introducing EMBERBench."><link rel="icon" type="image/png" sizes="48x48" href="../assets/anantam-favicon.41bee4474433.png"><link rel="apple-touch-icon" sizes="180x180" href="../assets/anantam-touch.fc2b3f8035fa.png"><link rel="describedby" href="../llms.txt" type="text/plain"><link rel="alternate" type="text/markdown" href="https://anantam-labs.vercel.app/docs/source/evaluation.md"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://anantam-labs.vercel.app/#organization","name":"Anantam","alternateName":"Anantam Labs","sameAs":["https://github.com/Aryabhatta-0"],"url":"https://anantam-labs.vercel.app/","description":"Anantam Labs is an independent AI research initiative, not currently a registered company. EMBERBench is its sole published contribution.","slogan":"Boundless Possibilities","logo":{"@type":"ImageObject","url":"https://anantam-labs.vercel.app/assets/anantam-mark.b03ee4d301aa.webp","width":480,"height":480},"contactPoint":{"@type":"ContactPoint","email":"arsathvik48@gmail.com","contactType":"Research, privacy and website enquiries"}},{"@type":"WebSite","@id":"https://anantam-labs.vercel.app/#website","url":"https://anantam-labs.vercel.app/","name":"Anantam","alternateName":"Anantam Labs","description":"Anantam Labs: independent AI research and EMBERBench public-development evidence.","publisher":{"@id":"https://anantam-labs.vercel.app/#organization"}},{"@type":"TechArticle","@id":"https://anantam-labs.vercel.app/docs/evaluation.html#page","url":"https://anantam-labs.vercel.app/docs/evaluation.html","name":"Running evaluations | EMBERBench docs — Anantam","description":"Public paired schedules, records and result handling.","inLanguage":"en","isPartOf":{"@id":"https://anantam-labs.vercel.app/#website"},"publisher":{"@id":"https://anantam-labs.vercel.app/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Docs","item":"https://anantam-labs.vercel.app/docs.html"},{"@type":"ListItem","position":2,"name":"Running evaluations","item":"https://anantam-labs.vercel.app/docs/evaluation.html"}]}]}</script><noscript><style>.site-header .nav-toggle,.privacy-controls,.docs-search{display:none}.site-header .site-nav{display:flex;position:static;flex-wrap:wrap;width:100%;padding:12px 0;min-height:0}.site-header{flex-wrap:wrap}</style></noscript><!-- /production:seo --><!-- production:consent --><link rel="stylesheet" href="../consent.css?v=20261028-reading-3"><script type="module" src="../consent.js?v=20261028-reading-3"></script><!-- /production:consent --></head><body data-page="docs" data-root="../" data-footer="none"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img class="brand-logo" src="../assets/anantam-mark.b03ee4d301aa.webp" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions" class="" >Our work</a><a href="../benchmark.html" class="" >EMBERBench</a><a href="../methodology.html" class="" >Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a><a href="../about.html" class="" >About</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" >Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>The open task</h2><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/development-generator.html" data-doc-id="development-generator" >Development generator</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/evaluation.html" data-doc-id="evaluation" aria-current="page">Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness contract</a></section><section class="docs-nav-group"><h2>Scope & verification</h2><a href="../docs/evaluation-boundary.html" data-doc-id="evaluation-boundary" >Evaluation boundary</a><a href="../docs/replay-verification.html" data-doc-id="replay-verification" >Replay verification</a><a href="../docs/archived-validation.html" data-doc-id="archived-validation" >Archived validation</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versions &amp; identity</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Running evaluations</span></nav><p class="docs-scope-note">Public task and development documentation. <a href="evaluation-boundary.html">Official evaluation boundary</a>.</p><article class="docs-article"><h1 id="paired-identical-evaluation">Paired identical evaluation</h1>
+<p>This document specifies how EMBERBench runs several models on <strong>exactly the same
+episodes</strong> and how their results are matched. The code is in
+<a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/evaluation.py"><code>src/emberbench/evaluation.py</code></a>. The tests are in
+<a href="evaluation-boundary.html"><code>tests/test_evaluation.py</code></a>.</p>
+<p>Out of scope here: model-provider adapters, win rates, confidence intervals and
+other aggregate statistics (see <a href="statistics.html">statistics.md</a>), procedural scenario generation,
+held-out integrity and provenance (see <a href="replay-verification.html">integrity.md</a>), and the EMBER Score, leaderboard order
+and frozen environment packs (see <a href="scoring.html">scoring.md</a> and <a href="environment-pack.html">environment-pack.md</a>).</p>
+<h2 id="1-common-random-numbers">1. Common random numbers</h2>
+<p>An episode is fully defined by a scenario and a seed. All randomness comes from
+simulator-owned streams derived from the seed (see
+<a href="simulation-contract.html">simulation-contract.md</a>). In V1 the fire does not depend
+on the actions, so two models that play the same scenario with the same seed
+face <strong>the same fire, cell for cell and step for step</strong>.</p>
+<p>Paired evaluation uses this. Every model plays the same ordered list of
+(scenario, seed) episodes. A difference between two models on one episode then
+comes from their decisions only, not from different fire. This is the
+<em>common-random-numbers</em> method. It removes the between-seed noise from each
+paired difference, so fewer episodes are necessary to compare two models.</p>
+<p>The test <code>test_two_policies_see_identical_stochastic_fire</code> checks this on the
+stochastic scenario <code>v1-pub-10-route-invalidation</code>. A greedy policy and an
+always-stay policy see identical burning sets at every step that both runs
+reach, and two different seeds give different fire.</p>
+<h2 id="2-the-evaluation-manifest">2. The evaluation manifest</h2>
+<p>An <code>EvaluationManifest</code> is an immutable, versioned episode schedule.</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-json">{
+  "manifest_version": "1.0",
+  "suite_id": "emberbench-v1-public",
+  "suite_version": "1.0.0",
+  "suite_hash": "&lt;sha256 of the canonical suite manifest&gt;",
+  "simulator_version": "0.2.0",
+  "observation_version": "1.0",
+  "metrics_version": "1.0",
+  "episodes": [
+    {"index": 0, "scenario_id": "v1-pub-01-single-exit-sparse", "scenario_hash": "&lt;sha256&gt;", "seed": 3},
+    {"index": 1, "scenario_id": "v1-pub-01-single-exit-sparse", "scenario_hash": "&lt;sha256&gt;", "seed": 1}
+  ]
+}
+</code></pre>
+<p>Rules (all enforced on construction and on parsing):</p>
+<ul>
+<li><code>manifest_version</code> must be a supported version (<code>1.0</code>).</li>
+<li><code>suite_id</code>, <code>suite_version</code> and <code>suite_hash</code> must be well formed.</li>
+<li><code>episodes</code> is non-empty. <code>index</code> equals the position in the list (0, 1, 2, ...).</li>
+<li>Each <code>seed</code> is an integer in <code>[0, 2**64 - 1]</code>. Booleans and floats are rejected.</li>
+<li>A seed occurs at most once per scenario. The same seed may be used for
+different scenarios.</li>
+<li>One scenario ID is pinned to exactly one content hash.</li>
+<li>Unknown and missing keys are rejected.</li>
+</ul>
+<p><code>manifest_hash()</code> is the SHA-256 of the canonical JSON of the whole manifest.
+A change to any field, any seed, any scenario hash or to the episode order gives
+a different hash.</p>
+<h3 id="building-a-manifest">Building a manifest</h3>
+<p><code>build_evaluation_manifest(suite, seeds)</code> schedules every suite scenario under
+every seed: the outer order is the suite manifest order, the inner order is the
+order of <code>seeds</code> as given. The function does not sort, remove or generate seeds.
+An empty list, a duplicate or an out-of-range seed is an error. A <code>set</code>, a
+<code>str</code> or a generator is a <code>TypeError</code>, because it has no reliable order.</p>
+<p><code>verify_manifest(manifest, suite)</code> requires that the manifest targets exactly
+this suite (ID, version, hash) and the running code's simulator, observation
+and metrics versions, and that every pinned scenario hash matches both the
+suite entry and the scenario file. <code>run_evaluation</code> and
+<code>load_evaluation_result</code> always call it.</p>
+<p><code>save_evaluation_manifest</code> and <code>load_evaluation_manifest</code> store a manifest as
+JSON. The loaded manifest is checked with the same rules.</p>
+<h2 id="3-public-development-manifests-and-private-scored-manifests">3. Public development manifests and private scored manifests</h2>
+<p>The seeds decide the fire. If a model developer knows the scored seeds, they
+can tune a model to that exact fire. Therefore:</p>
+<ul>
+<li><strong>Development manifests</strong> use small, fixed, public seeds (for example
+<code>[0, 1, 2]</code>). They are fine in tests, examples and documentation. The test
+suite pins one: the public suite under seeds <code>(0, 1, 2)</code> has manifest hash
+<code>7b9aae45e5e2828f881b2f14d8e5585627e5f8bdbb137a1ed2331bf10ce8c876</code>.</li>
+<li><strong>Scored manifests</strong> use high-entropy seeds chosen by the evaluator (for
+example 64-bit values from <code>secrets.randbits(64)</code>). The evaluator keeps the
+seed schedule outside this repository and publishes the manifest, if at all,
+only after the evaluation.</li>
+</ul>
+<p>This repository never generates scored seeds. The <code>seed</code> in a scenario file is
+a development default only. <code>run_evaluation</code> always overrides it with the
+manifest seed.</p>
+<p>A published manifest hash lets anyone check later that a published schedule is
+the one that was used, without revealing the seeds before the evaluation.</p>
+<h2 id="4-seed-privacy-and-episode-isolation">4. Seed privacy and episode isolation</h2>
+<p>The evaluator knows the manifest and the seeds. The decision policy does not.</p>
+<p><code>run_evaluation(suite, manifest, model_id, policy_factory, output_path, resume=True)</code>
+does this for each episode:</p>
+<ol>
+<li><code>policy = policy_factory()</code>. The factory receives <strong>no arguments</strong>: no
+scenario, seed, episode index or other metadata.</li>
+<li><code>run_episode(scenario, policy, seed=episode.seed)</code>. The policy is called
+with exactly one positional argument, an <code>Observation</code>, once per step.</li>
+</ol>
+<p>The policy never receives the <code>EvaluationManifest</code>, an episode entry or index,
+the seed, the <code>Scenario</code>, the <code>Simulator</code>, the <code>RunRecord</code> or any evaluator
+metadata. The <code>Observation</code> contains no seed and no RNG state (see
+<a href="v1-fairness-spec.html">v1-fairness-spec.md</a>).</p>
+<p>A new policy is built for every episode, so state that a policy keeps cannot
+carry over into the next episode. This also makes resume correct: an episode
+gives the same result whether it runs in a fresh process or after other
+episodes. The factory must return a new policy each time. A plain stateless
+function is also acceptable.</p>
+<p>The tests prove this:</p>
+<ul>
+<li><code>test_policy_receives_only_observations</code> uses a policy that records every
+argument it receives and a factory that records its own arguments. The
+factory is called with <code>()</code> once per episode. Each policy call has exactly one
+argument of type <code>Observation</code> and no keyword arguments. Every object inside
+the observation is one of the known observation types. The 64-bit seed (in
+decimal and hex), the manifest hash, the suite hash and the scenario hashes do
+not occur in its JSON form.</li>
+<li><code>test_fresh_policy_per_episode</code> checks that there is one distinct policy
+instance per episode and that each instance sees one episode, from step 0.</li>
+</ul>
+<p>Limit: this is an interface contract for in-process Python policies, not a
+sandbox. Python code can inspect its caller's stack. A real model adapter must
+send only the serialized observation to the model.</p>
+<p>For per-episode agents, action validation, optional execution accounting and
+the canonical serialized observation, see <a href="model-interface.html">model-interface.md</a>.</p>
+<h2 id="5-the-per-model-result-artifact">5. The per-model result artifact</h2>
+<p><code>run_evaluation</code> writes one JSON artifact per model run. It is canonical JSON
+(sorted keys, no extra whitespace) followed by a newline.</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-json">{
+  "result_version": "1.0",
+  "model_id": "model-a",
+  "evaluation_manifest_hash": "&lt;sha256&gt;",
+  "suite_id": "emberbench-v1-public",
+  "suite_version": "1.0.0",
+  "suite_hash": "&lt;sha256&gt;",
+  "simulator_version": "0.2.0",
+  "observation_version": "1.0",
+  "metrics_version": "1.0",
+  "manifest": { "...": "the complete evaluation manifest" },
+  "episodes": [
+    {
+      "index": 0,
+      "scenario_id": "v1-pub-01-single-exit-sparse",
+      "scenario_hash": "&lt;sha256&gt;",
+      "seed": 3,
+      "record_digest": "&lt;sha256 of the canonical run record&gt;",
+      "record": { "...": "the complete RunRecord" },
+      "metrics": { "...": "EpisodeMetrics.to_dict()" }
+    }
+  ]
+}
+</code></pre>
+<ul>
+<li>The header fields repeat the embedded manifest so a reader can see them at
+once. They must equal the manifest.</li>
+<li><code>episodes</code> holds completed episodes only, in manifest order. Each one names
+its exact manifest entry and contains the full <code>RunRecord</code>, so anyone can
+replay and audit it, plus the raw metrics computed from it.</li>
+<li><code>model_id</code> is a label chosen by the evaluator (1 to 256 printable characters,
+no leading or trailing whitespace). It is not proof of which model produced
+the actions, and it is not a unique key.</li>
+</ul>
+<p><code>load_evaluation_result(path, suite)</code> accepts an artifact only if <strong>all</strong> of
+these hold:</p>
+<ul>
+<li>the JSON has exactly the expected keys at every level;</li>
+<li>the embedded manifest is valid, its hash equals <code>evaluation_manifest_hash</code>,
+and every header field equals the manifest;</li>
+<li>the manifest passes <code>verify_manifest</code> against <code>suite</code> and the running code;</li>
+<li>every episode index is in the manifest, occurs once, and episodes are in
+manifest order;</li>
+<li>every episode's <code>scenario_id</code>, <code>scenario_hash</code> and <code>seed</code> equal its manifest
+entry, and the record's header agrees with them;</li>
+<li>every record is in canonical form and matches <code>record_digest</code>;</li>
+<li>every record is <strong>authenticated</strong>: <code>compute_episode_metrics</code> checks its
+structure and replays its action log in a fresh simulator, which must
+reproduce it byte for byte;</li>
+<li>every stored <code>metrics</code> object equals the metrics recomputed from the
+authenticated record;</li>
+<li>the artifact as a whole re-serializes to exactly the loaded JSON.</li>
+</ul>
+<p>Any failure raises <code>EvaluationError</code>. Nothing is repaired, skipped or ignored.</p>
+<h2 id="6-resume-guarantees">6. Resume guarantees</h2>
+<p><code>run_evaluation</code> saves the artifact after every completed episode. Each save
+writes a temporary file in the same directory, flushes and fsyncs it, and
+renames it over the artifact with <code>os.replace</code>. A crash therefore leaves either
+the previous artifact or the new one, never a partial file. After a hard crash
+(for example a power loss) a stray <code>.&lt;name&gt;.*.tmp</code> file can remain next to the
+artifact. It is never read and can be deleted. If the output path
+does not exist, an artifact with zero episodes is written before the first
+episode runs.</p>
+<p>If <code>output_path</code> exists:</p>
+<ul>
+<li>With <code>resume=False</code> it is an error. An existing artifact is never
+overwritten.</li>
+<li>With <code>resume=True</code> (the default) the artifact is loaded and authenticated
+completely, as in section 5. Then it must have the same evaluation manifest
+hash and the same model ID as the call. A changed schedule, seed order,
+scenario, suite or version, or a different model ID, is rejected.</li>
+<li>Only the episodes that are not in the artifact run, in manifest order. A
+completed episode is never run again.</li>
+</ul>
+<p>Because each episode uses a fresh policy and its own seed, an interrupted and
+resumed run gives the same artifact, byte for byte, as an uninterrupted run
+with a deterministic policy. <code>test_interrupted_run_resumes_without_rerunning</code>
+checks this.</p>
+<p>A policy exception or an invalid action stops the run with that exception. The
+artifact keeps the episodes completed before it.</p>
+<p>Cost note: the whole artifact is rewritten after each episode, so total bytes
+written grow with the square of the number of episodes. This is acceptable for
+V1 schedules. A sharded layout can replace it later without changing the
+pairing rules.</p>
+<h2 id="7-exact-pairing">7. Exact pairing</h2>
+<p><code>pair_results(a, b)</code> compares two loaded artifacts. It first requires that both
+use the same evaluation manifest (equal hash and equal content). Otherwise it
+raises <code>EvaluationError</code>: results from different schedules are never compared.</p>
+<p>Each scheduled episode has the key</p>
+<pre tabindex="0" aria-label="Code example"><code>(evaluation manifest hash, episode index, scenario ID, scenario hash, seed)
+</code></pre>
+<p><strong>Definition.</strong> An episode is a <em>comparable pair</em> exactly when both artifacts
+contain a result whose key equals that scheduled key. Nothing else (model ID,
+file name, run order or time) is part of the key.</p>
+<p>The function returns a <code>PairingReport</code>:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>manifest_hash</code></td>
+<td>the shared evaluation manifest hash</td>
+</tr>
+<tr>
+<td><code>model_a</code>, <code>model_b</code></td>
+<td>the two model ID labels</td>
+</tr>
+<tr>
+<td><code>total_scheduled</code></td>
+<td>number of episodes in the manifest</td>
+</tr>
+<tr>
+<td><code>paired</code></td>
+<td>keys present in both artifacts, in manifest order</td>
+</tr>
+<tr>
+<td><code>paired_count</code></td>
+<td><code>len(paired)</code></td>
+</tr>
+<tr>
+<td><code>missing_from_a</code></td>
+<td>scheduled keys that <code>a</code> does not have</td>
+</tr>
+<tr>
+<td><code>missing_from_b</code></td>
+<td>scheduled keys that <code>b</code> does not have</td>
+</tr>
+</tbody></table></div>
+<p>An episode that neither artifact has is in both missing lists. The report holds
+no scores, win rates or statistics. <a href="statistics.html">statistics.md</a> defines the paired statistics; they use only
+<code>paired</code> episodes.</p>
+<h2 id="8-example">8. Example</h2>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">from emberbench import build_evaluation_manifest, load_suite, pair_results, run_evaluation
+
+suite = load_suite("scenarios/public/v1")
+manifest = build_evaluation_manifest(suite, [0, 1, 2])  # development seeds
+
+def make_policy():
+    # Return a NEW policy. It receives only Observation values.
+    return MyPolicy()
+
+a = run_evaluation(suite, manifest, "model-a", make_policy, "results/model-a.json")
+b = run_evaluation(suite, manifest, "model-b", make_other_policy, "results/model-b.json")
+report = pair_results(a, b)
+print(report.total_scheduled, report.paired_count)
+</code></pre>
+<p>To compare saved artifacts later, load each with
+<code>load_evaluation_result(path, suite)</code>, which authenticates every record, and
+then call <code>pair_results</code>.</p>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="crowd-diagnostics.html"><span>Previous</span>Crowd diagnostics</a><a href="environment-pack.html"><span>Next</span>Frozen environments</a></nav><p class="docs-source-note">Reviewed public benchmark contract. Apache License 2.0. <a href="source/evaluation.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-common-random-numbers">1. Common random numbers</a><a href="#2-the-evaluation-manifest">2. The evaluation manifest</a><a href="#3-public-development-manifests-and-private-scored-manifests">3. Public development manifests and private scored manifests</a><a href="#4-seed-privacy-and-episode-isolation">4. Seed privacy and episode isolation</a><a href="#5-the-per-model-result-artifact">5. The per-model result artifact</a><a href="#6-resume-guarantees">6. Resume guarantees</a><a href="#7-exact-pairing">7. Exact pairing</a><a href="#8-example">8. Example</a></nav></details></aside></div></main><script type="module" src="../docs.js?v=20261028-reading-3"></script></body></html>

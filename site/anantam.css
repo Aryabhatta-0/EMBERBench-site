@@ -1,29 +1,20 @@
 /* Hallmark v2.0.0 | Anantam | brand: supplied navy infinity emblem | genre: editorial | shape: introduction, interactive evidence, research note */
 /* Critique: replace dashboard density with one calm workspace; retain analytical detail through progressive disclosure. */
-@font-face { font-family: 'DM Sans'; src: url('assets/fonts/dm-sans.ttf') format('truetype'); font-weight: 100 1000; font-display: swap; }
-@font-face { font-family: 'Instrument Serif'; src: url('assets/fonts/instrument-serif.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url('assets/fonts/dm-sans.f43e9aeb7b31.woff2') format('woff2'); font-weight: 100 1000; font-display: swap; }
+@font-face { font-family: 'Instrument Serif'; src: url('assets/fonts/instrument-serif.9e2a54a37944.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 :root {
   --font-body: 'DM Sans', system-ui, sans-serif;
   --on-provider: #fcfcfd; --print-background: #ffffff; --print-text: #000000;
   --font-display: 'Instrument Serif', Georgia, serif;
-  --surface-0: #fafaf7; --surface-1: #fff; --surface-2: #f0f2f3;
-  --text-primary: #15283f; --text-secondary: #455467; --text-muted: #596675;
-  --border: #dde2e5; --grid: #e8ecee; --accent: #142e51; --accent-soft: #e9eff6;
+  --surface-0: #f8f9fc; --surface-1: #fff; --surface-2: #edf1f7;
+  --text-primary: #172c46; --text-secondary: #445671; --text-muted: #53647a;
+  --border: #d7dfeb; --grid: #e3e9f1; --accent: #142e51; --accent-soft: #e9eff6;
   --series-1: #246d76; --series-2: #ab5839; --series-3: #416994;
   --track: #e8edf1; --ref-bar: #7c8997; --dim-bar: #c7d0d9; --link: #244f7c; --focus: #2865b1;
   --warn-bg: #fcf0df; --warn-text: #785114; --shadow: 0 12px 36px #142e510b;
   --hero-glow: #e3ebf5; --hero-haze: #f4e9d9; --on-accent: #fff; --input-border: #83909e;
   --radius-control: 999px; --radius-surface: 16px; --control-height: 44px;
   --ease-out: cubic-bezier(.2, 0, 0, 1); --duration-quick: 150ms; --duration-standard: 240ms; --duration-entrance: 600ms;
-}
-:root[data-theme='dark'] {
-  --surface-0: #0e1825; --surface-1: #152231; --surface-2: #1d2e40;
-  --text-primary: #eff3f7; --text-secondary: #c4ced9; --text-muted: #abb9c8;
-  --border: #344557; --grid: #293b4c; --accent: #c4d8ef; --accent-soft: #253b55;
-  --series-1: #70c4c5; --series-2: #e9a17e; --series-3: #9cbfe5;
-  --track: #293d51; --ref-bar: #9baabc; --dim-bar: #496177; --link: #bdd7f4; --focus: #b2d4ff;
-  --warn-bg: #3b3020; --warn-text: #f5d39b; --shadow: 0 12px 36px #00000020;
-  --hero-glow: #203c60; --hero-haze: #343328; --on-accent: #10243c; --input-border: #8294a8;
 }
 html, body { overflow-x: clip; }
 body { font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
@@ -48,10 +39,6 @@ main.container { padding: 56px 48px 80px; }
 .header-actions { gap: 12px; margin-left: 0; }
 .header-actions .repo-link { display: inline-flex; gap: 8px; align-items: center; font-size: 12px; }
 .header-actions svg, .button svg, .quiet-link svg, .featured-result > svg { width: 20px; height: 20px; flex-shrink: 0; }
-.theme-toggle.button { border: 1px solid var(--border); padding: 0; width: var(--control-height); height: var(--control-height); border-radius: var(--radius-control); }
-.theme-toggle svg { width: 18px; height: 18px; }
-.theme-toggle .sun-icon, [data-theme='dark'] .theme-toggle .moon-icon { display: none; }
-[data-theme='dark'] .theme-toggle .sun-icon { display: block; }
 .status-banner { padding: 8px 24px; font-size: 11px; border: 0; background: var(--surface-2); gap: 12px; }
 .status-banner .status-copy { max-width: 85ch; }
 .status-dot, .eyebrow { display: none; }
@@ -94,11 +81,10 @@ body[data-page='index'] .status-banner { display: none; }
 .hero-art img { width: min(100%, 405px); height: auto; aspect-ratio: 1; object-fit: contain; }
 .cosmos-emblem { position: relative; width: min(100%,405px); aspect-ratio: 1; }
 .cosmos-emblem img { display: block; width: 100%; }
-.cosmos-sky { position: absolute; inset: 0; width: 100%; height: 100%; mask: url('assets/anantam-logo.png') center / contain no-repeat; }
+.cosmos-sky { position: absolute; inset: 0; width: 100%; height: 100%; mask: url('assets/anantam-mark.b03ee4d301aa.webp') center / contain no-repeat; }
 .art-caption { text-align: center; font-size: 12px; color: var(--text-secondary); margin-top: 18px; }
 .art-caption > span[lang] { margin-left: 12px; }
 .art-caption > span:last-child { display: block; font-size: 10px; margin-top: 3px; color: var(--text-muted); }
-[data-theme='dark'] .brand-logo, [data-theme='dark'] .footer-brand img { filter: brightness(0) invert(1); }
 .hero-facts { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; align-self: end; padding: 28px 0 38px; font-size: 12px; color: var(--text-secondary); }
 .hero-facts b { font-size: 20px; font-weight: 500; color: var(--text-primary); margin-right: 5px; }
 .hero-facts a { color: inherit; text-decoration: none; font-weight: 600; }
@@ -219,8 +205,19 @@ body[data-page='index'] .status-banner { display: none; }
 }
 @media (prefers-contrast: more) { :root { --border: var(--text-secondary); --grid: var(--text-secondary); } }
 @media print { .hero-art, .hero-actions, .view-tabs, .header-actions { display: none; } .anantam-hero { min-height: auto; display: block; } .result-view[hidden] { display: block !important; } }
-.theme-changing *, .theme-changing *::before, .theme-changing *::after { transition: none !important; }
 
 .footer-brand + p { margin-top: 8px; }
 .site-footer a:has(svg) { display: inline-flex; align-items: center; gap: 6px; }
 .site-footer a > svg { width: 14px; height: 14px; }
+
+/* One shared light site, with task navigation beneath the global header. */
+:root { color-scheme: light; }
+.benchmark-subnav { display:flex; align-items:center; justify-content:center; gap:32px; min-height:52px; padding:4px 24px; background:var(--surface-0); }
+.benchmark-subnav a { display:inline-flex; align-items:center; min-height:44px; font-size:13px; text-decoration:none; color:var(--text-secondary); }
+.benchmark-subnav a[aria-current='page'] { color:var(--text-primary); text-decoration:underline; text-underline-offset:7px; }
+.benchmark-heading { margin:0 0 30px; }
+.benchmark-heading h1 { font-size:clamp(40px,4vw,54px); margin:0 0 12px; }
+.benchmark-heading p { font-size:14px; color:var(--text-secondary); margin:0; }
+body[data-page='leaderboard'] main.container { padding-top:32px; }
+.keyboard-switch, .keyboard-switch .showcase-tabs, .keyboard-switch .panel-content { transition:none; }
+@media(max-width:700px) { .benchmark-subnav { justify-content:flex-start; gap:24px; padding-inline:24px; } }

@@ -1,0 +1,27 @@
+/* One-time emblem assembly, pale drifting contours and a light brand gradient. */
+:root{--particle-ink:#142e51;--ribbon-ink:#9aafca;--hero-mist:#cbdcf0;--hero-pearl:#f3eee4;--hero-porcelain:#f8f9fc;}
+body[data-page='company'] main.container{width:100%;max-width:none;margin:0;padding:0;}
+body[data-page='company'] .site-header{background:var(--hero-surface);}
+.company-hero{position:relative;isolation:isolate;overflow:hidden;height:calc(100svh - var(--site-header-height,0px));min-height:0;border-radius:0;background:radial-gradient(ellipse at 96% 88%,var(--hero-mist),transparent 65%),radial-gradient(ellipse at 3% 86%,var(--hero-pearl),transparent 62%),linear-gradient(180deg,var(--hero-surface),var(--hero-porcelain) 58%,var(--hero-surface));}
+.hero-particles{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;mask-image:linear-gradient(to bottom,transparent,var(--particle-ink) 10%,var(--particle-ink) 88%,transparent);}
+.brand-ribbon{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:hidden;mask-image:linear-gradient(to bottom,transparent,var(--ribbon-ink) 10%,var(--ribbon-ink) 88%,transparent);}
+.brand-ribbon path,.brand-ribbon use{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round;}
+.ribbon-contour{stroke:var(--ribbon-ink);stroke-width:1;stroke-dasharray:1;opacity:.66;transform-box:fill-box;transform-origin:center;animation:hero-line-draw 1.9s var(--ease-out) both,hero-line-drift 18s ease-in-out infinite;}
+.ribbon-contour:nth-of-type(2){animation-delay:.12s,-9s;}
+.company-hero[data-animation-visible='false'] .brand-ribbon use{animation-play-state:paused;}
+@keyframes hero-line-draw{from{stroke-dashoffset:1;}to{stroke-dashoffset:0;}}
+@keyframes hero-line-drift{0%,100%{transform:translate(0,0) rotate(-.5deg);}50%{transform:translate(8px,-6px) rotate(.5deg);}}
+.particle-canvas{display:block;width:100%;height:100%;position:absolute;inset:0;}
+.particles-ready .hero-emblem{visibility:hidden;}
+.company-hero .hero-emblem{width:156px;height:156px;}
+@media(max-width:700px){.company-hero .hero-emblem{width:112px;height:112px;}}
+@media(max-height:600px){.company-hero .hero-emblem{width:48px;height:48px;}}
+@media(max-width:700px){.company-hero{padding-bottom:40px;}}
+@media(max-height:600px){.company-hero{padding-top:20px;padding-bottom:52px;}.company-signature{flex-direction:row;gap:14px;}.hero-emblem{width:48px;height:48px;}.company-hero h1{font-size:80px;line-height:1;}.company-hero>p{font-size:16px;margin:16px 0 20px;}}
+@media(prefers-reduced-motion:reduce){.hero-emblem{transform:none;}.brand-ribbon use{animation:none;}}
+/* Keep the source image as a fallback, never as an entrance frame. */
+.company-hero .hero-emblem{visibility:hidden;}
+.company-hero[data-motion='static'] .hero-emblem{visibility:visible;}
+.company-hero:not(.particles-ready):not([data-motion='static']) .ribbon-contour{animation-play-state:paused;opacity:0;}
+
+:root{--site-header-height:88px;}@media(max-width:700px){:root{--site-header-height:78px;}}

@@ -1,7 +1,6 @@
 /* Hallmark v2.0.0 | Anantam | signature: the supplied infinity emblem in flight */
 /* One focal mark, original colours, native controls, actual pending data. */
 :root { --loading-ground: var(--surface-0); }
-[data-theme='dark'] { --loading-ground: var(--hero-glow); }
 body #main:has(> .loading-shell) { width: 100%; max-width: none; margin: 0; padding: 0; }
 .loading-shell { min-height: 100svh; display: grid; place-items: center; padding: 40px 24px; background: var(--loading-ground); }
 .loading-center { width: min(100%,360px); display: flex; flex-direction: column; align-items: center; text-align: center; }
@@ -16,3 +15,13 @@ body #main:has(> .loading-shell) { width: 100%; max-width: none; margin: 0; padd
   .loading-retry:not(:disabled):active { transform: scale(.96); }
 }
 @media (max-height:480px) { .loading-shell { padding-block: 24px; } .loading-emblem.cosmos-emblem { width: 120px; } .loading-name { margin-top: 16px; } }
+.loading-shell.page-loader{display:none;min-height:calc(100svh - var(--site-header-height,88px));}
+main[data-loading='pending']>.page-loader{display:grid;}
+main[data-loading='pending']>[data-static-results],main[data-loading='pending']>[data-static-reading]{display:none;}
+body #main:has(>.page-loader){width:100%;max-width:none;margin:0;padding:0;}
+main:not([data-loading='pending'])>[data-static-results],main:not([data-loading='pending'])>[data-static-reading]{padding:32px max(20px,3%);}
+.public-evaluation-notice:has(+main[data-loading='pending']),.benchmark-subnav:has(~main[data-loading='pending']){display:none;}
+@media(max-width:1300px),(max-height:480px){
+ .loading-shell.page-loader{min-height:calc(100svh - var(--loading-start,var(--site-header-height,88px)) - var(--cookie-notice-space,0px));padding:16px 20px;}
+ .page-loader .loading-emblem.cosmos-emblem{width:min(200px,max(32px,calc(100svh - var(--loading-start,var(--site-header-height,88px)) - var(--cookie-notice-space,0px) - 32px)));}
+}

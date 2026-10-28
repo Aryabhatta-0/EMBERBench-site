@@ -34,6 +34,29 @@ import {
   differenceChart,
 } from "../site/charts.js";
 import data from "../site/data/results.js";
+import {metricScale,outcomeParts,descendingModels} from '../site/benchmark-dashboard.js';
+
+test('each displayed series descends numerically while unavailable values stay last',()=>{
+  const series=[{value:0.2},{value:null},{value:0.21},{value:1},{value:0}],snapshot=[...series];
+  assert.deepEqual(descendingModels(series,m=>m.value).map(m=>m.value),[1,0.21,0.2,0,null]);
+  assert.deepEqual(series,snapshot);
+});
+
+test('chart scales retain a shared zero baseline and ignore unavailable measurements',()=>{
+  assert.equal(metricScale(data.models,'score'),100);
+  assert.equal(metricScale(data.models,'safety'),1);
+  assert.equal(metricScale(data.models,'quality'),1);
+  assert.equal(metricScale([{api:{cost_usd:null}},{api:{cost_usd:0}},{api:{cost_usd:2.5}}],'cost'),2.5);
+  assert.equal(metricScale([],'cost'),0);
+});
+
+test('outcome segments use published people counts rather than the composite EMBER score',()=>{
+  for(const model of data.models){
+    const parts=outcomeParts(model);
+    assert.deepEqual(parts.map(p=>p[2]),[model.totals.evacuated,model.totals.avoidable_casualties,model.totals.avoidable_stranded,model.totals.unavoidable_losses||0]);
+    assert.ok(parts.every(p=>Number.isInteger(p[2])&&p[2]>=0));
+  }
+});
 
 test("Jev labels identify the evaluated version while preserving aliases and IDs", () => {
   const old = data.models.find(m=>m.id === 'typesafe-jev-latest-choice-r1');
@@ -259,7 +282,7 @@ test("comparison links require 2–4 valid selected models and survive blocked s
     ]) {
       Object.defineProperty(globalThis, "localStorage", {
         configurable: true,
-        value: { getItem: () => JSON.stringify(chosen) },
+        value: { getItem: key => key==='anantam-preferences'?'remember-comparisons':JSON.stringify(chosen) },
       });
       const html = selectionBar({ models });
       assert.equal(html.includes('aria-disabled="true"'), chosen.length < 2);
@@ -506,6 +529,7 @@ test("charts preserve accessible links, missing values and descriptive compariso
 test("all portal entry points use local modules, viewport metadata and an accessible main landmark", async () => {
   for (const page of [
     "index",
+    "benchmark",
     "leaderboard",
     "compare",
     "model",
@@ -516,8 +540,8 @@ test("all portal entry points use local modules, viewport metadata and an access
       html = await readFile(url, "utf8");
     assert.match(html, /<html lang="en">/);
     assert.match(html, /name="viewport"/);
-    assert.match(html, /<main id="main" tabindex="-1">/);
-    assert.match(html, /type="module" src="[^" ]+\.js"/);
+    assert.match(html, /<main id="main" tabindex="-1"(?: class="container")?>/);
+    assert.match(html, /type="module" src="[^" ]+\.js(?:\?[^" ]+)?"/);
     assert.match(html, /<noscript\s*>/);
     for (const [, src] of html.matchAll(/(?:src|href)="([^"#]+)"/g))
       if (!/^https?:/.test(src)) await access(new URL(src, url));

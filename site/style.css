@@ -24,30 +24,6 @@
   --shadow: 0 6px 24px #213b5310;
   --header-height: 72px;
 }
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --surface-0: #111c27;
-  --surface-1: #182633;
-  --surface-2: #213241;
-  --border: #354a5c;
-  --grid: #2b3d4c;
-  --text-primary: #e9f0f6;
-  --text-secondary: #b9c8d5;
-  --text-muted: #a3b5c4;
-  --accent: #f09a74;
-  --accent-soft: #3b2b27;
-  --series-1: #4bc2b5;
-  --series-2: #f09a74;
-  --series-3: #92b5e7;
-  --track: #293c4b;
-  --ref-bar: #96a8bb;
-  --dim-bar: #4a6376;
-  --link: #9acaf1;
-  --focus: #8ac9f4;
-  --warn-bg: #3b3121;
-  --warn-text: #f1cf92;
-  --shadow: 0 6px 24px #00000020;
-}
 * {
   box-sizing: border-box;
 }
@@ -277,7 +253,6 @@ main.container {
   color: var(--text-secondary);
   text-decoration: none;
 }
-.theme-toggle,
 .nav-toggle {
   background: transparent;
   border: 1px solid var(--border);
@@ -1894,7 +1869,6 @@ caption {
     gap: 8px;
   }
   .nav-toggle,
-  .theme-toggle {
     min-width: 35px;
     min-height: 35px;
   }
@@ -2121,7 +2095,6 @@ caption {
     font-size: 12px;
     padding: 6px 8px;
   }
-  .theme-toggle {
     font-size: 11px !important;
     padding: 4px 7px !important;
   }
@@ -2218,3 +2191,8 @@ caption {
     min-width: 0;
   }
 }
+
+/* Provider artwork retains its original colours and proportions. */
+.provider-chip img.provider-mark{object-fit:contain;background:transparent;border-radius:0;}
+
+.public-evaluation-notice{max-width:1440px;margin:16px auto 0;padding:0 32px;font-size:14px;line-height:1.65;color:var(--text-secondary);}.public-evaluation-notice strong{color:var(--text-primary);font-weight:500;}.public-evaluation-notice a{color:var(--accent);text-underline-offset:3px;}@media(max-width:700px){.public-evaluation-notice{padding-inline:20px;}}

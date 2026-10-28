@@ -1,0 +1,840 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "node tools/check_public_site.mjs site && node tools/check_production.mjs site",
+  "outputDirectory": "site",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'sha256-u6Xr8xC+dpOahoVpqKjMmqgfVdu47XqjBh4CACd3B4A=' 'sha256-So66iWa9fZChEXIpnerBeS5BKdzvk85jnC43uK+jAeg=' 'sha256-Sl0yf1lqGRkyZI5xe9ksdQfBFbTsulpfzs0DUZQwU2Q=' 'sha256-oLVT6UJg0zxoM6tXlJqEZ2PE4wRjdqjyygQCwUK317I=' 'sha256-DqoRqibkTasIfzudI0CeYkoDDoyJCR5ee+Q14q9QZBQ=' 'sha256-cvHmEKeOT9CBqv31eEdsVXueEYF4CfCDPoz6i/wZHBE=' 'sha256-0eWGiRR2TqJdOhj3Za1IzO6PDFHpHh+D6A8KLKDZlNw=' 'sha256-bEOMuXJa+3PkK4VcVG7FuVddGJ56/KKgQ46nczto210=' 'sha256-Dzji6WfoGS7FKXv4550G6YAH0HcfQuhnjOtwWMdrU6k=' 'sha256-hK1RJVOxso17a+5bezMjq7I6wtgog7B4nl/hn4OeDy4=' 'sha256-AWYsbM1MaRIK8w8PEcbKhzShhLoQ2r+0xY2QXO0wrAI=' 'sha256-cFxDTSCuJMYDhET1mFOZVh1Lr7Hqk1leS+Cs42miiPk=' 'sha256-FQ/irsVKmcP6mvJCH0qKkug36TTq49ABl3B4M5nufnk=' 'sha256-vEBYrn2dDjaOQoH/VW/8IVIp2Tx+xtPCBWiPV+oxhYw=' 'sha256-cI8XGEq+j4QL3kYb7lg5hD0HyZa4etauJLuejXItp9I=' 'sha256-jdTVwgVp9un69kmiKuqsEDr4Ay1q05iCYUwpEVGiNVE=' 'sha256-HgMuJgaqX6qfz6/6RGpOaYrQRnKI76hlFkO0Pbk+SP8=' 'sha256-ohP9OzdrZyuEfctUrxwTJk0JwmT19oAb63f3QxvDuOk=' 'sha256-Jaj40KtB2sNUOwQ68YpKZq/CoUZdPLrZThAQcZzXZXQ=' 'sha256-/+fxuHQ+K1yE8j93obPo0XwiooW1RN7F0oIWUH62hzc=' 'sha256-Um+nCoIp2eHMJpovnhmwM9mRGHQro7NOlEe9/A1hIZA=' 'sha256-CV1B9kVQ/qg9NQS+3vJsliF5674Xcm8o7GrfGe3Dllc=' 'sha256-WGBn3E11PmzWFqiQSTbNIVrg37W2vHbDQuEj1Yaiib4=' 'sha256-Rvo+o5HzdSiwg/xodxB+Ke5p8XR/dbQdRmK+1/fDOwc=' 'sha256-lUTyUByWCYPkeRmsh7FoFM/EHXAFSfCf2DN6ym0Lyrw=' 'sha256-WY4vijjBgRVtndqDpqMogKtXwIsnMqlNcN2ky81xG3w=' 'sha256-yw9KkKa7KRdCxOs7PdboOvaFSZnb6Rw31t2R6jSao2o=' 'sha256-mg3YTuLy1CmVhPobkYhF+bFYBp6kB0sGEgzJb1ABctQ=' 'sha256-S5TG4NONtpkksWzWlBd7uR3xn8eRlP6J48Ao+Goy+Ng=' 'sha256-VO2Uj7ifTXtL27tUgRfssAIqhS27V/6iubkxo9xqEYw=' 'sha256-VFyVGE7C9s4kutoE9l+ljg1OXreKGaMRviM8vz8cyLM=' 'sha256-e6kP4ih/eHQVxa9l9AuR1sOpB7sFuoSkk6w9jbBmoH4=' 'sha256-k2od04fOozJQgijVWk2kcSJcsRwW+I/c1ty01HrNrhY=' 'sha256-09OgCFy9bVwXBMX9IYhEUtyjjazB4WZwD6OIy3LVoQ4=' 'sha256-vgtApoP0ApAiSqkvDi8Guh6pgRAjI+FJ3K0J9fyvoxQ=' 'sha256-gqgZGzQG0FIPRQHw+cimYU5QdPKoCZf+fs16y/1ngx8=' 'sha256-iz/uxrLtXrggql+EGBoHPT44a8+VRK23bY5wgDAVPLI=' 'sha256-ysmMVWkcFJXO/XLXgFLyauzdsk1sCw81DAeCgNGMGKg=' 'sha256-DybbLhKEzQHW8HL7WONPKgHU+nA75VB4uePYiRmadTc=' 'sha256-X2Of4JMGlWi6sjbm/nxaiX6whFYud7PFL7kBsiCE/Uo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept",
+        "Cache-Control": "public, max-age=0, must-revalidate",
+        "Link": "</llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/assets/(.*\\.[a-f0-9]{12}\\.(?:woff2|webp|png|jpg))",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "/googleca4565681d2b6fc3\\.html",
+      "headers": {
+        "Content-Type": "text/html; charset=utf-8",
+        "X-Robots-Tag": "noindex"
+      },
+      "continue": true
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/index.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/index\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/index.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/about\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/about.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/about.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/contact\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/contact.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/contact.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/privacy\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/privacy.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/privacy.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/terms\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/terms.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/terms.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/cookies\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/cookies.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/cookies.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/accessibility\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/accessibility.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/accessibility.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/benchmark\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/benchmark.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/benchmark.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/leaderboard\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/benchmark.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/benchmark.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/methodology\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/methodology.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/methodology.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/scenarios\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/scenarios.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/scenarios.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/quickstart\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/quickstart.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/quickstart.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/cli\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/cli.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/cli.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/model-interface\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/model-interface.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/model-interface.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/site-data\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/site-data.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/site-data.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/simulation-contract\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/simulation-contract.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/simulation-contract.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/scenario-schema\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/scenario-schema.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/scenario-schema.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/scenario-suite\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/scenario-suite.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/scenario-suite.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/baselines\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/baselines.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/baselines.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/development-generator\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/development-generator.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/development-generator.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/scoring\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/scoring.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/scoring.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/metrics\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/metrics.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/metrics.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/crowd-diagnostics\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/crowd-diagnostics.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/crowd-diagnostics.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/evaluation\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/evaluation.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/evaluation.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/environment-pack\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/environment-pack.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/environment-pack.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/statistics\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/statistics.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/statistics.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/v1-fairness-spec\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/v1-fairness-spec.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/v1-fairness-spec.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/evaluation-boundary\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/evaluation-boundary.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/evaluation-boundary.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/replay-verification\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/replay-verification.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/replay-verification.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/archived-validation\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/archived-validation.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/archived-validation.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/docs/versioning\\.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/docs/source/versioning.md",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "Link": "<https://anantam-labs.vercel.app/docs/versioning.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      }
+    },
+    {
+      "src": "/index\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/about\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/about.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/contact\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/contact.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/privacy\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/privacy.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/terms\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/terms.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/cookies\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/cookies.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/accessibility\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/accessibility.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/benchmark\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/benchmark.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/methodology\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/methodology.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/scenarios\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/scenarios.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/quickstart\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/quickstart.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/cli\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/cli.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/model-interface\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/model-interface.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/site-data\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/site-data.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/simulation-contract\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/simulation-contract.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/scenario-schema\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/scenario-schema.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/scenario-suite\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/scenario-suite.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/baselines\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/baselines.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/development-generator\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/development-generator.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/scoring\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/scoring.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/metrics\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/metrics.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/crowd-diagnostics\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/crowd-diagnostics.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/evaluation\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/evaluation.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/environment-pack\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/environment-pack.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/statistics\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/statistics.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/v1-fairness-spec\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/v1-fairness-spec.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/evaluation-boundary\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/evaluation-boundary.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/replay-verification\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/replay-verification.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/archived-validation\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/archived-validation.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/docs/source/versioning\\.md",
+      "headers": {
+        "Link": "<https://anantam-labs.vercel.app/docs/versioning.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
+      },
+      "continue": true
+    },
+    {
+      "src": "/assets/anantam-social\\.png",
+      "status": 308,
+      "headers": {
+        "Location": "/assets/anantam-social.248f284c6684.jpg"
+      }
+    },
+    {
+      "src": "/(.*\\.md)",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8"
+      },
+      "continue": true
+    },
+    {
+      "src": "/data/leaderboard\\.json",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "continue": true
+    },
+    {
+      "src": "/index\\.html",
+      "status": 308,
+      "headers": {
+        "Location": "/"
+      }
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept",
+          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
+        }
+      ],
+      "dest": "/404.md",
+      "status": 404,
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Vary": "Accept",
+        "X-Robots-Tag": "noindex"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/404.html",
+      "status": 404,
+      "headers": {
+        "X-Robots-Tag": "noindex"
+      }
+    }
+  ]
+}

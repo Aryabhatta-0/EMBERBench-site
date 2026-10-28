@@ -1,38 +1,303 @@
 {
   "schemaVersion": 2,
+  "generatedAt": "2026-10-27",
   "title": "Anantam design system",
   "extensions": {
-    "typographyMeta": {
-      "display": {
-        "displayName": "Instrument Serif",
-        "purpose": "Introduction and editorial section headings."
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Navy action and brand",
+        "tonalRamp": [
+          "oklch(15% 0.0713 256.56)",
+          "oklch(26% 0.0713 256.56)",
+          "oklch(38% 0.0713 256.56)",
+          "oklch(49% 0.0713 256.56)",
+          "oklch(61% 0.0713 256.56)",
+          "oklch(72% 0.0713 256.56)",
+          "oklch(84% 0.0713 256.56)",
+          "oklch(95% 0.0713 256.56)"
+        ]
       },
-      "body": {
-        "displayName": "DM Sans",
-        "purpose": "Reading, data and controls."
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Paper canvas"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White controls and outcome cards",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(38% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(72% 0.0000 89.88)",
+          "oklch(84% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "surface-subtle": {
+        "role": "neutral",
+        "displayName": "Subtle inspector surface"
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Primary ink"
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Secondary ink"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Evidence notes"
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Structural border"
+      },
+      "grid": {
+        "role": "neutral",
+        "displayName": "Analytical grid"
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Keyboard focus blue",
+        "tonalRamp": [
+          "oklch(15% 0.1359 255.71)",
+          "oklch(26% 0.1359 255.71)",
+          "oklch(38% 0.1359 255.71)",
+          "oklch(49% 0.1359 255.71)",
+          "oklch(61% 0.1359 255.71)",
+          "oklch(72% 0.1359 255.71)",
+          "oklch(84% 0.1359 255.71)",
+          "oklch(95% 0.1359 255.71)"
+        ]
+      },
+      "input-border": {
+        "role": "neutral",
+        "displayName": "Visible field edge",
+        "tonalRamp": [
+          "oklch(15% 0.0258 250.20)",
+          "oklch(26% 0.0258 250.20)",
+          "oklch(38% 0.0258 250.20)",
+          "oklch(49% 0.0258 250.20)",
+          "oklch(61% 0.0258 250.20)",
+          "oklch(72% 0.0258 250.20)",
+          "oklch(84% 0.0258 250.20)",
+          "oklch(95% 0.0258 250.20)"
+        ]
+      },
+      "accent-soft": {
+        "role": "neutral",
+        "displayName": "Selected evidence accent",
+        "tonalRamp": [
+          "oklch(15% 0.0114 252.09)",
+          "oklch(26% 0.0114 252.09)",
+          "oklch(38% 0.0114 252.09)",
+          "oklch(49% 0.0114 252.09)",
+          "oklch(61% 0.0114 252.09)",
+          "oklch(72% 0.0114 252.09)",
+          "oklch(84% 0.0114 252.09)",
+          "oklch(95% 0.0114 252.09)"
+        ]
+      },
+      "series-1": {
+        "role": "secondary",
+        "displayName": "Analytical teal",
+        "tonalRamp": [
+          "oklch(15% 0.0715 206.73)",
+          "oklch(26% 0.0715 206.73)",
+          "oklch(38% 0.0715 206.73)",
+          "oklch(49% 0.0715 206.73)",
+          "oklch(61% 0.0715 206.73)",
+          "oklch(72% 0.0715 206.73)",
+          "oklch(84% 0.0715 206.73)",
+          "oklch(95% 0.0715 206.73)"
+        ]
+      },
+      "series-2": {
+        "role": "tertiary",
+        "displayName": "Analytical rust",
+        "tonalRamp": [
+          "oklch(15% 0.1176 40.72)",
+          "oklch(26% 0.1176 40.72)",
+          "oklch(38% 0.1176 40.72)",
+          "oklch(49% 0.1176 40.72)",
+          "oklch(61% 0.1176 40.72)",
+          "oklch(72% 0.1176 40.72)",
+          "oklch(84% 0.1176 40.72)",
+          "oklch(95% 0.1176 40.72)"
+        ]
+      },
+      "series-3": {
+        "role": "tertiary",
+        "displayName": "Analytical blue",
+        "tonalRamp": [
+          "oklch(15% 0.0824 251.34)",
+          "oklch(26% 0.0824 251.34)",
+          "oklch(38% 0.0824 251.34)",
+          "oklch(49% 0.0824 251.34)",
+          "oklch(61% 0.0824 251.34)",
+          "oklch(72% 0.0824 251.34)",
+          "oklch(84% 0.0824 251.34)",
+          "oklch(95% 0.0824 251.34)"
+        ]
+      },
+      "outcome-safe": {
+        "role": "secondary",
+        "displayName": "Evacuated people",
+        "tonalRamp": [
+          "oklch(15% 0.0639 175.25)",
+          "oklch(26% 0.0639 175.25)",
+          "oklch(38% 0.0639 175.25)",
+          "oklch(49% 0.0639 175.25)",
+          "oklch(61% 0.0639 175.25)",
+          "oklch(72% 0.0639 175.25)",
+          "oklch(84% 0.0639 175.25)",
+          "oklch(95% 0.0639 175.25)"
+        ]
+      },
+      "outcome-death": {
+        "role": "tertiary",
+        "displayName": "Avoidable deaths",
+        "tonalRamp": [
+          "oklch(15% 0.1264 37.65)",
+          "oklch(26% 0.1264 37.65)",
+          "oklch(38% 0.1264 37.65)",
+          "oklch(49% 0.1264 37.65)",
+          "oklch(61% 0.1264 37.65)",
+          "oklch(72% 0.1264 37.65)",
+          "oklch(84% 0.1264 37.65)",
+          "oklch(95% 0.1264 37.65)"
+        ]
+      },
+      "outcome-stranded": {
+        "role": "tertiary",
+        "displayName": "Avoidable stranded people",
+        "tonalRamp": [
+          "oklch(15% 0.1137 86.35)",
+          "oklch(26% 0.1137 86.35)",
+          "oklch(38% 0.1137 86.35)",
+          "oklch(49% 0.1137 86.35)",
+          "oklch(61% 0.1137 86.35)",
+          "oklch(72% 0.1137 86.35)",
+          "oklch(84% 0.1137 86.35)",
+          "oklch(95% 0.1137 86.35)"
+        ]
+      },
+      "outcome-unavoidable": {
+        "role": "neutral",
+        "displayName": "Unavoidable losses",
+        "tonalRamp": [
+          "oklch(15% 0.0114 248.00)",
+          "oklch(26% 0.0114 248.00)",
+          "oklch(38% 0.0114 248.00)",
+          "oklch(49% 0.0114 248.00)",
+          "oklch(61% 0.0114 248.00)",
+          "oklch(72% 0.0114 248.00)",
+          "oklch(84% 0.0114 248.00)",
+          "oklch(95% 0.0114 248.00)"
+        ]
+      },
+      "chart-track": {
+        "role": "neutral",
+        "displayName": "Unfilled metric track",
+        "tonalRamp": [
+          "oklch(15% 0.0067 233.64)",
+          "oklch(26% 0.0067 233.64)",
+          "oklch(38% 0.0067 233.64)",
+          "oklch(49% 0.0067 233.64)",
+          "oklch(61% 0.0067 233.64)",
+          "oklch(72% 0.0067 233.64)",
+          "oklch(84% 0.0067 233.64)",
+          "oklch(95% 0.0067 233.64)"
+        ]
+      },
+      "chart-selected": {
+        "role": "neutral",
+        "displayName": "Inspected row and selected metric",
+        "tonalRamp": [
+          "oklch(15% 0.0067 233.64)",
+          "oklch(26% 0.0067 233.64)",
+          "oklch(38% 0.0067 233.64)",
+          "oklch(49% 0.0067 233.64)",
+          "oklch(61% 0.0067 233.64)",
+          "oklch(72% 0.0067 233.64)",
+          "oklch(84% 0.0067 233.64)",
+          "oklch(95% 0.0067 233.64)"
+        ]
+      },
+      "hero": {
+        "role": "neutral",
+        "displayName": "Mist-blue hero field",
+        "value": "#e9eff7"
       }
     },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Centered company signature",
+        "purpose": "Instrument Serif, clamp(112px,10vw,144px); clamp(82px,17vw,112px) on phones."
+      },
+      "headline": {
+        "displayName": "Contribution headline",
+        "purpose": "Instrument Serif, 44px; contribution heading 36px on phones."
+      },
+      "body": {
+        "displayName": "DM Sans reading and evidence",
+        "purpose": "Local sans type; data uses tabular numerals."
+      },
+      "label": {
+        "displayName": "Shared action label",
+        "purpose": "13px shared actions; compact labels retain their existing hierarchy."
+      }
+    },
+    "shadows": [
+      {
+        "name": "selected-evidence",
+        "value": "0 12px 36px #142e510b",
+        "purpose": "Selected shared evidence tabs and comparison tray. Experiment, outcome cards and shared actions remain flat."
+      }
+    ],
     "motion": [
       {
-        "name": "ease-out",
-        "value": "cubic-bezier(.2,0,0,1)",
-        "purpose": "Calm state changes."
+        "name": "outcome-grouping",
+        "value": "580ms, cubic-bezier(.2,0,0,1)",
+        "purpose": "Interruptible CSS transforms of exact person markers. Fine hover above 700px; explicit button locks grouping. Keyboard and reduced motion are immediate."
       },
       {
-        "name": "quick",
-        "value": "150ms",
-        "purpose": "Press response."
+        "name": "loop-explanation",
+        "value": "200ms, cubic-bezier(.2,0,0,1)",
+        "purpose": "Pointer selection updates explanation immediately with a 5px rise. Keyboard and reduced motion stay immediate."
       },
       {
-        "name": "entrance",
-        "value": "600ms",
-        "purpose": "One emblem entrance; disabled under reduced motion."
+        "name": "result-selection",
+        "value": "220ms, cubic-bezier(.2,0,0,1)",
+        "purpose": "Pointer inspector selection updates evidence immediately, then rises 6px with opaque text. Keyboard, search, sort and reduced motion stay immediate."
+      },
+      {
+        "name": "button-response",
+        "value": "150ms; active scale(.96)",
+        "purpose": "Shared action feedback only where motion is allowed."
+      },
+      {
+        "name": "particle-emblem-assembly",
+        "value": "Once:3s emblem assembly;continuous 3.8s side-line flow",
+        "purpose": "Particles permanently form the supplied emblem. Side ribbons flow continuously. No replay on return/resize, no pointer tracking or pause button. Reduced motion is static."
       }
     ],
     "breakpoints": [
       {
-        "name": "mobile",
+        "name": "small-phone-signature",
+        "value": "360px"
+      },
+      {
+        "name": "phone",
         "value": "700px"
+      },
+      {
+        "name": "evidence-reading",
+        "value": "1000px"
       },
       {
         "name": "navigation",
@@ -42,78 +307,100 @@
   },
   "components": [
     {
-      "name": "Primary button",
+      "name": "Primary action",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Primary route action.",
-      "html": "<button class=\"ds-button\">Explore the benchmark</button>",
-      "css": ".ds-button{font-family:var(--font-body);font-size:13px;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 21px;border-radius:999px;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent)}.ds-button:focus-visible{outline:2px solid var(--focus);outline-offset:4px}@media(hover:hover){.ds-button:hover{background:color-mix(in srgb,var(--accent) 88%,var(--surface-0))}}@media(prefers-reduced-motion:no-preference){.ds-button{transition:transform 150ms ease-out}.ds-button:active{transform:scale(.96)}}"
+      "description": "Navy capsule route action, 44px minimum target; home actions use 48px.",
+      "html": "<a class=\"ds-primary\" href=\"benchmark.html\">Explore the benchmark</a>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 21px;border:1px solid var(--accent,#142e51);border-radius:var(--radius-control,999px);background:var(--accent,#142e51);color:var(--on-accent,#fff);font:500 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);text-decoration:none}.ds-primary:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-primary:hover{background:color-mix(in srgb,var(--accent,#142e51) 88%,var(--surface-0,#f8f9fc))}}@media(prefers-reduced-motion:no-preference){.ds-primary{transition:transform 150ms ease-out,background-color 150ms cubic-bezier(.2,0,0,1)}.ds-primary:active{transform:scale(.96)}}"
     },
     {
-      "name": "Search input",
+      "name": "Secondary action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Quiet bordered capsule for secondary controls.",
+      "html": "<button class=\"ds-secondary\" type=\"button\">Reset filters</button>",
+      "css": ".ds-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 21px;border:1px solid var(--border,#d7dfeb);border-radius:var(--radius-control,999px);background:var(--surface-1,#fff);color:var(--text-primary,#172c46);font:500 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);cursor:pointer}.ds-secondary:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-secondary:hover{background:var(--surface-2,#edf1f7)}}@media(prefers-reduced-motion:no-preference){.ds-secondary{transition:transform 150ms ease-out,background-color 150ms ease-out}.ds-secondary:active{transform:scale(.96)}}"
+    },
+    {
+      "name": "Search field",
       "kind": "input",
-      "description": "Always visibly labelled.",
-      "html": "<label class=\"ds-field\">Search models<input class=\"ds-input\" type=\"search\" placeholder=\"Model name or provider\"></label>",
-      "css": ".ds-field{font-family:var(--font-body);font-size:12px;color:var(--text-primary);display:grid;gap:6px}.ds-input{font:inherit;min-height:44px;padding:7px 10px;border:1px solid var(--input-border);border-radius:8px;background:var(--surface-1);color:var(--text-primary)}.ds-input:focus-visible{outline:2px solid var(--focus);outline-offset:4px}"
+      "refersTo": "search-input",
+      "description": "Search remains exposed on phones; secondary filters use a native disclosure.",
+      "html": "<label class=\"ds-field\">Search the evaluation<input class=\"ds-input\" type=\"search\" placeholder=\"Model name or provider\"></label>",
+      "css": ".ds-field{display:grid;gap:6px;color:var(--text-primary,#172c46);font:400 12px/1.6 var(--font-body,'DM Sans',system-ui,sans-serif)}.ds-input{font:inherit;min-height:44px;padding:7px 10px;border:1px solid var(--input-border,#83909e);border-radius:8px;background:var(--surface-1,#fff);color:var(--text-primary,#172c46)}.ds-input::placeholder{color:var(--text-muted,#53647a);opacity:1}.ds-input:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}"
     },
     {
-      "name": "Navigation",
+      "name": "Shared navigation",
       "kind": "nav",
-      "description": "Current-page cue stays visible.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a aria-current=\"page\" href=\"#\">Home</a><a href=\"#\">Leaderboard</a></nav>",
-      "css": ".ds-nav{display:flex;gap:27px}.ds-nav a{font-family:var(--font-body);font-size:13px;color:var(--text-primary);padding:8px 0;text-decoration:none}.ds-nav a[aria-current]{font-weight:650;text-decoration:underline;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--focus);outline-offset:4px}"
+      "description": "The same global destinations on all routes, with a visible current-page cue. This is a link specimen; common.js owns the logo, menu and analytical subnavigation.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"index.html#contributions\">Our work</a><a href=\"benchmark.html\" aria-current=\"page\">EMBERBench</a><a href=\"methodology.html\">Methodology</a></nav>",
+      "css": ".ds-nav{display:flex;flex-wrap:wrap;gap:10px 27px;background:var(--surface-0,#f8f9fc)}.ds-nav a{display:inline-flex;align-items:center;min-height:44px;color:var(--text-primary,#172c46);font:450 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);text-decoration:none}.ds-nav a[aria-current]{font-weight:650;text-decoration:underline;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-nav a:hover{text-decoration:underline;text-underline-offset:8px}}"
     },
     {
       "name": "Provider chip",
       "kind": "chip",
-      "description": "Text complements provider color.",
-      "html": "<span class=\"ds-chip\">Provider</span>",
-      "css": ".ds-chip{font-family:var(--font-body);font-size:10px;color:var(--text-primary);display:inline-flex;padding:2px 7px;border-radius:999px;background:var(--surface-2)}"
+      "description": "Locally hosted authentic provider artwork with a visible company name. Observed chart colours and asset provenance live in analytics.js and assets/providers/SOURCES.json.",
+      "html": "<span class=\"provider-chip\"><img class=\"provider-mark\" src=\"assets/providers/typesafe.png\" width=\"20\" height=\"20\" alt=\"\"><span>TypeSafe</span></span>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;background:var(--surface-2,#edf1f7);color:var(--text-primary,#172c46);font:600 10px/1.6 var(--font-body,'DM Sans',system-ui,sans-serif)}"
     },
     {
-      "name": "Result surface",
-      "kind": "card",
-      "description": "One evidence workspace.",
-      "html": "<section class=\"ds-surface\"><h3>Who leads the way?</h3><p>Leading decision models by EMBER Score.</p></section>",
-      "css": ".ds-surface{font-family:var(--font-body);color:var(--text-primary);padding:32px;border-radius:16px;background:var(--surface-1)}.ds-surface h3{font-size:18px;font-weight:500}.ds-surface p{font-size:12px;color:var(--text-muted)}"
-    },
-    {
-      "name": "Anantam logo loader",
+      "name": "Connected evaluation loop",
       "kind": "custom",
-      "description": "One supplied infinity emblem with transparent forward-space trails while actual route data is pending. This static preview shows its wordmark and status; site/loader.css, boot.js and the shared cosmos.js own the artwork and lifecycle.",
-      "html": "<section class=\"ds-loading\" aria-label=\"Loading Anantam\"><h2 class=\"ds-loading-name\">Anantam</h2><p class=\"ds-loading-copy\" role=\"status\">Opening Anantam.</p></section>",
-      "css": ".ds-loading{font-family:var(--font-body);display:grid;justify-items:center;text-align:center;padding:40px 24px;background:var(--loading-ground,var(--surface-0));color:var(--text-primary)}.ds-loading-name{font:500 28px/1.2 var(--font-body);letter-spacing:-.025em;margin:0}.ds-loading-copy{font-size:13px;line-height:1.6;color:var(--text-muted);max-width:32ch;min-height:42px;margin:12px 0 0}"
+      "refersTo": "evaluation-stage-selected",
+      "description": "Methodology-only explanation of the evaluation process, with immediate native step selection and reduced-motion support.",
+      "html": "<section class=\"ds-loop\"><div class=\"ds-loop-path\" role=\"group\" aria-label=\"How evaluation works\"><button type=\"button\" aria-pressed=\"true\">Observe</button><span aria-hidden=\"true\">→</span><button type=\"button\" aria-pressed=\"false\">Decide</button><span aria-hidden=\"true\">→</span><button type=\"button\" aria-pressed=\"false\">Simulate</button><span aria-hidden=\"true\">→</span><button type=\"button\" aria-pressed=\"false\">Verify</button><span aria-hidden=\"true\">→</span><button type=\"button\" aria-pressed=\"false\">Score</button><p>Observe → Decide → Simulate repeats each step</p></div><div class=\"ds-loop-explanation\"><p>The model sees the map, the people and the fire as they are now. Future fire and evaluator seeds stay hidden.</p><span aria-hidden=\"true\">1 / 5</span></div></section>",
+      "css": ".ds-loop{font-family:var(--font-body,\"DM Sans\",system-ui,sans-serif);color:var(--text-primary,#172c46);padding:30px 0 20px}.ds-loop-path{display:grid;grid-template-columns:1fr 26px 1fr 26px 1fr 26px 1fr 26px 1fr;gap:5px 12px;align-items:center}.ds-loop button{min-height:56px;padding:12px 10px;border:0;border-radius:8px;background:transparent;color:var(--text-secondary,#445671);font:500 15px/1.5 var(--font-body,\"DM Sans\",system-ui,sans-serif);cursor:pointer}.ds-loop button[aria-pressed=\"true\"]{background:var(--surface-1,#fff);color:var(--text-primary,#172c46)}.ds-loop button:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}.ds-loop-path>span{color:var(--text-muted,#53647a)}.ds-loop-path>p{grid-column:1/6;grid-row:2;font-size:10px;color:var(--text-muted,#53647a);text-align:center;padding-top:12px}.ds-loop-explanation{display:flex;justify-content:space-between;gap:24px;margin-top:26px}.ds-loop-explanation p{font-size:13px;line-height:1.8;max-width:65ch;min-height:48px;color:var(--text-secondary,#445671);margin:0}.ds-loop-explanation>span{font-size:11px;color:var(--text-muted,#53647a);white-space:nowrap}@media(hover:hover){.ds-loop button:hover{background:var(--surface-1,#fff);color:var(--text-primary,#172c46)}}@media(max-width:700px){.ds-loop-path{grid-template-columns:1fr 22px 1fr 22px 1fr;gap:7px}.ds-loop button{font-size:12px;padding:12px 5px}.ds-loop-path>span:nth-of-type(3){display:none}.ds-loop-path>button:nth-of-type(4){grid-column:1;grid-row:3}.ds-loop-path>span:nth-of-type(4){grid-column:2;grid-row:3}.ds-loop-path>button:nth-of-type(5){grid-column:3;grid-row:3}.ds-loop-path>p{grid-column:1/-1;grid-row:2;text-align:left;font-size:9px}.ds-loop-explanation p{font-size:12px;min-height:80px}}"
+    },
+    {
+      "name": "Recorded people outcomes",
+      "kind": "custom",
+      "refersTo": "result-inspector",
+      "description": "Actual counts from the same generated AI-model snapshot as the selected-row specimen. Production reuses this labelled strip/legend in inspector, profile and comparison; outcomes remain distinct from composite scores.",
+      "html": "<aside class=\"ds-inspector\"><h3>typesafe/jev-1.14</h3><div class=\"ds-people-strip\" role=\"img\" aria-label=\"191 evacuated, 46 avoidable deaths, 4 avoidable stranded, 0 unavoidable losses\"><span class=\"ds-outcome-safe\" style=\"flex-grow:191\"></span><span class=\"ds-outcome-death\" style=\"flex-grow:46\"></span><span class=\"ds-outcome-stranded\" style=\"flex-grow:4\"></span><span class=\"ds-outcome-unavoidable\" style=\"flex-grow:0\"></span></div><dl class=\"ds-people-legend\"><div><dt><i class=\"ds-outcome-safe\"></i>Evacuated</dt><dd>191</dd></div><div><dt><i class=\"ds-outcome-death\"></i>Avoidable deaths</dt><dd>46</dd></div><div><dt><i class=\"ds-outcome-stranded\"></i>Avoidable stranded</dt><dd>4</dd></div></dl><p class=\"ds-outcome-note\">Summed across evaluated worlds. 241 people were individually escapable under the benchmark’s relaxed reference.</p></aside>",
+      "css": ".ds-inspector{padding:22px 24px;background:var(--surface-2,#edf1f7);color:var(--text-primary,#172c46);border-radius:12px;font:400 12px/1.6 var(--font-body,\"DM Sans\",system-ui,sans-serif)}.ds-inspector h3{font-size:20px;font-weight:500;margin:0 0 18px;line-height:1.4;overflow-wrap:anywhere}.ds-people-strip{display:flex;gap:2px;height:12px;overflow:clip;border-radius:3px;margin-bottom:14px}.ds-people-strip>span{flex-basis:0;min-width:0}.ds-people-legend{display:grid;gap:7px;margin:0}.ds-people-legend>div{display:flex;justify-content:space-between;gap:12px}.ds-people-legend dt{display:flex;align-items:center;gap:8px;color:var(--text-secondary,#445671)}.ds-people-legend i{width:6px;height:6px;border-radius:1px}.ds-people-legend dd{margin:0;font-variant-numeric:tabular-nums}.ds-outcome-note{font-size:11px;line-height:1.7;color:var(--text-muted,#53647a);margin:13px 0 0}.ds-outcome-safe{background:var(--outcome-safe,#376f61)}.ds-outcome-death{background:var(--outcome-death,#b75b3f)}.ds-outcome-stranded{background:var(--outcome-stranded,#b18d34)}.ds-outcome-unavoidable{background:var(--outcome-unavoidable,#8a9096)}"
+    },
+    {
+      "name": "Research introduction",
+      "kind": "section",
+      "description": "A static single-column introduction. Instrument Serif title at 56px, DM Sans description at 24px and supporting copy at 18px; phone scale 44/20/16. No result data, right-hand visual or duplicate CTA.",
+      "html": "<section class=\"contributions\" id=\"contributions\" aria-labelledby=\"contributions-title\">\n        <header class=\"contribution-heading\">\n          <h2 id=\"contributions-title\">EMBERBench</h2>\n          <p class=\"contribution-description\">A benchmark for how AI guides people through simulated fire evacuations, where routes can close and queues can form.</p>\n          <p class=\"contribution-detail\">At each step, a model sees the current situation and chooses how people move as the fire spreads. It must respond to blocked paths and congestion without knowing where the fire will spread next.</p>\n          <p class=\"contribution-note\">Models are evaluated in the same frozen environments. Each recorded run is replayed and checked before scoring for safety and execution quality. The published results cover the public development suite.</p>\n        </header>\n      </section>",
+      "css": "body[data-page='company'] .contributions{display:block;max-width:1440px;padding:48px 48px 72px;}\n.contributions .contribution-heading{display:block;max-width:780px;margin:0;}\n.contributions .contribution-heading h2{font-size:3.5rem;line-height:1.1;letter-spacing:-.025em;text-wrap:balance;margin:0 0 24px;}\n.contributions .contribution-heading .contribution-description{font-size:1.5rem;font-weight:400;line-height:1.6;letter-spacing:-.01em;text-wrap:pretty;max-width:54ch;color:var(--text-primary);margin:0;}\n.contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1.125rem;line-height:1.65;text-wrap:pretty;max-width:64ch;color:var(--text-secondary);margin:20px 0 0;}\n@media(max-width:1100px){body[data-page='company'] .contributions{padding-inline:32px;}}\n@media(max-width:700px){\n .hero-shore{height:80px;}\n body[data-page='company'] .contributions{padding:28px 20px 44px;}\n .contributions .contribution-heading h2{font-size:2.75rem;margin-bottom:20px;}\n .contributions .contribution-heading .contribution-description{font-size:1.25rem;}\n .contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1rem;margin-top:16px;}\n}\n"
     }
   ],
   "narrative": {
-    "northStar": "Intelligence, measured.",
-    "overview": "The spacious three-section homepage leads to task-specific evidence tools: a focused leaderboard, juxtaposed comparisons, tabbed model profiles, a challenge navigator, and a continuous methodology guide. The supplied star-filled infinity emblem carries the brand and becomes the single focal pending-data loader across all six routes.",
+    "northStar": "The supplied identity, direct access to research.",
+    "overview": "Navy identity on a light gradient with an asymmetric curved shore. A single-column EMBERBench introduction explains the task and verified evaluation through a proportionate, readable type hierarchy. Results remain full width on their own page and documentation stays local.",
     "keyCharacteristics": [
-      "Navy emblem",
-      "Serif display and practical sans",
-      "Task-specific evidence workspaces",
-      "Native disclosures",
-      "One original-colour infinity emblem during actual pending data"
+      "Light only",
+      "Original navy emblem and local fonts",
+      "Centered mist-blue hero",
+      "Clear research introduction",
+      "Context-preserving analytical navigation"
     ],
     "rules": [
-      {
-        "name": "Evidence before claims",
-        "body": "All numbers come from generated official reports.",
-        "section": "components"
-      },
-      {
-        "name": "Honest branded loading",
-        "body": "Use the supplied emblem, concise status and native motion/recovery controls only while data is pending. Keep one forward-depth loop, respect reduced motion, and replace it immediately on ready or error without a forced delay.",
-        "section": "components"
-      }
+      "Do not restore evacuation-grid or replay UI.",
+      "Keep published results and scientific qualifications unchanged.",
+      "Do not embed comparison tables or comparison selectors on results.",
+      "Keep results full width with open chart sections.",
+      "Documentation links open local complete guides.",
+      "Anantam’s tagline is always Boundless Possibilities. Hero uses pale drifting contours without a darker traveling stroke, on a light mist-blue/porcelain/ivory gradient.",
+      "Results begin with only one compact search and a closed Filters disclosure. Avoid duplicate metric/model controls and chart-navigation rows.",
+      "Do not add a second benchmark CTA or navigation links inside the homepage contribution.",
+      "Methodology has no benchmark sub-navigation or results CTA.",
+      "The hero gradient ends in one broad asymmetric shore. Below it, use a single text-led research introduction with no model scores, charts, stock image, feature list or right-hand column.",
+      "Scenarios follows the Methodology reading layout: vertical index, open article, expandable matrix/catalogue, no dashboard tabs.",
+      "End pages with the shared asymmetric light-gradient company footer, containing supplied branding and real research/resource links.",
+      "Benchmark charts compare the entire filtered cohort. Do not feature a default model, paginate the main desktop ranking or replace cohort charts on selection. Use authentic local provider logos and observed brand colours.",
+      "Persistent chart rules: vertical columns on every screen; each series highest to lowest; missing values last; crowding handled through measured vertical bands and per-chart zoom, never sideways bars or page scrolling. Scientific rank metadata remains unchanged."
     ],
     "dos": [
-      "Keep scope and uncertainty visible.",
-      "Use semantic color roles."
+      "Use root palette tokens.",
+      "Preserve keyboard, touch and reduced-motion behavior."
     ],
     "donts": [
-      "Do not invent metrics or trust logos.",
-      "Do not edit generated results by hand."
+      "Do not add future products or claims.",
+      "Do not introduce decorative AI imagery or a dark theme."
     ]
   }
 }

@@ -1,0 +1,39 @@
+/* Scenarios share Methodology's index-and-article reading layout. */
+.scenario-studio{display:grid;grid-template-columns:190px minmax(0,1fr);gap:58px;align-items:start;margin-top:36px;}
+.challenge-nav{display:flex;flex-direction:column;position:sticky;top:calc(var(--header-offset,100px) + 24px);gap:4px;overflow-x:clip;overflow-y:auto;max-height:calc(100svh - var(--header-offset,100px) - 48px);padding:0 8px 0 0;margin:0;}
+.guide-nav-label{font-size:11px;color:var(--text-muted);margin:0 0 12px;}
+.challenge-nav button{display:block;text-align:left;max-width:none;min-width:0;min-height:44px;padding:11px 0;border:0;border-radius:0;background:transparent;color:var(--text-secondary);font-size:12px;line-height:1.6;flex:none;}
+.challenge-nav button[aria-pressed='true']{background:transparent;color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:5px;}
+.challenge-nav button:focus-visible{outline:2px solid var(--focus);outline-offset:-2px;}
+.scenario-canvas{min-width:0;}
+#scenario-summary{padding:0;margin-bottom:28px;scroll-margin-top:24px;}
+#scenario-summary h2{font-size:31px;font-weight:400;line-height:1.2;}
+#scenario-summary .scenario-description{font-size:14px;line-height:1.8;max-width:72ch;}
+#scenario-summary .scenario-world-facts{font-size:12px;line-height:1.8;}
+#scenario-summary .badge{font-size:11px;background:var(--surface-2);border:0;}
+.scenario-canvas>.panel{padding:0 0 44px;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;}
+.scenario-canvas>.panel h2,.scenario-canvas>.evidence-detail h2{font-family:var(--font-display);font-size:31px;font-weight:400;line-height:1.2;}
+.scenario-canvas>.panel>.section-head{margin:0 0 24px;}
+.scenario-canvas .section-head p,.scenario-canvas .note{font-size:13px;line-height:1.8;max-width:72ch;}
+.scenario-canvas>.evidence-detail{margin:0 0 24px;}
+.scenario-canvas>.evidence-detail>.panel{padding:24px 0 0;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;}
+.scenario-canvas .table-wrap{border:0;border-radius:0;max-width:100%;}
+.scenario-canvas table{font-size:12px;}.scenario-canvas table .model-name{font-size:12px;}
+.scenario-canvas th,.scenario-canvas td{padding:16px 12px;}
+.scenario-filters{margin:20px 0 40px;padding:0;border:0;}
+.scenario-filters>summary{min-height:44px;width:fit-content;font-size:13px;color:var(--text-secondary);padding:10px 0;}
+.scenario-filters .toolbar{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1fr);gap:20px;max-width:640px;padding:16px 0 0;}
+.scenario-filters .field{min-width:0;width:100%;font-size:13px;}.scenario-filters input,.scenario-filters select{width:100%;min-width:0;font-size:14px;min-height:44px;}
+#world-model-result{padding:12px 0 20px;margin-bottom:20px;border-bottom:1px solid var(--border);}
+#world-model-result>div>span{font-size:11px;}
+.scenario-canvas .scenario-introduction{margin-bottom:20px;}
+@media(hover:hover) and (pointer:fine){.challenge-nav button:hover{background:transparent;color:var(--accent);text-decoration:underline;text-underline-offset:5px;}}
+@media(max-width:1100px){.scenario-studio{grid-template-columns:180px minmax(0,1fr);gap:40px;}.scenario-canvas .section-head{flex-wrap:wrap;}}
+@media(max-width:700px){
+ .scenario-studio{display:block;margin-top:25px;}.challenge-nav{display:none;}
+ .scenario-introduction .scenario-phone-choice{display:flex;margin-bottom:28px;font-size:13px;}
+ #scenario-summary .section-head{display:block;}#scenario-summary h2{font-size:28px;}#scenario-summary .badge{margin-top:12px;}
+ .scenario-canvas>.panel h2,.scenario-canvas>.evidence-detail h2{font-size:28px;}.scenario-canvas .note{font-size:12px;}
+ .scenario-filters .toolbar{grid-template-columns:minmax(0,1fr);gap:16px;}.scenario-filters input,.scenario-filters select{font-size:16px;}
+ .scenario-canvas th,.scenario-canvas td{padding:12px 7px;}.scenario-canvas #scenario-ranking .model-name{font-size:12px;}
+}

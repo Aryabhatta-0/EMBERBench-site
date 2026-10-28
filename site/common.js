@@ -1,10 +1,13 @@
+import {siteHeader} from './chrome.js?v=20261028-reading-3';
+import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261028-reading-3';
+import {siteFooter,revealCompanyFooter} from './footer.js?v=20261028-reading-3';
 import {
   provider,
   providerInfo,
   rankOf,
   selectedIds,
   leaderboardOrder,
-} from "./analytics.js";
+} from "./analytics.js?v=20261028-reading-3";
 
 export const esc = (v) =>
   String(v ?? "").replace(
@@ -34,7 +37,7 @@ export const modelLink = (m) =>
   `<a class="model-name" href="model.html?id=${encodeURIComponent(m.id)}">${esc(m.name)}</a>`;
 export const providerChip = (m) => {
   const info = providerInfo(m);
-  return `<span class="provider-chip" style="--provider-color:${info.color}"><span class="provider-mark" aria-hidden="true">${esc(info.mark)}</span><span>${esc(info.name)}</span></span>`;
+  return `<span class="provider-chip" style="--provider-color:${info.color}">${info.logo?`<img class="provider-mark" src="assets/providers/${esc(info.logo)}" width="20" height="20" alt="">`:`<span class="provider-mark" aria-hidden="true">${esc(info.mark)}</span>`}<span>${esc(info.name)}</span></span>`;
 };
 export const kindBadge = (m) =>
   `<span class="badge ${isDecision(m) ? "decision" : "reference"}">${esc(m.kind)}</span>`;
@@ -79,20 +82,11 @@ export async function loadResults() {
     });
   return data;
 }
-function safeStorage(key, value) {
-  try {
-    if (value !== undefined) localStorage.setItem(key, value);
-    else return localStorage.getItem(key);
-  } catch {
-    /* Storage is optional. */
-  }
-  return null;
-}
 export function getSelection(data) {
-  return selectedIds(safeStorage("ember-compare"), data.models);
+  return selectedIds(readComparisonSelection(), data.models);
 }
 export function setSelection(ids) {
-  safeStorage("ember-compare", JSON.stringify([...new Set(ids)].slice(0, 4)));
+  saveComparisonSelection(ids);
 }
 export function selectionBar(data) {
   const ids = getSelection(data);
@@ -146,51 +140,30 @@ export function provenance(data, m = null) {
       ["Trials", m.totals?.trials],
       ["Result digests", m.provenance?.result_digests?.join(", ")],
     );
-  return `<dl class="provenance">${fields.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd><code>${esc(v ?? "—")}</code></dd></div>`).join("")}</dl><p class="note">Generated official report data. Missing fields are shown as —. No evaluation timestamp is recorded in this data snapshot. Scoring and benchmark results are unchanged.</p>`;
+  return `<dl class="provenance">${fields.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd><code>${esc(v ?? "—")}</code></dd></div>`).join("")}</dl><p class="note">Generated public-development report data. Missing fields are shown as —. No evaluation timestamp is recorded in this data snapshot. Scoring and benchmark results are unchanged.</p>`;
 }
 export function shell(data, active) {
   if (active === "model") active = "leaderboard";
-  const pages = [
-    ["overview", "index.html", "Home"],
-    ["leaderboard", "leaderboard.html", "Leaderboard"],
-    ["compare", "compare.html", "Compare"],
-    ["scenarios", "scenarios.html", "Scenarios"],
-    ["methodology", "methodology.html", "Methodology"],
-  ];
-  const main = document.querySelector("main");
-  main.classList.add("container");
-  document.body.insertAdjacentHTML(
-    "afterbegin",
-    `<a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="index.html" class="brand" aria-label="Anantam home"><img class="brand-logo" src="assets/anantam-logo.png" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation">${pages.map(([id, url, label]) => `<a href="${url}" class="${id === active ? "active" : ""}" ${id === active ? 'aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="header-actions"><a class="repo-link" href="${REPO}">GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a><button class="theme-toggle button small" type="button" aria-label="Switch color theme">Dark</button></div></header><div class="status-banner"><span class="status-copy">Public development results</span><a href="methodology.html#public-development">Read the scope</a></div>`,
-  );
-  main.insertAdjacentHTML(
-    "afterend",
-    `<footer class="site-footer container"><div><a href="index.html" class="footer-brand"><img src="assets/anantam-logo.png" width="30" height="30" alt="">Anantam</a><p>Intelligence, measured.</p><p class="muted">Public development results from EMBERBench.</p></div><div><a href="leaderboard.html">Leaderboard</a><a href="scenarios.html">Scenarios</a><a href="methodology.html#provenance">Data provenance</a><a href="${REPO}/blob/main/docs/scoring.md">Scoring specification <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></footer>`,
-  );
-  const themeButton = document.querySelector(".theme-toggle");
-  const applyTheme = (theme) => {
-    document.documentElement.dataset.theme = theme;
-    themeButton.innerHTML = '<svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.4 14A8.5 8.5 0 0 1 10 3.6 8.5 8.5 0 1 0 20.4 14Z"/></svg><svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>';
-    themeButton.setAttribute(
-      "aria-label",
-      `Switch to ${theme === "dark" ? "light" : "dark"} theme`,
-    );
-  };
-  applyTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
-  themeButton.addEventListener("click", () => {
-    document.documentElement.classList.add("theme-changing");
-    const theme =
-      document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-    safeStorage("ember-theme", theme);
-    applyTheme(theme);
-    requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.remove("theme-changing")));
-  });
+  const company = active === 'company';
+  const main = document.querySelector('main');
+  main.classList.add('container');
+  if(!document.querySelector('.site-header'))document.body.insertAdjacentHTML('afterbegin',siteHeader(active));
+  if(document.body.dataset.footer!=='none'&&!document.querySelector('.site-footer'))main.insertAdjacentHTML('afterend',siteFooter());
+  if(['methodology','scenarios','compare','model'].includes(document.body.dataset.page)&&!document.querySelector('.public-evaluation-notice'))main.insertAdjacentHTML('beforebegin','<p class="public-evaluation-notice"><strong>Public development results.</strong> Models may train or tune on these environments. No official hidden-test results are published here. <a href="docs/evaluation-boundary.html">Evaluation scope</a></p>');
+  requestAnimationFrame(revealCompanyFooter);addEventListener('hashchange',revealCompanyFooter);
+  const header=document.querySelector('.site-header');
+  if(header.dataset.bound==='true')return;
+  header.dataset.bound='true';
   const navButton = document.querySelector(".nav-toggle");
-  const updateOffset = () =>
+  const updateOffset = () => {
+    const height = Math.ceil(document.querySelector('.site-header').getBoundingClientRect().height);
     document.documentElement.style.setProperty(
       "--header-offset",
-      `${Math.ceil(document.querySelector(".site-header").getBoundingClientRect().height + 14)}px`,
+      `${height + 14}px`,
     );
+    document.documentElement.style.setProperty('--site-header-height', `${height}px`);
+    if(main.dataset.loading==='pending')document.documentElement.style.setProperty('--loading-start',`${Math.ceil(main.getBoundingClientRect().top+scrollY)}px`);
+  };
   const toggleNav = (expanded) => {
     navButton.setAttribute("aria-expanded", String(expanded));
     document.getElementById("site-nav").classList.toggle("open", expanded);
@@ -274,6 +247,6 @@ export function installTooltip() {
 }
 export function errorPage(error) {
   document.querySelector("main").innerHTML =
-    `<div class="empty"><h1>Results unavailable</h1><p>${esc(error.message)}</p><a href="index.html">Return to overview</a></div>`;
+    `<div class="empty"><h1>Results unavailable</h1><p>The interactive results could not be loaded. Reload to try again, or read the <a href="benchmark.md">published results</a> and <a href="docs.html">documentation</a>.</p><a href="index.html">Return to overview</a></div>`;
 }
 export { provider, providerInfo, rankOf };

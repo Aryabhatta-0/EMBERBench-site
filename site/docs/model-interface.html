@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Model interface | EMBERBench docs — Anantam</title><link rel="stylesheet" href="../style.css?v=20261028-reading-3"><link rel="stylesheet" href="../anantam.css?v=20261028-reading-3"><link rel="stylesheet" href="../docs.css?v=20261028-reading-3"><link rel="stylesheet" href="../footer.css?v=20261028-reading-3"><!-- production:seo --><meta name="description" content="Observations, actions and the decision-model contract."><meta name="robots" content="index, follow, max-image-preview:large"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="referrer" content="strict-origin-when-cross-origin"><meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39;; script-src &#39;self&#39; &#39;sha256-WGBn3E11PmzWFqiQSTbNIVrg37W2vHbDQuEj1Yaiib4=&#39;; style-src &#39;self&#39; &#39;unsafe-inline&#39;; img-src &#39;self&#39; data:; font-src &#39;self&#39;; connect-src &#39;self&#39;; object-src &#39;none&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;; upgrade-insecure-requests"><link rel="canonical" href="https://anantam-labs.vercel.app/docs/model-interface.html"><meta property="og:type" content="website"><meta property="og:site_name" content="Anantam"><meta property="og:title" content="Model interface | EMBERBench docs — Anantam"><meta property="og:description" content="Observations, actions and the decision-model contract."><meta property="og:url" content="https://anantam-labs.vercel.app/docs/model-interface.html"><meta property="og:image" content="https://anantam-labs.vercel.app/assets/anantam-social.248f284c6684.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:alt" content="Anantam — Boundless Possibilities. Introducing EMBERBench."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Model interface | EMBERBench docs — Anantam"><meta name="twitter:description" content="Observations, actions and the decision-model contract."><meta name="twitter:image" content="https://anantam-labs.vercel.app/assets/anantam-social.248f284c6684.jpg"><meta name="twitter:image:alt" content="Anantam — Boundless Possibilities. Introducing EMBERBench."><link rel="icon" type="image/png" sizes="48x48" href="../assets/anantam-favicon.41bee4474433.png"><link rel="apple-touch-icon" sizes="180x180" href="../assets/anantam-touch.fc2b3f8035fa.png"><link rel="describedby" href="../llms.txt" type="text/plain"><link rel="alternate" type="text/markdown" href="https://anantam-labs.vercel.app/docs/source/model-interface.md"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://anantam-labs.vercel.app/#organization","name":"Anantam","alternateName":"Anantam Labs","sameAs":["https://github.com/Aryabhatta-0"],"url":"https://anantam-labs.vercel.app/","description":"Anantam Labs is an independent AI research initiative, not currently a registered company. EMBERBench is its sole published contribution.","slogan":"Boundless Possibilities","logo":{"@type":"ImageObject","url":"https://anantam-labs.vercel.app/assets/anantam-mark.b03ee4d301aa.webp","width":480,"height":480},"contactPoint":{"@type":"ContactPoint","email":"arsathvik48@gmail.com","contactType":"Research, privacy and website enquiries"}},{"@type":"WebSite","@id":"https://anantam-labs.vercel.app/#website","url":"https://anantam-labs.vercel.app/","name":"Anantam","alternateName":"Anantam Labs","description":"Anantam Labs: independent AI research and EMBERBench public-development evidence.","publisher":{"@id":"https://anantam-labs.vercel.app/#organization"}},{"@type":"TechArticle","@id":"https://anantam-labs.vercel.app/docs/model-interface.html#page","url":"https://anantam-labs.vercel.app/docs/model-interface.html","name":"Model interface | EMBERBench docs — Anantam","description":"Observations, actions and the decision-model contract.","inLanguage":"en","isPartOf":{"@id":"https://anantam-labs.vercel.app/#website"},"publisher":{"@id":"https://anantam-labs.vercel.app/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Docs","item":"https://anantam-labs.vercel.app/docs.html"},{"@type":"ListItem","position":2,"name":"Model interface","item":"https://anantam-labs.vercel.app/docs/model-interface.html"}]}]}</script><noscript><style>.site-header .nav-toggle,.privacy-controls,.docs-search{display:none}.site-header .site-nav{display:flex;position:static;flex-wrap:wrap;width:100%;padding:12px 0;min-height:0}.site-header{flex-wrap:wrap}</style></noscript><!-- /production:seo --><!-- production:consent --><link rel="stylesheet" href="../consent.css?v=20261028-reading-3"><script type="module" src="../consent.js?v=20261028-reading-3"></script><!-- /production:consent --></head><body data-page="docs" data-root="../" data-footer="none"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a href="../index.html" class="brand" aria-label="Anantam home"><img class="brand-logo" src="../assets/anantam-mark.b03ee4d301aa.webp" width="38" height="38" alt=""><span>Anantam</span></a><button class="nav-toggle button" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="../index.html#contributions" class="" >Our work</a><a href="../benchmark.html" class="" >EMBERBench</a><a href="../methodology.html" class="" >Methodology</a><a href="../docs.html" class="active" aria-current="page">Docs</a><a href="../about.html" class="" >About</a></nav><div class="header-actions"><a class="repo-link" href="https://github.com/Aryabhatta-0/EMBERBench">GitHub <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></header><main id="main" tabindex="-1"><div class="docs-layout"><aside class="docs-sidebar"><details class="docs-navigation" open><summary>Browse documentation</summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search documentation" autocomplete="off"><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides"><section class="docs-nav-group"><h2>Start here</h2><a href="../docs/quickstart.html" data-doc-id="quickstart" >Overview &amp; setup</a><a href="../docs/cli.html" data-doc-id="cli" >Command line</a><a href="../docs/model-interface.html" data-doc-id="model-interface" aria-current="page">Model interface</a><a href="../docs/site-data.html" data-doc-id="site-data" >Published site data</a></section><section class="docs-nav-group"><h2>The open task</h2><a href="../docs/simulation-contract.html" data-doc-id="simulation-contract" >Simulation contract</a><a href="../docs/scenario-schema.html" data-doc-id="scenario-schema" >Scenario schema</a><a href="../docs/scenario-suite.html" data-doc-id="scenario-suite" >Public scenarios</a><a href="../docs/baselines.html" data-doc-id="baselines" >Reference agents</a><a href="../docs/development-generator.html" data-doc-id="development-generator" >Development generator</a></section><section class="docs-nav-group"><h2>Evaluation & scoring</h2><a href="../docs/scoring.html" data-doc-id="scoring" >EMBER scoring</a><a href="../docs/metrics.html" data-doc-id="metrics" >Episode metrics</a><a href="../docs/crowd-diagnostics.html" data-doc-id="crowd-diagnostics" >Crowd diagnostics</a><a href="../docs/evaluation.html" data-doc-id="evaluation" >Running evaluations</a><a href="../docs/environment-pack.html" data-doc-id="environment-pack" >Frozen environments</a><a href="../docs/statistics.html" data-doc-id="statistics" >Statistical analysis</a><a href="../docs/v1-fairness-spec.html" data-doc-id="v1-fairness-spec" >Fairness contract</a></section><section class="docs-nav-group"><h2>Scope & verification</h2><a href="../docs/evaluation-boundary.html" data-doc-id="evaluation-boundary" >Evaluation boundary</a><a href="../docs/replay-verification.html" data-doc-id="replay-verification" >Replay verification</a><a href="../docs/archived-validation.html" data-doc-id="archived-validation" >Archived validation</a><a href="../docs/versioning.html" data-doc-id="versioning" >Versions &amp; identity</a></section></nav></div></details></aside><div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content"><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="../docs.html">Docs</a><span aria-hidden="true">/</span><span>Model interface</span></nav><p class="docs-scope-note">Public task and development documentation. <a href="evaluation-boundary.html">Official evaluation boundary</a>.</p><article class="docs-article"><h1 id="model-interface">Model interface</h1>
+<p>This document specifies the provider-independent boundary between EMBERBench and
+a decision model. Planners, LLMs, RL agents and future external adapters all run
+through the same boundary:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-text">Observation  -&gt;  {person_id: Action}
+</code></pre>
+<p>The code is in <a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/agent.py"><code>src/emberbench/agent.py</code></a>. The tests
+are in <a href="evaluation-boundary.html"><code>tests/test_agent.py</code></a>.</p>
+<p>The interface adds no runtime dependency, no async API and no network API. It
+does not change the simulator rules, the <code>Observation</code> fields, the evaluation
+manifest, paired seed semantics or the result artifact. No version is bumped.</p>
+<p>Out of scope here: provider integrations (OpenAI, Anthropic, Gemini and others),
+agent frameworks and RL libraries. The reference baseline agents (Issue #10)
+use this interface unchanged; see <a href="baselines.html">baselines.md</a>.</p>
+<h2 id="1-model-visible-input">1. Model-visible input</h2>
+<p>A model receives exactly one value per timestep: an
+<a href="https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/observation.py"><code>Observation</code></a> (observation version 1.0, see
+<a href="v1-fairness-spec.html">v1-fairness-spec.md</a>). It contains:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>step</code></td>
+<td>the current step number, from 0</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td>grid <code>width</code> and <code>height</code>, <code>obstacles</code>, <code>exits</code> (ID and position)</td>
+</tr>
+<tr>
+<td><code>rules</code></td>
+<td>fire model, spread interval and probability, exit flammability, enter-fire policy, conflict resolution, <code>max_steps</code></td>
+</tr>
+<tr>
+<td><code>people</code></td>
+<td>every person: ID, position and status (<code>active</code>, <code>evacuated</code>, <code>casualty</code>)</td>
+</tr>
+<tr>
+<td><code>burning</code></td>
+<td>every burning cell</td>
+</tr>
+<tr>
+<td><code>allowed_actions</code></td>
+<td><code>stay</code>, <code>north</code>, <code>south</code>, <code>east</code>, <code>west</code></td>
+</tr>
+</tbody></table></div>
+<p>The model never receives:</p>
+<ul>
+<li>the <code>Scenario</code>, its ID, description, content hash or development seed,</li>
+<li>the evaluator seed, the <code>EvaluationManifest</code>, an episode entry or index,</li>
+<li>the <code>Simulator</code>, <code>SimState</code>, <code>RunRecord</code> or result artifact,</li>
+<li>RNG state (stream seeds or positions) or future draws,</li>
+<li>the <code>trapped</code> diagnostic, metrics or other evaluator metadata.</li>
+</ul>
+<p>The current state is fully observable and the rules are known. The data above
+is evaluator-private because it either determines the future (seed, RNG state)
+or identifies the episode (scenario ID, hash, index). A model that saw it could
+memorize or predict the stochastic fire instead of reacting to the observed
+state. The <code>trapped</code> diagnostic is a computed answer that the model must find
+itself. Keeping all of it outside the interface keeps paired comparisons fair.</p>
+<h2 id="2-expected-output">2. Expected output</h2>
+<p><code>act</code> returns a mapping from person ID to action:</p>
+<ul>
+<li>exactly one entry for every <strong>active</strong> person (<code>observation.active</code>),</li>
+<li>no entry for an unknown person or for an evacuated or casualty person,</li>
+<li>each value an <code>Action</code> member or its string value (<code>"north"</code>), which is what
+the simulator accepts, and a member of <code>observation.allowed_actions</code>.</li>
+</ul>
+<p>The static types say the same thing:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">ActionValue = Action | str                  # Action.NORTH or "north"
+ActionOutput = Mapping[str, ActionValue]    # person ID -&gt; action value
+</code></pre>
+<p><code>Agent.act</code>, <code>PolicyAgent.act</code>, <code>validate_actions</code> and <code>serialize_actions</code> use
+these types. The static type does not weaken the runtime check: a string that
+is not an action value (<code>"up"</code>, <code>"NORTH"</code>) is still rejected.</p>
+<p>A move that cannot happen (into a wall, out of the grid, into an occupied
+cell) is still a legal action. The simulator resolves it to a <code>blocked_*</code>
+outcome. The interface does not judge the quality of an action.</p>
+<h2 id="3-interface-types">3. Interface types</h2>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">class Agent(Protocol):
+    def act(self, observation: Observation) -&gt; ActionOutput: ...
+
+AgentFactory = Callable[[], Agent]          # called once per episode, no arguments
+</code></pre>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Agent</code></td>
+<td>a decision model for one episode</td>
+</tr>
+<tr>
+<td><code>AgentFactory</code></td>
+<td>builds a new agent; receives no arguments</td>
+</tr>
+<tr>
+<td><code>PolicyAgent(policy)</code></td>
+<td>adapts a stateless <code>Observation -&gt; actions</code> callable to <code>Agent</code></td>
+</tr>
+<tr>
+<td><code>validate_actions(obs, output)</code></td>
+<td>checks model output; returns a new <code>dict[str, Action]</code></td>
+</tr>
+<tr>
+<td><code>agent_policy(agent)</code></td>
+<td>binds one agent to one episode; returns a simulator <code>Policy</code></td>
+</tr>
+<tr>
+<td><code>agent_policy_factory(factory)</code></td>
+<td>a <code>run_evaluation</code> policy factory that builds a new agent per episode</td>
+</tr>
+<tr>
+<td><code>ExecutionMetadata</code>, <code>StepExecution</code>, <code>ReportsExecution</code></td>
+<td>optional accounting (section 7)</td>
+</tr>
+<tr>
+<td><code>serialize_observation</code>, <code>deserialize_observation</code>, <code>observation_from_dict</code></td>
+<td>canonical observation text (section 8)</td>
+</tr>
+<tr>
+<td><code>ACTION_SCHEMA_VERSION</code>, <code>serialize_actions</code>, <code>deserialize_actions</code></td>
+<td>canonical action payload (section 9)</td>
+</tr>
+</tbody></table></div>
+<p>The three adapter shapes map onto these types:</p>
+<ul>
+<li><strong>Synchronous callable policy:</strong> <code>PolicyAgent(greedy_policy)</code>. The callable
+is shared between episodes, so it must be stateless.</li>
+<li><strong>Stateful per-episode agent:</strong> a class with <code>act</code>, built by the factory, for
+example <code>agent_policy_factory(MyPlanner)</code>.</li>
+<li><strong>Future external or remote adapter:</strong> a class with <code>act</code> that sends
+<code>serialize_observation(observation)</code> to the model, parses the reply with
+<code>deserialize_actions(observation, reply)</code> and optionally implements
+<code>last_execution()</code>. Remote calls, retries and timeouts live inside the
+adapter (section 6.1). The core stays synchronous.</li>
+</ul>
+<h2 id="4-episode-lifecycle">4. Episode lifecycle</h2>
+<p><code>run_evaluation(suite, manifest, model_id, agent_policy_factory(factory), path)</code>
+runs this lifecycle for each episode:</p>
+<ol>
+<li><strong>Construct.</strong> <code>factory()</code> is called with no arguments. Construction is the
+reset: an agent starts clean. There is no separate <code>reset</code> method.</li>
+<li><strong>Act.</strong> <code>agent.act(observation)</code> is called once per timestep, in step order
+from step 0, until the episode terminates. Each result is validated before
+the simulator sees it.</li>
+<li><strong>Discard.</strong> After the episode the agent is dropped. It is never used again.</li>
+</ol>
+<p>Rules that make this hold:</p>
+<ul>
+<li>A policy from <code>agent_policy</code> accepts the steps of one episode only. An
+observation with an unexpected step number (a second episode, or a skipped
+step) raises <code>EvaluationError</code>.</li>
+<li><code>agent_policy_factory</code> raises <code>EvaluationError</code> if the factory returns an
+object without a callable <code>act</code>, or <strong>any</strong> agent that it returned for an
+earlier episode (A -&gt; A and A -&gt; B -&gt; A are both rejected). Reuse is detected
+by identity, not equality: the factory keeps a strong reference to every
+agent it returned, so each <code>id()</code> stays unique for its lifetime. Prior agents
+are therefore kept alive until the factory is dropped; correctness comes
+first. Use one <code>agent_policy_factory(...)</code> per evaluation run.</li>
+</ul>
+<h2 id="5-state-isolation">5. State isolation</h2>
+<p>A new agent is built for every episode, so state that an agent keeps cannot
+carry into the next episode. This is the same fresh-policy-per-episode
+guarantee as in <a href="evaluation.html">evaluation.md</a> section 4, and it keeps resume
+correct: an episode gives the same result in a fresh process or after other
+episodes.</p>
+<p>The tests prove:</p>
+<ul>
+<li><code>test_new_stateful_agent_per_episode</code>: one distinct agent per episode, each
+factory call has no arguments, and each agent sees its episode's steps
+exactly once from step 0.</li>
+<li><code>test_reuse_of_any_earlier_agent_is_rejected</code>: A -&gt; A, A -&gt; B -&gt; A and
+A -&gt; B -&gt; C -&gt; B each stop the run at the reused agent, before it sees a step.</li>
+<li><code>test_distinct_agents_are_accepted</code>: A -&gt; B -&gt; C is accepted, and agents that
+compare equal but are distinct objects run normally.</li>
+<li><code>test_resume_builds_agents_only_for_missing_episodes</code>: after an interruption,
+resume builds agents only for the episodes that are not in the artifact, and
+the final artifact is byte-identical to an uninterrupted run.</li>
+<li><code>test_agent_receives_only_the_observation</code>: under a distinctive 64-bit seed,
+every <code>act</code> call has exactly one positional argument of type <code>Observation</code>.
+Every object inside it is a known observation type. Its serialized form holds
+no seed (decimal or hex), manifest hash, suite hash or scenario hash. No
+observation object has a <code>seed</code>, <code>rng_state</code>, <code>trapped</code>, <code>scenario</code> or similar
+attribute.</li>
+<li><code>test_adapters_reproduce_plain_policy_artifacts</code>: the always-stay, greedy and
+stateful counting adapters produce artifacts byte-identical to the plain
+function policies. The interface changes nothing in records or metrics.</li>
+</ul>
+<p>Limit: this is an interface contract for in-process Python code, not a
+sandbox (see <a href="evaluation.html">evaluation.md</a> section 4). An untrusted model must
+run behind an adapter that sends it only the serialized observation.</p>
+<h2 id="6-failure-semantics">6. Failure semantics</h2>
+<p>Every failure is fail-closed. Model output is never repaired, filtered,
+defaulted or retried by the interface.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>missing ID for an active person</td>
+<td><code>ModelOutputError</code></td>
+</tr>
+<tr>
+<td>unknown ID</td>
+<td><code>ModelOutputError</code></td>
+</tr>
+<tr>
+<td>ID of an evacuated or casualty person</td>
+<td><code>ModelOutputError</code></td>
+</tr>
+<tr>
+<td>invalid action value (<code>"up"</code>, <code>None</code>, <code>1</code>, <code>"NORTH"</code>)</td>
+<td><code>ModelOutputError</code></td>
+</tr>
+<tr>
+<td>action not in <code>allowed_actions</code></td>
+<td><code>ModelOutputError</code></td>
+</tr>
+<tr>
+<td>malformed return value (not a mapping, non-string keys)</td>
+<td><code>ModelOutputError</code></td>
+</tr>
+<tr>
+<td>exception raised by the model</td>
+<td>the same exception object, unchanged</td>
+</tr>
+<tr>
+<td>factory returns a non-agent or any earlier agent</td>
+<td><code>EvaluationError</code></td>
+</tr>
+<tr>
+<td>step out of order for a bound agent</td>
+<td><code>EvaluationError</code></td>
+</tr>
+</tbody></table></div>
+<p><code>ModelOutputError</code> is a subclass of <code>InvalidActionError</code>. Its message is
+<code>step &lt;n&gt;: </code> followed by the simulator's own message, and its <code>__cause__</code> is
+the simulator's <code>InvalidActionError</code>. Validation calls the simulator's
+<code>parse_actions</code>, so the interface and the simulator always accept and reject
+the same output (<code>test_invalid_model_output_fails_closed</code> checks both for every
+case).</p>
+<p>Any of these failures stops <code>run_evaluation</code>. The simulator is not stepped
+with the rejected output, and the artifact keeps only the episodes completed
+before the failure. A deterministic model under the same manifest gives the same failure and the
+same artifact bytes on every run. A failed episode is not recorded as a
+result: a model that fails must be fixed and the run resumed.</p>
+<h3 id="61-timeouts">6.1 Timeouts</h3>
+<p>The core has no timeout mechanism. The rule is:</p>
+<ul>
+<li>A provider or remote adapter enforces its own timeout inside <code>act</code>.</li>
+<li>On expiry it raises (for example <code>TimeoutError</code>). The exception propagates
+through <code>Agent.act</code> and <code>run_evaluation</code> unchanged. It is not wrapped,
+retried or converted into an action.</li>
+<li>The simulator is not stepped for that observation.</li>
+<li>The current episode is not committed to the artifact.</li>
+<li>The episodes completed before it stay in the artifact. A later
+<code>run_evaluation</code> call with <code>resume=True</code> runs only the missing episodes, each
+with a new agent.</li>
+</ul>
+<p><code>test_adapter_timeout_propagates_and_the_episode_is_not_committed</code> checks
+each point, and that the resumed artifact is byte-identical to an
+uninterrupted run.</p>
+<h2 id="7-optional-execution-accounting">7. Optional execution accounting</h2>
+<p>Accounting is evaluator-side and optional. Pass an observer:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-python">log: list[StepExecution] = []
+factory = agent_policy_factory(MyAdapter, on_step=log.append)
+</code></pre>
+<p>After each accepted <code>act</code> call the observer receives a <code>StepExecution</code>:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>step</code></td>
+<td>the observation step</td>
+</tr>
+<tr>
+<td><code>latency_seconds</code></td>
+<td>wall-clock time of the <code>act</code> call, measured by the evaluator</td>
+</tr>
+<tr>
+<td><code>reported</code></td>
+<td><code>ExecutionMetadata</code> from the agent, or <code>None</code></td>
+</tr>
+</tbody></table></div>
+<p>An agent may implement <code>last_execution() -&gt; ExecutionMetadata | None</code>
+(<code>ReportsExecution</code>). Every <code>ExecutionMetadata</code> field is optional and <code>None</code>
+means unknown:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>provider</code></td>
+<td>provider label</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>model label</td>
+</tr>
+<tr>
+<td><code>input_tokens</code></td>
+<td>input token count, a non-negative integer</td>
+</tr>
+<tr>
+<td><code>output_tokens</code></td>
+<td>output token count, a non-negative integer</td>
+</tr>
+<tr>
+<td><code>cost</code></td>
+<td>a finite non-negative number; needs <code>cost_currency</code></td>
+</tr>
+<tr>
+<td><code>cost_currency</code></td>
+<td>currency code, for example <code>"USD"</code>; needs <code>cost</code></td>
+</tr>
+</tbody></table></div>
+<p>An adapter must report only what its provider returned. It must not estimate
+token counts or costs. Invalid values raise <code>EvaluationError</code>.</p>
+<p>Accounting never reaches the simulator, the run record, the metrics or the
+result artifact. It is read only when an observer is given, after the actions
+are validated. <code>test_accounting_is_collected_but_never_changes_outcomes</code>
+checks that an artifact with accounting is byte-identical to one without.
+Latency is not deterministic, so it must never be part of a canonical result.</p>
+<h2 id="8-serialized-observation">8. Serialized observation</h2>
+<p><code>serialize_observation(observation)</code> returns the canonical JSON text of
+<code>Observation.to_dict()</code>: sorted keys, no whitespace, ASCII only, no NaN. This is
+the payload for a future external adapter.</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-json">{"allowed_actions":["stay","north","south","east","west"],"burning":[[0,3]],"map":{"exits":[{"id":"E1","position":[0,4]}],"height":1,"obstacles":[],"width":5},"observation_version":"1.0","people":[{"id":"Pa","position":[0,0],"status":"active"}],"rules":{"conflict_resolution":"lowest_id_wins","enter_fire":"casualty","exits_flammable":true,"fire_model":"deterministic","max_steps":100,"spread_interval":1,"spread_probability":null},"step":0}
+</code></pre>
+<p>Order is canonical: people and exits by ID, obstacles and burning cells by
+position (row, then column). The simulator produces observations in this order,
+so equal observations give equal bytes.</p>
+<p><code>deserialize_observation(text)</code> parses the text back. It is strict: exactly the
+declared keys, the current <code>observation_version</code>, correct types, positions
+inside the grid, unique items in canonical order, and text that re-serializes
+to the same bytes. Anything else raises <code>ObservationFormatError</code>.
+<code>observation_from_dict</code> applies the same checks to a parsed object without the
+byte comparison.</p>
+<p>The tests prove that the serialized form:</p>
+<ul>
+<li>round-trips every observation of every public scenario under a greedy policy,</li>
+<li>has exactly the declared key set, with no <code>seed</code>, <code>rng</code>, <code>hash</code>, <code>trapped</code>,
+<code>scenario</code>, <code>description</code>, <code>manifest</code>, <code>episode</code> or <code>index</code> anywhere,</li>
+<li>holds no seed, RNG position, scenario hash or description, even for a
+stochastic scenario with a distinctive seed,</li>
+<li>is identical for two episodes that differ only in seed, scenario ID and
+description,</li>
+<li>does not change when a person is trapped.</li>
+</ul>
+<h2 id="9-action-payload">9. Action payload</h2>
+<p><code>serialize_actions(observation, output)</code> returns the canonical external form of
+one step of model output, for a future external adapter:</p>
+<pre tabindex="0" aria-label="Code example"><code class="language-json">{"action_schema_version":"1.0","actions":{"Pa":"east","Pb":"stay"},"step":3}
+</code></pre>
+<div class="docs-table" tabindex="0" role="region" aria-label="Documentation table"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>action_schema_version</code></td>
+<td><code>ACTION_SCHEMA_VERSION</code>, currently <code>"1.0"</code></td>
+</tr>
+<tr>
+<td><code>step</code></td>
+<td>the step of the observation the actions answer</td>
+</tr>
+<tr>
+<td><code>actions</code></td>
+<td>person ID -&gt; action string, for exactly the active people</td>
+</tr>
+</tbody></table></div>
+<p>The text is canonical JSON: sorted keys (so person IDs are sorted), no
+whitespace, ASCII only. The output is checked with <code>validate_actions</code> before it
+is serialized.</p>
+<p><code>deserialize_actions(observation, text)</code> parses a payload for that observation
+and returns <code>dict[str, Action]</code>. It raises <code>ModelOutputError</code> (message
+<code>step &lt;n&gt;: ...</code>) unless all of these hold:</p>
+<ul>
+<li>the text is valid JSON with exactly the three keys above,</li>
+<li><code>action_schema_version</code> is the supported version string,</li>
+<li><code>step</code> is an integer equal to <code>observation.step</code>,</li>
+<li><code>actions</code> is an object of string actions for exactly the active people,
+each in <code>observation.allowed_actions</code>,</li>
+<li>the text is byte-identical to its canonical form (no extra whitespace, other
+key order, duplicate keys or trailing newline).</li>
+</ul>
+<p>The payload holds no seed, RNG state, scenario data, accounting or other
+evaluator metadata. It is an exchange format only: run records and evaluation
+artifacts are unchanged and do not store it.</p>
+<h2 id="10-versioning">10. Versioning</h2>
+<p>This interface wraps existing contracts and changes none of them.
+<code>SIMULATOR_VERSION</code>, <code>OBSERVATION_VERSION</code>, <code>SCHEMA_VERSION</code>,
+<code>METRICS_VERSION</code>, the evaluation manifest and result versions, and all
+scenario and suite hashes are unchanged (<code>test_no_contract_version_changes</code>).</p>
+<p>The two external formats are versioned independently:</p>
+<ul>
+<li>The serialized observation carries <code>observation_version</code> (<code>"1.0"</code>). A change
+to the observation fields must bump it, and old text is then rejected.</li>
+<li>The action payload carries <code>action_schema_version</code> (<code>ACTION_SCHEMA_VERSION</code>,
+<code>"1.0"</code>). A change to the payload must bump it, and old payloads are then
+rejected.</li>
+</ul>
+</article><nav class="docs-paging" aria-label="Adjacent guides"><a href="cli.html"><span>Previous</span>Command line</a><a href="site-data.html"><span>Next</span>Published site data</a></nav><p class="docs-source-note">Reviewed public benchmark contract. Apache License 2.0. <a href="source/model-interface.md" download>Download Markdown</a></p></div></div><aside class="docs-toc"><details open><summary>On this page</summary><nav aria-label="On this page"><a href="#1-model-visible-input">1. Model-visible input</a><a href="#2-expected-output">2. Expected output</a><a href="#3-interface-types">3. Interface types</a><a href="#4-episode-lifecycle">4. Episode lifecycle</a><a href="#5-state-isolation">5. State isolation</a><a href="#6-failure-semantics">6. Failure semantics</a><a href="#7-optional-execution-accounting">7. Optional execution accounting</a><a href="#8-serialized-observation">8. Serialized observation</a><a href="#9-action-payload">9. Action payload</a><a href="#10-versioning">10. Versioning</a></nav></details></aside></div></main><script type="module" src="../docs.js?v=20261028-reading-3"></script></body></html>

@@ -1,0 +1,20 @@
+/* Anantam | A text-led research introduction framed by the existing gradient shore. */
+.hero-stage{background:radial-gradient(ellipse at 96% 88%,var(--hero-mist),transparent 65%),radial-gradient(ellipse at 3% 86%,var(--hero-pearl),transparent 62%),linear-gradient(180deg,var(--hero-surface),var(--hero-porcelain) 58%,var(--hero-surface));}
+.hero-stage .company-hero{background:transparent;}
+.hero-shore{height:clamp(100px,12vw,180px);pointer-events:none;}
+.hero-shore svg{display:block;width:100%;height:calc(100% + 2px);}
+.hero-shore path{fill:var(--surface-0);}
+
+body[data-page='company'] .contributions{display:block;max-width:1440px;padding:48px 48px 72px;}
+.contributions .contribution-heading{display:block;max-width:780px;margin:0;}
+.contributions .contribution-heading h2{font-size:3.5rem;line-height:1.1;letter-spacing:-.025em;text-wrap:balance;margin:0 0 24px;}
+.contributions .contribution-heading .contribution-description{font-size:1.5rem;font-weight:400;line-height:1.6;letter-spacing:-.01em;text-wrap:pretty;max-width:54ch;color:var(--text-primary);margin:0;}
+.contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1.125rem;line-height:1.65;text-wrap:pretty;max-width:64ch;color:var(--text-secondary);margin:20px 0 0;}
+@media(max-width:1100px){body[data-page='company'] .contributions{padding-inline:32px;}}
+@media(max-width:700px){
+ .hero-shore{height:80px;}
+ body[data-page='company'] .contributions{padding:28px 20px 44px;}
+ .contributions .contribution-heading h2{font-size:2.75rem;margin-bottom:20px;}
+ .contributions .contribution-heading .contribution-description{font-size:1.25rem;}
+ .contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1rem;margin-top:16px;}
+}
