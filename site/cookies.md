@@ -4,7 +4,7 @@ Effective 28 October 2026
 
 Your browser may cache static pages, images and fonts as part of normal website delivery. These cached files are not advertising identifiers.
 
-The Anantam application does not set cookies, use advertising trackers or run visitor analytics. We do not ask you to accept tracking that the site does not use. Hosting security mechanisms, including protections provided by Vercel when needed, are separate from the optional preference described here.
+The Anantam application does not set cookies, use advertising trackers or run visitor analytics. Its first-visit notice asks only whether this device may remember comparison selections. “Accept optional” enables that memory; “Reject optional” leaves it off. Neither choice enables advertising or analytics. Hosting security mechanisms, including protections provided by Vercel when needed, are separate from this preference.
 
 ## Optional comparison memory
 
@@ -14,7 +14,7 @@ Comparison tools work without persistent storage. If you choose to remember your
 
 ## Manage your choice
 
-Use the controls on this page to save your preference or clear this site's stored settings. Turning memory off removes saved comparison selections. Clearing data also removes the legacy `ember-theme` preference; the website has only a light theme. These controls do not clear other websites' data, your browser history or server-side hosting logs.
+Use the first-visit notice or the controls on this page to save your preference or clear this site's stored settings. Open **About → Cookies & preferences** to change your choice later. Turning memory off removes saved comparison selections. Clearing data also removes the legacy `ember-theme` preference; the website has only a light theme. These controls do not clear other websites' data, your browser history or server-side hosting logs.
 
 If your browser blocks storage, comparisons remain usable during the current visit. You can also use your browser's site-data settings to inspect or remove stored information. Local storage normally remains until you remove it or the browser clears it; no automatic expiry is promised.
 

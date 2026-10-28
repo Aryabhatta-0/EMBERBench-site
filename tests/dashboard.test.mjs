@@ -11,7 +11,7 @@ const browser=await chromium.launch();const page=await browser.newPage();const c
 const check=(name,v)=>{assert.ok(v,name);checks.push(name);};
 const axe=await readFile(require.resolve('axe-core/axe.min.js'),'utf8');
 page.on('pageerror',e=>errors.push(e.message));
-const go=async route=>{await page.goto(new URL(route,base).href);await page.locator('.site-footer').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));await page.evaluate(()=>document.fonts.ready);};
+const go=async route=>{await page.goto(new URL(route,base).href);await page.locator('.site-header').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));await page.evaluate(()=>document.fonts.ready);};
 const audit=async label=>{await page.evaluate(axe);audits.push({label,violations:await page.evaluate(async()=>(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})).violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})))});};
 const models=leaderboardOrder(data.models.filter(m=>m.kind==='Decision model'));
 const openFilters=async()=>{if(!(await page.locator('.results-options').getAttribute('open')!==null))await page.locator('.results-options>summary').click();};

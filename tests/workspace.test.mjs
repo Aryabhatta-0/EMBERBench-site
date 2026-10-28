@@ -14,7 +14,7 @@ const page = await browser.newPage({viewport:{width:1440,height:1000}});
 const checks = [], errors = [], audits = [];
 page.on('pageerror',e => errors.push(e.message));
 const check = (name, condition) => {assert.ok(condition,name); checks.push(name);};
-const go = async route => {await page.goto(new URL(route,base).href); await page.locator('.site-footer').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]')); await page.evaluate(()=>document.fonts.ready);};
+const go = async route => {await page.goto(new URL(route,base).href); await page.locator('.site-header').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]')); await page.evaluate(()=>document.fonts.ready);};
 const audit = async name => {
   await page.evaluate(axe);
   const violations = await page.evaluate(async()=> (await window.axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})).violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})));
@@ -38,7 +38,7 @@ try {
   await openFilters();await page.locator('#metric').selectOption('cost');
   check('API view plots cost',await page.locator('#metric').inputValue()==='cost'&&await page.locator('#rank-plot-title').textContent()==='API cost');
   check('API view retains people and safety charts',await page.locator('.scatter-panel,.outcome-panel').count()===2);
-  await page.reload(); await page.locator('.site-footer').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));
+  await page.reload(); await page.locator('.site-header').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));
   check('Measurement lens survives reload',await page.locator('#metric').inputValue()==='cost');
   check('All eleven measured metrics remain available to plot',await page.locator('#metric option').count()===11);
   await openFilters();await page.locator('#metric').selectOption('safety');
@@ -106,14 +106,14 @@ try {
     const gate = new Promise(r=>release=r);
     await loading.route('**/data/results.js',async request=>{await gate; await request.continue();});
     await loading.goto(new URL(route,base).href,{waitUntil:'domcontentloaded'});
-    if(['leaderboard','scenarios','methodology'].includes(name)){
+    if(name==='scenarios'){
       check(`${name}: pending data retains readable research content`,await loading.locator('[data-static-results],[data-static-reading]').isVisible());
       check('Readable results do not mark the entire page busy',await loading.locator('main').getAttribute('aria-busy')===null);
     }else{
       check(`${name}: emblem loader visible while real data is pending`,await loading.locator('.loading-shell').isVisible());
       check(`${name}: loading marks content busy`,await loading.locator('main').getAttribute('aria-busy')==='true');
     }
-    release(); await loading.locator('.site-footer').waitFor();await loading.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));
+    release(); await loading.locator('.site-header').waitFor();await loading.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));
     check(`${name}: emblem loader removed when content resolves`,await loading.locator('.loading-shell').count() === 0);
     check(`${name}: loading clears busy state`,await loading.locator('main').getAttribute('aria-busy') === null);
     await pending.close();

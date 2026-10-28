@@ -1,4 +1,4 @@
-import { editorHeader, workspaceTabs, disclosure } from "./workspace.js?v=20261028-production-1";
+import { editorHeader, workspaceTabs, disclosure } from "./workspace.js?v=20261028-navigation-2";
 import {comparisonReadout} from './evidence-readout.js';
 import {
   loadResults,
@@ -22,13 +22,13 @@ import {
   scenarioName,
   errorPage,
   isDecision,
-} from "./common.js?v=20261028-production-1";
+} from "./common.js?v=20261028-navigation-2";
 import {
   selectedIds,
   pairedDifferences,
   leaderboardOrder,
   finite,
-} from "./analytics.js?v=20261028-production-1";
+} from "./analytics.js?v=20261028-navigation-2";
 import { componentChart, heatmap, differenceChart } from "./charts.js";
 
 const fields = [

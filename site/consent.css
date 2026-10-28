@@ -1,0 +1,16 @@
+/* Hallmark v2.0.0 | component: consent notice | theme: locked Anantam | genre: editorial */
+/* Critique: one honest, equally actionable choice; no overlay or competing panels. */
+.cookie-notice{position:fixed;inset:auto max(24px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) auto;z-index:60;width:min(520px,calc(100% - 48px));padding:24px;background:var(--surface-1);color:var(--text-primary);border:1px solid var(--border);border-radius:var(--radius-surface);box-shadow:var(--shadow);}
+.cookie-notice h2{margin:0 0 8px;font-family:var(--font-body);font-size:18px;line-height:1.4;text-wrap:balance;}
+.cookie-notice p{margin:0;color:var(--text-secondary);font-size:14px;line-height:1.6;}
+.cookie-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:16px;}
+.cookie-actions .button{min-height:44px;padding:12px 16px;font-size:14px;background:var(--surface-1);color:var(--text-primary);border-color:var(--input-border);}
+.cookie-actions a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;color:var(--link);text-underline-offset:3px;}
+.cookie-actions .button:hover{background:var(--surface-2);}
+.cookie-actions .button:active{background:var(--accent-soft);}
+.cookie-actions :focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
+.cookie-notice .cookie-status{margin-top:12px;}
+@media(prefers-reduced-motion:no-preference){.cookie-notice{animation:cookie-enter 180ms var(--ease-out);}@keyframes cookie-enter{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}}
+@media(max-width:600px){.cookie-notice{inset:auto 16px max(16px,env(safe-area-inset-bottom));width:auto;padding:20px;}.cookie-actions{gap:8px 12px;}.cookie-actions .button{flex:1;padding-inline:8px;font-size:13px;}.cookie-actions a{flex-basis:100%;}}
+@media print{.cookie-notice{display:none;}}
+@media(max-height:480px){.cookie-notice{padding:12px 16px;}.cookie-notice h2{font-size:16px;margin-bottom:4px;}.cookie-notice p{font-size:13px;line-height:1.4;}.cookie-actions{margin-top:8px;gap:8px 12px;}.cookie-actions a{flex-basis:auto;}}

@@ -25,8 +25,11 @@ for(const file of files){
  assert.equal((head.match(/name="robots"/g)||[]).length,1,`Missing/duplicate robots: ${file}`);
  assert.equal((html.match(/<h1\b/g)||[]).length,1,`Main heading: ${file}`);
  assert.equal((html.match(/class="site-header"/g)||[]).length,1,`Shared navigation: ${file}`);
- assert.equal((html.match(/class="site-footer company-footer"/g)||[]).length,1,`Shared footer: ${file}`);
- for(const name of ['privacy','terms','cookies','accessibility'])assert(html.includes(`/${name}.html`)||html.includes(`"${name}.html"`),`Missing policy link ${name} in ${file}`);
+ const noFooter=file.startsWith('docs/')||['docs.html','methodology.html','about.html','contact.html','privacy.html','terms.html','cookies.html','accessibility.html'].includes(file);
+ assert.equal((html.match(/class="site-footer company-footer"/g)||[]).length,noFooter?0:1,`Footer scope: ${file}`);
+ assert(html.includes('consent.js?')&&html.includes('consent.css?'),`Consent entry point: ${file}`);
+ assert(html.includes('about.html'),`About navigation: ${file}`);
+ if(!noFooter)for(const name of ['privacy','terms','cookies','accessibility'])assert(html.includes(`/${name}.html`)||html.includes(`"${name}.html"`),`Missing policy link ${name} in ${file}`);
  const canonical=head.match(/rel="canonical" href="([^"]+)"/)?.[1];
  if(file!=='404.html')assert(canonical?.startsWith(origin+'/'),`Wrong canonical: ${file}`);
  const noindex=/name="robots" content="noindex/.test(head);if(!noindex)indexable.add(canonical);
@@ -49,7 +52,7 @@ const raw=await read('data/results.js'),source=JSON.parse(raw.replace(/^\/\/[^\n
 assert.equal(data.source.sha256,createHash('sha256').update(raw.replace(/\r\n/g,'\n')).digest('hex'));
 assert.equal(data.models.length,source.models.length);assert(data.scope.includes('not official hidden-test'));
 for(const m of data.models){const original=source.models.find(x=>x.id===m.id);assert(original);assert.equal(m.ember_score,original.score);assert.equal(m.published_rank,original.rank);assert.equal(m.safety,original.safety);assert.equal(m.execution_quality,original.quality);assert.deepEqual(m.confidence_interval,original.ci);}
-const benchmark=await read('benchmark.html');assert(benchmark.includes('data-static-results')&&!benchmark.includes('loading-shell'),'Benchmark must be readable before JavaScript');
+const benchmark=await read('benchmark.html');assert(benchmark.includes('data-static-results')&&benchmark.includes('data-page-loader'),'Benchmark keeps static results and a progressive emblem loader');
 for(const m of data.models.filter(x=>x.kind==='Decision model'))assert(benchmark.includes(m.ember_score.toFixed(2)),`Missing initial score: ${m.id}`);
 for(const path of ['index.md','benchmark.md','docs.md','llms.txt','privacy.html','terms.html','cookies.html','about.html','contact.html'])assert((await read(path)).length>500,`Empty discovery/policy page: ${path}`);
 const llms=await read('llms.txt');assert(llms.includes('one trial')&&llms.includes('not an inference API')&&llms.includes('sole published contribution'));

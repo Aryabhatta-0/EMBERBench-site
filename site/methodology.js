@@ -1,6 +1,6 @@
-import { redesignMethodology } from "./workspace.js?v=20261028-production-1";
+import { redesignMethodology } from "./workspace.js?v=20261028-navigation-2";
 import {mountEvaluationLoop} from './evaluation-loop.js';
-import { loadResults, shell, esc, fmt } from "./common.js?v=20261028-production-1";
+import { loadResults, shell, esc, fmt } from "./common.js?v=20261028-navigation-2";
 
 // The site, its data and the data builder live in their own repository.
 const SITE_REPO = "https://github.com/Aryabhatta-0/EMBERBench-site/blob/main/";
@@ -165,6 +165,10 @@ async function render() {
 
 render().catch(() => {
   const main = document.querySelector("#main");
+  if(main?.querySelector('[data-static-reading]')){
+    main.querySelector('[data-page-loader]')?.remove();main.removeAttribute('data-loading');
+    return;
+  }
   if (main)
     main.innerHTML =
       '<section class="panel empty"><h1>Methodology data unavailable</h1><p>The generated evaluation data could not be loaded. Reload the page or open the <a href="docs/scoring.html">scoring definition</a>.</p></section>';

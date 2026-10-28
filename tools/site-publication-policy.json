@@ -79,6 +79,8 @@
     "common.js",
     "compare.html",
     "compare.js",
+    "consent.css",
+    "consent.js",
     "contact.html",
     "contact.md",
     "contribution.css",

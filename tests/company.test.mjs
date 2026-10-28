@@ -9,7 +9,7 @@ const axe=await readFile(require.resolve('axe-core/axe.min.js'),'utf8');
 const browser=await chromium.launch();const checks=[],audits=[],errors=[];
 const check=(name,ok)=>{assert.ok(ok,name);checks.push(name);};
 const audit=async(page,label)=>{await page.evaluate(axe);audits.push({label,violations:await page.evaluate(async()=>(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})).violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})))});};
-const go=async(page,route='')=>{await page.goto(new URL(route,base).href);await page.locator('.site-footer').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));await page.evaluate(()=>document.fonts.ready);};
+const go=async(page,route='')=>{await page.goto(new URL(route,base).href);await page.locator('.site-header').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));await page.evaluate(()=>document.fonts.ready);};
 try{
  const page=await browser.newPage({viewport:{width:1440,height:1000},colorScheme:'dark'});page.on('pageerror',e=>errors.push(e.message));
  const resultRequests=[];page.on('request',request=>{if(/\/data\/results\.js(?:\?|$)/.test(request.url()))resultRequests.push(request.url());});

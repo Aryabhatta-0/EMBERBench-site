@@ -1,6 +1,7 @@
 // Optional device memory is disabled until the visitor saves an explicit choice.
 const choiceKey='anantam-preferences',selectionKey='ember-compare';
 let visitSelection=[];
+export function storageChoice(){try{const choice=localStorage.getItem(choiceKey);return ['remember-comparisons','off'].includes(choice)?choice:null;}catch{return null;}}
 export function remembersComparisons(){try{return localStorage.getItem(choiceKey)==='remember-comparisons';}catch{return false;}}
 export function readComparisonSelection(){
  if(!remembersComparisons())return visitSelection;
@@ -15,10 +16,11 @@ export function saveStorageChoice(remember){
   localStorage.setItem(choiceKey,remember?'remember-comparisons':'off');
   if(remember&&visitSelection.length)localStorage.setItem(selectionKey,JSON.stringify(visitSelection));
   if(!remember)localStorage.removeItem(selectionKey);
+  window.dispatchEvent(new Event('anantam:preferenceschange'));
   return true;
  }catch{return false;}
 }
 export function clearWebsiteStorage(){
  visitSelection=[];
- try{for(const key of [choiceKey,selectionKey,'ember-theme'])localStorage.removeItem(key);return true;}catch{return false;}
+ try{for(const key of [choiceKey,selectionKey,'ember-theme'])localStorage.removeItem(key);window.dispatchEvent(new Event('anantam:preferenceschange'));return true;}catch{return false;}
 }

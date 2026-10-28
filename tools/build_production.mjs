@@ -9,7 +9,7 @@ import {siteHeader} from '../site/chrome.js';
 import {siteFooter} from '../site/footer.js';
 import {docs,retired} from './docs-policy.mjs';
 import {publicResults,publicScenarioNames} from './public_results.mjs';
-const root=resolve('site'),origin='https://anantam-labs.vercel.app',version='20261028-production-1';
+const root=resolve('site'),origin='https://anantam-labs.vercel.app',version='20261028-navigation-2';
 const assets=JSON.parse(await readFile('tools/asset-map.json','utf8'));
 const artwork=html=>html.replaceAll('assets/anantam-logo.png',assets.mark).replace(/assets\/anantam-mark\.[a-f0-9]+\.webp/g,assets.mark);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -41,13 +41,14 @@ for(const [id,[title,description,source]] of Object.entries(company)){
  const html=`<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><link rel="stylesheet" href="style.css?v=${version}"><link rel="stylesheet" href="anantam.css?v=${version}"><link rel="stylesheet" href="footer.css?v=${version}"><link rel="stylesheet" href="legal.css?v=${version}"></head><body data-page="legal"><main id="main" tabindex="-1"><div class="legal-layout">${nav(id)}<article class="legal-article">${body}</article></div></main><script type="module" src="legal.js?v=${version}"></script></body></html>\n`;
  await writeFile(resolve(root,id+'.html'),html);await writeFile(resolve(root,id+'.md'),markdown);pages[id+'.html']=[title,description];
 }
-// A non-JavaScript benchmark is useful to readers and agents, not a brand loader.
+// A logo while interactive data is pending; real HTML remains the no-JS fallback.
+const logoLoader=label=>`<section class="loading-shell page-loader" data-page-loader aria-label="${label}"><div class="loading-center"><div class="cosmos-emblem loading-emblem"><img src="${assets.mark}" width="480" height="480" alt="Anantam’s infinity emblem" fetchpriority="high"><canvas class="cosmos-sky" aria-hidden="true" hidden></canvas></div><p class="sr-only" role="status">${label}</p></div></section>`;
 const decisions=publicResults.models.filter(m=>m.kind==='Decision model').sort((a,b)=>b.ember_score-a.ember_score);
 const references=publicResults.models.filter(m=>m.kind==='Reference agent').sort((a,b)=>b.ember_score-a.ember_score);
 const list=models=>`<ol class="static-models">${models.map(m=>`<li><a href="model.html?id=${encodeURIComponent(m.id)}">${esc(m.name)}</a> <strong>${m.ember_score.toFixed(2)}</strong></li>`).join('')}</ol>`;
 const staticResults=`<section data-static-results><header class="benchmark-heading"><div><h1>EMBERBench</h1><p>Can AI guide people to safety as a fire spreads?</p></div></header><p class="static-results-copy"><strong>Public development results.</strong> 19 worlds, 19 decision models and 8 reference agents; one trial per model. Models may train or tune here. Scores are reproducible, but not contamination-resistant. No official hidden-test results or submission service are published here.</p><h2>Decision models</h2><p class="static-results-copy">EMBER points out of 100, highest to lowest. EMBER combines safety and execution quality; it is not a survival percentage.</p>${list(decisions)}<details><summary>Reference agents</summary>${list(references)}</details><p class="static-results-copy" data-static-status>Interactive charts and filters become available when JavaScript and the results file load. You can read these results without them. <a href="data/leaderboard.json">Download public results as JSON</a> or read the <a href="methodology.html">methodology</a>.</p></section>`;
 for(const file of ['benchmark.html','leaderboard.html']){
- let html=await readFile(resolve(root,file),'utf8');html=html.replace(/<main\b[^>]*>[\s\S]*?<\/main>/,`<main id="main" tabindex="-1">${staticResults}</main>`);
+ let html=await readFile(resolve(root,file),'utf8');html=html.replace(/<main\b[^>]*>[\s\S]*?<\/main>/,`<main id="main" tabindex="-1">${logoLoader('Loading EMBERBench')}${staticResults}</main>`);
  if(!html.includes('legal.css?'))html=html.replace('</head>',`<link rel="stylesheet" href="legal.css?v=${version}"></head>`);
  html=html.replace(/<noscript[\s\S]*?<\/noscript>/g,'');await writeFile(resolve(root,file),html.replace(/[ \t]+$/gm,''));
 }
@@ -57,7 +58,7 @@ const readingFallbacks={
  'scenarios.html':`<h1>EMBERBench public scenarios</h1><p>Public evacuation challenges test decision models under changing routes, fire threats and congestion. These are public-development environments that models may train or tune on, not a hidden-test certification suite or a source of emergency advice.</p><h2>The challenges</h2><ul>${publicScenarioNames.map(name=>`<li><a href="scenarios.html?scenario=${encodeURIComponent(name)}">${esc(name.replace(/^v1-pub-\d+-/,'').replaceAll('-',' '))}</a></li>`).join('')}</ul><p>Recorded environments support matched comparisons. The published snapshot contains one trial per model and does not establish real-world safety or a statistically significant winner. Scenario-specific scores are descriptive evidence within that snapshot.</p><p>Read the <a href="docs/scenario-suite.html">public scenario definitions</a>, <a href="docs/scenario-schema.html">scenario schema</a> and <a href="docs/evaluation-boundary.html">evaluation scope</a>. Interactive scenario evidence becomes available when JavaScript and the result data load.</p>`,
 };
 for(const [file,body] of Object.entries(readingFallbacks)){
- let html=await readFile(resolve(root,file),'utf8');html=html.replace(/<main\b[^>]*>[\s\S]*?<\/main>/,`<main id="main" tabindex="-1"><article class="static-reading" data-static-reading>${body}</article></main>`);
+ let html=await readFile(resolve(root,file),'utf8');html=html.replace(/<main\b[^>]*>[\s\S]*?<\/main>/,`<main id="main" tabindex="-1">${file==='methodology.html'?logoLoader('Loading methodology'):''}<article class="static-reading" data-static-reading>${body}</article></main>`);
  if(!html.includes('legal.css?'))html=html.replace('</head>',`<link rel="stylesheet" href="legal.css?v=${version}"></head>`);
  await writeFile(resolve(root,file),html.replace(/[ \t]+$/gm,''));
 }
@@ -82,6 +83,7 @@ for(const file of allHtml){
  let html=(await readFile(resolve(root,file),'utf8')).replace(/\r\n/g,'\n'),prefix=file.startsWith('docs/')?'../':file==='404.html'?'/':'';
  html=html.replace(/<!-- production:seo -->[\s\S]*?<!-- \/production:seo -->/g,'').replace(/<!-- production:chrome -->[\s\S]*?<!-- \/production:chrome -->/g,'').replace(/<!-- production:footer -->[\s\S]*?<!-- \/production:footer -->/g,'');
  html=html.replace(/<footer\b[^>]*class="[^"]*company-footer[^"]*"[\s\S]*?<\/footer>/g,'');
+ if(file==='404.html')html=html.replace('<body data-page="legal">','<body data-page="legal" data-root="/">');
  html=html.replace(/(?:\.\.\/|\/EMBERBench-site\/)?assets\/anantam-logo\.png/g,m=>m.replace('assets/anantam-logo.png',assets.mark));
  html=html.replace(/<link\b[^>]*rel="(?:canonical|icon|apple-touch-icon)"[^>]*>/g,'').replace(/<meta\b[^>]*(?:name="(?:description|robots|color-scheme|theme-color|referrer|twitter:[^"]+)"|property="og:[^"]+")[^>]*>/g,'').replace(/<meta\b[^>]*http-equiv="Content-Security-Policy"[^>]*>/g,'');
  const isDoc=file.startsWith('docs/'),id=isDoc?file.slice(5,-5):file.slice(0,-5),doc=isDoc?docs.find(d=>d.id===id):null;
@@ -103,11 +105,16 @@ for(const file of allHtml){
  const seo=`<!-- production:seo --><meta name="description" content="${esc(info[1])}"><meta name="robots" content="${noindex?'noindex, follow':'index, follow, max-image-preview:large'}"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="referrer" content="strict-origin-when-cross-origin"><meta http-equiv="Content-Security-Policy" content="${esc(csp)}">${canonical?`<link rel="canonical" href="${canonical}">`:''}<meta property="og:type" content="website"><meta property="og:site_name" content="Anantam"><meta property="og:title" content="${esc(info[0])}"><meta property="og:description" content="${esc(info[1])}"><meta property="og:url" content="${canonical||origin+'/404.html'}"><meta property="og:image" content="${origin}/${assets.social}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:alt" content="Anantam — Boundless Possibilities. Introducing EMBERBench."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(info[0])}"><meta name="twitter:description" content="${esc(info[1])}"><meta name="twitter:image" content="${origin}/${assets.social}"><meta name="twitter:image:alt" content="Anantam — Boundless Possibilities. Introducing EMBERBench."><link rel="icon" type="image/png" sizes="48x48" href="${prefix}${assets.favicon}"><link rel="apple-touch-icon" sizes="180x180" href="${prefix}${assets.touch}"><link rel="describedby" href="${prefix}llms.txt" type="text/plain">${md?`<link rel="alternate" type="text/markdown" href="${origin}/${md}">`:''}${file==='benchmark.html'?'<link rel="alternate" type="application/json" href="data/leaderboard.json" title="Public-development result data">':''}<script type="application/ld+json">${json}</script><noscript><style>.site-header .nav-toggle,.privacy-controls,.docs-search{display:none}.site-header .site-nav{display:flex;position:static;flex-wrap:wrap;width:100%;padding:12px 0;min-height:0}.site-header{flex-wrap:wrap}</style></noscript><!-- /production:seo -->`;
  html=html.replace('</head>',seo+'</head>');
  if(!isDoc&&file!=='docs.html'){
-  const active=({index:'company',benchmark:'leaderboard',leaderboard:'leaderboard',model:'leaderboard'})[id]||(['methodology','scenarios','compare','model'].includes(id)?id:'legal');
+  const active=({index:'company',benchmark:'leaderboard',leaderboard:'leaderboard',model:'leaderboard',about:'about'})[id]||(['methodology','scenarios','compare','model'].includes(id)?id:'legal');
   html=html.replace('<main id="main" tabindex="-1">','<main id="main" tabindex="-1" class="container">');
   html=html.replace(/(<body\b[^>]*>)/,`$1<!-- production:chrome -->${artwork(siteHeader(active,prefix))}<!-- /production:chrome -->`);
  }
- html=html.replace(/<\/main>/,`</main><!-- production:footer -->${artwork(siteFooter(prefix,{documentation:isDoc||file==='docs.html'}))}<!-- /production:footer -->`);
+ const noFooter=isDoc||file==='docs.html'||file==='methodology.html'||Boolean(company[id]);
+ html=html.replace(/\sdata-footer="none"/g,'');
+ if(noFooter)html=html.replace(/(<body\b[^>]*)(>)/,'$1 data-footer="none"$2');
+ else html=html.replace(/<\/main>/,`</main><!-- production:footer -->${artwork(siteFooter(prefix))}<!-- /production:footer -->`);
+ html=html.replace(/<!-- production:consent -->[\s\S]*?<!-- \/production:consent -->/g,'');
+ html=html.replace('</head>',`<!-- production:consent --><link rel="stylesheet" href="${prefix}consent.css?v=${version}"><script type="module" src="${prefix}consent.js?v=${version}"></script><!-- /production:consent --></head>`);
  if(!html.includes('<noscript'))html=html.replace('</body>','<noscript><p>Interactive tools need JavaScript. Read the <a href="docs.html">documentation</a>.</p></noscript></body>');
  // Fresh cache keys for changed shared chrome and assets.
  html=html.replace(/\n(?:[ \t]*\n){2,}/g,'\n\n');
@@ -149,7 +156,7 @@ for(const entry of manifest.documents)entry.htmlSha256=hash(await readFile(resol
 for(const entry of manifest.retiredPages)entry.sha256=hash(await readFile(resolve(root,'docs',entry.id+'.html'),'utf8'));
 manifest.indexSha256=hash(await readFile(resolve(root,'docs.html'),'utf8'));await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');
 const policy=JSON.parse(await readFile('tools/site-publication-policy.json','utf8'));
-const additions=[...Object.keys(company).flatMap(id=>[id+'.html',id+'.md']),'index.md','benchmark.md','methodology.md','scenarios.md','docs.md','404.md','llms.txt','.well-known/security.txt','data/leaderboard.json','chrome.js','preferences.js','legal.js','legal.css',indexnow.key+'.txt',...Object.values(assets).filter(v=>typeof v==='string'),...Object.values(assets.fonts)];
+const additions=[...Object.keys(company).flatMap(id=>[id+'.html',id+'.md']),'index.md','benchmark.md','methodology.md','scenarios.md','docs.md','404.md','llms.txt','.well-known/security.txt','data/leaderboard.json','chrome.js','preferences.js','legal.js','legal.css','consent.js','consent.css',indexnow.key+'.txt',...Object.values(assets).filter(v=>typeof v==='string'),...Object.values(assets.fonts)];
 policy.rootHtml=[...new Set([...policy.rootHtml,...Object.keys(company).map(id=>id+'.html')])].sort();
 policy.jsonPaths=[...new Set([...policy.jsonPaths,'data/leaderboard.json'])].sort();
 policy.staticFiles=[...new Set([...policy.staticFiles,...additions])].sort();await writeFile('tools/site-publication-policy.json',JSON.stringify(policy,null,2)+'\n');

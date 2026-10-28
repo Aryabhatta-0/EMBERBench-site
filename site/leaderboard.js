@@ -9,14 +9,14 @@ import {
   provider,
   providerInfo,
   errorPage,
-} from "./common.js?v=20261028-production-1";
+} from "./common.js?v=20261028-navigation-2";
 import {
   METRICS,
   filterModels,
   sortModels,
   finite,
-} from "./analytics.js?v=20261028-production-1";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261028-production-1';
+} from "./analytics.js?v=20261028-navigation-2";
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261028-navigation-2';
 
 const columns = [
   ["score", "EMBER"],
@@ -142,6 +142,8 @@ async function main() {
   if(params.get("direction")&&params.get("direction")!=="desc")update();else render();
 }
 main().catch(error=>{
+  document.querySelector('[data-page-loader]')?.remove();
+  document.querySelector('main')?.removeAttribute('data-loading');
   const summary=document.querySelector('[data-static-results]');
   if(!summary){errorPage(error);return;}
   const status=summary.querySelector('[data-static-status]');

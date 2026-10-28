@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/site.test.mjs",
-    "test:browser": "node tests/company.test.mjs && node tests/dashboard.test.mjs && node tests/browser.mjs && node tests/workspace.test.mjs && node tests/cosmos.test.mjs && node tests/loader.test.mjs && node tests/reading.test.mjs && node tests/docs.test.mjs && node tests/production.test.mjs",
+    "test:browser": "node tests/company.test.mjs && node tests/dashboard.test.mjs && node tests/browser.mjs && node tests/workspace.test.mjs && node tests/cosmos.test.mjs && node tests/loader.test.mjs && node tests/reading.test.mjs && node tests/docs.test.mjs && node tests/production.test.mjs && node tests/navigation.test.mjs",
     "preview": "python -m http.server 8917 --bind 127.0.0.1 --directory site",
     "build:docs": "node tools/build_docs.mjs",
     "test:publication": "node tools/check_public_site.mjs && node --test tests/docs-policy.test.mjs",

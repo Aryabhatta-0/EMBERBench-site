@@ -12,7 +12,7 @@ try{
   await page.setViewportSize({width,height:900});
   for(const id of ['about','contact','privacy','terms','cookies','accessibility']){
    await go(id+'.html');
-   check(`${width}px ${id}: readable policy and shared links`,await page.locator('h1').count()===1&&await page.locator('.legal-article').innerText().then(t=>t.length>500)&&await page.locator('.footer-legal a').count()===4);
+   check(`${width}px ${id}: readable policy and shared links`,await page.locator('h1').count()===1&&await page.locator('.legal-article').innerText().then(t=>t.length>500)&&await page.locator('.legal-index a').count()===6&&await page.locator('.site-footer').count()===0);
    check(`${width}px ${id}: no horizontal overflow`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    await page.evaluate(axe);audits.push({name:`${id} ${width}`,violations:await page.evaluate(async()=>(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}})).violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})))});
   }

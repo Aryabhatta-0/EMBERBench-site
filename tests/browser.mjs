@@ -17,7 +17,7 @@ const go = async route => {
   const target=new URL(route,base);
   if (target.pathname.endsWith('/leaderboard.html')) {if(!target.searchParams.has('kind')) target.searchParams.set('kind','all');}
   await page.goto(target.href);
-  await page.locator('.site-footer').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));
+  await page.locator('.site-header').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));
   await page.evaluate(() => document.fonts.ready);
 };
 const check = (name, value) => { assert.ok(value, name); checks.push(name); };
@@ -65,7 +65,7 @@ try {
   check('Company footer can be opened directly after homepage content loads',await page.locator('.company-footer').evaluate(el=>el.getBoundingClientRect().top<innerHeight));
   await go('index.html');
   await page.emulateMedia({colorScheme:'dark'});
-  await page.reload(); await page.locator('.site-footer').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));
+  await page.reload(); await page.locator('.site-header').waitFor();await page.waitForFunction(()=>!document.querySelector('main .loading-shell,main [data-static-results],main [data-static-reading]'));
   check('Only light mode regardless of OS preference', await page.locator('html').getAttribute('data-theme') === 'light' && await page.locator('.theme-toggle').count() === 0);
   await audit('Home forced light');
   await page.setViewportSize({width:390,height:844});
