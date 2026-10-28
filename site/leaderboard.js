@@ -9,14 +9,14 @@ import {
   provider,
   providerInfo,
   errorPage,
-} from "./common.js?v=20261028-reading-3";
+} from "./common.js?v=20261028-mobile-1";
 import {
   METRICS,
   filterModels,
   sortModels,
   finite,
-} from "./analytics.js?v=20261028-reading-3";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261028-reading-3';
+} from "./analytics.js?v=20261028-mobile-1";
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261028-mobile-1';
 
 const columns = [
   ["score", "EMBER"],

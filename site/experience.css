@@ -4,7 +4,7 @@
 /* Hallmark · waive 24b · Existing controls and analytical layouts have established optical spacing · Preserve benchmark table alignment and tested touch targets rather than round every inherited gap during a hero and palette revision. */
 /* Hallmark · waive 82 · Exact published outcomes are labeled statistical pictographs · Each marker encodes one person in benchmark evidence; these charts retain counts and touch-accessible grouping rather than decorate a marketing number. */
 /* Waiver: preserve the user's centered hero and two-section structure; user requested fewer layouts. Retired: evacuation maps, player controls, routing-rule selectors and replay downloads across all routes. */
-:root{--hero-surface:#e9eff7;--hero-ink:#142e51;--hero-emblem-size:76px;--company-measure:1328px;--company-gutter:44px;--outcome-safe:#376f61;--outcome-death:#b75b3f;--outcome-stranded:#b18d34;}
+:root{--hero-surface:#e9eff7;--hero-ink:#142e51;--hero-emblem-size:76px;--company-measure:1328px;--company-gutter:max(44px,env(safe-area-inset-left),env(safe-area-inset-right));--outcome-safe:#376f61;--outcome-death:#b75b3f;--outcome-stranded:#b18d34;}
 html{scroll-behavior:smooth;scroll-padding-top:100px;}
 p.outcome-end{font-size:13px;color:var(--text-muted);margin:20px 0 0;padding:0;}
 .outcome-caption{font-size:13px;color:var(--text-secondary);margin:0 0 24px;}
@@ -44,11 +44,11 @@ body[data-page='company'] .site-footer.container{max-width:1328px;padding:26px 4
 @media(hover:hover) and (pointer:fine){.text-action:hover,.group-outcomes:hover{text-decoration:underline;text-underline-offset:4px;}.outcome-open:hover{background:var(--surface-2);}.loop-path button:hover{background:var(--surface-1);color:var(--text-primary);}.hero-action:hover svg{transform:translateX(4px);}}
 @media(max-width:1000px){.outcome-card{padding:20px;}.outcome-key{gap:10px;}.outcome-key dt{font-size:10px;}.people-art-inner{transform:scale(.88);transform-origin:center;}}
 @media(max-width:700px){
- :root{--company-gutter:20px;--hero-emblem-size:64px;}
+ :root{--company-gutter:max(20px,env(safe-area-inset-left),env(safe-area-inset-right));--hero-emblem-size:64px;}
  html{scroll-padding-top:80px;}.company-hero{padding:35px var(--company-gutter) 40px;}.company-signature{gap:16px;}.company-hero h1{font-size:clamp(82px,17vw,112px);}.company-hero>p{font-size:16px;margin:21px 0 24px;}
  .contributions{padding-top:34px;}.contribution-heading{display:block;margin-bottom:24px;}.contribution-heading h2{font-size:36px;}.contribution-heading p{font-size:13px;}.contribution-heading .button{margin-top:20px;font-size:12px;}
- .outcome-feature{padding-top:16px;}.outcome-heading{display:block;margin-bottom:24px;}.outcome-heading h3{font-size:37px;}.outcome-heading p{font-size:12px;}.outcome-heading .outcome-scope{text-align:left;font-size:11px;margin-top:15px;}#outcome-cards{grid-template-columns:1fr;gap:18px;}.outcome-card{padding:20px;}.outcome-card-title h4{font-size:15px;}.outcome-score{margin:10px 0 16px;}.outcome-score strong{font-size:34px;}.people-art{margin:18px 0 15px;height:160px;}.people-art-inner{transform:scale(.9);}.outcome-end{display:block;}.outcome-end p{font-size:11px;}.outcome-end .text-action{margin-top:8px;}
- .method-feature{padding-top:18px;}.method-feature-heading{display:block;}.method-feature-heading h3{font-size:22px;max-width:24ch;line-height:1.35;}.method-feature-heading .text-action{margin-top:10px;}.evaluation-loop{padding-top:10px;}.loop-path{grid-template-columns:1fr 22px 1fr 22px 1fr;gap:7px;}.loop-path button{font-size:12px;padding:12px 5px;}.loop-path>svg{width:20px;}.loop-path>svg:nth-of-type(3){display:none;}.loop-path>button:nth-of-type(4){grid-column:1;grid-row:3;}.loop-path>svg:nth-of-type(4){grid-column:2;grid-row:3;}.loop-path>button:nth-of-type(5){grid-column:3;grid-row:3;}.loop-return{grid-column:1 / -1;grid-row:2;font-size:10px;justify-self:start;padding:8px 0 14px;}.loop-explanation{margin-top:18px;gap:15px;}.loop-explanation p{font-size:12px;min-height:80px;}body[data-page='company'] .site-footer.container{padding-inline:20px;}
+ .outcome-feature{padding-top:16px;}.outcome-heading{display:block;margin-bottom:24px;}.outcome-heading h3{font-size:37px;}.outcome-heading p{font-size:12px;}.outcome-heading .outcome-scope{text-align:left;font-size:12px;margin-top:15px;}#outcome-cards{grid-template-columns:1fr;gap:18px;}.outcome-card{padding:20px;}.outcome-card-title h4{font-size:15px;}.outcome-score{margin:10px 0 16px;}.outcome-score strong{font-size:34px;}.people-art{margin:18px 0 15px;height:160px;}.people-art-inner{transform:scale(.9);}.outcome-end{display:block;}.outcome-end p{font-size:12px;}.outcome-end .text-action{margin-top:8px;}
+ .method-feature{padding-top:18px;}.method-feature-heading{display:block;}.method-feature-heading h3{font-size:22px;max-width:24ch;line-height:1.35;}.method-feature-heading .text-action{margin-top:10px;}.evaluation-loop{padding-top:10px;}.loop-path{grid-template-columns:1fr 22px 1fr 22px 1fr;gap:7px;}.loop-path button{font-size:12px;padding:12px 5px;}.loop-path>svg{width:20px;}.loop-path>svg:nth-of-type(3){display:none;}.loop-path>button:nth-of-type(4){grid-column:1;grid-row:3;}.loop-path>svg:nth-of-type(4){grid-column:2;grid-row:3;}.loop-path>button:nth-of-type(5){grid-column:3;grid-row:3;}.loop-return{grid-column:1 / -1;grid-row:2;font-size:12px;justify-self:start;padding:8px 0 14px;}.loop-explanation{margin-top:18px;gap:15px;}.loop-explanation p{font-size:12px;min-height:80px;}body[data-page='company'] .site-footer.container{padding-inline:20px;}
 }
 @media(max-width:360px){.people-art-inner{transform:scale(.78);}.outcome-key dt{font-size:10px;}}
 @media(prefers-reduced-motion:reduce){.hero-action svg{transition:none;}}
@@ -101,15 +101,16 @@ body[data-page='model'] .evidence-detail,body[data-page='compare'] .evidence-det
  body[data-page='scenarios'] .editorial-head h1,body[data-page='methodology'] .editorial-head h1{font-size:38px;}
  body[data-page='scenarios'] .editorial-aside,body[data-page='methodology'] .editorial-aside{display:none;}
  .challenge-nav{display:none;}
- .scenario-introduction .scenario-phone-choice{display:flex;grid-column:1 / -1;margin-bottom:20px;width:100%;font-size:11px;}
+ .scenario-introduction .scenario-phone-choice{display:flex;grid-column:1 / -1;margin-bottom:20px;width:100%;font-size:12px;}
  .scenario-phone-choice select{width:100%;font-size:16px;min-height:44px;}
  .scenario-introduction>.toolbar{grid-template-columns:1fr;margin-top:22px;}
- .scenario-introduction>.toolbar .field{font-size:11px;}
+ .scenario-introduction>.toolbar .field{font-size:12px;}
  .scenario-introduction>.toolbar select,.scenario-introduction>.toolbar input{font-size:16px;}
  #scenario-summary{padding-top:0;}
  #scenario-summary h2{font-size:28px;}
  #scenario-summary .section-head{display:block;}
  #scenario-summary .badge{margin-top:10px;}
+ .loop-position,.focused-table thead th{font-size:12px;}
  .scenario-canvas .workspace-tabs button{flex:none;font-size:12px;}
  .scenario-canvas .workspace-panel{padding:20px 0;}
  .method-layout{display:block;margin-top:25px;}

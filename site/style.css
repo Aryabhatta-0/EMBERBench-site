@@ -29,6 +29,8 @@
 }
 html {
   scroll-padding-top: var(--header-offset, 92px);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 body {
   margin: 0;
@@ -53,6 +55,7 @@ input,
 select,
 summary {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 button,
 select,

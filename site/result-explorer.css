@@ -151,23 +151,23 @@ body[data-page='compare'] .editorial-aside { min-width:auto; }
   .benchmark-heading { margin-bottom: 22px; }
   .benchmark-heading h1 { font-size: 38px; }
   .benchmark-heading > div > p { font-size: 13px; max-width: 33ch; }
-  .benchmark-heading .benchmark-scope { font-size: 11px; margin-top: 14px; }
+  .benchmark-heading .benchmark-scope { font-size: 12px; margin-top: 14px; }
   .leaderboard-workspace { padding: 12px 0 20px; background: transparent; }
   .explorer-intro { margin-bottom: 15px; }
   .explorer-intro > p { font-size: 15px; }
   .display-switch { gap: 12px; }
-  .display-switch button { font-size: 11px; }
+  .display-switch button { font-size: 12px; }
   .explorer-search { display: block; }
-  .explorer-search label { font-size: 11px; }
+  .explorer-search label { font-size: 12px; }
   .explorer-search .search-field input, .quick-compare select { font-size: 16px; }
   .explorer-views { margin: 0 0 4px; gap: 10px; }
   .display-switch { justify-content: flex-end; }
   .metric-views { gap: 0; justify-content: space-between; }
-  .metric-views button { padding: 8px 10px; font-size: 11px; }
+  .metric-views button { padding: 8px 10px; font-size: 12px; }
   .results-reading { display: block; }
   .plot-heading { margin-top: 22px; margin-bottom: 12px; flex-direction:column; align-items:start; gap:8px; }
   .plot-heading h2 { font-size: 18px; }
-  .plot-instruction { display: block; font-size: 10px; max-width: none; text-align:left; }
+  .plot-instruction { display: block; font-size: 12px; max-width: none; text-align:left; }
   .chart-model { padding-right: 4px; min-height: 76px; column-gap: 8px; }
   .chart-model-name { font-size: 12px; }
   .chart-model b { font-size: 15px; }
@@ -186,6 +186,9 @@ body[data-page='compare'] .editorial-aside { min-width:auto; }
   .profile-head .score-hero { flex-direction:row; align-items:baseline; gap:12px; }
   .profile-key-facts { grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:18px 14px; }
   .profile-key-facts .metric-value { font-size:20px; }
+  /* Phones: 12px minimum for notes, 16px selects so iOS does not zoom on focus. */
+  .comparison-controls .field, .readout-note, .scenario-readout, .explorer-foot > .snapshot-limit, .quick-comparison p, .compare-card .compare-kind, .compare-card .muted, .compare-score .metric-note, .chart-model-name small { font-size:12px; }
+  .comparison-controls select { font-size:16px; }
 }
 @media (prefers-reduced-motion:reduce) {
   .chart-open, .chart-model { transition: none; transform: none; }

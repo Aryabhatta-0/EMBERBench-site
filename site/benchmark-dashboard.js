@@ -1,5 +1,5 @@
-import {esc,fmt,count,scenarioName,isDecision,providerInfo} from './common.js?v=20261028-reading-3';
-import {METRICS,finite,leaderboardOrder} from './analytics.js?v=20261028-reading-3';
+import {esc,fmt,count,scenarioName,isDecision,providerInfo} from './common.js?v=20261028-mobile-1';
+import {METRICS,finite,leaderboardOrder} from './analytics.js?v=20261028-mobile-1';
 const bounded=v=>Math.max(0,Math.min(1,v)),layouts=new WeakMap();
 export function outcomeParts(model){return [['evacuated','Evacuated',model.totals.evacuated],['deaths','Avoidable deaths',model.totals.avoidable_casualties],['stranded','Avoidable stranded',model.totals.avoidable_stranded],['unavoidable','Unavoidable losses',model.totals.unavoidable_losses||0]];}
 export function metricScale(models,key){return key==='score'?100:['safety','quality','congestion'].includes(key)?1:Math.max(0,...models.map(METRICS[key].get).filter(finite));}
@@ -32,8 +32,8 @@ function fitChartBands(root){
  layouts.get(root)?.();const observer=new ResizeObserver(()=>records.forEach(r=>r.fit())),records=[];
  for(const chart of root.querySelectorAll('[data-chart-id]')){
   const items=[...chart.querySelectorAll('ol>li')],list=chart.querySelector('ol').cloneNode(false),y=chart.querySelector('.column-y').cloneNode(true),host=chart.querySelector('.chart-bands');let signature='';
-  const fit=()=>{const maxLabel=Math.max(0,...items.map(li=>li.querySelector('b')?.textContent.length||0)),slot=Math.max(44,maxLabel*7+8),capacity=Math.max(1,Math.min(items.length,Math.floor((chart.clientWidth-56+8)/(slot+8)))),next=String(capacity);if(next===signature)return;signature=next;
-   chart.style.setProperty('--plot-height',`${(chart.classList.contains('compact-chart')?200:280)}px`);chart.style.setProperty('--bar-width',`${46}px`);chart.style.setProperty('--chart-label-size','12px');
+  const fit=()=>{const maxLabel=Math.max(0,...items.map(li=>li.querySelector('b')?.textContent.length||0)),slot=Math.max(44,maxLabel*7+8),capacity=Math.max(1,Math.min(items.length,Math.floor((chart.clientWidth-56+8)/(slot+8)))),phone=chart.clientWidth<480,next=`${capacity}:${phone}`;if(next===signature)return;signature=next;
+   chart.style.setProperty('--plot-height',`${chart.classList.contains('compact-chart')?(phone?160:200):(phone?200:280)}px`);chart.style.setProperty('--bar-width',`${46}px`);chart.style.setProperty('--chart-label-size','12px');
    const bands=[];for(let i=0;i<items.length;i+=capacity){const band=document.createElement('div');band.className='chart-band';const ol=list.cloneNode(false),part=items.slice(i,i+capacity);if(i>0)ol.classList.remove('result-chart');ol.style.setProperty('--column-count',String(capacity));ol.append(...part);band.append(y.cloneNode(true),ol);bands.push(band);}host.replaceChildren(...bands);
   };
   records.push({fit});observer.observe(chart);fit();

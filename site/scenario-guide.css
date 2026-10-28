@@ -32,8 +32,8 @@
 @media(max-width:700px){
  .scenario-studio{display:block;margin-top:25px;}.challenge-nav{display:none;}
  .scenario-introduction .scenario-phone-choice{display:flex;margin-bottom:28px;font-size:13px;}
- #scenario-summary .section-head{display:block;}#scenario-summary h2{font-size:28px;}#scenario-summary .badge{margin-top:12px;}
+ #scenario-summary .section-head{display:block;}#scenario-summary h2{font-size:28px;}#scenario-summary .badge{margin-top:12px;font-size:12px;}
  .scenario-canvas>.panel h2,.scenario-canvas>.evidence-detail h2{font-size:28px;}.scenario-canvas .note{font-size:12px;}
  .scenario-filters .toolbar{grid-template-columns:minmax(0,1fr);gap:16px;}.scenario-filters input,.scenario-filters select{font-size:16px;}
- .scenario-canvas th,.scenario-canvas td{padding:12px 7px;}.scenario-canvas #scenario-ranking .model-name{font-size:12px;}
+ .scenario-canvas th,.scenario-canvas td{padding:12px 7px;}.scenario-canvas #scenario-ranking .model-name{font-size:12px;}.scenario-canvas th button{min-height:44px;font-size:12px;}
 }
