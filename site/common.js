@@ -166,6 +166,7 @@ export function shell(data, active) {
   };
   const toggleNav = (expanded) => {
     navButton.setAttribute("aria-expanded", String(expanded));
+    navButton.textContent = expanded ? "Close" : "Menu";
     document.getElementById("site-nav").classList.toggle("open", expanded);
     updateOffset();
   };

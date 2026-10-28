@@ -1,7 +1,7 @@
 // Enhancement only: every guide and link is already present in static HTML.
 const root=document.body.dataset.root||'';
 const menu=document.querySelector('.nav-toggle'),nav=document.querySelector('#site-nav');
-const toggle=expanded=>{menu.setAttribute('aria-expanded',String(expanded));nav.classList.toggle('open',expanded);};
+const toggle=expanded=>{menu.setAttribute('aria-expanded',String(expanded));menu.textContent=expanded?'Close':'Menu';nav.classList.toggle('open',expanded);};
 menu.addEventListener('click',()=>toggle(menu.getAttribute('aria-expanded')!=='true'));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.getAttribute('aria-expanded')==='true'){toggle(false);menu.focus();}});
 nav.addEventListener('click',()=>toggle(false));
