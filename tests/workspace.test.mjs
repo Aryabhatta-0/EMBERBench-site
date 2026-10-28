@@ -72,6 +72,10 @@ try {
   await page.getByRole('tab',{name:'Sources',exact:true}).click(); await audit('Profile sources');
   await go('scenarios.html');
   check('Scenarios use a guide index and the shared benchmark sub-navigation without dashboard tabs',await page.locator('.scenario-studio').evaluate(el=>getComputedStyle(el).display==='grid'&&getComputedStyle(el.querySelector('.challenge-nav')).flexDirection==='column')&&await page.locator('main [role="tablist"],.editorial-aside').count()===0&&await page.locator('.benchmark-subnav a[aria-current="page"]').textContent()==='Scenarios');
+  await page.locator('.scenario-parts [data-part="ranking"]').click();
+  await page.waitForFunction(()=>document.querySelector('.scenario-parts [aria-current]')?.dataset.part==='ranking');
+  check('Scenario index marks the part in view',await page.locator('.scenario-parts').evaluate(el=>el.previousElementSibling.getAttribute('aria-pressed')==='true'&&el.querySelectorAll('[aria-current]').length===1));
+  await page.evaluate(()=>scrollTo(0,0));
   const picker = page.locator('[data-challenge]').nth(2);
   const id = await picker.getAttribute('data-challenge');
   await picker.click();

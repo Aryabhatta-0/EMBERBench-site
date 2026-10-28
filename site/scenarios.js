@@ -188,8 +188,24 @@ async function main() {
   });
   const matrix = canvas.querySelector("[aria-labelledby=matrix-title]");
   const catalogue = canvas.querySelector("[aria-labelledby=catalogue-title]");
-  canvas.append(disclosure(matrix,'Across all scenarios'));
-  canvas.append(disclosure(catalogue,"The full diagnostic suite"));
+  const allScenarios=disclosure(matrix,'Across all scenarios'),suite=disclosure(catalogue,"The full diagnostic suite");
+  canvas.append(allScenarios,suite);
+  // Parts of the selected scenario: listed under it in the side index (desktop) and in a sticky bar (phones). The part in view is marked.
+  intro.id='overview';ranking.id='ranking';allScenarios.id='all-scenarios';suite.id='diagnostic-suite';
+  const parts=[[intro,'Overview'],[ranking,'Ranking'],[allScenarios,'All scenarios'],[suite,'Diagnostic suite']],partLinks=parts.map(([el,label])=>`<li><a href="#${el.id}" data-part="${el.id}">${label}</a></li>`).join('');
+  const partList=document.createElement('ol');partList.className='scenario-parts';partList.setAttribute('aria-label','Parts of this scenario');partList.innerHTML=partLinks;document.querySelector('.challenge-nav').append(partList);
+  const partBar=document.createElement('nav');partBar.className='scenario-parts-bar';partBar.setAttribute('aria-label','Parts of this scenario');partBar.innerHTML=`<ol>${partLinks}</ol>`;canvas.prepend(partBar);
+  let activePart='',partFrame=0;
+  const markPart=()=>{partFrame=0;const line=Math.min(innerHeight*.35,240);let id=parts[0][0].id;for(const [el] of parts)if(el.getBoundingClientRect().top<=line)id=el.id;
+   if(scrollY+innerHeight>=document.documentElement.scrollHeight-2)for(const [el] of parts)if(el.getBoundingClientRect().top<innerHeight)id=el.id;
+   if(id===activePart)return;activePart=id;
+   document.querySelectorAll('[data-part]').forEach(a=>{if(a.dataset.part===id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
+   const current=partBar.querySelector('[aria-current]');if(current&&partBar.scrollWidth>partBar.clientWidth)partBar.scrollLeft=Math.max(0,current.offsetLeft-20);};
+  const queuePart=()=>{if(!partFrame)partFrame=requestAnimationFrame(markPart);};
+  addEventListener('scroll',queuePart,{passive:true});addEventListener('resize',queuePart);canvas.addEventListener('toggle',queuePart,true);
+  // A closed disclosure opens before the browser scrolls to it, also when its link is chosen twice.
+  document.querySelectorAll('[data-part]').forEach(a=>a.addEventListener('click',()=>{const target=document.getElementById(a.dataset.part);if(target?.tagName==='DETAILS')target.open=true;}));
+  queuePart();
   document.querySelectorAll("[data-challenge]").forEach(button => button.addEventListener("click", () => {
     document.getElementById("scenario-select").value = button.dataset.challenge;
     document.getElementById("scenario-select").dispatchEvent(new Event("change",{bubbles:true}));
@@ -239,7 +255,8 @@ async function main() {
     });
     const selected = metadata(state.scenario);
     document.querySelectorAll('[data-challenge]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.challenge === state.scenario)));
-    const choices=document.querySelector('.challenge-nav'),chosen=choices.querySelector('[aria-pressed="true"]');
+    const choices=document.querySelector('.challenge-nav'),chosen=choices.querySelector('[aria-pressed="true"]'),partList=choices.querySelector('.scenario-parts');
+    if(chosen&&partList)chosen.after(partList);
     if(chosen&&choices.offsetParent&&choices.scrollHeight>choices.clientHeight){if(chosen.offsetTop<choices.scrollTop)choices.scrollTop=chosen.offsetTop;else if(chosen.offsetTop+chosen.offsetHeight>choices.scrollTop+choices.clientHeight)choices.scrollTop=chosen.offsetTop+chosen.offsetHeight-choices.clientHeight;}
     const byScore = sortByScenario(models);
     const best = byScore.find((m) =>
