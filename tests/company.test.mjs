@@ -28,7 +28,8 @@ try{
  }
  check('Homepage introduction does not request benchmark results data',resultRequests.length===0);
  await page.setViewportSize({width:1440,height:1000});await go(page);
- check('Anantam uses its exact requested tagline',await page.locator('.company-hero>p').textContent()==='Boundless Possibilities'&&await page.title()==='Anantam | AI research & EMBERBench');
+ check('Anantam uses its exact requested tagline',await page.locator('.company-hero>p').textContent()==='Boundless Possibilities');
+ check('Homepage search title identifies Anantam Labs and EMBERBench',await page.title()==='Anantam Labs | Boundless Possibilities · EMBERBench');
  check('Light gradient spans the hero and no dark runner remains',await page.locator('.hero-stage').evaluate(el=>getComputedStyle(el).backgroundImage.includes('gradient'))&&await page.locator('.ribbon-current').count()===0);
  check('The hero ends in an asymmetric curved shore',await page.locator('.hero-shore path').evaluate(el=>el.isPointInFill(new DOMPoint(72,70))!==el.isPointInFill(new DOMPoint(720,70))));
  check('Homepage contribution has no duplicate navigation or CTA',await page.locator('#contributions a').count()===0&&await page.locator('.hero-action').count()===1);
