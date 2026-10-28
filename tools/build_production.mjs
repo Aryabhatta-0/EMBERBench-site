@@ -37,7 +37,7 @@ const nav=current=>`<nav class="legal-index" aria-label="Company and policies">$
 for(const [id,[title,description,source]] of Object.entries(company)){
  const markdown=(await readFile(source,'utf8')).replace(/^\uFEFF/,'');
  let body=sanitizeHtml(await marked.parse(markdown),{allowedTags:[...sanitizeHtml.defaults.allowedTags,'h1','h2'],allowedAttributes:{a:['href','title'],code:['class']}});
- if(id==='cookies')body+=controls;
+ if(id==='cookies')body=body.replace('<h2>Optional comparison memory</h2>',controls+'<h2>Optional comparison memory</h2>');
  const html=`<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><link rel="stylesheet" href="style.css?v=${version}"><link rel="stylesheet" href="anantam.css?v=${version}"><link rel="stylesheet" href="footer.css?v=${version}"><link rel="stylesheet" href="legal.css?v=${version}"></head><body data-page="legal"><main id="main" tabindex="-1"><div class="legal-layout">${nav(id)}<article class="legal-article">${body}</article></div></main><script type="module" src="legal.js?v=${version}"></script></body></html>\n`;
  await writeFile(resolve(root,id+'.html'),html);await writeFile(resolve(root,id+'.md'),markdown);pages[id+'.html']=[title,description];
 }
