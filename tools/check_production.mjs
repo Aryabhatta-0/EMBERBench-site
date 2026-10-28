@@ -3,9 +3,10 @@ import assert from 'node:assert/strict';
 import {readFile,readdir,stat} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
-import {searchIdentity,verificationMeta} from './search-identity.mjs';
+import {searchIdentity,verificationMeta,verificationFile} from './search-identity.mjs';
 const root=resolve(process.argv[2]||'site'),origin='https://anantam-labs.vercel.app';
 const read=path=>readFile(resolve(root,path),'utf8');
+const verificationConfig=JSON.parse(await readFile(new URL('./search-verification.json',import.meta.url),'utf8')),googleFile=verificationFile(verificationConfig);
 const config=JSON.parse(await readFile(new URL('../vercel.json',import.meta.url),'utf8'));
 assert(!config.rewrites&&!config.headers,'Advanced routes must not be mixed with competing routing systems');
 assert(config.routes.some(r=>r.handle==='filesystem'),'Static files must retain normal delivery');
@@ -17,7 +18,12 @@ assert(headers['Content-Security-Policy'].includes("frame-ancestors 'none'"));
 assert(!/script-src[^;]*'unsafe-(?:inline|eval)'/.test(headers['Content-Security-Policy']));
 assert.equal(headers['X-Content-Type-Options'],'nosniff');
 assert(config.routes.some(r=>r.src==='/'&&r.dest==='/index.md'&&r.has?.[0]?.key==='accept'),'Explicit Markdown negotiation is missing');
-const files=[...(await readdir(root)).filter(n=>n.endsWith('.html')),...(await readdir(resolve(root,'docs'))).filter(n=>n.endsWith('.html')).map(n=>'docs/'+n)];
+const files=[...(await readdir(root)).filter(n=>n.endsWith('.html')&&n!==googleFile?.file),...(await readdir(resolve(root,'docs'))).filter(n=>n.endsWith('.html')).map(n=>'docs/'+n)];
+if(googleFile){
+ assert.equal(await read(googleFile.file),googleFile.content,'Google ownership file must retain its exact body');
+ assert(!((await read('sitemap.xml')).includes(googleFile.file)),'Ownership file must not enter the sitemap');
+ assert(config.routes.some(r=>r.src==='/'+googleFile.file.replaceAll('.','\\.')&&r.continue===true&&r.headers?.['X-Robots-Tag']==='noindex'&&!r.dest&&!r.status),'Ownership file must be served directly');
+}
 const indexable=new Set();let pages=0;
 for(const file of files){
  const html=await read(file),head=html.match(/<head>([\s\S]*?)<\/head>/)?.[1];assert(head,`Missing head: ${file}`);
@@ -59,7 +65,7 @@ const benchmark=await read('benchmark.html');assert(benchmark.includes('data-sta
 const home=await read('index.html'),about=await read('about.html');
 assert(home.includes('<title>Anantam Labs |')&&home.includes('Anantam Labs’ first contribution'),'Search name must match visible homepage content');
 assert(about.includes('also known as Anantam Labs'),'About must establish the same name');
-const verification=verificationMeta(JSON.parse(await readFile(new URL('./search-verification.json',import.meta.url),'utf8')));
+const verification=verificationMeta(verificationConfig);
 assert.equal((home.match(/name="google-site-verification"/g)||[]).length,verification?1:0,'Unexpected or duplicate verification tag');
 if(verification)assert(home.includes(verification),'Owner verification must survive rebuilds');
 for(const m of data.models.filter(x=>x.kind==='Decision model'))assert(benchmark.includes(m.ember_score.toFixed(2)),`Missing initial score: ${m.id}`);

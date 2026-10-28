@@ -28,6 +28,14 @@
       "continue": true
     },
     {
+      "src": "/googleca4565681d2b6fc3\\.html",
+      "headers": {
+        "Content-Type": "text/html; charset=utf-8",
+        "X-Robots-Tag": "noindex"
+      },
+      "continue": true
+    },
+    {
       "src": "/",
       "has": [
         {

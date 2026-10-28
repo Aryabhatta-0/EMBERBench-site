@@ -11,10 +11,12 @@ import {docs,retired} from './docs-policy.mjs';
 import {publicResults,publicScenarioNames} from './public_results.mjs';
 import {readApprovedEvaluation} from './evaluation/publication.mjs';
 import {evaluationSection} from './evaluation/render.mjs';
-import {searchIdentity,verificationMeta} from './search-identity.mjs';
+import {searchIdentity,verificationMeta,verificationFile} from './search-identity.mjs';
 const root=resolve('site'),origin='https://anantam-labs.vercel.app',version='20261028-reading-3';
 const assets=JSON.parse(await readFile('tools/asset-map.json','utf8'));
-const googleVerification=verificationMeta(JSON.parse(await readFile('tools/search-verification.json','utf8')));
+const verificationConfig=JSON.parse(await readFile('tools/search-verification.json','utf8'));
+const googleVerification=verificationMeta(verificationConfig),googleFile=verificationFile(verificationConfig);
+if(googleFile)await writeFile(resolve(root,googleFile.file),googleFile.content);
 // Disabled until a reviewed aggregate artifact is explicitly digest-pinned.
 const approvedEvaluation=await readApprovedEvaluation(root);
 if(approvedEvaluation)await writeFile(resolve(root,'evaluation-section.css'),await readFile('design/evaluation-section.css'));
@@ -84,7 +86,7 @@ await writeFile(resolve(root,'404.md'),`# Page not found\n\nThis address does no
 await writeFile(resolve(root,'404.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Page not found | Anantam</title><meta name="description" content="This address does not identify a published Anantam page. Find the homepage, EMBERBench results or documentation."><link rel="stylesheet" href="/style.css?v=${version}"><link rel="stylesheet" href="/anantam.css?v=${version}"><link rel="stylesheet" href="/footer.css?v=${version}"></head><body data-page="legal"><main id="main" tabindex="-1"><section class="page-head"><div><h1>Page not found.</h1><p>The address may have changed. Return to <a href="/">Anantam</a>, explore <a href="/benchmark.html">EMBERBench</a> or browse the <a href="/docs.html">documentation</a>.</p></div></section></main><script type="module" src="/legal.js?v=${version}"></script></body></html>`);
 
 // Shared defaults plus per-page overrides, as documented by Dora's SEO workflow.
-const allHtml=[...(await readdir(root)).filter(n=>n.endsWith('.html')),...(await readdir(resolve(root,'docs'))).filter(n=>n.endsWith('.html')).map(n=>'docs/'+n)].sort();
+const allHtml=[...(await readdir(root)).filter(n=>n.endsWith('.html')&&n!==googleFile?.file),...(await readdir(resolve(root,'docs'))).filter(n=>n.endsWith('.html')).map(n=>'docs/'+n)].sort();
 const cspHashes=new Set(),indexable=[];
 const markdownFor=file=>file.startsWith('docs/')?(docs.some(d=>file===`docs/${d.id}.html`)?'docs/source/'+file.slice(5,-5)+'.md':null):['model.html','compare.html','404.html','leaderboard.html'].includes(file)?(file==='404.html'?'404.md':file==='leaderboard.html'?'benchmark.md':null):file.replace('.html','.md');
 for(const file of allHtml){
@@ -158,6 +160,7 @@ await writeFile(resolve(root,indexnow.key+'.txt'),indexnow.key+'\n');
 const markdownAccept=[{type:'header',key:'accept',value:'^text/markdown(?:;\\s*charset=utf-8)?$'}];
 const securityHeaders={'Content-Security-Policy':`default-src 'self'; script-src 'self' ${[...cspHashes].join(' ')}; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests`,'X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Referrer-Policy':'strict-origin-when-cross-origin','Permissions-Policy':'camera=(), microphone=(), geolocation=(), payment=(), usb=()','Strict-Transport-Security':'max-age=31536000; includeSubDomains','Vary':'Accept','Cache-Control':'public, max-age=0, must-revalidate','Link':'</llms.txt>; rel="describedby"; type="text/plain"'};
 const routes=[{src:'/(.*)',headers:securityHeaders,continue:true},{src:'/assets/(.*\\.[a-f0-9]{12}\\.(?:woff2|webp|png|jpg))',headers:{'Cache-Control':'public, max-age=31536000, immutable'},continue:true}];
+if(googleFile)routes.push({src:'/'+googleFile.file.replaceAll('.','\\.'),headers:{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex'},continue:true});
 const markdownRoutes=[['/','index.md'],['/index.html','index.md'],...Object.keys(company).map(id=>['/'+id+'.html',id+'.md']),['/benchmark.html','benchmark.md'],['/leaderboard.html','benchmark.md'],['/methodology.html','methodology.md'],['/scenarios.html','scenarios.md'],['/docs.html','docs.md'],...docs.map(d=>['/docs/'+d.id+'.html','docs/source/'+d.id+'.md'])];
 for(const [path,md] of markdownRoutes)routes.push({src:path.replaceAll('.','\\.'),has:markdownAccept,dest:'/'+md,headers:{'Content-Type':'text/markdown; charset=utf-8','Vary':'Accept','Link':`<${origin}${path==='/index.html'?'/':path==='/leaderboard.html'?'/benchmark.html':path}>; rel="canonical", </llms.txt>; rel="describedby"`}});
 const markdownCanonical=new Map();
@@ -175,8 +178,8 @@ const policy=JSON.parse(await readFile('tools/site-publication-policy.json','utf
 policy.jsonPaths=policy.jsonPaths.filter(path=>path!=='data/evaluation.json');
 policy.staticFiles=policy.staticFiles.filter(path=>!['data/evaluation.json','evaluation-section.css'].includes(path));
 const additions=[...Object.keys(company).flatMap(id=>[id+'.html',id+'.md']),'index.md','benchmark.md','methodology.md','scenarios.md','docs.md','404.md','llms.txt','.well-known/security.txt','data/leaderboard.json','chrome.js','preferences.js','legal.js','legal.css','legal-navigation.js','consent.js','consent.css',indexnow.key+'.txt',...Object.values(assets).filter(v=>typeof v==='string'),...Object.values(assets.fonts)];
-policy.rootHtml=[...new Set([...policy.rootHtml,...Object.keys(company).map(id=>id+'.html')])].sort();
+policy.rootHtml=[...new Set([...policy.rootHtml,...Object.keys(company).map(id=>id+'.html'),...(googleFile?[googleFile.file]:[])])].sort();
 policy.jsonPaths=[...new Set([...policy.jsonPaths,'data/leaderboard.json'])].sort();
 if(approvedEvaluation){policy.jsonPaths=[...new Set([...policy.jsonPaths,'data/evaluation.json'])].sort();policy.staticFiles=[...new Set([...policy.staticFiles,'data/evaluation.json','evaluation-section.css'])].sort();}
-policy.staticFiles=[...new Set([...policy.staticFiles,...additions])].sort();await writeFile('tools/site-publication-policy.json',JSON.stringify(policy,null,2)+'\n');
+policy.staticFiles=[...new Set([...policy.staticFiles,...additions,...(googleFile?[googleFile.file]:[])])].sort();await writeFile('tools/site-publication-policy.json',JSON.stringify(policy,null,2)+'\n');
 console.log(`Built production policies, metadata, ${indexable.length} sitemap URLs, public JSON and agent-readable Markdown.`);

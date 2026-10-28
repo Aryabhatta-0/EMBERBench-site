@@ -18,11 +18,11 @@ Live HTTP checks found the homepage, robots.txt and sitemap accessible with stat
 
 ## Google owner-account handoff
 
-Search Console is not connected, and browser control did not initialize. The owner has been asked for the HTML verification tag. No account access or indexing submission is claimed.
+Search Console is not connected, and browser control did not initialize. The owner subsequently supplied the downloaded HTML verification file `googleca4565681d2b6fc3.html`. Its exact 53-byte body is preserved, served directly at the site root and excluded from the sitemap and ordinary page transforms. The independent meta-tag value remains null because this is the HTML-file method. Publishing the file is not a claim that Google has verified ownership or indexed the website.
 
 1. In [Search Console](https://search.google.com/search-console/), add the **URL-prefix** property `https://anantam-labs.vercel.app/`. Do not try to verify the parent `vercel.app` domain.
-2. Choose HTML tag verification and provide the generated `google-site-verification` value. It is an intentionally public ownership-verification token, not a password or API credential.
-3. Set that exact value in `tools/search-verification.json`, rebuild, run the checks and promote the reviewed deployment. The builder adds one static tag to the homepage's head. Keep it for Google's periodic ownership checks; never invent a value. Unknown keys or executable markup fail validation.
+2. The selected method is **HTML file upload**. The file is intentionally public ownership-verification material, not a password or API credential. Its value must not be substituted into the different meta-tag method.
+3. `tools/search-verification.json` retains the approved filename. The builder recreates only that validated filename with the exact verification body; checks enforce its content, direct delivery and sitemap exclusion. Keep the file for Google's periodic ownership checks. If the owner later selects the meta method, use its separately issued value; never invent one. Unknown keys, path traversal and executable markup fail validation.
 4. Click Verify in Search Console. Submit `https://anantam-labs.vercel.app/sitemap.xml` under Sitemaps and record its real processing status.
 5. Inspect `/`, `/about.html` and `/benchmark.html`; run the live test and request indexing where appropriate. Record Google's actual reported reason for exclusions before choosing a fix. Do not repeatedly resubmit the same URL to try to accelerate crawling.
 6. Record Page Indexing status and Search Performance for `anantam`, `anantam labs` and `emberbench`, including property, date range, country/device filters, impressions, clicks, CTR and average position. No report data yet exists in this task. A screenshot/search rank is not a substitute for those measurements.
