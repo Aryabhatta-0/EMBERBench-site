@@ -1,0 +1,12 @@
+work/
+node_modules/
+.git/
+.hallmark/
+.venv/
+.pytest_cache/
+.mypy_cache/
+__pycache__/
+emberbench/
+tests/
+**/.env*
+**/*.log

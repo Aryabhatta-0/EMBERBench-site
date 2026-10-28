@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,readdir,stat} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
+import {searchIdentity,verificationMeta} from './search-identity.mjs';
 const root=resolve(process.argv[2]||'site'),origin='https://anantam-labs.vercel.app';
 const read=path=>readFile(resolve(root,path),'utf8');
 const config=JSON.parse(await readFile(new URL('../vercel.json',import.meta.url),'utf8'));
@@ -38,6 +39,8 @@ for(const file of files){
   const data=JSON.parse(json);assert.equal(data['@context'],'https://schema.org');
   const digest="'sha256-"+createHash('sha256').update(json).digest('base64')+"'";assert(headers['Content-Security-Policy'].includes(digest),`CSP blocks schema: ${file}`);
   const org=data['@graph'].find(x=>x['@type']==='Organization');assert.equal(org.name,'Anantam');assert.equal(org.contactPoint.email,'arsathvik48@gmail.com');
+  assert.equal(org.alternateName,searchIdentity.alternateName);assert.deepEqual(org.sameAs,[searchIdentity.profile]);
+  assert.equal(data['@graph'].find(x=>x['@type']==='WebSite').alternateName,searchIdentity.alternateName);
   for(const field of ['address','legalName','taxID','foundingDate','aggregateRating'])assert(!(field in org),`Invented identity field: ${field}`);
  }
  assert(head.includes('application/ld+json'),`No structured identity: ${file}`);
@@ -53,6 +56,12 @@ assert.equal(data.source.sha256,createHash('sha256').update(raw.replace(/\r\n/g,
 assert.equal(data.models.length,source.models.length);assert(data.scope.includes('not official hidden-test'));
 for(const m of data.models){const original=source.models.find(x=>x.id===m.id);assert(original);assert.equal(m.ember_score,original.score);assert.equal(m.published_rank,original.rank);assert.equal(m.safety,original.safety);assert.equal(m.execution_quality,original.quality);assert.deepEqual(m.confidence_interval,original.ci);}
 const benchmark=await read('benchmark.html');assert(benchmark.includes('data-static-results')&&benchmark.includes('data-page-loader'),'Benchmark keeps static results and a progressive emblem loader');
+const home=await read('index.html'),about=await read('about.html');
+assert(home.includes('<title>Anantam Labs |')&&home.includes('Anantam Labs’ first contribution'),'Search name must match visible homepage content');
+assert(about.includes('also known as Anantam Labs'),'About must establish the same name');
+const verification=verificationMeta(JSON.parse(await readFile(new URL('./search-verification.json',import.meta.url),'utf8')));
+assert.equal((home.match(/name="google-site-verification"/g)||[]).length,verification?1:0,'Unexpected or duplicate verification tag');
+if(verification)assert(home.includes(verification),'Owner verification must survive rebuilds');
 for(const m of data.models.filter(x=>x.kind==='Decision model'))assert(benchmark.includes(m.ember_score.toFixed(2)),`Missing initial score: ${m.id}`);
 for(const path of ['index.md','benchmark.md','docs.md','llms.txt','privacy.html','terms.html','cookies.html','about.html','contact.html'])assert((await read(path)).length>500,`Empty discovery/policy page: ${path}`);
 const llms=await read('llms.txt');assert(llms.includes('one trial')&&llms.includes('not an inference API')&&llms.includes('sole published contribution'));

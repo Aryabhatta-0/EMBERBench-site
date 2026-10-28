@@ -1,5 +1,7 @@
 # Anantam
 
+**[Anantam Labs website](https://anantam-labs.vercel.app/)** · [EMBERBench results](https://anantam-labs.vercel.app/benchmark.html) · [Methodology](https://anantam-labs.vercel.app/methodology.html) · [Documentation](https://anantam-labs.vercel.app/docs.html)
+
 **Boundless Possibilities.** **EMBERBench** is its first and only published contribution.
 
 The light-only company homepage presents a centered identity, a mist-blue hero with flowing brand ribbons and direct benchmark access, followed by a concise typographic introduction to EMBERBench. It does not load result data or display a leaderboard. The benchmark uses the browser width for four open chart sections, with every matching model in the main ranking, people outcomes and ten scenario comparisons, using local provider logos and observed brand colours. Charts stay vertical at every width and each series is ordered highest to lowest. Automatic vertical bands keep crowded plots readable without hiding models; there are no chart +/− controls. Comparison controls and tables belong on the separate comparison page. Complete documentation is hosted on the site, with local search and section navigation.

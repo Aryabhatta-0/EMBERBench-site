@@ -16,7 +16,7 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm run build
       - run: git diff --exit-code -- site tools/site-publication-policy.json vercel.json
-      - run: node --test tests/site.test.mjs tests/docs-policy.test.mjs tests/evaluation.test.mjs
+      - run: node --test tests/site.test.mjs tests/docs-policy.test.mjs tests/evaluation.test.mjs tests/search-identity.test.mjs
       - run: node tools/check_public_site.mjs
 
   builder:

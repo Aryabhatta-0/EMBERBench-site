@@ -1,8 +1,8 @@
-# Anantam
+# Anantam (Anantam Labs)
 
 > Boundless Possibilities. Independent AI research; EMBERBench is our first and only published contribution.
 
-Anantam is not currently a registered company. [About Anantam](https://anantam-labs.vercel.app/about.html).
+Anantam Labs is the independent research initiative behind EMBERBench. It is not currently a registered company. [About Anantam](https://anantam-labs.vercel.app/about.html).
 
 ## EMBERBench
 

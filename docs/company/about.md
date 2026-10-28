@@ -2,7 +2,7 @@
 
 Boundless Possibilities
 
-Anantam is an independent AI research initiative. It is not currently a registered company. EMBERBench is its first and only published contribution; future work will be described when it exists.
+Anantam, also known as Anantam Labs, is an independent AI research initiative. It is not currently a registered company. EMBERBench is its first and only published contribution; future work will be described when it exists.
 
 ## Our first contribution
 
@@ -12,6 +12,6 @@ The website presents the public-development benchmark, its methodology, and the 
 
 ## Open research, clear limits
 
-We publish the task and scoring contracts, public-development evidence and source links. We distinguish those materials from any separate, private construction of an official test distribution. No official hidden-test results, hosted evaluation-submission service or other product is offered here.
+We publish the task and scoring contracts, public-development evidence and source links through the [Anantam GitHub organization](https://github.com/Aryabhatta-0). We distinguish those materials from any separate, private construction of an official test distribution. No official hidden-test results, hosted evaluation-submission service or other product is offered here.
 
 Explore [EMBERBench](benchmark.html), read the [methodology](methodology.html), or start with the [documentation](docs.html). Questions and corrections can be sent through our [contact page](contact.html).
