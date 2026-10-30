@@ -18,6 +18,9 @@ body[data-page='company'] .site-header{background:var(--hero-surface);}
 @media(max-height:600px){.company-hero .hero-emblem{width:48px;height:48px;}}
 @media(max-width:700px){.company-hero{padding-bottom:40px;}}
 @media(max-height:600px){.company-hero{padding-top:20px;padding-bottom:52px;}.company-signature{flex-direction:row;gap:14px;}.hero-emblem{width:48px;height:48px;}.company-hero h1{font-size:80px;line-height:1;}.company-hero>p{font-size:16px;margin:16px 0 20px;}}
+/* Phones: while the first-visit notice covers the lower screen, lift the identity and action (particles included,
+   so the assembled emblem stays aligned) just clear of it; they settle back when the notice closes. */
+@media(max-width:600px) and (min-height:601px){.company-hero>:not(.brand-ribbon){transition:translate 400ms var(--ease-out);}body:has(.cookie-notice) .company-hero>:not(.brand-ribbon){translate:0 calc(-1*clamp(0px,400px - 50svh,110px));}}
 @media(prefers-reduced-motion:reduce){.hero-emblem{transform:none;}.brand-ribbon use{animation:none;}}
 /* Keep the source image as a fallback, never as an entrance frame. */
 .company-hero .hero-emblem{visibility:hidden;}
