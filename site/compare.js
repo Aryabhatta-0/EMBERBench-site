@@ -1,4 +1,4 @@
-import { editorHeader, workspaceTabs, disclosure } from "./workspace.js?v=20261028-mobile-2";
+import { editorHeader, workspaceTabs, disclosure } from "./workspace.js?v=20261030-compare-1";
 import {comparisonReadout} from './evidence-readout.js';
 import {
   loadResults,
@@ -22,13 +22,13 @@ import {
   scenarioName,
   errorPage,
   isDecision,
-} from "./common.js?v=20261028-mobile-2";
+} from "./common.js?v=20261030-compare-1";
 import {
   selectedIds,
   pairedDifferences,
   leaderboardOrder,
   finite,
-} from "./analytics.js?v=20261028-mobile-2";
+} from "./analytics.js?v=20261030-compare-1";
 import { componentChart, heatmap, differenceChart } from "./charts.js";
 
 const fields = [
@@ -132,7 +132,7 @@ async function main() {
     const cards = `<div class="compare-grid">${models
       .map(
         (m, i) =>
-          `<article class="compare-card series-card-${i}"><div><span class="compare-kind">${esc(m.kind)}</span><h2>${modelLink(m)}</h2><span class="muted">Overall rank ${rankOf(all, m)} / ${all.length}</span></div><div class="compare-score"><strong class="metric-value">${fmt(m.score)}</strong><span class="metric-note">EMBER / 100<br>95% CI ${ciText(m)}</span></div></article>`,
+          `<article class="compare-card series-card-${i}"><div><span class="compare-kind">${esc(m.kind)}</span><h2>${modelLink(m)}</h2><span class="muted compare-rank">Rank ${rankOf(all, m)} of ${all.length}</span></div><div class="compare-score"><strong class="metric-value">${fmt(m.score)}</strong><span class="metric-note"><span>EMBER / 100</span><span>95% CI ${ciText(m)}</span></span></div></article>`,
       )
       .join("")}</div>`;
     const metrics = table(
