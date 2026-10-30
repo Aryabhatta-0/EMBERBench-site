@@ -242,8 +242,10 @@ main.container {
   bottom: -1px;
   background: var(--accent);
 }
-.site-nav a:hover {
-  color: var(--accent);
+@media (hover: hover) {
+  .site-nav a:hover {
+    color: var(--accent);
+  }
 }
 .header-actions {
   display: flex;
@@ -453,18 +455,23 @@ main.container {
   text-decoration: none;
   white-space: nowrap;
 }
-.button:hover {
-  border-color: var(--text-muted);
-  background: var(--surface-2);
-  text-decoration: none;
+/* Touch screens keep :hover after a tap, so hover fills apply only to real pointers. */
+@media (hover: hover) {
+  .button:hover {
+    border-color: var(--text-muted);
+    background: var(--surface-2);
+    text-decoration: none;
+  }
 }
 .button.primary {
   color: var(--on-provider);
   background: var(--accent);
   border-color: var(--accent);
 }
-.button.primary:hover {
-  background: var(--accent);
+@media (hover: hover) {
+  .button.primary:hover {
+    background: var(--accent);
+  }
 }
 .button.small {
   min-height: 30px;
@@ -587,8 +594,10 @@ th[aria-sort="descending"] {
 tr:last-child td {
   border-bottom: 0;
 }
-tbody tr:hover td {
-  background: color-mix(in srgb, var(--series-1) 4%, var(--surface-1));
+@media (hover: hover) {
+  tbody tr:hover td {
+    background: color-mix(in srgb, var(--series-1) 4%, var(--surface-1));
+  }
 }
 .leaderboard-table {
   min-width: 1080px;
@@ -762,9 +771,13 @@ tbody tr:hover td {
   text-decoration: none;
   font-size: 12px;
 }
-.provider-row:hover,
 .provider-row:focus-visible {
   background: color-mix(in srgb, var(--provider-color) 7%, var(--surface-1));
+}
+@media (hover: hover) {
+  .provider-row:hover {
+    background: color-mix(in srgb, var(--provider-color) 7%, var(--surface-1));
+  }
 }
 .provider-name {
   min-width: 0;
@@ -905,9 +918,13 @@ tbody tr:hover td {
 .bar-row[data-tip] {
   border-radius: 3px;
 }
-.bar-row:hover,
 .bar-row:focus-visible {
   background: color-mix(in srgb, var(--series-1) 6%, var(--surface-1));
+}
+@media (hover: hover) {
+  .bar-row:hover {
+    background: color-mix(in srgb, var(--series-1) 6%, var(--surface-1));
+  }
 }
 .bar-label {
   min-width: 0;
@@ -1325,8 +1342,10 @@ tbody th[scope="row"] {
   font-weight: 550;
   white-space: normal;
 }
-tbody tr:hover th[scope="row"] {
-  background: color-mix(in srgb, var(--series-1) 4%, var(--surface-1));
+@media (hover: hover) {
+  tbody tr:hover th[scope="row"] {
+    background: color-mix(in srgb, var(--series-1) 4%, var(--surface-1));
+  }
 }
 .leaderboard-table tr.selected th[scope="row"] {
   background: color-mix(in srgb, var(--series-1) 8%, var(--surface-1));
