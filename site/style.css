@@ -2118,9 +2118,6 @@ caption {
     font-size: 12px;
     padding: 6px 8px;
   }
-    font-size: 11px !important;
-    padding: 4px 7px !important;
-  }
   .site-footer.container {
     padding: 20px 16px;
     flex-direction: column;
