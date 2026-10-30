@@ -26,6 +26,15 @@ function bindContact(){
 }
 bindContact();
 document.addEventListener('anantam:articlechange',bindContact);
+// Phones: the index is one scrolling row. Each page gets one fixed row position: from the start, scrolled only as far
+// as needed to show the current chip, so the bar looks the same every time that page opens.
+function showCurrentIndexLink(){
+ const index=document.querySelector('.legal-index'),current=index?.querySelector('[aria-current="page"]');
+ if(!current||index.scrollWidth<=index.clientWidth)return;
+ index.scrollTo({left:Math.max(0,current.offsetLeft+current.offsetWidth+20-index.clientWidth),behavior:'instant'});
+}
+showCurrentIndexLink();
+document.addEventListener('anantam:articlechange',showCurrentIndexLink);
 addEventListener('anantam:preferenceschange',()=>{const input=document.getElementById('remember-comparisons');if(input)input.checked=remembersComparisons();});
 
 document.addEventListener('anantam:articlechange',bindPreferences);
