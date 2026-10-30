@@ -202,8 +202,10 @@ body[data-page='model'] .profile-head { display: grid; grid-template-columns: mi
   .mobile-rank { display: block; font-size: 12px; color: var(--text-muted); font-weight: 400; margin-bottom: 4px; }
   .focused-table .model-name { font-size: 13px; }
   .focused-table .model-provider { align-items: flex-start; flex-direction: column; gap: 5px; }
-  .workspace-tabs { border-radius: 16px; gap: 4px; padding: 4px; width: 100%; }
-  .workspace-tabs button { padding-inline: 12px; flex: 1; font-size: 12px; }
+  /* One row on every phone width: tabs share the row and scroll sideways only on the narrowest screens. */
+  .workspace-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; border-radius: 16px; gap: 4px; padding: 4px; width: 100%; }
+  .workspace-tabs::-webkit-scrollbar { display: none; }
+  .workspace-tabs button { padding-inline: 10px; flex: 1 0 auto; font-size: 12px; }
   .workspace-panel { padding: 24px 16px; }
   .workspace-panel h2 { font-size: 20px; }
   .workspace-panel table { min-width: 520px; }

@@ -51,3 +51,5 @@
  .scenario-filters .toolbar{grid-template-columns:minmax(0,1fr);gap:16px;}.scenario-filters input,.scenario-filters select{font-size:16px;}
  .scenario-canvas th,.scenario-canvas td{padding:12px 7px;}.scenario-canvas #scenario-ranking .model-name{font-size:12px;}.scenario-canvas th button{min-height:44px;font-size:12px;}
 }
+/* Phones: secondary text stays at the 12px minimum. */
+@media(max-width:700px){#world-model-result>div>span,#world-model-result p>span{font-size:12px;}}

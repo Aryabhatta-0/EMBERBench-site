@@ -1,13 +1,13 @@
-import {siteHeader} from './chrome.js?v=20261028-mobile-2';
-import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261028-mobile-2';
-import {siteFooter,revealCompanyFooter} from './footer.js?v=20261028-mobile-2';
+import {siteHeader} from './chrome.js?v=20261030-compare-1';
+import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261030-compare-1';
+import {siteFooter,revealCompanyFooter} from './footer.js?v=20261030-compare-1';
 import {
   provider,
   providerInfo,
   rankOf,
   selectedIds,
   leaderboardOrder,
-} from "./analytics.js?v=20261028-mobile-2";
+} from "./analytics.js?v=20261030-compare-1";
 
 export const esc = (v) =>
   String(v ?? "").replace(
@@ -169,6 +169,7 @@ export function shell(data, active) {
     navButton.textContent = expanded ? "Close" : "Menu";
     document.getElementById("site-nav").classList.toggle("open", expanded);
     updateOffset();
+    syncMenuInert();
   };
   navButton.addEventListener("click", () =>
     toggleNav(navButton.getAttribute("aria-expanded") !== "true"),
@@ -182,14 +183,28 @@ export function shell(data, active) {
   document.getElementById("site-nav").addEventListener("click", e => {
     if (e.target.closest("a")) toggleNav(false);
   });
+  // The dimmed backdrop is the header's ::after, so a tap on it targets the header itself.
+  header.addEventListener("click", e => {
+    if (e.target === header && navButton.getAttribute("aria-expanded") === "true") toggleNav(false);
+  });
   document
     .querySelector(".skip-link")
     .addEventListener("click", () => toggleNav(false));
-  new ResizeObserver(updateOffset).observe(
+  new ResizeObserver(() => { updateOffset(); syncMenuInert(); }).observe(
     document.querySelector(".site-header"),
   );
   updateOffset();
   installTooltip();
+}
+// While the phone menu covers the screen, the page behind it leaves the tab order and accessibility tree.
+function syncMenuInert() {
+  const nav = document.getElementById("site-nav");
+  const sheet = nav.classList.contains("open") && getComputedStyle(nav).position === "fixed";
+  for (const el of document.body.children) {
+    if (el.matches(".site-header, .skip-link, script")) continue;
+    if (sheet && !el.inert) { el.inert = true; el.dataset.menuInert = ""; }
+    else if (!sheet && "menuInert" in el.dataset) { el.inert = false; delete el.dataset.menuInert; }
+  }
 }
 export function installTooltip() {
   const tip = document.createElement("div");

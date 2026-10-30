@@ -106,7 +106,7 @@ body[data-page='model'] main.container { padding-top:32px; }
 .comparison-people { display:grid; grid-template-columns:repeat(var(--comparison-count),minmax(0,1fr)); gap:30px; }
 .comparison-people h3 { font-size:15px; font-weight:500; overflow-wrap:anywhere; margin:0 0 24px; }
 body[data-page='compare'] main.container { padding-top:28px; }
-body[data-page='compare'] .editorial-head { display:flex; flex-direction:row; justify-content:space-between; align-items:end; text-align:left; gap:24px; margin-bottom:22px; }
+body[data-page='compare'] .editorial-head { display:flex; flex-direction:row; justify-content:space-between; align-items:end; text-align:left; gap:24px; margin-bottom:16px; }
 body[data-page='compare'] .editorial-head h1 { font-size:48px; line-height:1.1; max-width:none; margin:0; }
 body[data-page='compare'] .editorial-head p { font-size:13px; margin-top:12px; }
 body[data-page='compare'] .editorial-aside { min-width:auto; }
@@ -192,4 +192,94 @@ body[data-page='compare'] .editorial-aside { min-width:auto; }
 }
 @media (prefers-reduced-motion:reduce) {
   .chart-open, .chart-model { transition: none; transform: none; }
+}
+/* Compare revision (30 October 2026): Sarvam-style surfaces. One white picker card, one card per model with its
+   series dot (the same colours as the component bars), a quiet segmented control, and the evidence in hairline cards (disclosure cards: experience.css). Scoped to the Compare page. */
+body[data-page='compare'] .editorial-aside .quiet-link { min-height:44px; margin:0; padding:0 18px; gap:8px; border:1px solid var(--border); border-radius:999px; background:var(--surface-1); color:var(--text-primary); font-size:13px; }
+body[data-page='compare'] .editorial-aside .quiet-link::after { content:''; width:16px; height:16px; background:currentColor; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat; transition:transform var(--duration-quick) var(--ease-out); }
+body[data-page='compare'] .comparison-controls { padding:14px 20px 12px; background:var(--surface-1); border:1px solid var(--border); border-radius:20px; box-shadow:0 1px 2px #142e5108; }
+body[data-page='compare'] .comparison-controls .compare-picker { grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto; gap:16px; align-items:end; }
+body[data-page='compare'] .comparison-controls .field { gap:8px; font-size:11.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); }
+body[data-page='compare'] .comparison-controls select { min-height:44px; padding-inline:14px 36px; border-radius:12px; font-size:15px; font-weight:500; letter-spacing:normal; text-transform:none; color:var(--text-primary); }
+body[data-page='compare'] .optional-models { margin:0; padding:0; border:0; }
+body[data-page='compare'] .optional-models > summary { gap:8px; min-height:44px; padding:0 20px; font-size:13px; font-weight:500; color:var(--text-primary); }
+body[data-page='compare'] .optional-models > summary::-webkit-details-marker { display:none; }
+body[data-page='compare'] .optional-models > summary::before { content:'+'; font-size:17px; line-height:1; }
+body[data-page='compare'] .optional-models[open] > summary::before { content:'−'; }
+body[data-page='compare'] .comparison-controls > .note { margin:10px 0 0; padding:0; font-size:12px; color:var(--text-secondary); }
+/* Open picker: four equal columns (two-up below 1280px, where long names would be cut). The optional pair sits in a nested grid with the same gap, so
+   all four selects share one column width. The toggle hides once open; a slot is cleared by choosing "Choose a model". */
+body[data-page='compare'] .compare-picker:has(.optional-models[open]) { grid-template-columns:repeat(4,minmax(0,1fr)); }
+body[data-page='compare'] .comparison-controls .optional-models[open] { grid-column:3 / -1; }
+body[data-page='compare'] .optional-models[open] > summary { display:none; }
+body[data-page='compare'] .optional-model-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:0; padding:0; }
+@media (max-width:1279px) {
+  body[data-page='compare'] .compare-picker:has(.optional-models[open]) { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  body[data-page='compare'] .comparison-controls .optional-models[open] { grid-column:1 / -1; }
+}
+/* Model cards (benchmark-site pattern). Narrow cards (three or four across): identity on top, one hairline, then the
+   score row; row 1 takes the spare height, so hairlines and scores line up across cards when a long name wraps.
+   Cards 400px and wider (two across): one compact row, identity left and score right. The card is its own size
+   container, so its grid tracks stay fixed and the container queries only move the two children. */
+body[data-page='compare'] #comparison-content > .compare-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr)); gap:12px; padding:12px 0 0; }
+body[data-page='compare'] .compare-grid .compare-card { --card-series:var(--accent); container-type:inline-size; display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:1fr auto; align-items:stretch; gap:0 24px; padding:16px 20px; background:var(--surface-1); border:1px solid var(--border); border-radius:18px; box-shadow:0 1px 2px #142e5108; }
+body[data-page='compare'] .compare-card.series-card-1 { --card-series:var(--series-1); }
+body[data-page='compare'] .compare-card.series-card-2 { --card-series:var(--series-3); }
+body[data-page='compare'] .compare-card.series-card-3 { --card-series:var(--ref-bar); }
+body[data-page='compare'] .compare-card > div:first-child { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:8px 12px; }
+body[data-page='compare'] .compare-card .compare-kind { display:flex; align-items:center; gap:8px; min-width:0; margin:0; font-size:11.5px; font-weight:600; letter-spacing:.1em; line-height:1.3; text-transform:uppercase; color:var(--text-muted); }
+body[data-page='compare'] .compare-card .compare-kind::before { content:''; flex:none; width:8px; height:8px; border-radius:50%; background:var(--card-series); }
+body[data-page='compare'] .compare-card h2 { grid-column:1 / -1; margin:0; font-size:18px; font-weight:600; line-height:1.35; }
+body[data-page='compare'] .compare-card .compare-rank { grid-row:1; grid-column:2; padding:3px 10px; border-radius:999px; background:var(--surface-2); font-size:12px; line-height:1.4; white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--text-secondary); }
+body[data-page='compare'] .compare-score { grid-column:1 / -1; grid-row:2; display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:6px 16px; padding-top:14px; }
+body[data-page='compare'] .compare-card > div:first-child { grid-column:1 / -1; grid-row:1; align-content:start; padding-bottom:14px; border-bottom:1px solid var(--grid); }
+body[data-page='compare'] .compare-score .metric-value { font-size:40px; line-height:1; letter-spacing:-.02em; }
+body[data-page='compare'] .compare-score .metric-note { display:flex; flex-direction:column; margin:0; font-size:12px; line-height:1.5; text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--text-muted); }
+@container (min-width:400px) {
+  body[data-page='compare'] .compare-card > div:first-child { grid-column:1; grid-row:1 / -1; align-self:center; grid-template-columns:auto auto; justify-content:start; padding:0; border:0; }
+  body[data-page='compare'] .compare-score { grid-column:2; grid-row:1 / -1; align-self:center; flex-direction:row-reverse; flex-wrap:nowrap; align-items:center; padding:0; }
+}
+/* Very narrow cards (four across on a laptop): rank under the name and the note under the score, so nothing wraps
+   unevenly and the scores stay on one line across cards. */
+@container (max-width:320px) {
+  body[data-page='compare'] .compare-card > div:first-child { display:flex; flex-direction:column; align-items:flex-start; gap:8px; }
+  body[data-page='compare'] .compare-score { flex-direction:column; align-items:flex-start; }
+  body[data-page='compare'] .compare-score .metric-note { text-align:left; }
+}
+body[data-page='compare'] #comparison-content > .empty { margin-top:12px; border-radius:18px; }
+body[data-page='compare'] #comparison-content .workspace-panel { padding-top:0; }
+body[data-page='compare'] #comparison-content .workspace-tabs { margin:16px 0 10px; padding:4px; border:1px solid var(--border); }
+body[data-page='compare'] .workspace-tabs [aria-selected='true'] { box-shadow:0 1px 2px #142e5114, 0 0 0 1px var(--border); }
+body[data-page='compare'] .comparison-readout, body[data-page='compare'] .workspace-panel > section.panel { margin:0 0 12px; padding:28px; background:var(--surface-1); border:1px solid var(--border); border-radius:20px; box-shadow:0 1px 2px #142e5108; }
+body[data-page='compare'] .comparison-readout { padding:20px 24px; }
+body[data-page='compare'] .comparison-readout h2 { margin:0 0 6px; font-size:20px; }
+body[data-page='compare'] .comparison-readout .readout-intro { margin-bottom:12px; }
+body[data-page='compare'] .comparison-people { gap:16px; }
+body[data-page='compare'] .comparison-people > section { min-width:0; padding:12px 16px 14px; background:var(--surface-0); border:1px solid var(--grid); border-radius:14px; }
+body[data-page='compare'] .comparison-people h3 { margin-bottom:10px; }
+body[data-page='compare'] .readout-note { margin-bottom:0; }
+@media (hover:hover) and (pointer:fine) {
+  body[data-page='compare'] .editorial-aside .quiet-link:hover { text-decoration:none; background:var(--surface-2); }
+  body[data-page='compare'] .editorial-aside .quiet-link:hover::after { transform:translateX(3px); }
+  body[data-page='compare'] .optional-models > summary:hover { background:var(--accent-soft); }
+}
+@media (max-width:700px) {
+  body[data-page='compare'] .comparison-controls { padding:16px; border-radius:18px; }
+  body[data-page='compare'] .comparison-controls .compare-picker, body[data-page='compare'] .compare-picker:has(.optional-models[open]), body[data-page='compare'] .optional-model-fields { grid-template-columns:minmax(0,1fr); gap:14px; }
+  body[data-page='compare'] .comparison-controls select { font-size:16px; }
+  body[data-page='compare'] .optional-models > summary { display:flex; justify-content:center; }
+  body[data-page='compare'] #comparison-content > .compare-grid { gap:12px; }
+  /* Phones: one compact row per model — identity left, score right — so four models fit on about one screen. */
+  body[data-page='compare'] #comparison-content > .compare-grid { gap:8px; }
+  body[data-page='compare'] .compare-grid .compare-card { align-items:center; gap:0 12px; padding:14px 16px; border-radius:16px; }
+  body[data-page='compare'] .compare-card > div:first-child { grid-column:1; grid-row:1 / -1; display:flex; flex-direction:column; align-items:flex-start; gap:6px; padding:0; border:0; }
+  body[data-page='compare'] .compare-card h2 { font-size:16px; }
+  body[data-page='compare'] .compare-card .compare-rank { padding:2px 8px; }
+  body[data-page='compare'] .compare-score { grid-column:2; grid-row:1 / -1; flex-direction:column; align-items:flex-end; gap:4px; padding:0; }
+  body[data-page='compare'] .compare-score .metric-value { font-size:30px; }
+  body[data-page='compare'] .compare-score .metric-note { font-size:11.5px; line-height:1.4; text-align:right; }
+  body[data-page='compare'] .comparison-readout, body[data-page='compare'] .workspace-panel > section.panel { padding:20px 18px; border-radius:18px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  body[data-page='compare'] .editorial-aside .quiet-link::after { transition:none; }
 }

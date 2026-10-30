@@ -12,6 +12,14 @@
 .privacy-controls label{display:flex;align-items:center;gap:12px;min-height:44px;font-size:16px;}
 .privacy-controls .preference-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px;}
 .privacy-controls [role='status']{min-height:28px;margin:16px 0 0;font-size:14px;}
+/* Contact actions: one white card with a navy Gmail pill and light secondary pills. */
+.contact-actions{margin:24px 0 32px;padding:20px;background:var(--surface-1);border:1px solid var(--border);border-radius:18px;box-shadow:0 1px 2px #142e5108;}
+.contact-action-buttons{display:flex;flex-wrap:wrap;gap:10px;}
+.legal-article .contact-actions .button{min-height:48px;padding-inline:22px;color:var(--text-primary);text-decoration:none;}
+.legal-article .contact-actions .button.primary{color:var(--on-accent);}
+.contact-actions .contact-action-status{min-height:0;margin:0;font-size:14px;}
+.contact-actions .contact-action-status:not(:empty){margin-top:12px;}
+@media(max-width:700px){.contact-action-buttons{flex-direction:column;}.contact-actions .button{justify-content:center;}}
 .static-models{list-style-position:inside;columns:2;column-gap:48px;padding:0;margin:20px 0;}
 .static-models li{break-inside:avoid;padding:12px 0;color:var(--text-secondary);font-size:15px;}
 .static-models a{color:var(--text-primary);text-underline-offset:3px;}
@@ -27,4 +35,16 @@ body[data-page='legal'] main.container{padding-top:32px;min-height:calc(100svh -
 .legal-article h1:focus{outline:none;}
 .legal-article h1:focus-visible{outline:2px solid var(--focus);outline-offset:4px;}
 .legal-article[aria-busy='true']{cursor:progress;}
-@media(max-width:700px){.legal-index{position:sticky;top:calc(var(--site-header-height,78px) + 32px);z-index:20;background:var(--surface-0);padding-block:8px;}.legal-index a{font-size:14px;}.legal-article h1{scroll-margin-top:calc(var(--site-header-height,78px) + 160px);}}
+/* Phones: the index sticks flush under the header (no gap for text to show through) as one scrolling row of chips,
+   the same bar as the Methodology contents. legal.js keeps the current chip in view. The 14px top padding puts the
+   chips at 78 + 14 = 92px, the html scroll-padding-top (style.css), so focusing a chip never scrolls the page. */
+@media(max-width:700px){
+ /* No top padding: the bar rests where it sticks, so switching articles (which scrolls to the top) never moves it. */
+ body[data-page='legal'] main.container{padding-top:0;}
+ .legal-layout{gap:20px;}
+ .legal-index{position:sticky;top:var(--site-header-height,78px);z-index:20;flex-wrap:nowrap;gap:8px;margin:0 -20px;padding:14px 20px 10px;overflow-x:auto;background:var(--surface-0);border-bottom:1px solid var(--grid);scrollbar-width:none;overscroll-behavior-x:contain;}
+ .legal-index::-webkit-scrollbar{display:none;}
+ .legal-index a{flex:none;min-height:40px;padding:0 16px;border:1px solid var(--border);border-radius:999px;background:var(--surface-1);font-size:14px;font-weight:500;white-space:nowrap;}
+ .legal-index a[aria-current='page']{background:var(--accent);border-color:var(--accent);color:var(--on-accent);}
+ .legal-article h1,.legal-article h2{scroll-margin-top:calc(var(--site-header-height,78px) + 80px);}
+}

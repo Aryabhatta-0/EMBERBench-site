@@ -12,7 +12,7 @@ import {publicResults,publicScenarioNames} from './public_results.mjs';
 import {readApprovedEvaluation} from './evaluation/publication.mjs';
 import {evaluationSection} from './evaluation/render.mjs';
 import {searchIdentity,verificationMeta,verificationFile} from './search-identity.mjs';
-const root=resolve('site'),origin='https://anantam-labs.vercel.app',version='20261028-mobile-2';
+const root=resolve('site'),origin='https://anantam-labs.vercel.app',version='20261030-compare-1';
 const assets=JSON.parse(await readFile('tools/asset-map.json','utf8'));
 const verificationConfig=JSON.parse(await readFile('tools/search-verification.json','utf8'));
 const googleVerification=verificationMeta(verificationConfig),googleFile=verificationFile(verificationConfig);
@@ -43,11 +43,16 @@ const pages={
  'docs.html':['EMBERBench documentation | Anantam','Public EMBERBench documentation: model interface, simulation contract, scoring formula, development workflow, fairness and official-evaluation boundaries.'],
 };
 const controls=`<section class="privacy-controls" aria-labelledby="device-preferences"><h2 id="device-preferences">Device preferences</h2><label><input type="checkbox" id="remember-comparisons">Remember comparison selections on this device</label><div class="preference-actions"><button type="button" class="button primary" id="save-preferences">Save preferences</button><button type="button" class="button" id="clear-website-data">Clear saved website data</button></div><p id="preference-status" role="status" aria-live="polite">Optional comparison memory is off unless you enable it.</p></section><noscript><p>JavaScript is needed for these controls. You can clear or block this website’s data in your browser’s site-data settings.</p></noscript>`;
+// Contact actions: Gmail's web composer opens in a new tab with the address and subject filled in; the mailto link
+// serves any other mail app. Copy address appears only when legal.js can reach the clipboard.
+const contactEmail='arsathvik48@gmail.com',contactSubject=encodeURIComponent('Anantam enquiry');
+const contactActions=`<section class="contact-actions" aria-label="Write to Anantam"><div class="contact-action-buttons"><a class="button primary" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=${contactEmail}&amp;su=${contactSubject}" target="_blank" rel="noopener">Write in Gmail<span class="sr-only"> (opens in a new tab)</span></a><a class="button" href="mailto:${contactEmail}?subject=${contactSubject}">Use another email app</a><button type="button" class="button" id="copy-contact-email" data-email="${contactEmail}" hidden>Copy address</button></div><p class="contact-action-status" role="status" aria-live="polite"></p></section>`;
 const nav=current=>`<nav class="legal-index" aria-label="Company and policies">${Object.keys(company).map(id=>`<a href="${id}.html" ${id===current?'aria-current="page"':''}>${{about:'About',contact:'Contact',privacy:'Privacy',terms:'Terms',cookies:'Cookies & preferences',accessibility:'Accessibility'}[id]}</a>`).join('')}</nav>`;
 for(const [id,[title,description,source]] of Object.entries(company)){
  const markdown=(await readFile(source,'utf8')).replace(/^\uFEFF/,'');
  let body=sanitizeHtml(await marked.parse(markdown),{allowedTags:[...sanitizeHtml.defaults.allowedTags,'h1','h2'],allowedAttributes:{a:['href','title'],code:['class']}});
  if(id==='cookies')body=body.replace('<h2>Optional comparison memory</h2>',controls+'<h2>Optional comparison memory</h2>');
+ if(id==='contact'){const withActions=body.replace(/<p>Email <a href="mailto:[\s\S]*?<\/p>/,m=>m+contactActions);if(withActions===body)throw new Error('Contact page: email paragraph not found for the contact actions');body=withActions;}
  const html=`<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><link rel="stylesheet" href="style.css?v=${version}"><link rel="stylesheet" href="anantam.css?v=${version}"><link rel="stylesheet" href="footer.css?v=${version}"><link rel="stylesheet" href="legal.css?v=${version}"></head><body data-page="legal"><main id="main" tabindex="-1"><div class="legal-layout">${nav(id)}<article class="legal-article">${body}</article></div></main><script type="module" src="legal.js?v=${version}"></script></body></html>\n`;
  await writeFile(resolve(root,id+'.html'),html);await writeFile(resolve(root,id+'.md'),markdown);pages[id+'.html']=[title,description];
 }

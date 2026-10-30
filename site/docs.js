@@ -1,12 +1,16 @@
 // Enhancement only: every guide and link is already present in static HTML.
 const root=document.body.dataset.root||'';
 const menu=document.querySelector('.nav-toggle'),nav=document.querySelector('#site-nav');
-const toggle=expanded=>{menu.setAttribute('aria-expanded',String(expanded));menu.textContent=expanded?'Close':'Menu';nav.classList.toggle('open',expanded);};
+// While the phone menu covers the screen, the page behind it leaves the tab order and accessibility tree.
+const syncMenuInert=()=>{const sheet=nav.classList.contains('open')&&getComputedStyle(nav).position==='fixed';for(const el of document.body.children){if(el.matches('.site-header,.skip-link,script'))continue;if(sheet&&!el.inert){el.inert=true;el.dataset.menuInert='';}else if(!sheet&&'menuInert' in el.dataset){el.inert=false;delete el.dataset.menuInert;}}};
+const toggle=expanded=>{menu.setAttribute('aria-expanded',String(expanded));menu.textContent=expanded?'Close':'Menu';nav.classList.toggle('open',expanded);syncMenuInert();};
 menu.addEventListener('click',()=>toggle(menu.getAttribute('aria-expanded')!=='true'));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.getAttribute('aria-expanded')==='true'){toggle(false);menu.focus();}});
-nav.addEventListener('click',()=>toggle(false));
+nav.addEventListener('click',e=>{if(e.target.closest('a'))toggle(false);});
 const header=document.querySelector('.site-header');
-new ResizeObserver(()=>document.documentElement.style.setProperty('--header-offset',`${Math.ceil(header.getBoundingClientRect().height)+14}px`)).observe(header);
+// The dimmed backdrop is the header's ::after, so a tap on it targets the header itself.
+header.addEventListener('click',e=>{if(e.target===header&&menu.getAttribute('aria-expanded')==='true')toggle(false);});
+new ResizeObserver(()=>{const height=Math.ceil(header.getBoundingClientRect().height);document.documentElement.style.setProperty('--header-offset',`${height+14}px`);document.documentElement.style.setProperty('--site-header-height',`${height}px`);syncMenuInert();}).observe(header);
 if(matchMedia('(max-width:760px)').matches){document.querySelector('.docs-navigation').open=false;const toc=document.querySelector('.docs-toc details');if(toc)toc.open=false;}
 const escape=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const input=document.querySelector('#docs-search'),clear=document.querySelector('#clear-docs-search'),status=document.querySelector('#docs-search-status'),results=document.querySelector('.docs-search-results'),content=document.querySelector('.docs-page-content');
@@ -29,8 +33,21 @@ async function search(){
  }catch{if(turn!==request)return;status.textContent='Search is unavailable. Browse the guides below.';}
 }
 input.addEventListener('input',search);clear.addEventListener('click',()=>{input.value='';search();input.focus();});
+// "/" jumps to search unless the reader is already typing somewhere.
+document.addEventListener('keydown',e=>{if(e.key!=='/'||e.ctrlKey||e.metaKey||e.altKey||e.target.closest('input,textarea,select,[contenteditable]'))return;if(!input.getClientRects().length)return;e.preventDefault();input.focus();});
 for(const pre of document.querySelectorAll('.docs-article pre')){
  const code=pre.querySelector('code');if(!code)continue;
+ // Code sits in a framed block with a header bar: language label on the left, copy on the right.
+ const frame=document.createElement('div');frame.className='docs-code';
+ const bar=document.createElement('div');bar.className='docs-code-bar';
+ const lang=document.createElement('span');lang.textContent=(code.className.match(/language-([\w+-]+)/)||[,'Code'])[1];
  const button=document.createElement('button');button.type='button';button.className='docs-code-copy';button.textContent='Copy code';button.setAttribute('aria-live','polite');
- pre.prepend(button);button.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(code.textContent);button.textContent='Copied';}catch{button.textContent='Select code to copy';}setTimeout(()=>button.textContent='Copy code',1800);});
+ pre.before(frame);bar.append(lang,button);frame.append(bar,pre);button.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(code.textContent);button.textContent='Copied';}catch{button.textContent='Select code to copy';}setTimeout(()=>button.textContent='Copy code',1800);});
+}
+// "On this page" marks the section being read: the last heading above the top fifth of the viewport.
+const tocPairs=[...document.querySelectorAll('.docs-toc a')].map(a=>[a,document.getElementById(decodeURIComponent(a.hash.slice(1)))]).filter(([,h])=>h);
+if(tocPairs.length){
+ let queued=false;
+ const spy=()=>{queued=false;let current=tocPairs[0];for(const pair of tocPairs){if(pair[1].getBoundingClientRect().top<innerHeight*.2)current=pair;else break;}for(const pair of tocPairs)pair[0].classList.toggle('is-active',pair===current);};
+ addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(spy);}},{passive:true});spy();
 }

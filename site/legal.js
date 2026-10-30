@@ -1,5 +1,5 @@
-import {shell} from './common.js?v=20261028-mobile-2';
-import {remembersComparisons,saveStorageChoice,clearWebsiteStorage} from './preferences.js?v=20261028-mobile-2';
+import {shell} from './common.js?v=20261030-compare-1';
+import {remembersComparisons,saveStorageChoice,clearWebsiteStorage} from './preferences.js?v=20261030-compare-1';
 shell(null,location.pathname.endsWith('/about.html')?'about':'legal');
 function bindPreferences(){
  const input=document.getElementById('remember-comparisons'),status=document.getElementById('preference-status');
@@ -17,6 +17,24 @@ function bindPreferences(){
  };
 }
 bindPreferences();
+// Contact page: show Copy address only where the clipboard is available.
+function bindContact(){
+ const copy=document.getElementById('copy-contact-email');
+ if(!copy||!navigator.clipboard)return;
+ const status=document.querySelector('.contact-action-status');copy.hidden=false;
+ copy.onclick=async()=>{try{await navigator.clipboard.writeText(copy.dataset.email);status.textContent='Address copied.';}catch{status.textContent='Copy failed. Select the address above to copy it.';}};
+}
+bindContact();
+document.addEventListener('anantam:articlechange',bindContact);
+// Phones: the index is one scrolling row. Each page gets one fixed row position: from the start, scrolled only as far
+// as needed to show the current chip, so the bar looks the same every time that page opens.
+function showCurrentIndexLink(){
+ const index=document.querySelector('.legal-index'),current=index?.querySelector('[aria-current="page"]');
+ if(!current||index.scrollWidth<=index.clientWidth)return;
+ index.scrollTo({left:Math.max(0,current.offsetLeft+current.offsetWidth+20-index.clientWidth),behavior:'instant'});
+}
+showCurrentIndexLink();
+document.addEventListener('anantam:articlechange',showCurrentIndexLink);
 addEventListener('anantam:preferenceschange',()=>{const input=document.getElementById('remember-comparisons');if(input)input.checked=remembersComparisons();});
 
 document.addEventListener('anantam:articlechange',bindPreferences);

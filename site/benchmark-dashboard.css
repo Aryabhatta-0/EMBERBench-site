@@ -68,3 +68,5 @@ body[data-page='leaderboard'] .leaderboard-workspace{background:transparent;bord
 .results-options>summary::after,.results-options[open]>summary::after{content:none;}
 .results-option-fields{margin-top:16px;}
 @media(max-width:700px){.results-options>summary{left:auto;right:0;width:112px;}}
+/* Touch tablets: chart title links get the same 44px tap area as phones. */
+@media(pointer:coarse){.mini-chart-head h3>a{display:inline-block;padding-block:10px;margin-block:-10px;}}

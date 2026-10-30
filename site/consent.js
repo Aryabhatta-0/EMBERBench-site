@@ -1,4 +1,4 @@
-import {storageChoice,saveStorageChoice} from './preferences.js?v=20261028-mobile-2';
+import {storageChoice,saveStorageChoice} from './preferences.js?v=20261030-compare-1';
 
 // First-visit, non-modal choice. No optional memory is written before consent.
 // Storage practices: docs/legal/cookies.md. No analytics or advertising cookies.
@@ -33,7 +33,8 @@ addEventListener('anantam:preferenceschange',sync);
 addEventListener('storage',event=>{if(event.key==='anantam-preferences'||event.key===null)sync();});
 // A bottom notice must not cover a keyboard user's next focused control.
 document.addEventListener('focusin',event=>{
- if(!notice?.isConnected||notice.contains(event.target)||!(event.target instanceof HTMLElement))return;
+ // Keyboard focus only: scrolling during a pointer press moves the target away and the tap is lost.
+ if(!notice?.isConnected||notice.contains(event.target)||!(event.target instanceof HTMLElement)||!event.target.matches(':focus-visible'))return;
  const rect=event.target.getBoundingClientRect(),panel=notice.getBoundingClientRect();
  if(rect.bottom>panel.top-12&&rect.right>panel.left&&rect.left<panel.right)event.target.scrollIntoView({block:'center',behavior:'instant'});
 });

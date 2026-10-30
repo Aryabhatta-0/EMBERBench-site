@@ -1,5 +1,5 @@
 // Shared structure for analytical routes. Existing evidence nodes retain their IDs.
-import { esc } from './common.js?v=20261028-mobile-2';
+import { esc } from './common.js?v=20261030-compare-1';
 import {profileReadout} from './evidence-readout.js';
 
 export function workspaceTabs(root, groups, key = 'workspace', initialView) {
@@ -109,4 +109,15 @@ export function redesignMethodology() {
   main.querySelectorAll(':scope > .grid2').forEach(g => g.remove());
   const layout = document.createElement('div'); layout.className = 'method-layout'; layout.append(aside,article); main.append(layout);
   article.querySelectorAll('.table-wrap').forEach((node,i) => disclosure(node, i === 0 ? 'Explore all seven score components' : 'Inspect evaluation identity'));
+  // The contents list marks the section being read. On phones it is a chip row, so the active chip scrolls into view.
+  const pairs = [...aside.querySelectorAll('a')].map(a => [a, document.getElementById(a.hash.slice(1))]).filter(([, h]) => h);
+  let queued = false, last;
+  const spy = () => {
+    queued = false; let current = pairs[0];
+    for (const pair of pairs) { if (pair[1].getBoundingClientRect().top < innerHeight * .3) current = pair; else break; }
+    if (!current || current === last) return; last = current;
+    for (const pair of pairs) pair[0].classList.toggle('is-active', pair === current);
+    if (aside.scrollWidth > aside.clientWidth) aside.scrollTo({ left: current[0].offsetLeft - 20, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  };
+  addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true }); spy();
 }
