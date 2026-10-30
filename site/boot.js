@@ -5,7 +5,7 @@ if(main?.querySelector('[data-page-loader]')){
   document.documentElement.style.setProperty('--loading-start',`${Math.ceil(main.getBoundingClientRect().top+scrollY)}px`);
 }
 // Static navigation must work even when a larger results import is delayed.
-if(document.querySelector('.site-header'))import('./common.js?v=20261028-mobile-2').then(({shell})=>shell(null,document.body.dataset.page)).catch(()=>{});
+if(document.querySelector('.site-header'))import('./common.js?v=20261030-compare-1').then(({shell})=>shell(null,document.body.dataset.page)).catch(()=>{});
 if (main?.querySelector('.loading-shell')) {
   const shell = main.querySelector('.loading-shell');
   let stopMotion;
