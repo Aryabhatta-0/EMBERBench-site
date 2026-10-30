@@ -120,3 +120,60 @@ body[data-page='model'] .evidence-detail,body[data-page='compare'] .evidence-det
  #world-model-result{display:block;padding-top:20px;}#world-model-result .text-action{margin-top:8px;}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.group-outcomes svg,.outcome-person{transition:none;}}
+/* Revision (30 October 2026): Sarvam-style reading surfaces. Disclosures on Compare and Methodology are hairline
+   cards. Methodology gets numbered sections, a contents rail that marks the section in view, a pill loop, source
+   chips and, on phones, sticky contents chips under the header. */
+body:is([data-page='compare'],[data-page='methodology']) .evidence-detail{margin:0 0 12px;padding:0 24px;background:var(--surface-1);border:1px solid var(--border);border-radius:16px;}
+body:is([data-page='compare'],[data-page='methodology']) .evidence-detail>summary{min-height:64px;font-size:15px;font-weight:500;color:var(--text-primary);}
+body:is([data-page='compare'],[data-page='methodology']) .evidence-detail[open]>summary{margin-bottom:0;border-bottom:1px solid var(--grid);}
+body:is([data-page='compare'],[data-page='methodology']) .evidence-detail>summary>span{flex:none;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--border);border-radius:50%;font-size:17px;line-height:1;transition:transform 200ms var(--ease-out),background-color var(--duration-quick) var(--ease-out);}
+body:is([data-page='compare'],[data-page='methodology']) .evidence-detail>.panel{margin:0;padding:20px 0 24px;}
+body[data-page='methodology'] .evidence-detail{margin-block:24px;}
+body[data-page='methodology'] .evidence-detail>.table-wrap{margin:0;padding:8px 0 16px;}
+body[data-page='methodology'] .method-contents{gap:0;}
+body[data-page='methodology'] .method-contents>span{margin:0 0 12px;font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
+body[data-page='methodology'] .method-contents a{min-height:40px;padding:9px 0 9px 16px;border-left:1px solid var(--grid);font-size:13px;transition:color var(--duration-quick) var(--ease-out),border-color var(--duration-quick) var(--ease-out);}
+body[data-page='methodology'] .method-contents a.is-active{padding-left:15px;border-left:2px solid var(--accent);color:var(--text-primary);font-weight:500;}
+body[data-page='methodology'] .method-article{counter-reset:method;}
+body[data-page='methodology'] .method-article>section.panel{counter-increment:method;}
+body[data-page='methodology'] .method-article>section.panel+section.panel{padding-top:48px;border-top:1px solid var(--grid);}
+body[data-page='methodology'] .method-article h2[id]::before{content:counter(method,decimal-leading-zero);content:counter(method,decimal-leading-zero) / '';display:block;margin-bottom:14px;font:600 12px/1 var(--font-body);letter-spacing:.12em;color:var(--text-muted);}
+body[data-page='methodology'] .method-article .badge{padding:5px 12px;border-radius:999px;font-size:12px;}
+body[data-page='methodology'] .method-article .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-block:24px;}
+body[data-page='methodology'] .method-article .grid2>div{margin:0;padding:20px 22px;background:var(--surface-1);border:1px solid var(--border);border-radius:16px;}
+body[data-page='methodology'] .method-article .grid2 h3{margin:0 0 8px;}body[data-page='methodology'] .method-article .grid2 p{margin:0;}
+/* Source links: the " · " separators are text nodes, so the row sets font-size 0 and each link is a chip. */
+body[data-page='methodology'] .method-article .panel.prose>p:last-of-type:has(>a){display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;max-width:none;font-size:0;}
+body[data-page='methodology'] .method-article .panel.prose>p:last-of-type:has(>a)>a{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border:1px solid var(--border);border-radius:999px;background:var(--surface-1);font-size:13px;font-weight:500;color:var(--text-primary);text-decoration:none;transition:background-color var(--duration-quick) var(--ease-out);}
+body[data-page='methodology'] .method-article .panel.prose>p:last-of-type:has(>a)>a::after{content:'';width:14px;height:14px;background:currentColor;opacity:.5;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform var(--duration-quick) var(--ease-out);}
+body[data-page='methodology'] #method-evaluation-loop{padding:24px;background:var(--surface-1);border:1px solid var(--border);border-radius:20px;box-shadow:0 1px 2px #142e5108;}
+body[data-page='methodology'] #method-evaluation-loop .loop-path button{min-height:44px;border-radius:999px;font-size:13px;transition:background-color var(--duration-quick) var(--ease-out),color var(--duration-quick) var(--ease-out);}
+body[data-page='methodology'] #method-evaluation-loop .loop-path [aria-pressed='true']{background:var(--accent);color:var(--on-accent);}
+body[data-page='methodology'] #method-evaluation-loop .loop-explanation{margin-top:20px;padding-top:18px;border-top:1px solid var(--grid);}
+@media(hover:hover) and (pointer:fine){
+ body:is([data-page='compare'],[data-page='methodology']) .evidence-detail>summary:hover>span{background:var(--accent-soft);}
+ body[data-page='methodology'] .method-contents a:hover{text-decoration:none;}
+ body[data-page='methodology'] .method-article .panel.prose>p:last-of-type:has(>a)>a:hover{background:var(--surface-2);}
+ body[data-page='methodology'] .method-article .panel.prose>p:last-of-type:has(>a)>a:hover::after{transform:translateX(2px);}
+ body[data-page='methodology'] #method-evaluation-loop .loop-path button:not([aria-pressed='true']):hover{background:var(--surface-2);}
+}
+@media(max-width:700px){
+ body:is([data-page='compare'],[data-page='methodology']) .evidence-detail{padding:0 18px;}
+ body[data-page='methodology'] .method-contents{display:flex;flex-direction:row;border-radius:0;position:sticky;top:var(--site-header-height,78px);z-index:15;gap:8px;margin:0 -20px 28px;padding:10px 20px;overflow-x:auto;background:var(--surface-0);border-bottom:1px solid var(--grid);scrollbar-width:none;}
+ body[data-page='methodology'] .method-contents::-webkit-scrollbar{display:none;}
+ body[data-page='methodology'] .method-contents>span{display:none;}
+ body[data-page='methodology'] .method-contents a,body[data-page='methodology'] .method-contents a.is-active{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border:1px solid var(--border);border-radius:999px;background:var(--surface-1);font-weight:500;}
+ body[data-page='methodology'] .method-contents a.is-active{background:var(--accent);border-color:var(--accent);color:var(--on-accent);}
+ body[data-page='methodology'] .method-article h2[id]{scroll-margin-top:calc(var(--site-header-height,78px) + 80px);}
+ body[data-page='methodology'] .method-article .grid2{grid-template-columns:minmax(0,1fr);}
+ body[data-page='methodology'] #method-evaluation-loop{padding:14px;border-radius:18px;}
+ body[data-page='methodology'] #method-evaluation-loop .loop-path{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;}
+ body[data-page='methodology'] #method-evaluation-loop .loop-path>svg{display:none;}
+ body[data-page='methodology'] #method-evaluation-loop .loop-path>button{grid-column:auto;grid-row:1;}
+ body[data-page='methodology'] #method-evaluation-loop .loop-path button{min-height:40px;padding-inline:2px;font-size:12px;background:var(--surface-2);}
+ body[data-page='methodology'] #method-evaluation-loop .loop-path [aria-pressed='true']{background:var(--accent);}
+ body[data-page='methodology'] #method-evaluation-loop .loop-return{grid-column:1/-1;}
+ body[data-page='methodology'] #method-evaluation-loop .loop-explanation{margin-top:14px;padding-top:14px;}
+ body[data-page='methodology'] #method-evaluation-loop .loop-explanation p{font-size:14px;}
+}
+@media(prefers-reduced-motion:reduce){body:is([data-page='compare'],[data-page='methodology']) .evidence-detail>summary>span,body[data-page='methodology'] .method-article .panel.prose>p:last-of-type:has(>a)>a::after{transition:none;}}
