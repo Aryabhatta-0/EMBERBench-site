@@ -1,12 +1,16 @@
 // Enhancement only: every guide and link is already present in static HTML.
 const root=document.body.dataset.root||'';
 const menu=document.querySelector('.nav-toggle'),nav=document.querySelector('#site-nav');
-const toggle=expanded=>{menu.setAttribute('aria-expanded',String(expanded));menu.textContent=expanded?'Close':'Menu';nav.classList.toggle('open',expanded);};
+// While the phone menu covers the screen, the page behind it leaves the tab order and accessibility tree.
+const syncMenuInert=()=>{const sheet=nav.classList.contains('open')&&getComputedStyle(nav).position==='fixed';for(const el of document.body.children){if(el.matches('.site-header,.skip-link,script'))continue;if(sheet&&!el.inert){el.inert=true;el.dataset.menuInert='';}else if(!sheet&&'menuInert' in el.dataset){el.inert=false;delete el.dataset.menuInert;}}};
+const toggle=expanded=>{menu.setAttribute('aria-expanded',String(expanded));menu.textContent=expanded?'Close':'Menu';nav.classList.toggle('open',expanded);syncMenuInert();};
 menu.addEventListener('click',()=>toggle(menu.getAttribute('aria-expanded')!=='true'));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.getAttribute('aria-expanded')==='true'){toggle(false);menu.focus();}});
-nav.addEventListener('click',()=>toggle(false));
+nav.addEventListener('click',e=>{if(e.target.closest('a'))toggle(false);});
 const header=document.querySelector('.site-header');
-new ResizeObserver(()=>document.documentElement.style.setProperty('--header-offset',`${Math.ceil(header.getBoundingClientRect().height)+14}px`)).observe(header);
+// The dimmed backdrop is the header's ::after, so a tap on it targets the header itself.
+header.addEventListener('click',e=>{if(e.target===header&&menu.getAttribute('aria-expanded')==='true')toggle(false);});
+new ResizeObserver(()=>{const height=Math.ceil(header.getBoundingClientRect().height);document.documentElement.style.setProperty('--header-offset',`${height+14}px`);document.documentElement.style.setProperty('--site-header-height',`${height}px`);syncMenuInert();}).observe(header);
 if(matchMedia('(max-width:760px)').matches){document.querySelector('.docs-navigation').open=false;const toc=document.querySelector('.docs-toc details');if(toc)toc.open=false;}
 const escape=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const input=document.querySelector('#docs-search'),clear=document.querySelector('#clear-docs-search'),status=document.querySelector('#docs-search-status'),results=document.querySelector('.docs-search-results'),content=document.querySelector('.docs-page-content');
