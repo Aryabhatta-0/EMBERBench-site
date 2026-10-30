@@ -33,8 +33,21 @@ async function search(){
  }catch{if(turn!==request)return;status.textContent='Search is unavailable. Browse the guides below.';}
 }
 input.addEventListener('input',search);clear.addEventListener('click',()=>{input.value='';search();input.focus();});
+// "/" jumps to search unless the reader is already typing somewhere.
+document.addEventListener('keydown',e=>{if(e.key!=='/'||e.ctrlKey||e.metaKey||e.altKey||e.target.closest('input,textarea,select,[contenteditable]'))return;if(!input.getClientRects().length)return;e.preventDefault();input.focus();});
 for(const pre of document.querySelectorAll('.docs-article pre')){
  const code=pre.querySelector('code');if(!code)continue;
+ // Code sits in a framed block with a header bar: language label on the left, copy on the right.
+ const frame=document.createElement('div');frame.className='docs-code';
+ const bar=document.createElement('div');bar.className='docs-code-bar';
+ const lang=document.createElement('span');lang.textContent=(code.className.match(/language-([\w+-]+)/)||[,'Code'])[1];
  const button=document.createElement('button');button.type='button';button.className='docs-code-copy';button.textContent='Copy code';button.setAttribute('aria-live','polite');
- pre.prepend(button);button.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(code.textContent);button.textContent='Copied';}catch{button.textContent='Select code to copy';}setTimeout(()=>button.textContent='Copy code',1800);});
+ pre.before(frame);bar.append(lang,button);frame.append(bar,pre);button.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(code.textContent);button.textContent='Copied';}catch{button.textContent='Select code to copy';}setTimeout(()=>button.textContent='Copy code',1800);});
+}
+// "On this page" marks the section being read: the last heading above the top fifth of the viewport.
+const tocPairs=[...document.querySelectorAll('.docs-toc a')].map(a=>[a,document.getElementById(decodeURIComponent(a.hash.slice(1)))]).filter(([,h])=>h);
+if(tocPairs.length){
+ let queued=false;
+ const spy=()=>{queued=false;let current=tocPairs[0];for(const pair of tocPairs){if(pair[1].getBoundingClientRect().top<innerHeight*.2)current=pair;else break;}for(const pair of tocPairs)pair[0].classList.toggle('is-active',pair===current);};
+ addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(spy);}},{passive:true});spy();
 }
