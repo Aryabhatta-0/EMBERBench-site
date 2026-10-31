@@ -1,5 +1,5 @@
 // Shared structure for analytical routes. Existing evidence nodes retain their IDs.
-import { esc } from './common.js?v=20261030-compare-1';
+import { esc } from './common.js?v=20261031-unslop-1';
 import {profileReadout} from './evidence-readout.js';
 
 export function workspaceTabs(root, groups, key = 'workspace', initialView) {
