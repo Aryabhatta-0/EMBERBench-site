@@ -4,7 +4,7 @@ import {siteHeader} from '../site/chrome.js';
 import {readFile,writeFile,mkdir,readdir,copyFile,unlink,lstat,realpath} from 'node:fs/promises';
 import {resolve,posix,relative,isAbsolute} from 'node:path';
 import {createHash} from 'node:crypto';
-import {groups,docs,upstreamIds,retired,constructionTokens} from './docs-policy.mjs';
+import {groups,docs,upstreamIds,retired,constructionTokens,publicRedactions,privateEvaluationTokens} from './docs-policy.mjs';
 import {execFileSync} from 'node:child_process';
 import {marked} from 'marked';
 import sanitizeHtml from 'sanitize-html';
@@ -22,13 +22,16 @@ const manifest={repository:'Aryabhatta-0/EMBERBench',revision:checkout?execFileS
 const contents=new Map();
 for(const doc of docs){
  const upstream=upstreamIds.has(doc.id),path=upstream?`docs/${doc.id}.md`:doc.id==='site-data'?'docs/SITE_DATA.md':`docs/public/${doc.id}.md`;
- const input=upstream?(checkout?resolve(checkout,path):resolve(sources,doc.id+'.md')):resolve(path);
+ const input=upstream?(checkout?resolve(checkout,path):resolve('docs/upstream',doc.id+'.md')):resolve(path);
  const canonicalInput=await realpath(input),inputRoot=await realpath(upstream&&checkout?checkout:resolve('.')),inside=relative(inputRoot,canonicalInput);
  if((await lstat(input)).isSymbolicLink()||isAbsolute(inside)||inside==='..'||inside.startsWith('..\\')||inside.startsWith('../'))throw new Error('Document source crosses the reviewed input boundary');
  const markdown=(await readFile(input,'utf8')).replace(/\r\n/g,'\n'),digest=hash(markdown);
  if(upstream&&digest!==reviewed[doc.id])throw new Error(`Unreviewed upstream document: ${doc.id}. Publication stopped.`);
- if(constructionTokens.some(pattern=>pattern.test(markdown)))throw new Error(`Construction material rejected: ${doc.id}`);
- contents.set(doc.id,markdown);manifest.documents.push({id:doc.id,path,origin:upstream?'reviewed-upstream':'curated-site',sha256:digest});
+ let published=markdown;
+ for(const [find,replace] of publicRedactions[doc.id]||[]){if(!published.includes(find))throw new Error(`Redaction target missing in ${doc.id}. Review the upstream change.`);published=published.split(find).join(replace);}
+ if(constructionTokens.some(pattern=>pattern.test(published)))throw new Error(`Construction material rejected: ${doc.id}`);
+ if(privateEvaluationTokens.some(pattern=>pattern.test(published)))throw new Error(`Private evaluation detail rejected: ${doc.id}`);
+ contents.set(doc.id,published);manifest.documents.push({id:doc.id,path,origin:upstream?'reviewed-upstream':'curated-site',sha256:hash(published),...(upstream?{upstreamSha256:digest}:{})});
 }
 // No writes happen until every input passes the explicit publication policy.
 await mkdir(sources,{recursive:true});
@@ -96,11 +99,11 @@ for(const [i,doc] of docs.entries()){
 }
 manifest.retiredPages=[];
 for(const [oldId,target] of Object.entries(retired)){
- const body=`<article class="docs-article docs-retired"><h1>This guide has moved</h1><p>This website hosts reviewed public contracts and curated development guides. It does not publish official test-distribution construction recipes.</p><p><a href="${target}.html">Read the current guide</a></p></article>`;
+ const body=`<article class="docs-article docs-retired"><h1>This guide has moved</h1><p>This website hosts reviewed public contracts and curated development guides. Its content now lives in another guide.</p><p><a href="${target}.html">Read the current guide</a></p></article>`;
  const page=template({title:'Documentation update',description:'Read the current reviewed public guide.',body,prefix:'../',active:oldId}).replace('<meta name="description"','<meta name="robots" content="noindex"><meta name="description"');
  await writeFile(resolve(out,oldId+'.html'),page);manifest.retiredPages.push({id:oldId,target,sha256:hash(page)});
 }
-const body=`<header class="docs-intro"><p class="docs-kicker">EMBERBench documentation</p><h1>EMBERBench docs</h1><p>The open task, transparent scoring and public development workflow. Private official test construction stays outside this library.</p><div class="docs-intro-actions"><a class="button primary" href="docs/quickstart.html">Get started</a><a class="button" href="docs/scoring.html">Read the scoring</a></div></header><div class="docs-index">${groups.map(([group,items])=>`<section><div class="docs-index-head"><h2>${group}</h2><span>${items.length} guides</span></div><ul>${items.map(([id,title,description])=>`<li><a href="docs/${id}.html"><strong>${esc(title)}</strong><span>${esc(description)}</span></a></li>`).join('')}</ul></section>`).join('')}</div>`;
+const body=`<header class="docs-intro"><p class="docs-kicker">EMBERBench documentation</p><h1>EMBERBench docs</h1><p>The open task, transparent scoring and public development workflow.</p><div class="docs-intro-actions"><a class="button primary" href="docs/quickstart.html">Get started</a><a class="button" href="docs/scoring.html">Read the scoring</a></div></header><div class="docs-index">${groups.map(([group,items])=>`<section><div class="docs-index-head"><h2>${group}</h2><span>${items.length} guides</span></div><ul>${items.map(([id,title,description])=>`<li><a href="docs/${id}.html"><strong>${esc(title)}</strong><span>${esc(description)}</span></a></li>`).join('')}</ul></section>`).join('')}</div>`;
 const indexPage=template({title:'EMBERBench docs',description:'Reviewed public EMBERBench contracts, development guides, scoring and evaluation boundaries.',body});
 await writeFile(resolve(root,'docs.html'),indexPage);manifest.indexSha256=hash(indexPage);
 const searchText=JSON.stringify(search);await writeFile(resolve(out,'search-index.json'),searchText);manifest.searchSha256=hash(searchText);

@@ -8,7 +8,7 @@ Anantam, also known as Anantam Labs, is an independent AI research initiative. I
 
 EMBERBench evaluates how decision models guide people through simulated fire evacuations. Routes can close as a fire spreads, people can queue at exits, and each model must decide what to do from the information available at that step. Recorded runs are replayed and checked before safety and execution quality are scored.
 
-The website presents the public-development benchmark, its methodology, and the documentation needed to understand or reproduce that public workflow. The displayed results are not emergency guidance or evidence of a contamination-resistant hidden evaluation. Models may train or tune against the public environment, and the current snapshot has one trial per model.
+The website presents the public-development benchmark, its methodology, and the documentation needed to understand or reproduce that public workflow. The results are public development evidence, not emergency guidance. Models may train on the public environment, and each model has one trial.
 
 ## Founders
 
@@ -29,6 +29,6 @@ An AI builder who works on agent tooling, RAG and system architecture. Works wit
 
 ## Open research, clear limits
 
-We publish the task and scoring contracts, public-development evidence and source links through the [Anantam GitHub organization](https://github.com/anantamlab). We distinguish those materials from any separate, private construction of an official test distribution. No official hidden-test results, hosted evaluation-submission service or other product is offered here.
+We publish the task and scoring contracts, public-development evidence and source links through the [Anantam GitHub organization](https://github.com/anantamlab). We offer no hosted submission service or other product.
 
 Explore [EMBERBench](benchmark.html), read the [methodology](methodology.html), or start with the [documentation](docs.html). Questions and corrections can be sent through our [contact page](contact.html).

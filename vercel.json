@@ -8,7 +8,7 @@
     {
       "src": "/(.*)",
       "headers": {
-        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'sha256-xxJ97xCTRpBd42z3o/fxWyOnxvp2xPle/6nSO+reepk=' 'sha256-cBuo3yfs/ypHvWJjyPXN7dypm1WDVpxMrM5wEDEUmeQ=' 'sha256-sLtm8Kn6KKUqferhoR9x32uQ96o6pvLRxuplTlhnn7c=' 'sha256-LV67yUadWDJ/EsDFwsM2smjIJn+yNHRNHDGY479zrys=' 'sha256-DEsMk/25HrbUv6kvfmRlK5j0ln5fwVkQzZEieXBfoLs=' 'sha256-ilKvqUkYSNe8U50VRA3xS5CiTgWqzOQUPTk9ECwzacI=' 'sha256-/E0/E3jCWsnXiYru+w2hwNHFaMGawq/jyn09e49/2hw=' 'sha256-/6UnXceDAKxvzV+jzV+u5nDrSbDv4JG38eByZ6FBsZg=' 'sha256-G2EaLxofO5D7TrFj1hoOwUsErWimargRRCbTzmwNCSs=' 'sha256-dE3/mH5v+BvLKuQr/wNaVUazbu0E44N1M/n5nYe8w+A=' 'sha256-8g2NJtRGg09mkv+4mlXkk6YtEqLIDDv5jyxvoq2ksu8=' 'sha256-/7qry74WLoeCf1LS4FxtAIcJJXBOBvmLMTbWB7I3IlQ=' 'sha256-qLYYF5CDOIsuIONhUsMC9orFcw9AoeMvb3zjwMieqm4=' 'sha256-ek1Lx8PE0TcZjEc4kT0c+os7th8u7Hoai6SImBfOlGY=' 'sha256-pcWBhgCrZDOxZ+uON4asdnZhWslVoEHjlPjnOz+5Ikg=' 'sha256-aA1w0P+HfKZvpV/bGb1UxbIAa6iNmiAqoLs05aJ4YYs=' 'sha256-sAfYnA7sO1qSsE4tjc1gvTU67MSDFcFBjTsWR7efBDo=' 'sha256-weOwU08d/yAQqap5LgtgMqVvpWp6pQiziyrtAqi3rso=' 'sha256-aC7O8BoAHCeWEr2cwpknmOsfQlvf7M9kzUEf8RluxbA=' 'sha256-ROo2DKs//7ffd2KRuNbTBqAmMeFbrSr5IcCtFufNGFU=' 'sha256-nMIZagFH62rvuJP8yobAOq5DKfswNIHkg/lPpph4JlY=' 'sha256-A2E9nogBjge4WFfrLld1jbrEVNLgvSyuNpXS5KlSaDg=' 'sha256-O8OXDzz9tMCHIzVWGGJ7HoaKv/cOUIGR0s1w67F+kvM=' 'sha256-1iL5bemdd7oYobK+ugbSEz3czur47ZVbt5888JMXrEM=' 'sha256-Yc/sjP9noPMiJbjRfzMsZSEtPVlPngV5XHQX3h3j0/g=' 'sha256-ioCOtfihg+HCkAAGWk64xJsocWaAIb3TUDLpSPeFGAE=' 'sha256-/SEBp9fYXUJK4FW4xjU+e4LsqbSMEOghycZFTibXrJo=' 'sha256-+/NcKD4osXTs2M55Ls8KZtUkkyuYLBxr92cF5C7VmAU=' 'sha256-P6qGxduNS/crHAlJwf865JeamonthaSkgAkKcE3fMKc=' 'sha256-2aA/Cz5wjUMEVhOpM9ASkg/z13A9uVG/jwDM4WeCkCg=' 'sha256-hVm+2pRsKFgd/AB+sDS0DsKR8eXzfRVCos6AnzNPrVI=' 'sha256-BEzLG6UtVKFmRvngzTeu17HOlUWiV2XxEF1g0uzIl7M=' 'sha256-UCHSSk0Tjd2mPn6gHosPGN99bPP02Sh6Xlghif5vwzY=' 'sha256-Lls/4Qf49/uxNDYoVL5BxCoAuCHob8KUmua3Pem4d5g=' 'sha256-w5Yh5/S/trJVqbc4fcg8ZW0HMf0iflyRVXteCdN6v7o=' 'sha256-tkUkje49f7JZmemGdfJ8Ob0fOQJ5v75aMPZwzXGMo0A=' 'sha256-tKfvz4BIvVYs+f8NZYnNIghturbeVtIrduap5iVv51A=' 'sha256-yxMUBiejv7eAP701u+tIfNsARobjyWKpTMjJiR6JrHg=' 'sha256-7vfmqCTurLh8urMgKtoQovAoPGaVP+m95FbowjQJ2KU=' 'sha256-I7ZVaK5bJsqMtBTNEimnZeAS+b8QERDGrUILKVt+nFE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'sha256-xxJ97xCTRpBd42z3o/fxWyOnxvp2xPle/6nSO+reepk=' 'sha256-cBuo3yfs/ypHvWJjyPXN7dypm1WDVpxMrM5wEDEUmeQ=' 'sha256-sLtm8Kn6KKUqferhoR9x32uQ96o6pvLRxuplTlhnn7c=' 'sha256-LV67yUadWDJ/EsDFwsM2smjIJn+yNHRNHDGY479zrys=' 'sha256-DEsMk/25HrbUv6kvfmRlK5j0ln5fwVkQzZEieXBfoLs=' 'sha256-ilKvqUkYSNe8U50VRA3xS5CiTgWqzOQUPTk9ECwzacI=' 'sha256-/E0/E3jCWsnXiYru+w2hwNHFaMGawq/jyn09e49/2hw=' 'sha256-/6UnXceDAKxvzV+jzV+u5nDrSbDv4JG38eByZ6FBsZg=' 'sha256-aA1w0P+HfKZvpV/bGb1UxbIAa6iNmiAqoLs05aJ4YYs=' 'sha256-dE3/mH5v+BvLKuQr/wNaVUazbu0E44N1M/n5nYe8w+A=' 'sha256-/7qry74WLoeCf1LS4FxtAIcJJXBOBvmLMTbWB7I3IlQ=' 'sha256-qLYYF5CDOIsuIONhUsMC9orFcw9AoeMvb3zjwMieqm4=' 'sha256-ek1Lx8PE0TcZjEc4kT0c+os7th8u7Hoai6SImBfOlGY=' 'sha256-pcWBhgCrZDOxZ+uON4asdnZhWslVoEHjlPjnOz+5Ikg=' 'sha256-sAfYnA7sO1qSsE4tjc1gvTU67MSDFcFBjTsWR7efBDo=' 'sha256-JMwWk9PowkNWbH9h9MLKkweUNeSYjXUZ46cqbKaji5w=' 'sha256-aC7O8BoAHCeWEr2cwpknmOsfQlvf7M9kzUEf8RluxbA=' 'sha256-ROo2DKs//7ffd2KRuNbTBqAmMeFbrSr5IcCtFufNGFU=' 'sha256-nMIZagFH62rvuJP8yobAOq5DKfswNIHkg/lPpph4JlY=' 'sha256-A2E9nogBjge4WFfrLld1jbrEVNLgvSyuNpXS5KlSaDg=' 'sha256-O8OXDzz9tMCHIzVWGGJ7HoaKv/cOUIGR0s1w67F+kvM=' 'sha256-1iL5bemdd7oYobK+ugbSEz3czur47ZVbt5888JMXrEM=' 'sha256-Yc/sjP9noPMiJbjRfzMsZSEtPVlPngV5XHQX3h3j0/g=' 'sha256-ioCOtfihg+HCkAAGWk64xJsocWaAIb3TUDLpSPeFGAE=' 'sha256-/SEBp9fYXUJK4FW4xjU+e4LsqbSMEOghycZFTibXrJo=' 'sha256-+/NcKD4osXTs2M55Ls8KZtUkkyuYLBxr92cF5C7VmAU=' 'sha256-P6qGxduNS/crHAlJwf865JeamonthaSkgAkKcE3fMKc=' 'sha256-2aA/Cz5wjUMEVhOpM9ASkg/z13A9uVG/jwDM4WeCkCg=' 'sha256-hVm+2pRsKFgd/AB+sDS0DsKR8eXzfRVCos6AnzNPrVI=' 'sha256-BEzLG6UtVKFmRvngzTeu17HOlUWiV2XxEF1g0uzIl7M=' 'sha256-QGkfK78Om8z3gbm8890ybx695gSDVJ5wc6PsFEuRavs=' 'sha256-Lls/4Qf49/uxNDYoVL5BxCoAuCHob8KUmua3Pem4d5g=' 'sha256-w5Yh5/S/trJVqbc4fcg8ZW0HMf0iflyRVXteCdN6v7o=' 'sha256-tkUkje49f7JZmemGdfJ8Ob0fOQJ5v75aMPZwzXGMo0A=' 'sha256-tKfvz4BIvVYs+f8NZYnNIghturbeVtIrduap5iVv51A=' 'sha256-yxMUBiejv7eAP701u+tIfNsARobjyWKpTMjJiR6JrHg=' 'sha256-7vfmqCTurLh8urMgKtoQovAoPGaVP+m95FbowjQJ2KU=' 'sha256-I7ZVaK5bJsqMtBTNEimnZeAS+b8QERDGrUILKVt+nFE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
         "Referrer-Policy": "strict-origin-when-cross-origin",
@@ -532,22 +532,6 @@
       }
     },
     {
-      "src": "/docs/archived-validation\\.html",
-      "has": [
-        {
-          "type": "header",
-          "key": "accept",
-          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
-        }
-      ],
-      "dest": "/docs/source/archived-validation.md",
-      "headers": {
-        "Content-Type": "text/markdown; charset=utf-8",
-        "Vary": "Accept",
-        "Link": "<https://anantam-labs.vercel.app/docs/archived-validation.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
-      }
-    },
-    {
       "src": "/docs/versioning\\.html",
       "has": [
         {
@@ -763,13 +747,6 @@
       "src": "/docs/source/replay-verification\\.md",
       "headers": {
         "Link": "<https://anantam-labs.vercel.app/docs/replay-verification.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
-      },
-      "continue": true
-    },
-    {
-      "src": "/docs/source/archived-validation\\.md",
-      "headers": {
-        "Link": "<https://anantam-labs.vercel.app/docs/archived-validation.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
       },
       "continue": true
     },

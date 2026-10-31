@@ -128,8 +128,7 @@ emberbench generated validate path/to/frozen-batch --json
 Loads a frozen generated suite with `load_generated_suite` and checks the
 freeze record against every scenario. Reports the suite fields above and
 `generation_manifest_version`, `generator_version`, `batch_id` and
-`config_hash`. The private generator seed is not in the freeze record, so it
-is never shown.
+`config_hash`.
 
 ### `evaluation manifest`
 

@@ -7,7 +7,7 @@ episodes** and how their results are matched. The code is in
 
 Out of scope here: model-provider adapters, win rates, confidence intervals and
 other aggregate statistics (see [statistics.md](statistics.md)), procedural scenario generation,
-held-out integrity and provenance (see [integrity.md](integrity.md)), and the EMBER Score, leaderboard order
+integrity and provenance (see [integrity.md](integrity.md)), and the EMBER Score, leaderboard order
 and frozen environment packs (see [scoring.md](scoring.md) and [environment-pack.md](environment-pack.md)).
 
 ## 1. Common random numbers
@@ -81,7 +81,7 @@ suite entry and the scenario file. `run_evaluation` and
 `save_evaluation_manifest` and `load_evaluation_manifest` store a manifest as
 JSON. The loaded manifest is checked with the same rules.
 
-## 3. Public development manifests and private scored manifests
+## 3. Public development manifests and scored manifests
 
 The seeds decide the fire. If a model developer knows the scored seeds, they
 can tune a model to that exact fire. Therefore:
@@ -90,10 +90,7 @@ can tune a model to that exact fire. Therefore:
   `[0, 1, 2]`). They are fine in tests, examples and documentation. The test
   suite pins one: the public suite under seeds `(0, 1, 2)` has manifest hash
   `7b9aae45e5e2828f881b2f14d8e5585627e5f8bdbb137a1ed2331bf10ce8c876`.
-- **Scored manifests** use high-entropy seeds chosen by the evaluator (for
-  example 64-bit values from `secrets.randbits(64)`). The evaluator keeps the
-  seed schedule outside this repository and publishes the manifest, if at all,
-  only after the evaluation.
+- **Scored manifests** use seeds chosen by the evaluator. They are not published here.
 
 This repository never generates scored seeds. The `seed` in a scenario file is
 a development default only. `run_evaluation` always overrides it with the

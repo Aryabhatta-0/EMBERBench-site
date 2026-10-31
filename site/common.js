@@ -1,13 +1,13 @@
-import {siteHeader} from './chrome.js?v=20261031-dawn-2';
-import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261031-dawn-2';
-import {siteFooter,revealCompanyFooter} from './footer.js?v=20261031-dawn-2';
+import {siteHeader} from './chrome.js?v=20261031-dawn-3';
+import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261031-dawn-3';
+import {siteFooter,revealCompanyFooter} from './footer.js?v=20261031-dawn-3';
 import {
   provider,
   providerInfo,
   rankOf,
   selectedIds,
   leaderboardOrder,
-} from "./analytics.js?v=20261031-dawn-2";
+} from "./analytics.js?v=20261031-dawn-3";
 
 export const esc = (v) =>
   String(v ?? "").replace(
@@ -149,7 +149,7 @@ export function shell(data, active) {
   main.classList.add('container');
   if(!document.querySelector('.site-header'))document.body.insertAdjacentHTML('afterbegin',siteHeader(active));
   if(document.body.dataset.footer!=='none'&&!document.querySelector('.site-footer'))main.insertAdjacentHTML('afterend',siteFooter());
-  if(['methodology','scenarios','compare','model'].includes(document.body.dataset.page)&&!document.querySelector('.public-evaluation-notice'))main.insertAdjacentHTML('beforebegin','<p class="public-evaluation-notice"><strong>Public development results.</strong> Models may train or tune on these environments. No official hidden-test results are published here. <a href="docs/evaluation-boundary.html">Evaluation scope</a></p>');
+  if(['scenarios','compare','model'].includes(document.body.dataset.page)&&!document.querySelector('.public-evaluation-notice'))main.insertAdjacentHTML('beforebegin','<p class="public-evaluation-notice"><strong>Public development results.</strong> Models may train on these environments, so scores are not contamination-resistant. <a href="docs/evaluation-boundary.html">About this evaluation</a></p>');
   requestAnimationFrame(revealCompanyFooter);addEventListener('hashchange',revealCompanyFooter);
   const header=document.querySelector('.site-header');
   if(header.dataset.bound==='true')return;

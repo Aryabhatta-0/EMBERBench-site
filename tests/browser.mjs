@@ -34,7 +34,7 @@ const audit = async label => {
   });
   accessibility.push({ label, violations: result });
 };
-const openFilters=async()=>{if(!(await page.locator('.results-options').getAttribute('open')!==null))await page.locator('.results-options>summary').click();};
+const openFilters=async()=>{};
 try {
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: width < 700 ? 844 : 1000 });
@@ -57,7 +57,7 @@ try {
   check('Search empty state', (await page.locator('#visual-results').innerText()).includes('No matching models'));
   await openFilters();await page.getByRole('button', { name:'Reset filters',exact:true }).click();
   check('Filters reset to AI decision models', (await page.locator('[data-inspect]').count()) === data.models.filter(m=>m.kind==='Decision model').length);
-  check('Results do not embed comparison tables or selectors',await page.locator('main table,[data-select-model],.quick-compare').count()===0);
+  check('Results do not embed comparison tables or selectors',await page.locator('main table:not(.scenario-heatmap),[data-select-model],.quick-compare').count()===0);
   await go(`compare.html?models=${encodeURIComponent(data.models.slice(0,2).map(m=>m.id).join(','))}`);
   check('Dedicated comparison page opens',await page.locator('.compare-card').count()===2);
   await page.screenshot({ animations: "disabled",path:resolve(out,'compare-desktop.png'),fullPage:true});
