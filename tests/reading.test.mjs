@@ -51,7 +51,7 @@ try {
   await openFilters();await page.getByRole('button',{name:'Reset filters',exact:true}).click();
   await openFilters();await page.locator('#metric').selectOption('score');
   await page.locator('#search').fill('nothing-matches');
-  check('Visual search has a recovery state',await page.getByRole('heading',{name:'No matching models.',exact:true}).isVisible());
+  check('Visual search has a recovery state',await page.getByRole('heading',{name:'No matching models',exact:true}).isVisible());
   await openFilters();await page.getByRole('button',{name:'Reset filters',exact:true}).click();
   check('All decision models appear together without chart pagination',await page.locator('[data-inspect]').count()===ai.length&&await page.locator('[data-chart-page]').count()===0);
   await go('benchmark.html');

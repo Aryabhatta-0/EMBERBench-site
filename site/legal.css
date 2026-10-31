@@ -3,7 +3,7 @@
 .legal-index{align-self:start;position:sticky;top:var(--header-offset,100px);}
 .legal-index a{display:flex;align-items:center;min-height:44px;color:var(--text-secondary);font-size:14px;text-decoration:none;}
 .legal-index a[aria-current='page']{color:var(--text-primary);font-weight:600;}
-.legal-article h1{font-size:clamp(42px,5vw,64px);margin:0 0 20px;text-wrap:balance;}
+.legal-article h1{font-size:var(--title-size);margin:0 0 20px;text-wrap:balance;}
 .legal-article h2{font-size:22px;margin:36px 0 12px;scroll-margin-top:var(--header-offset,100px);}
 .legal-article p,.legal-article li{font-size:16px;line-height:1.75;color:var(--text-secondary);}
 .legal-article a{color:var(--link);text-underline-offset:3px;overflow-wrap:anywhere;}

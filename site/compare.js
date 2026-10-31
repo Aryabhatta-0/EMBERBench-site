@@ -1,4 +1,4 @@
-import { editorHeader, workspaceTabs, disclosure } from "./workspace.js?v=20261030-compare-1";
+import { editorHeader, workspaceTabs, disclosure } from "./workspace.js?v=20261031-unslop-1";
 import {comparisonReadout} from './evidence-readout.js';
 import {
   loadResults,
@@ -22,13 +22,13 @@ import {
   scenarioName,
   errorPage,
   isDecision,
-} from "./common.js?v=20261030-compare-1";
+} from "./common.js?v=20261031-unslop-1";
 import {
   selectedIds,
   pairedDifferences,
   leaderboardOrder,
   finite,
-} from "./analytics.js?v=20261030-compare-1";
+} from "./analytics.js?v=20261031-unslop-1";
 import { componentChart, heatmap, differenceChart } from "./charts.js";
 
 const fields = [
@@ -100,7 +100,7 @@ async function main() {
     const keepView = document.querySelector('[data-workspace="comparison"] [aria-selected="true"]')?.dataset.view;
     const models = ids.map((id) => all.find((m) => m.id === id));
     document.getElementById("main").innerHTML =
-      `${editorHeader('Decisions, side by side.', 'Start with the outcomes. Follow the differences into the evidence.', '<a class="quiet-link" href="leaderboard.html">Select from leaderboard</a>')}<section class="comparison-controls" aria-label="Choose models to compare"><div class="toolbar compare-picker">${Array.from({ length: 4 }, (_, i) => `<label class="field">Model ${i + 1}${i > 1 ? " (optional)" : ""}<select data-model-slot="${i}"><option value="">Choose a model</option>${all.map((m) => `<option value="${esc(m.id)}" ${ids[i] === m.id ? "selected" : ""} ${ids.includes(m.id) && ids[i] !== m.id ? "disabled" : ""}>${esc(m.name)}</option>`).join("")}</select></label>`).join("")}</div><p class="note">Public development · 1 trial per model · Descriptive comparison, not a significance test.</p></section><div id="comparison-content"></div>`;
+      `${editorHeader('Decisions, side by side', 'Start with the outcomes. Follow the differences into the evidence.', '<a class="quiet-link" href="leaderboard.html">Select from leaderboard</a>')}<section class="comparison-controls" aria-label="Choose models to compare"><div class="toolbar compare-picker">${Array.from({ length: 4 }, (_, i) => `<label class="field">Model ${i + 1}${i > 1 ? " (optional)" : ""}<select data-model-slot="${i}"><option value="">Choose a model</option>${all.map((m) => `<option value="${esc(m.id)}" ${ids[i] === m.id ? "selected" : ""} ${ids.includes(m.id) && ids[i] !== m.id ? "disabled" : ""}>${esc(m.name)}</option>`).join("")}</select></label>`).join("")}</div><p class="note">Public development · 1 trial per model · Descriptive comparison, not a significance test.</p></section><div id="comparison-content"></div>`;
     const picker = document.querySelector('.compare-picker');
     const extra = document.createElement('details'); extra.className = 'optional-models'; extra.open = keepPickerOpen || ids.length > 2;
     extra.innerHTML = '<summary>Add more models</summary><div class="optional-model-fields"></div>';

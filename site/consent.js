@@ -1,4 +1,4 @@
-import {storageChoice,saveStorageChoice} from './preferences.js?v=20261030-compare-1';
+import {storageChoice,saveStorageChoice} from './preferences.js?v=20261031-unslop-1';
 
 // First-visit, non-modal choice. No optional memory is written before consent.
 // Storage practices: docs/legal/cookies.md. No analytics or advertising cookies.
