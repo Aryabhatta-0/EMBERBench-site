@@ -280,6 +280,6 @@ body[data-page='model'] .profile-head { display: grid; grid-template-columns: mi
   td .model-name, .compare-card .model-name { display:inline-block; padding-block:14px; margin-block:-14px; }
   /* Phones: fit the model chooser table without hiding the EMBER column off-screen. */
   body[data-page='model'] .table-wrap th, body[data-page='model'] .table-wrap td { padding-inline:8px; }
-  body[data-page='model'] td .badge { white-space:normal; }
+  body[data-page='model'] td .badge { white-space:normal; padding:0; border:0; background:none; color:var(--text-muted); }
   body[data-page='model'] td .model-name { overflow-wrap:anywhere; }
 }
