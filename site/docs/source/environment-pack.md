@@ -167,9 +167,7 @@ adapter of [model-interface.md](model-interface.md):
 
 ## 7. Privacy and publication
 
-A pack contains the evaluator seeds and, for a held-out generated suite,
-the private scenarios. It is a **private asset** until the evaluation ends
-(see [integrity.md](integrity.md)). Publish the pack digest first, as a
+A scored pack stays private until its evaluation ends. Publish the pack digest first, as a
 commitment. Publish the pack after the evaluation; anyone can then run
 `verify_environment_pack` with the published digest and re-score every
 submitted result.

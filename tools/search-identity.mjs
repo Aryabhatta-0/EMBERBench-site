@@ -1,6 +1,6 @@
 // Google site names: https://developers.google.com/search/docs/appearance/site-names
 // Organization identity: https://developers.google.com/search/docs/appearance/structured-data/organization
-export const searchIdentity=Object.freeze({name:'Anantam',alternateName:'Anantam Labs',profile:'https://github.com/Aryabhatta-0'});
+export const searchIdentity=Object.freeze({name:'Anantam',alternateName:'Anantam Labs',profile:'https://github.com/anantamlab'});
 
 // This public verification value must come from the owner's Search Console.
 // Never invent it, substitute an account credential, or accept executable markup.

@@ -10,6 +10,11 @@ A benchmark for decision models guiding people through simulated fire evacuation
 
 The results describe the public-development environment, which models may train or tune against. They are not contamination-resistant official hidden-test results. One trial per model is recorded in this snapshot. No evaluation timestamp is available. EMBER is a composite score out of 100, not a survival percentage or real-world safety guarantee.
 
+## Founders
+
+- Sathvik A R, Founder ([X](https://x.com/Sathvik_48))
+- Sankalp H S, Founder ([X](https://x.com/sankalphs))
+
 - [Results](https://anantam-labs.vercel.app/benchmark.md)
 - [Methodology](https://anantam-labs.vercel.app/methodology.md)
 - [Documentation](https://anantam-labs.vercel.app/docs.html)

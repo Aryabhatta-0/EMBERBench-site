@@ -22,7 +22,7 @@ const audit = async name => {
 };
 const profile = data.models.filter(m=>m.kind === 'Decision model').sort((a,b)=>b.score-a.score)[0];
 const routes = [['leaderboard','leaderboard.html'],['compare','compare.html'],['model',`model.html?id=${encodeURIComponent(profile.id)}`],['scenarios','scenarios.html'],['methodology','methodology.html']];
-const openFilters=async()=>{if(!(await page.locator('.results-options').getAttribute('open')!==null))await page.locator('.results-options>summary').click();};
+const openFilters=async()=>{};
 try {
   for (const width of [320,390,768,1440]) {
     await page.setViewportSize({width,height:width < 700 ? 844 : 1000});
@@ -34,7 +34,7 @@ try {
     }
   }
   await go('leaderboard.html?display=table');
-  check('Legacy table URLs open chart-only results',await page.locator('main table').count()===0&&await page.locator('.rank-panel .column-chart').first().isVisible());
+  check('Legacy table URLs open chart-only results',await page.locator('main table:not(.scenario-heatmap)').count()===0&&await page.locator('.rank-panel .column-chart').first().isVisible());
   await openFilters();await page.locator('#metric').selectOption('cost');
   check('API view plots cost',await page.locator('#metric').inputValue()==='cost'&&await page.locator('#rank-plot-title').textContent()==='API cost');
   check('API view retains people and safety charts',await page.locator('.scatter-panel,.outcome-panel').count()===2);
@@ -43,16 +43,13 @@ try {
   check('All eleven measured metrics remain available to plot',await page.locator('#metric option').count()===11);
   await openFilters();await page.locator('#metric').selectOption('safety');
   check('Metric selection updates the ranking chart',await page.locator('#rank-plot-title').textContent()==='Safety');
-  await page.keyboard.press('Escape');
-  check('Escape closes filter options and restores focus',await page.locator('.results-options').evaluate(el=>!el.open&&document.activeElement===el.querySelector('summary')));
-  await openFilters();await page.locator('.benchmark-heading h1').click();
-  check('Clicking outside dismisses filter options',await page.locator('.results-options').evaluate(el=>!el.open));
+  check('Filter controls stay open beside the charts',await page.locator('.filter-bar #metric').isVisible()&&await page.locator('.filter-bar .segmented').isVisible());
   await go('benchmark.html');await openFilters();
   check('Provider choices match the selected entry type',await page.locator('#provider option[value="Reference"]').count()===0);
-  await page.locator('#provider').selectOption('OpenAI');await page.locator('#kind').selectOption('Reference agent');
+  await page.locator('#provider').selectOption('OpenAI');await page.locator('input[name="kind"][value="Reference agent"]').check();
   check('Changing entry type clears an incompatible provider',await page.locator('#provider').inputValue()==='all'&&await page.locator('.column-model').count()===8);
   await page.locator('#reset-filters').click();
-  check('Reset restores the complete decision-model cohort',await page.locator('.column-model').count()===19&&await page.locator('.filter-count').isHidden());
+  check('Reset restores the complete decision-model cohort',await page.locator('.column-model').count()===19&&await page.locator('#reset-filters').isDisabled());
   await go('compare.html');
   await page.getByRole('tab',{name:'Outcomes',exact:true}).focus(); await page.keyboard.press('ArrowRight');
   check('Comparison keyboard view navigation',await page.getByRole('tab',{name:'Scenarios & worlds',exact:true}).getAttribute('aria-selected') === 'true');

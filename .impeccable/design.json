@@ -255,7 +255,7 @@
     "shadows": [
       {
         "name": "selected-evidence",
-        "value": "0 12px 36px #142e510b",
+        "value": "0 12px 36px #39291f0b",
         "purpose": "Selected shared evidence tabs and comparison tray. Experiment, outcome cards and shared actions remain flat."
       }
     ],
@@ -312,7 +312,7 @@
       "refersTo": "button-primary",
       "description": "Navy capsule route action, 44px minimum target; home actions use 48px.",
       "html": "<a class=\"ds-primary\" href=\"benchmark.html\">Explore the benchmark</a>",
-      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 21px;border:1px solid var(--accent,#142e51);border-radius:var(--radius-control,999px);background:var(--accent,#142e51);color:var(--on-accent,#fff);font:500 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);text-decoration:none}.ds-primary:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-primary:hover{background:color-mix(in srgb,var(--accent,#142e51) 88%,var(--surface-0,#f8f9fc))}}@media(prefers-reduced-motion:no-preference){.ds-primary{transition:transform 150ms ease-out,background-color 150ms cubic-bezier(.2,0,0,1)}.ds-primary:active{transform:scale(.96)}}"
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 21px;border:1px solid var(--accent,#39291f);border-radius:var(--radius-control,999px);background:var(--accent,#39291f);color:var(--on-accent,#fff);font:500 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);text-decoration:none}.ds-primary:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-primary:hover{background:color-mix(in srgb,var(--accent,#39291f) 88%,var(--surface-0,#faf3e8))}}@media(prefers-reduced-motion:no-preference){.ds-primary{transition:transform 150ms ease-out,background-color 150ms cubic-bezier(.2,0,0,1)}.ds-primary:active{transform:scale(.96)}}"
     },
     {
       "name": "Secondary action",
@@ -335,7 +335,7 @@
       "kind": "nav",
       "description": "The same global destinations on all routes, with a visible current-page cue. This is a link specimen; common.js owns the logo, menu and analytical subnavigation.",
       "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"index.html#contributions\">Our work</a><a href=\"benchmark.html\" aria-current=\"page\">EMBERBench</a><a href=\"methodology.html\">Methodology</a></nav>",
-      "css": ".ds-nav{display:flex;flex-wrap:wrap;gap:10px 27px;background:var(--surface-0,#f8f9fc)}.ds-nav a{display:inline-flex;align-items:center;min-height:44px;color:var(--text-primary,#172c46);font:450 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);text-decoration:none}.ds-nav a[aria-current]{font-weight:650;text-decoration:underline;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-nav a:hover{text-decoration:underline;text-underline-offset:8px}}"
+      "css": ".ds-nav{display:flex;flex-wrap:wrap;gap:10px 27px;background:var(--surface-0,#faf3e8)}.ds-nav a{display:inline-flex;align-items:center;min-height:44px;color:var(--text-primary,#172c46);font:450 13px/1.5 var(--font-body,'DM Sans',system-ui,sans-serif);text-decoration:none}.ds-nav a[aria-current]{font-weight:650;text-decoration:underline;text-underline-offset:8px}.ds-nav a:focus-visible{outline:2px solid var(--focus,#2865b1);outline-offset:4px}@media(hover:hover){.ds-nav a:hover{text-decoration:underline;text-underline-offset:8px}}"
     },
     {
       "name": "Provider chip",

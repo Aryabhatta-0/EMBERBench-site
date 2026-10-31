@@ -9,7 +9,7 @@ const checks=[],audits=[],errors=[];
 const check=(name,condition)=>{assert.ok(condition,name);checks.push(name);};
 const {docs,retired}=await import('../tools/docs-policy.mjs');
 const files=docs.map(d=>d.id+'.html');
-check('Only the 20 reviewed public guides are hosted and searchable',files.length===20);
+check('Only the 19 reviewed public guides are hosted and searchable',files.length===19);
 for(const old of Object.keys(retired)){const html=await readFile('site/docs/'+old+'.html','utf8');check(old+' is a local explanatory retirement page',html.includes('docs-retired')&&html.includes('noindex'));}
 const linkErrors=[];
 for(const file of ['docs.html',...files.map(f=>'docs/'+f)]){
@@ -58,7 +58,7 @@ try{
  await page.waitForFunction(()=>{const r=document.getElementById('6-aggregation').getBoundingClientRect();return r.top>=0&&r.top<innerHeight/2;});
  check('Table of contents opens the actual section',await page.locator('[id="6-aggregation"]').evaluate(el=>{const r=el.getBoundingClientRect();return r.top>=0&&r.top<innerHeight/2;}));
  await page.getByRole('link',{name:'benchmark-methodology.md',exact:true}).first().click();
- check('Cross-guide documentation links stay local',new URL(page.url()).pathname.endsWith('/docs/archived-validation.html'));
+ check('Cross-guide documentation links stay local',new URL(page.url()).pathname.endsWith('/docs/evaluation-boundary.html'));
  await go('methodology.html');await page.getByRole('link',{name:'Normative scoring definition',exact:true}).click();
  check('Methodology protocol links open hosted guides',new URL(page.url()).pathname.endsWith('/docs/scoring.html'));
  await go('benchmark.html');await page.getByRole('navigation',{name:'Main navigation',exact:true}).getByRole('link',{name:'Docs',exact:true}).click();
@@ -67,7 +67,7 @@ try{
  check('Documentation does not depend on loading benchmark results',await page.locator('.docs-article').isVisible());
  const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}}),fallback=await nojs.newPage();
  await fallback.goto(new URL('docs/scoring.html',base).href);
- check('Full guide and local navigation work without JavaScript',await fallback.locator('.docs-article').isVisible()&&await fallback.locator('.docs-article').innerText().then(t=>t.includes('Safety'))&&await fallback.locator('.docs-nav-group a').count()===20);
+ check('Full guide and local navigation work without JavaScript',await fallback.locator('.docs-article').isVisible()&&await fallback.locator('.docs-article').innerText().then(t=>t.includes('Safety'))&&await fallback.locator('.docs-nav-group a').count()===19);
  await nojs.close();
  await page.setViewportSize({width:390,height:844});await go('docs.html');
  await page.getByRole('button',{name:'Menu',exact:true}).click();await page.keyboard.press('Escape');

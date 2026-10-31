@@ -1,13 +1,13 @@
-import {siteHeader} from './chrome.js?v=20261031-unslop-1';
-import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261031-unslop-1';
-import {siteFooter,revealCompanyFooter} from './footer.js?v=20261031-unslop-1';
+import {siteHeader} from './chrome.js?v=20261031-dawn-3';
+import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261031-dawn-3';
+import {siteFooter,revealCompanyFooter} from './footer.js?v=20261031-dawn-3';
 import {
   provider,
   providerInfo,
   rankOf,
   selectedIds,
   leaderboardOrder,
-} from "./analytics.js?v=20261031-unslop-1";
+} from "./analytics.js?v=20261031-dawn-3";
 
 export const esc = (v) =>
   String(v ?? "").replace(
@@ -59,7 +59,7 @@ export const COMPONENTS = {
   path: "Path efficiency",
   replanning: "Replanning",
 };
-export const REPO = "https://github.com/Aryabhatta-0/EMBERBench";
+export const REPO = "https://github.com/anantamlab/EMBERBench";
 
 export function evaluatedModelName(model) {
   if (!/^(?:typesafe\/)?jev-latest$/.test(model.name)) return model.name;
@@ -149,7 +149,7 @@ export function shell(data, active) {
   main.classList.add('container');
   if(!document.querySelector('.site-header'))document.body.insertAdjacentHTML('afterbegin',siteHeader(active));
   if(document.body.dataset.footer!=='none'&&!document.querySelector('.site-footer'))main.insertAdjacentHTML('afterend',siteFooter());
-  if(['methodology','scenarios','compare','model'].includes(document.body.dataset.page)&&!document.querySelector('.public-evaluation-notice'))main.insertAdjacentHTML('beforebegin','<p class="public-evaluation-notice"><strong>Public development results.</strong> Models may train or tune on these environments. No official hidden-test results are published here. <a href="docs/evaluation-boundary.html">Evaluation scope</a></p>');
+  if(['scenarios','compare','model'].includes(document.body.dataset.page)&&!document.querySelector('.public-evaluation-notice'))main.insertAdjacentHTML('beforebegin','<p class="public-evaluation-notice"><strong>Public development results.</strong> Models may train on these environments, so scores are not contamination-resistant. <a href="docs/evaluation-boundary.html">About this evaluation</a></p>');
   requestAnimationFrame(revealCompanyFooter);addEventListener('hashchange',revealCompanyFooter);
   const header=document.querySelector('.site-header');
   if(header.dataset.bound==='true')return;

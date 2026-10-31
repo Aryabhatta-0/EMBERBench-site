@@ -8,7 +8,7 @@ Email [arsathvik48@gmail.com](mailto:arsathvik48@gmail.com). This is the current
 
 For a research question or correction, include the page address, the model or metric involved, and the relevant public source. For a website problem, include the browser, device and steps that led to it. Please share only information necessary to explain the issue. This mailbox is not an official evaluation-submission service; do not send private model credentials, confidential test suites or API keys.
 
-Public code issues can also be reported in the [website repository](https://github.com/Aryabhatta-0/EMBERBench-site/issues) or [benchmark repository](https://github.com/Aryabhatta-0/EMBERBench/issues). Those are public channels. Keep personal information and security-sensitive details out of public issues.
+Public code issues can also be reported in the [website repository](https://github.com/anantamlab/EMBERBench-site/issues) or [benchmark repository](https://github.com/anantamlab/EMBERBench/issues). Those are public channels. Keep personal information and security-sensitive details out of public issues.
 
 ## Privacy and accessibility
 

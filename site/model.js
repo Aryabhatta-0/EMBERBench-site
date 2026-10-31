@@ -1,4 +1,4 @@
-import { redesignProfile } from "./workspace.js?v=20261031-unslop-1";
+import { redesignProfile } from "./workspace.js?v=20261031-dawn-3";
 import {
   loadResults,
   shell,
@@ -20,8 +20,8 @@ import {
   providerChip,
   scenarioName,
   errorPage,
-} from "./common.js?v=20261031-unslop-1";
-import { leaderboardOrder, finite } from "./analytics.js?v=20261031-unslop-1";
+} from "./common.js?v=20261031-dawn-3";
+import { leaderboardOrder, finite } from "./analytics.js?v=20261031-dawn-3";
 import { scoreBars, componentChart, heatmap } from "./charts.js";
 
 function diagnosticRows(object) {

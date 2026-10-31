@@ -1,21 +1,21 @@
 # Replay verification
 
-Replay verification authenticates a recorded trajectory against the simulator rules and recomputes its measurements. It is a public part of EMBERBench's reproducibility contract.
+Replay verification checks a recorded run against the simulator rules and recomputes its measurements. It is part of EMBERBench's public reproducibility contract.
 
 ## Before scoring
 
-The evaluator checks that the recorded run belongs to the expected suite and schedule, that actions are valid under the simulator contract, and that replayed measurements agree with the stored metrics. Scoring then consumes verified outcomes under the pinned [scoring specification](scoring.md).
+The evaluator checks that:
 
-The [evaluation guide](evaluation.md), [episode metrics](metrics.md) and [frozen environments](environment-pack.md) describe the public record formats and paired public-development workflow. Verification is not a substitute for protecting an official test distribution.
+- the run belongs to the expected suite and schedule
+- every action is valid under the simulator contract
+- the replayed measurements agree with the stored metrics
 
-## Model-visible boundary
+Scoring then uses only verified outcomes under the pinned [scoring specification](scoring.md). The [evaluation guide](evaluation.md), [episode metrics](metrics.md) and [frozen environments](environment-pack.md) describe the public record formats.
 
-Models receive only the documented [observations and allowed actions](model-interface.md). Evaluator-private seeds, future fire states, family-selection rules, construction metadata and private configuration must not be added to the model's observation or error response.
+## What a model sees
+
+Models receive only the documented [observations and allowed actions](model-interface.md). Evaluator data, such as seeds and future fire states, never goes into an observation or an error message.
 
 ## Safe publication
 
-A full evaluation result can embed its manifest and evaluation seeds. Official evaluation must keep such raw artifacts private while a batch remains live. Publish reviewed aggregate outcomes and approved provenance commitments rather than raw live-suite manifests. Releasing an old batch for audit must retire its secrecy claim first.
-
-## Historical evidence
-
-A disclosed seed or construction procedure remains useful for scientific validation, but belongs to [archived research](archived-validation.md). The [evaluation boundary](evaluation-boundary.md) explains why reproducible public-development results are distinct from official hidden evaluation.
+Publish reviewed aggregate outcomes, not raw evaluation manifests and seeds.

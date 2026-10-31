@@ -1,4 +1,4 @@
-import { editorHeader, disclosure } from "./workspace.js?v=20261031-unslop-1";
+import { editorHeader, disclosure } from "./workspace.js?v=20261031-dawn-3";
 import {
   loadResults,
   shell,
@@ -13,8 +13,8 @@ import {
   errorPage,
   REPO,
   scenarioName,
-} from "./common.js?v=20261031-unslop-1";
-import { filterModels, finite, worldKey } from "./analytics.js?v=20261031-unslop-1";
+} from "./common.js?v=20261031-dawn-3";
+import { filterModels, finite, worldKey } from "./analytics.js?v=20261031-dawn-3";
 import { heatmap } from "./charts.js";
 
 // Descriptions and fire-model labels come from docs/scenario-suite.md.
@@ -154,7 +154,7 @@ async function main() {
     <section class="panel" aria-labelledby="ranking-title">
       <div class="section-head"><div><h2 id="ranking-title">Scenario ranking</h2><p class="muted" id="ranking-description"></p></div><span class="badge">EMBER Score ↑</span></div>
       <div id="scenario-ranking"></div>
-      <p class="note">Select a column heading to sort. Scenario ranks compare the displayed entries on the selected scenario; equal scores share a rank. Differences are descriptive and do not establish statistical significance. Safety is a 0–1 factor; higher is better.</p>
+      <p class="note">Select a column heading to sort. Equal scores share a rank. Safety is a 0–1 factor.</p>
     </section>
     <section class="panel" aria-labelledby="matrix-title">
       <div class="section-head"><div><h2 id="matrix-title">Scenario × model performance</h2><p class="muted">All public challenges side by side. Darker cells indicate higher EMBER Scores; exact values remain visible.</p></div></div>
@@ -270,7 +270,7 @@ async function main() {
     focusResult.innerHTML=focused?`<div><span>${focused.kind === 'Decision model' ? 'Published AI-model evidence' : 'Published reference-agent evidence'}</span><p>${esc(focused.name)} <strong>${fmt(scenarioScore(focused,state.scenario)?.score)}</strong><span>EMBER / 100 on this scenario</span></p></div><a class="text-action" href="model.html?id=${encodeURIComponent(focused.id)}&scenario=${encodeURIComponent(state.scenario)}">Inspect this result<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>`:'';
 
     document.getElementById("ranking-description").textContent =
-      `${selected.title}. Higher scores are better; ranks refer to this scenario and the current filters.`;
+      `Higher is better. Ranks cover this scenario and the current filters.`;
     const sortValue = (model) =>
       state.sort === "name"
         ? model.name

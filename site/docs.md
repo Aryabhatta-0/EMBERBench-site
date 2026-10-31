@@ -1,6 +1,6 @@
 # EMBERBench documentation
 
-Reviewed public task, scoring and development contracts. Private official test construction is not published here.
+Reviewed public task, scoring and development contracts.
 
 - [Overview & setup](https://anantam-labs.vercel.app/docs/source/quickstart.md): The open task, public development results and first steps.
 - [Command line](https://anantam-labs.vercel.app/docs/source/cli.md): Public generation, evaluation, replay and scoring commands.
@@ -18,7 +18,6 @@ Reviewed public task, scoring and development contracts. Private official test c
 - [Frozen environments](https://anantam-labs.vercel.app/docs/source/environment-pack.md): Public pack identity, digests and matched fire worlds.
 - [Statistical analysis](https://anantam-labs.vercel.app/docs/source/statistics.md): Intervals, resampling and paired comparisons.
 - [Fairness contract](https://anantam-labs.vercel.app/docs/source/v1-fairness-spec.md): Model-visible information and simulator fairness.
-- [Evaluation boundary](https://anantam-labs.vercel.app/docs/source/evaluation-boundary.md): What stays public and what remains evaluator-private.
+- [Evaluation boundary](https://anantam-labs.vercel.app/docs/source/evaluation-boundary.md): What this site publishes, and how it differs from the official test.
 - [Replay verification](https://anantam-labs.vercel.app/docs/source/replay-verification.md): Public verification rules and safe artifact publication.
-- [Archived validation](https://anantam-labs.vercel.app/docs/source/archived-validation.md): Disclosed research holdouts are historical evidence.
-- [Versions & identity](https://anantam-labs.vercel.app/docs/source/versioning.md): Public contract versions and private-policy commitments.
+- [Versions & identity](https://anantam-labs.vercel.app/docs/source/versioning.md): Public contract versions and what they identify.

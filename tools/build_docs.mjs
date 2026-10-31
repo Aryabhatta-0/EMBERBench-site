@@ -4,7 +4,7 @@ import {siteHeader} from '../site/chrome.js';
 import {readFile,writeFile,mkdir,readdir,copyFile,unlink,lstat,realpath} from 'node:fs/promises';
 import {resolve,posix,relative,isAbsolute} from 'node:path';
 import {createHash} from 'node:crypto';
-import {groups,docs,upstreamIds,retired,constructionTokens} from './docs-policy.mjs';
+import {groups,docs,upstreamIds,retired,constructionTokens,publicRedactions,privateEvaluationTokens} from './docs-policy.mjs';
 import {execFileSync} from 'node:child_process';
 import {marked} from 'marked';
 import sanitizeHtml from 'sanitize-html';
@@ -22,13 +22,16 @@ const manifest={repository:'Aryabhatta-0/EMBERBench',revision:checkout?execFileS
 const contents=new Map();
 for(const doc of docs){
  const upstream=upstreamIds.has(doc.id),path=upstream?`docs/${doc.id}.md`:doc.id==='site-data'?'docs/SITE_DATA.md':`docs/public/${doc.id}.md`;
- const input=upstream?(checkout?resolve(checkout,path):resolve(sources,doc.id+'.md')):resolve(path);
+ const input=upstream?(checkout?resolve(checkout,path):resolve('docs/upstream',doc.id+'.md')):resolve(path);
  const canonicalInput=await realpath(input),inputRoot=await realpath(upstream&&checkout?checkout:resolve('.')),inside=relative(inputRoot,canonicalInput);
  if((await lstat(input)).isSymbolicLink()||isAbsolute(inside)||inside==='..'||inside.startsWith('..\\')||inside.startsWith('../'))throw new Error('Document source crosses the reviewed input boundary');
  const markdown=(await readFile(input,'utf8')).replace(/\r\n/g,'\n'),digest=hash(markdown);
  if(upstream&&digest!==reviewed[doc.id])throw new Error(`Unreviewed upstream document: ${doc.id}. Publication stopped.`);
- if(constructionTokens.some(pattern=>pattern.test(markdown)))throw new Error(`Construction material rejected: ${doc.id}`);
- contents.set(doc.id,markdown);manifest.documents.push({id:doc.id,path,origin:upstream?'reviewed-upstream':'curated-site',sha256:digest});
+ let published=markdown;
+ for(const [find,replace] of publicRedactions[doc.id]||[]){if(!published.includes(find))throw new Error(`Redaction target missing in ${doc.id}. Review the upstream change.`);published=published.split(find).join(replace);}
+ if(constructionTokens.some(pattern=>pattern.test(published)))throw new Error(`Construction material rejected: ${doc.id}`);
+ if(privateEvaluationTokens.some(pattern=>pattern.test(published)))throw new Error(`Private evaluation detail rejected: ${doc.id}`);
+ contents.set(doc.id,published);manifest.documents.push({id:doc.id,path,origin:upstream?'reviewed-upstream':'curated-site',sha256:hash(published),...(upstream?{upstreamSha256:digest}:{})});
 }
 // No writes happen until every input passes the explicit publication policy.
 await mkdir(sources,{recursive:true});
@@ -55,8 +58,8 @@ function localLink(href,doc){
  if(base==='LICENSE')return 'SOURCE-LICENSE.txt';
  if(/\.md$/.test(file))return 'evaluation-boundary.html';
  const safeCode=new Set(['scoring.py','metrics.py','simulator.py','observation.py','agent.py','evaluation.py','environment_pack.py','statistics.py','scenario.py','movement.py','fire.py','rng.py','replay.py','cli.py']);
- if(safeCode.has(base))return `https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/${base}${fragment?'#'+fragment:''}`;
- if(file.startsWith('../scenarios/public/'))return `https://github.com/Aryabhatta-0/EMBERBench/tree/main/${file.slice(3)}`;
+ if(safeCode.has(base))return `https://github.com/anantamlab/EMBERBench/blob/main/src/emberbench/${base}${fragment?'#'+fragment:''}`;
+ if(file.startsWith('../scenarios/public/'))return `https://github.com/anantamlab/EMBERBench/tree/main/${file.slice(3)}`;
  if(file)return 'evaluation-boundary.html';
  return href;
 }
@@ -81,7 +84,7 @@ const chrome=prefix=>siteHeader('docs',prefix);
 // Phones show the sidebar as a switcher bar: the current guide sits under the label.
 function sidebar(prefix,active){const current=groups.flatMap(([,items])=>items).find(([id])=>id===active);return `<aside class="docs-sidebar"><details class="docs-navigation" open><summary><span class="docs-switch-icon" aria-hidden="true"></span><span class="docs-switch-text"><b>Browse documentation</b><small>${current?esc(current[1]):'All guides'}</small></span></summary><div class="docs-nav-body"><form class="docs-search" role="search"><label for="docs-search">Find a guide</label><div><input id="docs-search" type="search" placeholder="Search docs" autocomplete="off"><kbd class="docs-search-key" aria-hidden="true">/</kbd><button type="button" id="clear-docs-search" hidden>Clear</button></div></form><p id="docs-search-status" class="docs-search-status" role="status"></p><nav aria-label="Documentation guides">${groups.map(([group,items])=>`<section class="docs-nav-group"><h2>${group}</h2>${items.map(([id,title])=>`<a href="${prefix}docs/${id}.html" data-doc-id="${id}" ${active===id?'aria-current="page"':''}>${esc(title)}</a>`).join('')}</section>`).join('')}</nav></div></details></aside>`;}
 function template({title,description,body,prefix='',active='',toc=''}){return `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f8f9fc"><meta name="description" content="${esc(description)}"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>${esc(title)} | Anantam</title><link rel="canonical" href="https://anantam-labs.vercel.app/${active?'docs/'+active+'.html':'docs.html'}"><link rel="icon" href="${prefix}assets/anantam-logo.png"><link rel="stylesheet" href="${prefix}style.css?v=${version}"><link rel="stylesheet" href="${prefix}anantam.css?v=${version}"><link rel="stylesheet" href="${prefix}docs.css?v=${version}"><link rel="stylesheet" href="${prefix}footer.css?v=20261027-guide-footer-1"></head><body data-page="docs" data-root="${prefix}">${chrome(prefix)}<main id="main" tabindex="-1"><div class="docs-layout">${sidebar(prefix,active)}<div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content">${body}</div></div>${toc}</div></main><script type="module" src="${prefix}docs.js?v=${version}"></script></body></html>\n`;}
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light"><meta name="theme-color" content="#faf3e8"><meta name="description" content="${esc(description)}"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"><title>${esc(title)} | Anantam</title><link rel="canonical" href="https://anantam-labs.vercel.app/${active?'docs/'+active+'.html':'docs.html'}"><link rel="icon" href="${prefix}assets/anantam-logo.png"><link rel="stylesheet" href="${prefix}style.css?v=${version}"><link rel="stylesheet" href="${prefix}anantam.css?v=${version}"><link rel="stylesheet" href="${prefix}docs.css?v=${version}"><link rel="stylesheet" href="${prefix}footer.css?v=20261027-guide-footer-1"></head><body data-page="docs" data-root="${prefix}">${chrome(prefix)}<main id="main" tabindex="-1"><div class="docs-layout">${sidebar(prefix,active)}<div class="docs-reading"><section class="docs-search-results" aria-label="Search results" hidden></section><div class="docs-page-content">${body}</div></div>${toc}</div></main><script type="module" src="${prefix}docs.js?v=${version}"></script></body></html>\n`;}
 
 const search=[];
 for(const [i,doc] of docs.entries()){
@@ -96,11 +99,11 @@ for(const [i,doc] of docs.entries()){
 }
 manifest.retiredPages=[];
 for(const [oldId,target] of Object.entries(retired)){
- const body=`<article class="docs-article docs-retired"><h1>This guide has moved</h1><p>This website hosts reviewed public contracts and curated development guides. It does not publish official test-distribution construction recipes.</p><p><a href="${target}.html">Read the current guide</a></p></article>`;
+ const body=`<article class="docs-article docs-retired"><h1>This guide has moved</h1><p>This website hosts reviewed public contracts and curated development guides. Its content now lives in another guide.</p><p><a href="${target}.html">Read the current guide</a></p></article>`;
  const page=template({title:'Documentation update',description:'Read the current reviewed public guide.',body,prefix:'../',active:oldId}).replace('<meta name="description"','<meta name="robots" content="noindex"><meta name="description"');
  await writeFile(resolve(out,oldId+'.html'),page);manifest.retiredPages.push({id:oldId,target,sha256:hash(page)});
 }
-const body=`<header class="docs-intro"><p class="docs-kicker">EMBERBench documentation</p><h1>EMBERBench docs</h1><p>The open task, transparent scoring and public development workflow. Private official test construction stays outside this library.</p><div class="docs-intro-actions"><a class="button primary" href="docs/quickstart.html">Get started</a><a class="button" href="docs/scoring.html">Read the scoring</a></div></header><div class="docs-index">${groups.map(([group,items])=>`<section><div class="docs-index-head"><h2>${group}</h2><span>${items.length} guides</span></div><ul>${items.map(([id,title,description])=>`<li><a href="docs/${id}.html"><strong>${esc(title)}</strong><span>${esc(description)}</span></a></li>`).join('')}</ul></section>`).join('')}</div>`;
+const body=`<header class="docs-intro"><p class="docs-kicker">EMBERBench documentation</p><h1>EMBERBench docs</h1><p>The open task, transparent scoring and public development workflow.</p><div class="docs-intro-actions"><a class="button primary" href="docs/quickstart.html">Get started</a><a class="button" href="docs/scoring.html">Read the scoring</a></div></header><div class="docs-index">${groups.map(([group,items])=>`<section><div class="docs-index-head"><h2>${group}</h2><span>${items.length} guides</span></div><ul>${items.map(([id,title,description])=>`<li><a href="docs/${id}.html"><strong>${esc(title)}</strong><span>${esc(description)}</span></a></li>`).join('')}</ul></section>`).join('')}</div>`;
 const indexPage=template({title:'EMBERBench docs',description:'Reviewed public EMBERBench contracts, development guides, scoring and evaluation boundaries.',body});
 await writeFile(resolve(root,'docs.html'),indexPage);manifest.indexSha256=hash(indexPage);
 const searchText=JSON.stringify(search);await writeFile(resolve(out,'search-index.json'),searchText);manifest.searchSha256=hash(searchText);

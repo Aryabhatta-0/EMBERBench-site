@@ -1,86 +1,56 @@
-// The wide contours stretch into spikes across a tall phone hero, so portrait phones draw their own pair.
-export function mountRibbon(hero) {
-  const ribbon=hero.querySelector('.brand-ribbon'),paths=[...hero.querySelectorAll('.brand-ribbon path[data-portrait]')];
-  if(!ribbon||!paths.length)return ()=>{};
-  const portrait=matchMedia('(max-width:700px) and (orientation:portrait)'),wideBox=ribbon.getAttribute('viewBox'),wide=paths.map(path=>path.getAttribute('d'));
-  const fit=()=>{ribbon.setAttribute('viewBox',portrait.matches?'0 0 390 640':wideBox);paths.forEach((path,i)=>path.setAttribute('d',portrait.matches?path.dataset.portrait:wide[i]));};
-  fit();portrait.addEventListener('change',fit);
-  return ()=>portrait.removeEventListener('change',fit);
-}
-// Particles assemble into the supplied emblem's actual alpha silhouette.
+// Dawn hero: CSS owns the sunrise; this adds lamp-ember motes and pauses everything offscreen.
 export function mountHeroMotion(hero) {
-  const canvas=hero.querySelector('.particle-canvas'),image=hero.querySelector('.hero-emblem');
-  let context;
-  try{context=canvas?.getContext('2d',{alpha:true});}catch{}
-  if(!context){hero.dataset.motion='static';return;}
-  const reduced=matchMedia('(prefers-reduced-motion:reduce)'),abort=new AbortController();
-  let width=0,height=0,points=[],frame=0,previous=0,elapsed=0,visible=true,disposed=false,ready=false,starting=false;
-  const ink=getComputedStyle(hero).getPropertyValue('--particle-ink').trim();
-  function particles(){
-    const sample=document.createElement('canvas');sample.width=sample.height=220;
-    const sampler=sample.getContext('2d',{willReadFrequently:true});sampler.drawImage(image,0,0,220,220);
-    const pixels=sampler.getImageData(0,0,220,220).data,targets=[];
-    for(let y=1;y<220;y+=2)for(let x=1;x<220;x+=2){const p=(y*220+x)*4;if(pixels[p+3]>100&&pixels[p]+pixels[p+1]+pixels[p+2]<650)targets.push({x:x/220,y:y/220});}
-    if(!targets.length)throw new Error('Emblem silhouette unavailable');
-    let seed=271027;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
-    const box=canvas.parentElement.getBoundingClientRect(),mark=image.getBoundingClientRect(),cx=mark.x-box.x+mark.width/2,cy=mark.y-box.y+mark.height/2;
-    const short=height<400,rx=short?mark.width*1.3:Math.min(width*.4,480),ry=short?mark.height:Math.min(150,height*.19);
-    const count=Math.min(width<=700?1400:1800,targets.length);points=[];
-    for(let i=0;i<count;i++){
-      const target=targets[Math.floor(i*targets.length/count)],angle=random()*Math.PI*2,distance=.35+random()*.65;
-      points.push({tx:mark.x-box.x+target.x*mark.width,ty:mark.y-box.y+target.y*mark.height,
-        sx:cx+Math.cos(angle)*rx*distance,sy:Math.max(10,cy+Math.sin(angle)*(Math.sin(angle)>0?mark.height*.42:ry)*distance),
-        delay:random()*.35,bend:(random()-.5)*24,r:.52+random()*.18,bucket:Math.floor(random()*4)});
-    }
-    canvas.dataset.particles=String(points.length);
+  const canvas=hero.querySelector('.dawn-motes'),reduced=matchMedia('(prefers-reduced-motion:reduce)'),abort=new AbortController();
+  let context=null,visible=true,frame=0,previous=0,width=0,height=0,motes=[],sprite=null,disposed=false;
+  try{context=canvas?.getContext('2d',{alpha:true})??null;}catch{}
+  let seed=310526;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+  function spawn(mote,anywhere){
+    mote.x=random()*width;mote.y=height*(anywhere?.18+random()*.7:.62+random()*.3);
+    mote.speed=7+random()*11;mote.sway=6+random()*14;mote.phase=random()*Math.PI*2;
+    mote.size=1.6+random()*3.2;mote.peak=.28+random()*.5;mote.age=anywhere?random():0;mote.life=7+random()*9;
+    return mote;
   }
-  function paint(time){
-    let amount=Math.min(1,time/3);
-    if(reduced.matches)amount=1;
-    hero.dataset.particlePhase=amount===1?'assembled':'assembling';
-    context.clearRect(0,0,width,height);context.fillStyle=ink;
-    for(let bucket=0;bucket<4;bucket++){
-      context.globalAlpha=.62+bucket*.12;context.beginPath();
-      for(const p of points){if(p.bucket!==bucket)continue;
-        const raw=Math.max(0,Math.min(1,(amount-p.delay*.22)/(1-p.delay*.22))),mix=1-(1-raw)**3;
-        const x=p.sx+(p.tx-p.sx)*mix,y=p.sy+(p.ty-p.sy)*mix-Math.sin(mix*Math.PI)*p.bend;
-        context.moveTo(x+p.r,y);context.arc(x,y,p.r,0,Math.PI*2);
-      }
-      context.fill();
+  function makeSprite(){
+    sprite=document.createElement('canvas');sprite.width=sprite.height=32;
+    const s=sprite.getContext('2d'),g=s.createRadialGradient(16,16,0,16,16,16);
+    g.addColorStop(0,'rgba(255,246,222,1)');g.addColorStop(.28,'rgba(236,178,92,.9)');g.addColorStop(1,'rgba(217,162,76,0)');
+    s.fillStyle=g;s.fillRect(0,0,32,32);
+  }
+  function resize(){
+    const box=hero.getBoundingClientRect(),density=Math.min(devicePixelRatio||1,2);width=box.width;height=box.height;
+    canvas.width=Math.round(width*density);canvas.height=Math.round(height*density);context.setTransform(density,0,0,density,0,0);
+    const count=width<=700?26:46;
+    while(motes.length<count)motes.push(spawn({},true));
+    motes.length=count;
+  }
+  function paint(){
+    context.clearRect(0,0,width,height);
+    for(const m of motes){
+      const t=m.age,y=m.y-m.speed*t*m.life,x=m.x+Math.sin(m.phase+t*5)*m.sway,alpha=Math.sin(Math.min(1,t)*Math.PI)*m.peak;
+      context.globalAlpha=alpha;context.drawImage(sprite,x-m.size,y-m.size,m.size*2,m.size*2);
     }
     context.globalAlpha=1;
   }
-  function resize(){
-    if(!ready)return;
-    const box=hero.getBoundingClientRect(),density=Math.min(devicePixelRatio||1,2);width=box.width;height=box.height;
-    canvas.width=Math.round(width*density);canvas.height=Math.round(height*density);context.setTransform(density,0,0,density,0,0);
-    particles();paint(elapsed);
-  }
-  const tick=now=>{if(disposed)return;if(previous)elapsed+=Math.min((now-previous)/1000,.08);previous=now;if(elapsed>=3){elapsed=3;paint(3);frame=0;hero.dataset.motion='complete';return;}paint(elapsed);frame=requestAnimationFrame(tick);};
+  const tick=now=>{
+    if(disposed)return;
+    const step=previous?Math.min((now-previous)/1000,.05):0;previous=now;
+    for(const m of motes){m.age+=step/m.life;if(m.age>=1)spawn(m,false);}
+    paint();frame=requestAnimationFrame(tick);
+  };
   function sync(){
-    cancelAnimationFrame(frame);frame=0;previous=0;hero.dataset.animationVisible=String(!document.hidden&&visible);if(!ready)return;
-    if(reduced.matches){elapsed=3;paint(3);hero.dataset.motion='reduced';}
-    else if(elapsed>=3){paint(3);hero.dataset.motion='complete';}
-    else if(document.hidden||!visible)hero.dataset.motion='paused';
-    else{hero.dataset.motion='playing';frame=requestAnimationFrame(tick);}
+    cancelAnimationFrame(frame);frame=0;previous=0;
+    const active=visible&&!document.hidden;
+    hero.dataset.animationVisible=String(active);
+    hero.dataset.motion=reduced.matches?'reduced':active?'playing':'paused';
+    if(!context)return;
+    canvas.hidden=reduced.matches;
+    if(!reduced.matches&&active)frame=requestAnimationFrame(tick);
   }
-  async function start(){
-    if(ready||starting||disposed)return;
-    starting=true;
-    try{
-      // Font metrics and the inserted header must settle before sampling targets.
-      await Promise.all([document.fonts.ready,image.decode()]);
-      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-      if(disposed)return;
-      ready=true;resize();canvas.hidden=false;hero.classList.add('particles-ready');sync();
-    }
-    catch{ready=false;canvas.hidden=true;hero.classList.remove('particles-ready');hero.dataset.motion='static';}
-  }
-  const sizing=new ResizeObserver(()=>{const b=hero.getBoundingClientRect();if(Math.abs(b.width-width)>.5||Math.abs(b.height-height)>.5)resize();});
-  const observer=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();},{threshold:.05});
+  if(context){makeSprite();resize();}
+  const sizing=new ResizeObserver(()=>{if(!context)return;const b=hero.getBoundingClientRect();if(Math.abs(b.width-width)>.5||Math.abs(b.height-height)>.5){resize();paint();}});
+  const observer=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();},{threshold:.02});
   sizing.observe(hero);observer.observe(hero);
   reduced.addEventListener('change',sync,{signal:abort.signal});document.addEventListener('visibilitychange',sync,{signal:abort.signal});
-  image.addEventListener('error',()=>{hero.dataset.motion='static';},{once:true,signal:abort.signal});
-  if(image.complete&&image.naturalWidth)start();else if(image.complete)hero.dataset.motion='static';else image.addEventListener('load',start,{once:true,signal:abort.signal});
+  sync();
   return ()=>{disposed=true;cancelAnimationFrame(frame);abort.abort();sizing.disconnect();observer.disconnect();};
 }

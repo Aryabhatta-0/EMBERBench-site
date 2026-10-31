@@ -1,20 +1,95 @@
-/* Anantam | A text-led research introduction framed by the existing gradient shore. */
-.hero-stage{background:radial-gradient(ellipse at 96% 88%,var(--hero-mist),transparent 65%),radial-gradient(ellipse at 3% 86%,var(--hero-pearl),transparent 62%),linear-gradient(180deg,var(--hero-surface),var(--hero-porcelain) 58%,var(--hero-surface));}
-.hero-stage .company-hero{background:transparent;}
-.hero-shore{height:clamp(100px,12vw,180px);pointer-events:none;}
-.hero-shore svg{display:block;width:100%;height:calc(100% + 2px);}
-.hero-shore path{fill:var(--surface-0);}
+/* Anantam | A text-led research introduction under a dawn sky, closed by a gilded horizon. */
 
-body[data-page='company'] .contributions{display:block;max-width:1440px;padding:48px 48px 72px;}
-.contributions .contribution-heading{display:block;max-width:780px;margin:0;}
-.contributions .contribution-heading h2{font-size:3.5rem;line-height:1.1;letter-spacing:-.025em;text-wrap:balance;margin:0 0 24px;}
-.contributions .contribution-heading .contribution-description{font-size:1.5rem;font-weight:400;line-height:1.6;letter-spacing:-.01em;text-wrap:pretty;max-width:54ch;color:var(--text-primary);margin:0;}
-.contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1.125rem;line-height:1.65;text-wrap:pretty;max-width:64ch;color:var(--text-secondary);margin:20px 0 0;}
-@media(max-width:1100px){body[data-page='company'] .contributions{padding-inline:32px;}}
-@media(max-width:700px){
- .hero-shore{height:80px;}
- body[data-page='company'] .contributions{padding:28px 20px 44px;}
- .contributions .contribution-heading h2{font-size:2.75rem;margin-bottom:20px;}
- .contributions .contribution-heading .contribution-description{font-size:1.25rem;}
- .contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1rem;margin-top:16px;}
+body[data-page='company'] .contributions{position:relative;isolation:isolate;overflow-x:clip;overflow-y:visible;display:block;max-width:1440px;padding:40px 48px 96px;}
+/* A pulli kolam border: two interlaced threads around a row of dots, gathered by the emblem. */
+.kolam-rule{position:relative;height:24px;max-width:880px;margin:0 auto 72px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'%3E%3Cg fill='none' stroke='%23d9a24c' stroke-width='1.1' stroke-linecap='round'%3E%3Cpath d='M0 12C6 3 18 3 24 12S42 21 48 12'/%3E%3Cpath d='M0 12C6 21 18 21 24 12S42 3 48 12'/%3E%3C/g%3E%3Cg fill='%23a96930'%3E%3Ccircle cx='12' cy='12' r='1.6'/%3E%3Ccircle cx='36' cy='12' r='1.6'/%3E%3C/g%3E%3C/svg%3E") center/48px 24px repeat-x;-webkit-mask:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);}
+.kolam-rule::after{content:'';position:absolute;left:50%;top:50%;width:64px;height:64px;translate:-50% -50%;border-radius:50%;background:url('assets/anantam-mark.99045036da9d.webp') center/48px no-repeat,var(--surface-0);}
+@supports (animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){.kolam-rule{animation:kolam-draw linear both;animation-timeline:view();animation-range:entry 0% cover 35%;}}
 }
+@keyframes kolam-draw{from{clip-path:inset(0 50% 0 50%);}to{clip-path:inset(0 0 0 0);}}
+/* The emblem returns as a watermark, turning as slowly as the sun. */
+body[data-page='company'] .contributions::before{content:'';position:absolute;z-index:-1;top:120px;right:-260px;width:620px;aspect-ratio:1;background:url('assets/anantam-mark.99045036da9d.webp') center/contain no-repeat;opacity:.07;pointer-events:none;animation:sun-turn 300s linear infinite;}
+.contributions .contribution-heading{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-areas:"title title" "lede detail" "lede note";column-gap:clamp(48px,7vw,112px);max-width:1264px;margin:0 auto;}
+.contributions .contribution-heading h2{grid-area:title;font-size:clamp(3.5rem,6.4vw,5.75rem);line-height:1;letter-spacing:-.025em;text-wrap:balance;margin:0 0 40px;color:var(--text-primary);}
+.contributions .contribution-heading .contribution-description{grid-area:lede;align-self:start;font-family:var(--font-display);font-size:clamp(1.75rem,2.5vw,2.375rem);font-weight:400;line-height:1.28;letter-spacing:-.005em;text-wrap:pretty;max-width:22ch;color:var(--text-primary);margin:0;}
+.contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1.0625rem;line-height:1.7;text-wrap:pretty;max-width:60ch;color:var(--text-secondary);margin:0;}
+.contributions .contribution-heading .contribution-detail{grid-area:detail;padding-top:10px;}
+.contributions .contribution-heading .contribution-note{grid-area:note;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);font-size:.9375rem;}
+@media(max-width:1100px){body[data-page='company'] .contributions{padding-inline:32px;}}
+@media(max-width:900px){
+ .contributions .contribution-heading{grid-template-columns:minmax(0,1fr);grid-template-areas:"title" "lede" "detail" "note";}
+ .contributions .contribution-heading .contribution-description{max-width:30ch;margin-bottom:28px;}
+ .contributions .contribution-heading .contribution-detail{padding-top:0;}
+}
+@media(max-width:700px){
+
+ body[data-page='company'] .contributions{padding:28px 20px 56px;}
+ body[data-page='company'] .contributions::before{width:360px;right:-170px;top:180px;}
+ .kolam-rule{margin-bottom:44px;}
+ .contributions .contribution-heading h2{font-size:2.75rem;margin-bottom:24px;}
+ .contributions .contribution-heading .contribution-description{font-size:1.5rem;}
+ .contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1rem;}
+}
+@media(prefers-reduced-motion:reduce){body[data-page='company'] .contributions::before{animation:none;}}
+
+/* Founders: each founder stands in a jharokha, an arched temple window. The sun rises inside the arch. */
+.founders{position:relative;max-width:1440px;margin:0 auto;padding:16px 48px 104px;}
+.founders-heading{max-width:1264px;margin:0 auto 56px;display:grid;justify-items:center;text-align:center;}
+.founders-script{display:flex;align-items:center;gap:14px;margin:0 0 12px;font-family:var(--font-devanagari);font-size:19px;line-height:1.3;color:var(--copper-deep);}
+.founders-script::before,.founders-script::after{content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+.founders-script::after{scale:-1 1;}
+.founders-heading h2{margin:0;font-size:clamp(3rem,5vw,4.5rem);line-height:1;letter-spacing:-.025em;color:var(--text-primary);}
+.founders-heading>p:last-child{margin:16px 0 0;font-family:var(--font-display);font-size:clamp(1.25rem,1.8vw,1.5rem);line-height:1.3;color:var(--text-secondary);}
+.founder-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,4vw,56px);max-width:1040px;margin:0 auto;align-items:stretch;}
+.founder-card{--arch:200px;--pad:clamp(24px,3.4vw,44px);--mx:50%;--my:30%;position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 var(--pad) 36px;border:1px solid color-mix(in srgb,var(--gold) 55%,var(--border));border-radius:50% 50% 28px 28px/var(--arch) var(--arch) 28px 28px;outline:1px solid color-mix(in srgb,var(--gold) 34%,transparent);outline-offset:-11px;background:linear-gradient(180deg,color-mix(in srgb,var(--dawn) 62%,var(--surface-1)) 0,var(--surface-1) 300px,var(--surface-1));box-shadow:0 34px 70px -40px #6b3f1a59,0 2px 8px #39291f0d;overflow:hidden;transition:box-shadow var(--duration-standard) var(--ease-out),border-color var(--duration-standard) var(--ease-out);}
+/* A soft light follows a fine pointer across the arch. */
+.founder-card::after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(420px circle at var(--mx) var(--my),color-mix(in srgb,var(--hero-glow) 70%,transparent),transparent 62%);opacity:0;transition:opacity 400ms var(--ease-out);}
+@media(hover:hover) and (pointer:fine){
+ .founder-card:hover{border-color:var(--gold);box-shadow:0 40px 80px -40px #6b3f1a73,0 2px 8px #39291f0d;}
+ .founder-card:hover::after{opacity:1;}
+ .founder-card:hover .founder-mandala{filter:saturate(1.15) brightness(1.04);}
+}
+.founder-window{position:relative;align-self:stretch;height:232px;margin:0 calc(-1 * var(--pad)) 28px;overflow:hidden;}
+.founder-glow{position:absolute;left:50%;bottom:-120px;width:420px;aspect-ratio:1;translate:-50% 0;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--hero-glow) 95%,transparent),color-mix(in srgb,var(--dawn) 40%,transparent) 55%,transparent);}
+.founder-sun{position:absolute;left:50%;bottom:22px;width:178px;aspect-ratio:1;translate:-50% 0;}
+.founder-mandala{display:block;width:100%;height:100%;animation:sun-turn 320s linear infinite;transition:filter 400ms var(--ease-out);}
+.is-second .founder-mandala{animation-direction:reverse;}
+.founder-initial{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:78px;aspect-ratio:1;translate:-50% -50%;border-radius:50%;background:radial-gradient(circle at 50% 38%,var(--surface-1),var(--ivory) 70%);box-shadow:0 0 0 1px var(--gold),0 0 0 6px color-mix(in srgb,var(--ivory) 80%,transparent),0 0 36px 6px color-mix(in srgb,var(--hero-glow) 90%,transparent);font-family:var(--font-devanagari);font-size:38px;line-height:1;padding-top:6px;color:var(--text-primary);}
+/* The horizon: a gold hairline with a diamond at its centre. */
+.founder-horizon{position:absolute;left:28px;right:28px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold) 22%,var(--gold) 78%,transparent);}
+.founder-horizon::after{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;translate:-50% -50%;rotate:45deg;background:var(--gold);box-shadow:0 0 0 4px var(--surface-1);}
+.founder-card h3{margin:0;font-family:var(--font-display);font-size:clamp(2.25rem,3.2vw,2.75rem);font-weight:400;line-height:1.05;letter-spacing:-.01em;color:var(--text-primary);}
+.founder-role{display:flex;align-items:center;gap:10px;margin:10px 0 0;font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--copper-deep);}
+.founder-role::before,.founder-role::after{content:'';width:5px;height:5px;rotate:45deg;border:1px solid var(--gold);}
+.founder-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:22px 0 0;padding:0;list-style:none;}
+.founder-tags li{padding:5px 13px;border:1px solid var(--border);border-radius:999px;background:color-mix(in srgb,var(--ivory) 70%,transparent);font-size:.8125rem;line-height:1.3;color:var(--text-secondary);}
+.founder-bio{max-width:40ch;margin:20px 0 0;font-size:1.0625rem;line-height:1.65;color:var(--text-primary);text-wrap:pretty;}
+.founder-feat{display:flex;align-items:center;gap:14px;margin:24px 0 0;padding:14px 20px;border-block:1px solid color-mix(in srgb,var(--gold) 45%,var(--border));text-align:left;}
+.founder-feat strong{font-family:var(--font-display);font-size:2.75rem;font-weight:400;line-height:1;color:var(--copper-deep);font-variant-numeric:lining-nums;}
+.founder-feat span{max-width:24ch;font-size:.875rem;line-height:1.45;color:var(--text-secondary);}
+.founder-links{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;margin:auto 0 0;padding:24px 0 0;list-style:none;}
+.founder-links li{display:flex;align-items:center;}
+.founder-links li+li::before{content:'';width:4px;height:4px;rotate:45deg;background:var(--gold);}
+.founder-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font-size:.9375rem;font-weight:500;color:var(--link);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:5px;transition:text-decoration-color var(--duration-quick) var(--ease-out);}
+.founder-links a:hover{text-decoration-color:currentColor;}
+.founder-links a:active{scale:.97;}
+@supports (animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){
+  .founder-card{animation:founder-lift linear both;animation-timeline:view();animation-range:entry 0% entry 70%;}
+  .founder-card.is-second{animation-range:entry 8% entry 78%;}
+  .founder-sun{animation:founder-rise linear both;animation-timeline:view();animation-range:entry 10% cover 40%;}
+ }
+}
+@keyframes founder-lift{from{translate:0 48px;}to{translate:0 0;}}
+@keyframes founder-rise{from{translate:-50% 38%;}to{translate:-50% 0;}}
+@media(max-width:860px){
+ .founders{padding:8px 20px 64px;}
+ .founders-heading{margin-bottom:40px;}
+ .founder-grid{grid-template-columns:minmax(0,1fr);max-width:520px;}
+ .founder-card{--arch:160px;}
+ .founder-window{height:200px;}
+ .founder-sun{width:150px;}
+ .founder-links a{padding:0 9px;font-size:.875rem;}
+}
+@media(prefers-reduced-motion:reduce){.founder-mandala,.founder-card,.founder-sun{animation:none;}}

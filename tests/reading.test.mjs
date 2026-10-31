@@ -21,10 +21,10 @@ const audit=async label=>{
   await page.evaluate(axe);
   audits.push({label,violations:await page.evaluate(async()=>{const r=await window.axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}});return r.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}));})});
 };
-const openFilters=async()=>{if(!(await page.locator('.results-options').getAttribute('open')!==null))await page.locator('.results-options>summary').click();};
+const openFilters=async()=>{};
 try {
   await go('benchmark.html');
-  check('Entry begins with real AI model charts without comparison tables',await page.locator('.result-chart').isVisible() && await page.locator('main table').count()===0 && await page.locator('#kind').inputValue()==='Decision model');
+  check('Entry begins with real AI model charts without comparison tables',await page.locator('.result-chart').isVisible() && await page.locator('main table:not(.scenario-heatmap)').count()===0 && await page.locator('input[name="kind"]:checked').inputValue()==='Decision model');
   check('Leading chart uses official scientific order',await page.locator('[data-inspect]').first().getAttribute('data-inspect')===ai[0].id);
   check('Chart uses fixed 0–100 scale',Math.abs(await page.locator('.chart-fill').first().evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d)-ai[0].score/100)<.00001);
   check('Overview has no preselected model',await page.locator('#result-inspector').count()===0);
@@ -45,7 +45,7 @@ try {
   check('People lens displays actual counts and sorts for that question',await page.locator('[data-inspect]').first().getAttribute('data-inspect')===people[0].id && await page.locator('.rank-panel .dashboard-panel-head').innerText().then(t=>t.includes('people')));
   await openFilters();await page.locator('#metric').selectOption('cost');
   check('API chart makes measurement limits visible',(await page.locator('.plot-note').textContent()).includes('Missing data is not zero'));
-  await page.locator('#kind').selectOption('Reference agent');
+  await page.locator('input[name="kind"][value="Reference agent"]').check();
   check('Reference agents have no invented zero API cost',await page.locator('.chart-model b').allTextContents().then(v=>v.every(t=>t==='—')));
   await audit('Missing API reference results');
   await openFilters();await page.getByRole('button',{name:'Reset filters',exact:true}).click();
@@ -58,7 +58,7 @@ try {
   await page.locator('[data-inspect]').first().focus();await page.keyboard.press('ArrowDown');
   check('Arrow navigation selects and focuses the next model',await page.locator('#inspector-title').textContent()===ai[1].name && await page.locator('[data-inspect]').nth(1).evaluate(el=>el===document.activeElement));
   check('Keyboard navigation has no entrance animation',await page.locator('.result-inspector').evaluate(el=>el.getAnimations().length===0));
-  check('Results remain chart-only after keyboard selection',await page.locator('main table,[data-display]').count()===0);
+  check('Results remain chart-only after keyboard selection',await page.locator('main table:not(.scenario-heatmap),[data-display]').count()===0);
   await page.getByRole('link',{name:'Inspect this model',exact:true}).click();await page.locator('.profile-readout').waitFor();
   check('Profile leads with human outcomes and difficult worlds',await page.getByRole('heading',{name:'What happened to the people?',exact:true}).isVisible() && await page.locator('.scenario-score-list li').count()===5);
   check('Technical factors remain available on demand',!(await page.locator('#components').isVisible()));
@@ -74,7 +74,7 @@ try {
     check(`${width}px visual results fit`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     await page.locator('[data-inspect]').nth(1).click();
     check(`${width}px selected model is explained`,await page.locator('#inspector-title').textContent()===ai[1].name);
-    if(width<700) check(`${width}px selected evidence follows the complete chart overview`,await page.locator('.selected-evidence').evaluate(el=>el.getBoundingClientRect().top>=document.querySelector('.benchmark-dashboard').getBoundingClientRect().bottom));
+    if(width<700) check(`${width}px selected evidence opens directly under the ranking chart`,await page.locator('.selected-evidence').evaluate(el=>el.previousElementSibling?.id==='ranking'&&el.getBoundingClientRect().top>=document.getElementById('ranking').getBoundingClientRect().bottom));
     await audit(`Visual results ${width}px`);
     if(width===390) {await page.evaluate(()=>{document.activeElement?.blur();scrollTo({top:0,behavior:'instant'});});await page.screenshot({path:resolve(out,'results-mobile.png'),fullPage:true});}
   }

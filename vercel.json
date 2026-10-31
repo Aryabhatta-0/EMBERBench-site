@@ -8,7 +8,7 @@
     {
       "src": "/(.*)",
       "headers": {
-        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'sha256-u6Xr8xC+dpOahoVpqKjMmqgfVdu47XqjBh4CACd3B4A=' 'sha256-So66iWa9fZChEXIpnerBeS5BKdzvk85jnC43uK+jAeg=' 'sha256-Sl0yf1lqGRkyZI5xe9ksdQfBFbTsulpfzs0DUZQwU2Q=' 'sha256-oLVT6UJg0zxoM6tXlJqEZ2PE4wRjdqjyygQCwUK317I=' 'sha256-DqoRqibkTasIfzudI0CeYkoDDoyJCR5ee+Q14q9QZBQ=' 'sha256-cvHmEKeOT9CBqv31eEdsVXueEYF4CfCDPoz6i/wZHBE=' 'sha256-0eWGiRR2TqJdOhj3Za1IzO6PDFHpHh+D6A8KLKDZlNw=' 'sha256-bEOMuXJa+3PkK4VcVG7FuVddGJ56/KKgQ46nczto210=' 'sha256-Dzji6WfoGS7FKXv4550G6YAH0HcfQuhnjOtwWMdrU6k=' 'sha256-hK1RJVOxso17a+5bezMjq7I6wtgog7B4nl/hn4OeDy4=' 'sha256-AWYsbM1MaRIK8w8PEcbKhzShhLoQ2r+0xY2QXO0wrAI=' 'sha256-cFxDTSCuJMYDhET1mFOZVh1Lr7Hqk1leS+Cs42miiPk=' 'sha256-FQ/irsVKmcP6mvJCH0qKkug36TTq49ABl3B4M5nufnk=' 'sha256-vEBYrn2dDjaOQoH/VW/8IVIp2Tx+xtPCBWiPV+oxhYw=' 'sha256-cI8XGEq+j4QL3kYb7lg5hD0HyZa4etauJLuejXItp9I=' 'sha256-jdTVwgVp9un69kmiKuqsEDr4Ay1q05iCYUwpEVGiNVE=' 'sha256-HgMuJgaqX6qfz6/6RGpOaYrQRnKI76hlFkO0Pbk+SP8=' 'sha256-ohP9OzdrZyuEfctUrxwTJk0JwmT19oAb63f3QxvDuOk=' 'sha256-Jaj40KtB2sNUOwQ68YpKZq/CoUZdPLrZThAQcZzXZXQ=' 'sha256-/+fxuHQ+K1yE8j93obPo0XwiooW1RN7F0oIWUH62hzc=' 'sha256-Um+nCoIp2eHMJpovnhmwM9mRGHQro7NOlEe9/A1hIZA=' 'sha256-CV1B9kVQ/qg9NQS+3vJsliF5674Xcm8o7GrfGe3Dllc=' 'sha256-WGBn3E11PmzWFqiQSTbNIVrg37W2vHbDQuEj1Yaiib4=' 'sha256-Rvo+o5HzdSiwg/xodxB+Ke5p8XR/dbQdRmK+1/fDOwc=' 'sha256-lUTyUByWCYPkeRmsh7FoFM/EHXAFSfCf2DN6ym0Lyrw=' 'sha256-WY4vijjBgRVtndqDpqMogKtXwIsnMqlNcN2ky81xG3w=' 'sha256-yw9KkKa7KRdCxOs7PdboOvaFSZnb6Rw31t2R6jSao2o=' 'sha256-mg3YTuLy1CmVhPobkYhF+bFYBp6kB0sGEgzJb1ABctQ=' 'sha256-S5TG4NONtpkksWzWlBd7uR3xn8eRlP6J48Ao+Goy+Ng=' 'sha256-VO2Uj7ifTXtL27tUgRfssAIqhS27V/6iubkxo9xqEYw=' 'sha256-VFyVGE7C9s4kutoE9l+ljg1OXreKGaMRviM8vz8cyLM=' 'sha256-e6kP4ih/eHQVxa9l9AuR1sOpB7sFuoSkk6w9jbBmoH4=' 'sha256-k2od04fOozJQgijVWk2kcSJcsRwW+I/c1ty01HrNrhY=' 'sha256-09OgCFy9bVwXBMX9IYhEUtyjjazB4WZwD6OIy3LVoQ4=' 'sha256-vgtApoP0ApAiSqkvDi8Guh6pgRAjI+FJ3K0J9fyvoxQ=' 'sha256-gqgZGzQG0FIPRQHw+cimYU5QdPKoCZf+fs16y/1ngx8=' 'sha256-iz/uxrLtXrggql+EGBoHPT44a8+VRK23bY5wgDAVPLI=' 'sha256-ysmMVWkcFJXO/XLXgFLyauzdsk1sCw81DAeCgNGMGKg=' 'sha256-DybbLhKEzQHW8HL7WONPKgHU+nA75VB4uePYiRmadTc=' 'sha256-X2Of4JMGlWi6sjbm/nxaiX6whFYud7PFL7kBsiCE/Uo='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'sha256-xxJ97xCTRpBd42z3o/fxWyOnxvp2xPle/6nSO+reepk=' 'sha256-cBuo3yfs/ypHvWJjyPXN7dypm1WDVpxMrM5wEDEUmeQ=' 'sha256-sLtm8Kn6KKUqferhoR9x32uQ96o6pvLRxuplTlhnn7c=' 'sha256-LV67yUadWDJ/EsDFwsM2smjIJn+yNHRNHDGY479zrys=' 'sha256-DEsMk/25HrbUv6kvfmRlK5j0ln5fwVkQzZEieXBfoLs=' 'sha256-ilKvqUkYSNe8U50VRA3xS5CiTgWqzOQUPTk9ECwzacI=' 'sha256-/E0/E3jCWsnXiYru+w2hwNHFaMGawq/jyn09e49/2hw=' 'sha256-/6UnXceDAKxvzV+jzV+u5nDrSbDv4JG38eByZ6FBsZg=' 'sha256-aA1w0P+HfKZvpV/bGb1UxbIAa6iNmiAqoLs05aJ4YYs=' 'sha256-dE3/mH5v+BvLKuQr/wNaVUazbu0E44N1M/n5nYe8w+A=' 'sha256-/7qry74WLoeCf1LS4FxtAIcJJXBOBvmLMTbWB7I3IlQ=' 'sha256-qLYYF5CDOIsuIONhUsMC9orFcw9AoeMvb3zjwMieqm4=' 'sha256-ek1Lx8PE0TcZjEc4kT0c+os7th8u7Hoai6SImBfOlGY=' 'sha256-pcWBhgCrZDOxZ+uON4asdnZhWslVoEHjlPjnOz+5Ikg=' 'sha256-sAfYnA7sO1qSsE4tjc1gvTU67MSDFcFBjTsWR7efBDo=' 'sha256-JMwWk9PowkNWbH9h9MLKkweUNeSYjXUZ46cqbKaji5w=' 'sha256-aC7O8BoAHCeWEr2cwpknmOsfQlvf7M9kzUEf8RluxbA=' 'sha256-ROo2DKs//7ffd2KRuNbTBqAmMeFbrSr5IcCtFufNGFU=' 'sha256-nMIZagFH62rvuJP8yobAOq5DKfswNIHkg/lPpph4JlY=' 'sha256-A2E9nogBjge4WFfrLld1jbrEVNLgvSyuNpXS5KlSaDg=' 'sha256-O8OXDzz9tMCHIzVWGGJ7HoaKv/cOUIGR0s1w67F+kvM=' 'sha256-1iL5bemdd7oYobK+ugbSEz3czur47ZVbt5888JMXrEM=' 'sha256-Yc/sjP9noPMiJbjRfzMsZSEtPVlPngV5XHQX3h3j0/g=' 'sha256-ioCOtfihg+HCkAAGWk64xJsocWaAIb3TUDLpSPeFGAE=' 'sha256-/SEBp9fYXUJK4FW4xjU+e4LsqbSMEOghycZFTibXrJo=' 'sha256-+/NcKD4osXTs2M55Ls8KZtUkkyuYLBxr92cF5C7VmAU=' 'sha256-P6qGxduNS/crHAlJwf865JeamonthaSkgAkKcE3fMKc=' 'sha256-2aA/Cz5wjUMEVhOpM9ASkg/z13A9uVG/jwDM4WeCkCg=' 'sha256-hVm+2pRsKFgd/AB+sDS0DsKR8eXzfRVCos6AnzNPrVI=' 'sha256-BEzLG6UtVKFmRvngzTeu17HOlUWiV2XxEF1g0uzIl7M=' 'sha256-QGkfK78Om8z3gbm8890ybx695gSDVJ5wc6PsFEuRavs=' 'sha256-Lls/4Qf49/uxNDYoVL5BxCoAuCHob8KUmua3Pem4d5g=' 'sha256-w5Yh5/S/trJVqbc4fcg8ZW0HMf0iflyRVXteCdN6v7o=' 'sha256-tkUkje49f7JZmemGdfJ8Ob0fOQJ5v75aMPZwzXGMo0A=' 'sha256-tKfvz4BIvVYs+f8NZYnNIghturbeVtIrduap5iVv51A=' 'sha256-yxMUBiejv7eAP701u+tIfNsARobjyWKpTMjJiR6JrHg=' 'sha256-7vfmqCTurLh8urMgKtoQovAoPGaVP+m95FbowjQJ2KU=' 'sha256-I7ZVaK5bJsqMtBTNEimnZeAS+b8QERDGrUILKVt+nFE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
         "Referrer-Policy": "strict-origin-when-cross-origin",
@@ -532,22 +532,6 @@
       }
     },
     {
-      "src": "/docs/archived-validation\\.html",
-      "has": [
-        {
-          "type": "header",
-          "key": "accept",
-          "value": "^text/markdown(?:;\\s*charset=utf-8)?$"
-        }
-      ],
-      "dest": "/docs/source/archived-validation.md",
-      "headers": {
-        "Content-Type": "text/markdown; charset=utf-8",
-        "Vary": "Accept",
-        "Link": "<https://anantam-labs.vercel.app/docs/archived-validation.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
-      }
-    },
-    {
       "src": "/docs/versioning\\.html",
       "has": [
         {
@@ -767,13 +751,6 @@
       "continue": true
     },
     {
-      "src": "/docs/source/archived-validation\\.md",
-      "headers": {
-        "Link": "<https://anantam-labs.vercel.app/docs/archived-validation.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
-      },
-      "continue": true
-    },
-    {
       "src": "/docs/source/versioning\\.md",
       "headers": {
         "Link": "<https://anantam-labs.vercel.app/docs/versioning.html>; rel=\"canonical\", </llms.txt>; rel=\"describedby\""
@@ -784,7 +761,7 @@
       "src": "/assets/anantam-social\\.png",
       "status": 308,
       "headers": {
-        "Location": "/assets/anantam-social.248f284c6684.jpg"
+        "Location": "/assets/anantam-social.765d3c3d67bc.jpg"
       }
     },
     {

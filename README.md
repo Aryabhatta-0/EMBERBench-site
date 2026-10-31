@@ -8,7 +8,7 @@ The light-only company homepage presents a centered identity, a mist-blue hero w
 
 See [the motion and charts revision](docs/MOTION_AND_CHARTS.md) for the latest changes. See [the earlier skill-by-skill report](docs/COMPANY_REDESIGN.md) for the fifteen requested skills, references, implementation choices, validation, and limits. Earlier implementation notes below describe the benchmark explorer's history.
 
-A static explorer of **public development** score reports from [EMBERBench](https://github.com/Aryabhatta-0/EMBERBench). The portal does not present a hidden-suite leaderboard.
+A static explorer of **public development** score reports from [EMBERBench](https://github.com/anantamlab/EMBERBench). The portal does not present a hidden-suite leaderboard.
 
 This repository holds only the user interface and its data module. The benchmark, the scoring and the model runners stay in EMBERBench:
 

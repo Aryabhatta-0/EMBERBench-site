@@ -1,10 +1,10 @@
-import { redesignMethodology } from "./workspace.js?v=20261031-unslop-1";
+import { redesignMethodology } from "./workspace.js?v=20261031-dawn-3";
 import {mountEvaluationLoop} from './evaluation-loop.js';
-import { loadResults, shell, esc, fmt } from "./common.js?v=20261031-unslop-1";
+import { loadResults, shell, esc, fmt } from "./common.js?v=20261031-dawn-3";
 
 // The site, its data and the data builder live in their own repository.
-const SITE_REPO = "https://github.com/Aryabhatta-0/EMBERBench-site/blob/main/";
-const source = (path, label) => `<a href="${path.replace('benchmark-methodology.md','archived-validation.html').replace('integrity.md','replay-verification.html').replace('.md','.html')}">${esc(label)}</a>`;
+const SITE_REPO = "https://github.com/anantamlab/EMBERBench-site/blob/main/";
+const source = (path, label) => `<a href="${path.replace('benchmark-methodology.md','evaluation-boundary.html').replace('integrity.md','replay-verification.html').replace('.md','.html')}">${esc(label)}</a>`;
 const siteSource = (path, label) => `<a href="${path === 'README.md' ? 'docs/site-data.html' : SITE_REPO+path}">${esc(label)}</a>`;
 
 const components = [
@@ -96,7 +96,6 @@ async function render() {
         <h2 id="verified-title">Replay before scoring</h2>
         <p>The evaluator replays every recorded run and recomputes its metrics. The manifest must target the suite, stored metrics must match the replay, and the fire trajectory must match the frozen pack. Inconsistent evidence is rejected.</p>
         <p>A scheduled episode with no authenticated result scores zero, including missing, invalid-output, model-error, and timeout failures. An episode in which nobody is individually savable is excluded for every model.</p>
-        <p>The site builder accepts official pack-scored reports from one shared pack and scoring version. “Official” describes the scoring validation; these remain public-development results.</p>
         <p>${source("docs/integrity.md", "Integrity and provenance")} · ${siteSource("tools/build_results_site.py", "Generated-data builder")}</p>
       </section>
     </div>
@@ -130,8 +129,8 @@ async function render() {
       </section>
       <section class="panel prose" aria-labelledby="public-development">
         <h2 id="public-development">What these results can establish</h2>
-        <p><strong>Public development.</strong> These fixed diagnostic scenarios are available for development. Performance here does not establish generalization to hidden environments. The current pack schedules ${esc(worlds)} frozen worlds; deterministic scenarios are scheduled once and the stochastic scenario contributes distinct fire worlds.</p>
-        <p><strong>Hidden evaluation.</strong> Official evaluation requires a separately maintained evaluator-private distribution and server-side execution. This portal publishes no official hidden-suite results or submission service. Public generator thresholds and archived research holdouts do not define an official private distribution.</p>
+        <p><strong>Public development.</strong> These fixed diagnostic scenarios are available for development. Performance here does not show how a model does on unseen environments. The current pack schedules ${esc(worlds)} frozen worlds; deterministic scenarios are scheduled once and the stochastic scenario contributes distinct fire worlds.</p>
+        <p><strong>Official test.</strong> The official EMBERBench test is private and runs separately. No official test results or submission service are published here.</p>
         <p><strong>Decision models and reference agents.</strong> Decision models use external inference services. Reference agents are local benchmark programs with prescribed rules or planning algorithms; they do not use an LLM. Both choose actions through the same model interface.</p>
         <p><strong>API efficiency.</strong> Cost is provider-reported or estimated from token counts and published list prices, as labeled. Mean decision latency is the wait for one decision. Run wall time can include rate-limit waits; a resumed run may record only its last segment. Missing measurements remain unavailable.</p>
         <p>${source("docs/scenario-suite.md", "Public scenario suite")} · ${source("docs/baselines.md", "Reference agents")} · ${siteSource("README.md", "Site data and operational measurements")}</p>

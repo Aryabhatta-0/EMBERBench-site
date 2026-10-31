@@ -30,4 +30,4 @@ EMBERBench is the sole published contribution. Models may train or tune on the p
 
 - [Sitemap](https://anantam-labs.vercel.app/sitemap.xml): Indexable HTML pages.
 - [Security contact](https://anantam-labs.vercel.app/.well-known/security.txt): Private disclosure route.
-- [Benchmark source](https://github.com/Aryabhatta-0/EMBERBench): Source repository and its licences.
+- [Benchmark source](https://github.com/anantamlab/EMBERBench): Source repository and its licences.

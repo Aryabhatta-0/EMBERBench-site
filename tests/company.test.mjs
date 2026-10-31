@@ -30,8 +30,9 @@ try{
  await page.setViewportSize({width:1440,height:1000});await go(page);
  check('Anantam uses its exact requested tagline',await page.locator('.company-hero>p').textContent()==='Boundless Possibilities');
  check('Homepage search title identifies Anantam Labs and EMBERBench',await page.title()==='Anantam Labs | Boundless Possibilities · EMBERBench');
- check('Light gradient spans the hero and no dark runner remains',await page.locator('.hero-stage').evaluate(el=>getComputedStyle(el).backgroundImage.includes('gradient'))&&await page.locator('.ribbon-current').count()===0);
- check('The hero ends in an asymmetric curved shore',await page.locator('.hero-shore path').evaluate(el=>el.isPointInFill(new DOMPoint(72,70))!==el.isPointInFill(new DOMPoint(720,70))));
+ check('A light dawn gradient spans the hero',await page.locator('.company-hero').evaluate(el=>getComputedStyle(el).backgroundImage.includes('gradient')));
+ check('The mandala sun rises from a centred horizon',await page.locator('.company-hero').evaluate(el=>{const h=el.getBoundingClientRect(),s=el.querySelector('.dawn-sun').getBoundingClientRect(),line=el.querySelector('.dawn-horizon').getBoundingClientRect();return Math.abs(s.x+s.width/2-h.x-h.width/2)<2&&Math.abs(s.bottom-line.top)<2&&s.top>el.querySelector('.hero-action').getBoundingClientRect().bottom;}));
+ check('Founders follow the contribution with both founders and their profile links',await page.locator('#founders').evaluate(el=>el.previousElementSibling?.id==='contributions'&&[...el.querySelectorAll('.founder-card h3')].map(h=>h.textContent).join('|')==='Sathvik A R|Sankalp H S'&&[...el.querySelectorAll('.founder-links a')].every(a=>a.href.startsWith('https://')&&a.getAttribute('aria-label'))&&!document.querySelector('#contributions a')));
  check('Homepage contribution has no duplicate navigation or CTA',await page.locator('#contributions a').count()===0&&await page.locator('.hero-action').count()===1);
  check('Hero opens actual published results directly',await page.locator('.hero-action').getAttribute('href')==='benchmark.html');
  await page.locator('.hero-action').click();await page.locator('.result-chart').waitFor();

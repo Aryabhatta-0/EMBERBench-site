@@ -22,16 +22,15 @@ export const groups=[
   ['v1-fairness-spec','Fairness contract','Model-visible information and simulator fairness.'],
  ]],
  ['Scope & verification',[
-  ['evaluation-boundary','Evaluation boundary','What stays public and what remains evaluator-private.'],
+  ['evaluation-boundary','Evaluation boundary','What this site publishes, and how it differs from the official test.'],
   ['replay-verification','Replay verification','Public verification rules and safe artifact publication.'],
-  ['archived-validation','Archived validation','Disclosed research holdouts are historical evidence.'],
-  ['versioning','Versions & identity','Public contract versions and private-policy commitments.'],
+  ['versioning','Versions & identity','Public contract versions and what they identify.'],
  ]],
 ];
 export const docs=groups.flatMap(([group,items])=>items.map(([id,title,description])=>({id,title,description,group})));
 export const upstreamIds=new Set(['cli','model-interface','scoring','metrics','crowd-diagnostics','scenario-suite','evaluation','environment-pack','simulation-contract','v1-fairness-spec','baselines','statistics','scenario-schema']);
 export const retired={
- 'benchmark-methodology':'archived-validation','scoring-study-results':'archived-validation',
+ 'benchmark-methodology':'evaluation-boundary','scoring-study-results':'evaluation-boundary','archived-validation':'evaluation-boundary',
  'procedural-generation':'development-generator','generator':'development-generator',
  'evaluation-suite-design':'evaluation-boundary','difficulty-calibration':'evaluation-boundary',
  'suite-design-results':'evaluation-boundary','generator-coverage-results':'evaluation-boundary',
@@ -39,3 +38,19 @@ export const retired={
  'release-checklist':'evaluation-boundary','changelog':'versioning',
 };
 export const constructionTokens=[/\bINITIAL_POOL_SIZE\b/,/\bTOP_UP_BATCH_SIZE\b/,/\bPOOL_CAP\b/,/\bV1_RECIPES\b/,/\bV1_INITIAL_PLAN\b/,/\bV1_TOP_UP\b/,/\bV1_DESIGN\b/,/src\/emberbench\/composition\.py/,/tools\/analyze_suite_design\.py/];
+
+// Upstream contracts stay hash-reviewed. These passages about the private official test are removed before publication;
+// a missing target stops the build so an upstream change is reviewed again.
+export const publicRedactions={
+ evaluation:[
+  ['held-out integrity and provenance','integrity and provenance'],
+  ['## 3. Public development manifests and private scored manifests','## 3. Public development manifests and scored manifests'],
+  ['- **Scored manifests** use high-entropy seeds chosen by the evaluator (for\n  example 64-bit values from `secrets.randbits(64)`). The evaluator keeps the\n  seed schedule outside this repository and publishes the manifest, if at all,\n  only after the evaluation.','- **Scored manifests** use seeds chosen by the evaluator. They are not published here.'],
+ ],
+ 'environment-pack':[
+  ['A pack contains the evaluator seeds and, for a held-out generated suite,\nthe private scenarios. It is a **private asset** until the evaluation ends\n(see [integrity.md](integrity.md)). Publish the pack digest first, as a\ncommitment.','A scored pack stays private until its evaluation ends. Publish the pack digest first, as a\ncommitment.'],
+ ],
+ cli:[[' The private generator seed is not in the freeze record, so it\nis never shown.','']],
+};
+// Nothing on the site may describe how the private official test is built or what it contains.
+export const privateEvaluationTokens=[/secrets\.randbits/i,/held-out generated suite/i,/candidate[- ]pool/i,/top-up recipe/i,/mixture weights/i,/membership threshold/i,/research holdout/i,/b20261028/i,/private (?:policy|recipe|generator seed|distribution|scenarios|assets)\b/i,/evaluator-private (?:famil|distribution|workspace|material)/i,/construction (?:recipe|parameters|metadata)/i,/rotation schedule/i,/adversarial templates/i];
