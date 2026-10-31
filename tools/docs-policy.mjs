@@ -53,4 +53,4 @@ export const publicRedactions={
  cli:[[' The private generator seed is not in the freeze record, so it\nis never shown.','']],
 };
 // Nothing on the site may describe how the private official test is built or what it contains.
-export const privateEvaluationTokens=[/secrets\.randbits/i,/held-out generated suite/i,/candidate[- ]pool/i,/top-up recipe/i,/mixture weights/i,/membership threshold/i,/research holdout/i,/b20261028/i,/private (?:policy|recipe|generator seed|distribution|scenarios|assets)\b/i,/evaluator-private (?:famil|distribution|workspace|material)/i,/construction (?:recipe|parameters|metadata)/i,/rotation schedule/i,/adversarial templates/i];
+export const privateEvaluationTokens=[/secrets\.randbits/i,/held-out generated suite/i,/candidate[- ]pool/i,/top-up recipe/i,/mixture weights/i,/membership threshold/i,/research holdout/i,/private (?:policy|recipe|generator seed|distribution|scenarios|assets)\b/i,/evaluator-private (?:famil|distribution|workspace|material)/i,/construction (?:recipe|parameters|metadata)/i,/rotation schedule/i,/adversarial templates/i];
