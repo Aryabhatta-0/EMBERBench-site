@@ -2,7 +2,7 @@
 // The original image remains the no-JS, reduced-motion and canvas fallback.
 export function animateCosmos(root) {
   const canvas = root?.querySelector('canvas');
-  if (!canvas || !CSS.supports('mask-image', 'url("assets/anantam-mark.e6fd1cae9a4e.webp")')) return;
+  if (!canvas || !CSS.supports('mask-image', 'url("assets/anantam-mark.99045036da9d.webp")')) return;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   const preference = matchMedia('(prefers-reduced-motion: reduce)');

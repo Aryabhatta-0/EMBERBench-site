@@ -92,7 +92,7 @@ body[data-page='index'] .status-banner { display: none; }
 .hero-art img { width: min(100%, 405px); height: auto; aspect-ratio: 1; object-fit: contain; }
 .cosmos-emblem { position: relative; width: min(100%,405px); aspect-ratio: 1; }
 .cosmos-emblem img { display: block; width: 100%; }
-.cosmos-sky { position: absolute; inset: 0; width: 100%; height: 100%; mask: url('assets/anantam-mark.e6fd1cae9a4e.webp') center / contain no-repeat; }
+.cosmos-sky { position: absolute; inset: 0; width: 100%; height: 100%; mask: url('assets/anantam-mark.99045036da9d.webp') center / contain no-repeat; }
 .art-caption { text-align: center; font-size: 12px; color: var(--text-secondary); margin-top: 18px; }
 .art-caption > span[lang] { margin-left: 12px; }
 .art-caption > span:last-child { display: block; font-size: 10px; margin-top: 3px; color: var(--text-muted); }
