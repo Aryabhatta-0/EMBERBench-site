@@ -58,8 +58,8 @@ body[data-page='company'] .site-footer.container{max-width:1328px;padding:26px 4
 .site-footer.container{margin-top:64px;}
 body[data-page='scenarios'] main.container,body[data-page='methodology'] main.container{padding-top:28px;}
 body[data-page='scenarios'] .editorial-head,body[data-page='methodology'] .editorial-head{display:flex;flex-direction:row;justify-content:space-between;align-items:end;margin-bottom:28px;gap:24px;}
-body[data-page='scenarios'] .editorial-head h1,body[data-page='methodology'] .editorial-head h1{font-size:50px;line-height:1.1;max-width:none;margin:0;}
-body[data-page='scenarios'] .editorial-head p,body[data-page='methodology'] .editorial-head p{font-size:13px;margin-top:13px;}
+body[data-page='scenarios'] .editorial-head h1,body[data-page='methodology'] .editorial-head h1{font-size:var(--title-size);line-height:1.1;max-width:none;margin:0;}
+body[data-page='scenarios'] .editorial-head p,body[data-page='methodology'] .editorial-head p{font-size:var(--lede-size);margin-top:12px;}
 .scenario-studio{display:block;}
 .challenge-nav{position:static;display:flex;flex-direction:row;gap:6px;overflow-x:auto;padding:0 0 14px;margin-bottom:12px;scrollbar-width:thin;}
 .challenge-nav button{flex:none;max-width:190px;min-height:54px;font-size:11px;align-items:center;padding:10px 12px;border-radius:7px;}
@@ -98,7 +98,6 @@ body[data-page='model'] .evidence-detail,body[data-page='compare'] .evidence-det
 @media(max-width:700px){
  .benchmark-subnav{justify-content:flex-start;gap:25px;padding-inline:20px;overflow-x:auto;}
  body[data-page='scenarios'] .editorial-head,body[data-page='methodology'] .editorial-head{display:block;margin-bottom:25px;}
- body[data-page='scenarios'] .editorial-head h1,body[data-page='methodology'] .editorial-head h1{font-size:38px;}
  body[data-page='scenarios'] .editorial-aside,body[data-page='methodology'] .editorial-aside{display:none;}
  .challenge-nav{display:none;}
  .scenario-introduction .scenario-phone-choice{display:flex;grid-column:1 / -1;margin-bottom:20px;width:100%;font-size:12px;}

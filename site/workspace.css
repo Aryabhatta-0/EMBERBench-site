@@ -2,8 +2,8 @@
 /* Critique: replace stacked legacy panels with focused evidence views and reading structure. */
 body:not([data-page='index']) main.container { max-width: 1360px; padding-top: 62px; }
 .editorial-head { align-items: end; margin-bottom: 52px; gap: 48px; }
-.editorial-head h1 { font-size: clamp(48px, 5.6vw, 76px); line-height: 1.04; max-width: 16ch; }
-.editorial-head p { margin-top: 20px; font-size: 15px; max-width: 54ch; }
+.editorial-head h1 { font-size: var(--title-size); line-height: 1.04; max-width: 16ch; }
+.editorial-head p { margin-top: 20px; font-size: var(--lede-size); max-width: 54ch; }
 .editorial-aside { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 185px; padding-bottom: 6px; font-size: 12px; color: var(--text-muted); }
 .editorial-aside strong { font-family: var(--font-display); font-size: 54px; line-height: 1; font-weight: 400; color: var(--text-primary); }
 .editorial-aside a { margin-top: 12px; color: var(--text-secondary); font-size: 12px; }
@@ -96,7 +96,7 @@ body[data-page='leaderboard'] .selection-bar[data-count='0'] { display: none; }
 /* Model: a specimen page with one result and navigable evidence. */
 body[data-page='model'] .profile-head { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 64px; align-items: center; background: transparent; border: 0; padding: 0; margin-bottom: 36px; }
 .profile-head .breadcrumb { display: inline-block; font-size: 12px; margin-bottom: 24px; color: var(--text-muted); }
-.profile-head h1 { font-size: clamp(38px, 4.5vw, 64px); max-width: 22ch; overflow-wrap: anywhere; }
+.profile-head h1 { font-size: var(--title-size); max-width: 22ch; overflow-wrap: anywhere; }
 .profile-head .profile-meta { margin-top: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .profile-head .profile-meta + p { font-size: 12px; max-width: 68ch; }
 .profile-head .toolbar { margin-top: 24px; align-items: end; }
@@ -175,8 +175,7 @@ body[data-page='model'] .profile-head { display: grid; grid-template-columns: mi
 @media (max-width:700px) {
   body:not([data-page='index']) main.container { padding-top: 38px; }
   .editorial-head { gap: 24px; margin-bottom: 36px; }
-  .editorial-head h1 { font-size: 50px; }
-  .editorial-head p { font-size: 14px; margin-top: 16px; }
+  .editorial-head p { margin-top: 16px; }
   .editorial-aside { min-width: 0; flex-direction: row; flex-wrap: wrap; gap: 8px; align-items: baseline; }
   .editorial-aside strong { font-size: 24px; }
   .editorial-aside a { margin: 0 0 0 8px; }
@@ -220,7 +219,6 @@ body[data-page='model'] .profile-head { display: grid; grid-template-columns: mi
   .compare-card .metric-row dd { font-size: 13px; }
   .comparison-selection span { font-size: 10px; }
   body[data-page='model'] .profile-head { grid-template-columns: minmax(0,1fr); gap: 24px; }
-  .profile-head h1 { font-size: 42px; }
   .profile-head .score-hero { text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
   .profile-head .score-hero strong { font-size: 84px; }
   .profile-head .score-hero small { display: block; }
