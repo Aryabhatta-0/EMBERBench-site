@@ -12,7 +12,7 @@ import {publicResults,publicScenarioNames} from './public_results.mjs';
 import {readApprovedEvaluation} from './evaluation/publication.mjs';
 import {evaluationSection} from './evaluation/render.mjs';
 import {searchIdentity,verificationMeta,verificationFile} from './search-identity.mjs';
-const root=resolve('site'),origin='https://anantam-labs.vercel.app',version='20261031-dawn-3';
+const root=resolve('site'),origin='https://anantam-labs.vercel.app',version='20261031-dawn-4';
 const assets=JSON.parse(await readFile('tools/asset-map.json','utf8'));
 const verificationConfig=JSON.parse(await readFile('tools/search-verification.json','utf8'));
 const googleVerification=verificationMeta(verificationConfig),googleFile=verificationFile(verificationConfig);

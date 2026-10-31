@@ -1,5 +1,5 @@
-import {esc,fmt,count,scenarioName,isDecision,providerInfo,costText,duration} from './common.js?v=20261031-dawn-3';
-import {METRICS,finite,leaderboardOrder} from './analytics.js?v=20261031-dawn-3';
+import {esc,fmt,count,scenarioName,isDecision,providerInfo,costText,duration} from './common.js?v=20261031-dawn-4';
+import {METRICS,finite,leaderboardOrder} from './analytics.js?v=20261031-dawn-4';
 const bounded=v=>Math.max(0,Math.min(1,v)),layouts=new WeakMap();
 export function outcomeParts(model){return [['evacuated','Evacuated',model.totals.evacuated],['deaths','Avoidable deaths',model.totals.avoidable_casualties],['stranded','Avoidable stranded',model.totals.avoidable_stranded],['unavoidable','Unavoidable losses',model.totals.unavoidable_losses||0]];}
 export function metricScale(models,key){return key==='score'?100:['safety','quality','congestion'].includes(key)?1:Math.max(0,...models.map(METRICS[key].get).filter(finite));}
@@ -60,8 +60,7 @@ function costSpeed(models,selected){
  const pair=[scatter('score-cost',models,selected,{title:'Score vs cost',meaning,get:m=>m.api?.cost_usd,format:money,axis:'API cost per run'}),scatter('score-speed',models,selected,{title:'Score vs speed',meaning,get:m=>m.api?.mean_act_latency_s,format:secs,axis:'Seconds per decision'})].join('');
  return `<section class="dashboard-panel cost-panel" id="cost-speed" aria-labelledby="cost-plot-title"><header class="dashboard-panel-head"><div><h2 id="cost-plot-title">Cost &amp; speed</h2><p>AI models only · Hand-coded agents make no API calls</p></div></header><div class="scatter-pair">${pair}</div><div class="factor-columns">${bars('cost','API cost per run','US dollars for the full public run · Lower is better',m=>m.api?.cost_usd,m=>costText(m).replace('≈ ','≈'))}${bars('latency','Time per decision','Mean seconds the model took to act · Lower is better',m=>m.api?.mean_act_latency_s,m=>duration(m.api.mean_act_latency_s))}</div></section>`;
 }
-const jump=sections=>`<nav class="chart-jump" aria-label="Charts on this page"><ul>${sections.filter(([,,on])=>on).map(([id,label])=>`<li><a href="#${id}">${label}</a></li>`).join('')}</ul></nav>`;
-export function dashboard(data,models,selected,state,value,evidence=''){const cost=costSpeed(models,selected);return `${jump([['ranking',esc(METRICS[state.sort].label),true],['cost-speed','Cost &amp; speed',!!cost],['factors','Safety &amp; quality',true],['outcomes','People',true],['scenario-results','Scenarios',true]])}<div class="benchmark-dashboard">${columns(data,models,selected,state,value)}${evidence}${cost}${factors(models,selected)}${outcomes(models)}${scenarios(models)}</div><p class="plot-note">EMBER is a score out of 100, not the percentage of people saved. Missing data is not zero.</p>`;}
+export function dashboard(data,models,selected,state,value,evidence=''){const cost=costSpeed(models,selected);return `<div class="benchmark-dashboard">${columns(data,models,selected,state,value)}${evidence}${cost}${factors(models,selected)}${outcomes(models)}${scenarios(models)}</div><p class="plot-note">EMBER is a score out of 100, not the percentage of people saved. Missing data is not zero.</p>`;}
 function fitChartBands(root){
  layouts.get(root)?.();const observer=new ResizeObserver(()=>records.forEach(r=>r.fit())),records=[];
  for(const chart of root.querySelectorAll('.vertical-chart[data-chart-id]')){

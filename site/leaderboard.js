@@ -9,15 +9,14 @@ import {
   provider,
   providerInfo,
   errorPage,
-} from "./common.js?v=20261031-dawn-3";
+} from "./common.js?v=20261031-dawn-4";
 import {
   METRICS,
   filterModels,
   sortModels,
   finite,
-  leaderboardOrder,
-} from "./analytics.js?v=20261031-dawn-3";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261031-dawn-3';
+} from "./analytics.js?v=20261031-dawn-4";
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261031-dawn-4';
 
 const columns = [
   ["score", "EMBER Score"],
@@ -58,15 +57,12 @@ async function main() {
   const providersForKind=()=>[...new Set(data.models.filter(m=>state.kind==='all'||m.kind===state.kind).map(provider))].sort();
   const normalizeProvider=()=>{if(!providersForKind().includes(state.creator))state.creator='all';};
   normalizeProvider();
-  // Three headline numbers answer the first questions before any chart: who leads, against what, on how much.
-  const decisions=data.models.filter(m=>m.kind==='Decision model'),references=data.models.filter(m=>m.kind==='Reference agent');
-  const topModel=leaderboardOrder(decisions)[0],topReference=leaderboardOrder(references)[0],scenarioCount=new Set(data.models.flatMap(m=>m.scenarios.map(s=>s.name))).size;
+  // One quiet line states what was tested; the first chart already shows who leads.
+  const decisions=data.models.filter(m=>m.kind==='Decision model'),scenarioCount=new Set(data.models.flatMap(m=>m.scenarios.map(s=>s.name))).size;
   const kinds=[['Decision model','AI models'],['Reference agent','Hand-coded agents'],['all','All']];
-  const glance=(label,value,note)=>`<div><dt>${label}</dt><dd><strong>${value}</strong><span>${note}</span></dd></div>`;
   document.getElementById("main").innerHTML =
-    `<header class="benchmark-heading"><h1>EMBERBench</h1><p>Can AI guide people to safety as a fire spreads?</p></header>
-    <dl class="benchmark-glance">${topModel?glance('Best AI model',esc(fmt(topModel.score)),esc(topModel.name)):''}${topReference?glance('Best hand-coded agent',esc(fmt(topReference.score)),esc(topReference.name)):''}${glance('Tested',esc(String(decisions.length)),`AI models · ${esc(String(scenarioCount))} fire scenarios · ${esc(String(data.world_count))} worlds`)}</dl>
-    <p class="evaluation-scope"><strong>Public development snapshot</strong>, one trial per model. Models may train on this public set, so scores are not contamination-resistant. <a href="docs/evaluation-boundary.html">About this evaluation</a></p>
+    `<header class="benchmark-heading"><h1>EMBERBench</h1><p>Can AI guide people to safety as a fire spreads?</p>
+    <p class="evaluation-scope">Public development snapshot: ${esc(String(decisions.length))} AI models, ${esc(String(scenarioCount))} fire scenarios, ${esc(String(data.world_count))} worlds, one trial each. Models may train on this set. <a href="docs/evaluation-boundary.html">About this evaluation</a></p></header>
     <section class="leaderboard-workspace" aria-label="Model explorer">
       <h2 class="sr-only">Filter and compare models</h2>
       <div class="filter-bar">

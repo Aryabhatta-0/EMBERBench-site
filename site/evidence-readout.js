@@ -1,5 +1,5 @@
-import {esc,fmt,scenarioName} from './common.js?v=20261031-dawn-3';
-import {finite} from './analytics.js?v=20261031-dawn-3';
+import {esc,fmt,scenarioName} from './common.js?v=20261031-dawn-4';
+import {finite} from './analytics.js?v=20261031-dawn-4';
 import {peopleReadout} from './result-explorer.js';
 
 export function profileReadout(model) {
