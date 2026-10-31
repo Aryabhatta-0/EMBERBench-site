@@ -4,7 +4,7 @@
 /* Hallmark · waive 24b · Existing controls and analytical layouts have established optical spacing · Preserve benchmark table alignment and tested touch targets rather than round every inherited gap during a hero and palette revision. */
 /* Hallmark · waive 82 · Exact published outcomes are labeled statistical pictographs · Each marker encodes one person in benchmark evidence; these charts retain counts and touch-accessible grouping rather than decorate a marketing number. */
 /* Waiver: preserve the user's centered hero and two-section structure; user requested fewer layouts. Retired: evacuation maps, player controls, routing-rule selectors and replay downloads across all routes. */
-:root{--hero-surface:#e9eff7;--hero-ink:#142e51;--hero-emblem-size:76px;--company-measure:1328px;--company-gutter:max(44px,env(safe-area-inset-left),env(safe-area-inset-right));--outcome-safe:#376f61;--outcome-death:#b75b3f;--outcome-stranded:#b18d34;}
+:root{--hero-surface:#faf3e8;--hero-ink:#39291f;--hero-emblem-size:76px;--company-measure:1328px;--company-gutter:max(44px,env(safe-area-inset-left),env(safe-area-inset-right));--outcome-safe:#2f6f5e;--outcome-death:#b4472c;--outcome-stranded:#ae7a16;}
 html{scroll-behavior:smooth;scroll-padding-top:100px;}
 p.outcome-end{font-size:13px;color:var(--text-muted);margin:20px 0 0;padding:0;}
 .outcome-caption{font-size:13px;color:var(--text-secondary);margin:0 0 24px;}
@@ -145,7 +145,7 @@ body[data-page='methodology'] .method-article .grid2 h3{margin:0 0 8px;}body[dat
 body[data-page='methodology'] .method-article .panel.prose>p:last-of-type:has(>a){display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;max-width:none;font-size:0;}
 body[data-page='methodology'] .method-article .panel.prose>p:last-of-type:has(>a)>a{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border:1px solid var(--border);border-radius:999px;background:var(--surface-1);font-size:13px;font-weight:500;color:var(--text-primary);text-decoration:none;transition:background-color var(--duration-quick) var(--ease-out);}
 body[data-page='methodology'] .method-article .panel.prose>p:last-of-type:has(>a)>a::after{content:'';width:14px;height:14px;background:currentColor;opacity:.5;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform var(--duration-quick) var(--ease-out);}
-body[data-page='methodology'] #method-evaluation-loop{padding:24px;background:var(--surface-1);border:1px solid var(--border);border-radius:20px;box-shadow:0 1px 2px #142e5108;}
+body[data-page='methodology'] #method-evaluation-loop{padding:24px;background:var(--surface-1);border:1px solid var(--border);border-radius:20px;box-shadow:0 1px 2px #39291f0a;}
 body[data-page='methodology'] #method-evaluation-loop .loop-path button{min-height:44px;border-radius:999px;font-size:13px;transition:background-color var(--duration-quick) var(--ease-out),color var(--duration-quick) var(--ease-out);}
 body[data-page='methodology'] #method-evaluation-loop .loop-path [aria-pressed='true']{background:var(--accent);color:var(--on-accent);}
 body[data-page='methodology'] #method-evaluation-loop .loop-explanation{margin-top:20px;padding-top:18px;border-top:1px solid var(--grid);}

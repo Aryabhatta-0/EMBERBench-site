@@ -15,22 +15,25 @@ export function mountHeroMotion(hero) {
   if(!context){hero.dataset.motion='static';return;}
   const reduced=matchMedia('(prefers-reduced-motion:reduce)'),abort=new AbortController();
   let width=0,height=0,points=[],frame=0,previous=0,elapsed=0,visible=true,disposed=false,ready=false,starting=false;
-  const ink=getComputedStyle(hero).getPropertyValue('--particle-ink').trim();
+  const style=getComputedStyle(hero),ink=style.getPropertyValue('--particle-ink').trim();
+  // Four inks from the emblem's own gilding, darkest to lightest, so the assembled field reads as the mandala.
+  const inks=['--copper-deep','--particle-ink','--copper','--gold'].map(name=>style.getPropertyValue(name).trim()||ink);
   function particles(){
     const sample=document.createElement('canvas');sample.width=sample.height=220;
     const sampler=sample.getContext('2d',{willReadFrequently:true});sampler.drawImage(image,0,0,220,220);
     const pixels=sampler.getImageData(0,0,220,220).data,targets=[];
-    for(let y=1;y<220;y+=2)for(let x=1;x<220;x+=2){const p=(y*220+x)*4;if(pixels[p+3]>100&&pixels[p]+pixels[p+1]+pixels[p+2]<650)targets.push({x:x/220,y:y/220});}
+    for(let y=1;y<220;y+=2)for(let x=1;x<220;x+=2){const p=(y*220+x)*4;const sum=pixels[p]+pixels[p+1]+pixels[p+2];if(pixels[p+3]>100&&sum<650)targets.push({x:x/220,y:y/220,tone:sum});}
     if(!targets.length)throw new Error('Emblem silhouette unavailable');
     let seed=271027;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
     const box=canvas.parentElement.getBoundingClientRect(),mark=image.getBoundingClientRect(),cx=mark.x-box.x+mark.width/2,cy=mark.y-box.y+mark.height/2;
     const short=height<400,rx=short?mark.width*1.3:Math.min(width*.4,480),ry=short?mark.height:Math.min(150,height*.19);
-    const count=Math.min(width<=700?1400:1800,targets.length);points=[];
+    const count=Math.min(width<=700?1900:2800,targets.length);points=[];
+    const tones=targets.map(t=>t.tone).sort((a,b)=>a-b),cut=[.3,.58,.82].map(q=>tones[Math.floor(q*(tones.length-1))]);
     for(let i=0;i<count;i++){
       const target=targets[Math.floor(i*targets.length/count)],angle=random()*Math.PI*2,distance=.35+random()*.65;
       points.push({tx:mark.x-box.x+target.x*mark.width,ty:mark.y-box.y+target.y*mark.height,
         sx:cx+Math.cos(angle)*rx*distance,sy:Math.max(10,cy+Math.sin(angle)*(Math.sin(angle)>0?mark.height*.42:ry)*distance),
-        delay:random()*.35,bend:(random()-.5)*24,r:.52+random()*.18,bucket:Math.floor(random()*4)});
+        delay:random()*.35,bend:(random()-.5)*24,r:.5+random()*.22,bucket:cut.filter(limit=>target.tone>limit).length});
     }
     canvas.dataset.particles=String(points.length);
   }
@@ -38,9 +41,9 @@ export function mountHeroMotion(hero) {
     let amount=Math.min(1,time/3);
     if(reduced.matches)amount=1;
     hero.dataset.particlePhase=amount===1?'assembled':'assembling';
-    context.clearRect(0,0,width,height);context.fillStyle=ink;
+    context.clearRect(0,0,width,height);
     for(let bucket=0;bucket<4;bucket++){
-      context.globalAlpha=.62+bucket*.12;context.beginPath();
+      context.fillStyle=inks[bucket];context.globalAlpha=.94-bucket*.08;context.beginPath();
       for(const p of points){if(p.bucket!==bucket)continue;
         const raw=Math.max(0,Math.min(1,(amount-p.delay*.22)/(1-p.delay*.22))),mix=1-(1-raw)**3;
         const x=p.sx+(p.tx-p.sx)*mix,y=p.sy+(p.ty-p.sy)*mix-Math.sin(mix*Math.PI)*p.bend;

@@ -1,5 +1,5 @@
 /* Open multi-model research charts, with provider identity and a shared scale. */
-:root{--plot-grid:#dfe6ef;--plot-bar:#647f9f;--provider-neutral:#171717;}
+:root{--plot-grid:#eadbc2;--plot-bar:#a96930;--provider-neutral:#171717;}
 body[data-page='leaderboard'] main.container{width:100%;max-width:none;margin:0;padding:36px var(--page-edge) 64px;}
 body[data-page='leaderboard'] .benchmark-subnav{max-width:none;padding-inline:var(--page-edge);}
 .benchmark-heading{margin-bottom:28px;}.benchmark-heading h1{font-size:var(--title-size);}.benchmark-heading>div>p{font-size:var(--lede-size);}.benchmark-heading .benchmark-scope{font-size:14px;}.benchmark-scope span{font-size:13px;}

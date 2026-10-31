@@ -1,27 +1,27 @@
 /* EMBERBench research interface: quiet surfaces and explicit data states. */
 :root {
   color-scheme: light;
-  --surface-0: #f2f5f8;
-  --surface-1: #fff;
-  --surface-2: #eaf0f5;
-  --border: #d5dfe7;
-  --grid: #e6edf2;
-  --text-primary: #172431;
-  --text-secondary: #4c6071;
-  --text-muted: #5e7080;
-  --accent: #b6502b;
-  --accent-soft: #fcf0e9;
-  --series-1: #0b746e;
-  --series-2: #b6502b;
-  --series-3: #415f8c;
-  --track: #e9eff3;
-  --ref-bar: #8798aa;
-  --dim-bar: #c2ced8;
-  --link: #225d93;
-  --focus: #236fa5;
-  --warn-bg: #fff5e7;
-  --warn-text: #76501b;
-  --shadow: 0 6px 24px #213b5310;
+  --surface-0: #faf3e8;
+  --surface-1: #fffbf4;
+  --surface-2: #f5e6cc;
+  --border: #e7d5b6;
+  --grid: #efe2cb;
+  --text-primary: #39291f;
+  --text-secondary: #5e4a3b;
+  --text-muted: #6b5444;
+  --accent: #39291f;
+  --accent-soft: #f5e6cc;
+  --series-1: #1f6b6b;
+  --series-2: #a96930;
+  --series-3: #3c4f86;
+  --track: #f2e5cf;
+  --ref-bar: #9a8670;
+  --dim-bar: #e2cfae;
+  --link: #8c5321;
+  --focus: #a96930;
+  --warn-bg: #fbebd0;
+  --warn-text: #6e4a12;
+  --shadow: 0 6px 24px #39291f12;
   --header-height: 72px;
 }
 * {

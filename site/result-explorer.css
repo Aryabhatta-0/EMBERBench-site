@@ -1,11 +1,11 @@
 /* Read results, then inspect evidence. One shared workspace, two levels of detail. */
 :root {
-  --outcome-safe: #376f61;
-  --outcome-death: #b75b3f;
-  --outcome-stranded: #b18d34;
-  --outcome-unavoidable: #8a9096;
-  --chart-track: #e9eef1;
-  --chart-selected: #edf2f5;
+  --outcome-safe: #2f6f5e;
+  --outcome-death: #b4472c;
+  --outcome-stranded: #ae7a16;
+  --outcome-unavoidable: #8f8274;
+  --chart-track: #f2e5cf;
+  --chart-selected: #f7ebd6;
 }
 body[data-page='leaderboard'] main.container { padding-top: 32px; }
 .benchmark-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin: 0 0 30px; }
@@ -195,7 +195,7 @@ body[data-page='compare'] .editorial-aside { min-width:auto; }
    series dot (the same colours as the component bars), a quiet segmented control, and the evidence in hairline cards (disclosure cards: experience.css). Scoped to the Compare page. */
 body[data-page='compare'] .editorial-aside .quiet-link { min-height:44px; margin:0; padding:0 18px; gap:8px; border:1px solid var(--border); border-radius:999px; background:var(--surface-1); color:var(--text-primary); font-size:13px; }
 body[data-page='compare'] .editorial-aside .quiet-link::after { content:''; width:16px; height:16px; background:currentColor; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat; transition:transform var(--duration-quick) var(--ease-out); }
-body[data-page='compare'] .comparison-controls { padding:14px 20px 12px; background:var(--surface-1); border:1px solid var(--border); border-radius:20px; box-shadow:0 1px 2px #142e5108; }
+body[data-page='compare'] .comparison-controls { padding:14px 20px 12px; background:var(--surface-1); border:1px solid var(--border); border-radius:20px; box-shadow:0 1px 2px #39291f0a; }
 body[data-page='compare'] .comparison-controls .compare-picker { grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto; gap:16px; align-items:end; }
 body[data-page='compare'] .comparison-controls .field { gap:8px; font-size:11.5px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); }
 body[data-page='compare'] .comparison-controls select { min-height:44px; padding-inline:14px 36px; border-radius:12px; font-size:15px; font-weight:500; letter-spacing:normal; text-transform:none; color:var(--text-primary); }
@@ -220,7 +220,7 @@ body[data-page='compare'] .optional-model-fields { display:grid; grid-template-c
    Cards 400px and wider (two across): one compact row, identity left and score right. The card is its own size
    container, so its grid tracks stay fixed and the container queries only move the two children. */
 body[data-page='compare'] #comparison-content > .compare-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr)); gap:12px; padding:12px 0 0; }
-body[data-page='compare'] .compare-grid .compare-card { --card-series:var(--accent); container-type:inline-size; display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:1fr auto; align-items:stretch; gap:0 24px; padding:16px 20px; background:var(--surface-1); border:1px solid var(--border); border-radius:18px; box-shadow:0 1px 2px #142e5108; }
+body[data-page='compare'] .compare-grid .compare-card { --card-series:var(--accent); container-type:inline-size; display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:1fr auto; align-items:stretch; gap:0 24px; padding:16px 20px; background:var(--surface-1); border:1px solid var(--border); border-radius:18px; box-shadow:0 1px 2px #39291f0a; }
 body[data-page='compare'] .compare-card.series-card-1 { --card-series:var(--series-1); }
 body[data-page='compare'] .compare-card.series-card-2 { --card-series:var(--series-3); }
 body[data-page='compare'] .compare-card.series-card-3 { --card-series:var(--ref-bar); }
@@ -247,8 +247,8 @@ body[data-page='compare'] .compare-score .metric-note { display:flex; flex-direc
 body[data-page='compare'] #comparison-content > .empty { margin-top:12px; border-radius:18px; }
 body[data-page='compare'] #comparison-content .workspace-panel { padding-top:0; }
 body[data-page='compare'] #comparison-content .workspace-tabs { margin:16px 0 10px; padding:4px; border:1px solid var(--border); }
-body[data-page='compare'] .workspace-tabs [aria-selected='true'] { box-shadow:0 1px 2px #142e5114, 0 0 0 1px var(--border); }
-body[data-page='compare'] .comparison-readout, body[data-page='compare'] .workspace-panel > section.panel { margin:0 0 12px; padding:28px; background:var(--surface-1); border:1px solid var(--border); border-radius:20px; box-shadow:0 1px 2px #142e5108; }
+body[data-page='compare'] .workspace-tabs [aria-selected='true'] { box-shadow:0 1px 2px #39291f14, 0 0 0 1px var(--border); }
+body[data-page='compare'] .comparison-readout, body[data-page='compare'] .workspace-panel > section.panel { margin:0 0 12px; padding:28px; background:var(--surface-1); border:1px solid var(--border); border-radius:20px; box-shadow:0 1px 2px #39291f0a; }
 body[data-page='compare'] .comparison-readout { padding:20px 24px; }
 body[data-page='compare'] .comparison-readout h2 { margin:0 0 6px; font-size:20px; }
 body[data-page='compare'] .comparison-readout .readout-intro { margin-bottom:12px; }

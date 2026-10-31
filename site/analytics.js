@@ -13,7 +13,7 @@ export const PROVIDER_BRANDS = Object.freeze({
   inception: { name: "Inception", logo: "inception.png", color: "#17c4c4" },
   togethercomputer: { name: "Together AI", logo: "togethercomputer.png", color: "#fc4c02" },
   upstage: { name: "Upstage", logo: "upstage.svg", color: "#805cfb" },
-  Reference: { name: "Reference agent", mark: "R", color: "#8798aa" },
+  Reference: { name: "Reference agent", mark: "R", color: "#9a8670" },
 });
 export function provider(m) {
   return m.kind === "Decision model"
@@ -29,7 +29,7 @@ export function providerInfo(value) {
     PROVIDER_BRANDS[id] ?? {
       name: id.replaceAll("-", " ").replace(/\b\w/g, (c) => c.toUpperCase()),
       mark: id.slice(0, 1).toUpperCase() || "?",
-      color: "#64748b",
+      color: "#7a6a5c",
     }
   );
 }

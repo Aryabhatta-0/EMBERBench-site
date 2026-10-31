@@ -1,5 +1,5 @@
-import {shell} from './common.js?v=20261031-unslop-1';
-import {remembersComparisons,saveStorageChoice,clearWebsiteStorage} from './preferences.js?v=20261031-unslop-1';
+import {shell} from './common.js?v=20261031-dawn-1';
+import {remembersComparisons,saveStorageChoice,clearWebsiteStorage} from './preferences.js?v=20261031-dawn-1';
 shell(null,location.pathname.endsWith('/about.html')?'about':'legal');
 function bindPreferences(){
  const input=document.getElementById('remember-comparisons'),status=document.getElementById('preference-status');

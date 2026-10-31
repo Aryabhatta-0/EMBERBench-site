@@ -1,8 +1,8 @@
-// A forward journey through space, clipped to the supplied emblem's alpha.
+// Rising embers, clipped to the supplied emblem's alpha.
 // The original image remains the no-JS, reduced-motion and canvas fallback.
 export function animateCosmos(root) {
   const canvas = root?.querySelector('canvas');
-  if (!canvas || !CSS.supports('mask-image', 'url("assets/anantam-mark.b03ee4d301aa.webp")')) return;
+  if (!canvas || !CSS.supports('mask-image', 'url("assets/anantam-mark.e6fd1cae9a4e.webp")')) return;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
@@ -31,11 +31,11 @@ export function animateCosmos(root) {
       const opacity = Math.min(.8,(1.72-star.z)*2,(star.z-.12)*5);
       const radius = Math.min(1.15,star.size/star.z)*size/405;
       const trail = ctx.createLinearGradient(tailX,tailY,x,y);
-      trail.addColorStop(0,'rgba(150,191,240,0)');
-      trail.addColorStop(1,`rgba(204,225,255,${opacity*.65})`);
+      trail.addColorStop(0,'rgba(217,162,76,0)');
+      trail.addColorStop(1,`rgba(255,240,214,${opacity*.7})`);
       ctx.strokeStyle = trail; ctx.lineWidth = Math.max(.45,radius*.9);
       ctx.beginPath(); ctx.moveTo(tailX,tailY); ctx.lineTo(x,y); ctx.stroke();
-      ctx.fillStyle = `rgba(220,233,255,${opacity})`;
+      ctx.fillStyle = `rgba(255,248,232,${opacity})`;
       ctx.beginPath(); ctx.arc(x,y,radius,0,Math.PI*2); ctx.fill();
     }
   };

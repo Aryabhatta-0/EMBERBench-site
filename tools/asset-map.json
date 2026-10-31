@@ -3,8 +3,9 @@
     "dm-sans": "assets/fonts/dm-sans.f43e9aeb7b31.woff2",
     "instrument-serif": "assets/fonts/instrument-serif.9e2a54a37944.woff2"
   },
-  "mark": "assets/anantam-mark.b03ee4d301aa.webp",
-  "favicon": "assets/anantam-favicon.41bee4474433.png",
-  "touch": "assets/anantam-touch.fc2b3f8035fa.png",
-  "social": "assets/anantam-social.248f284c6684.jpg"
+  "mark": "assets/anantam-mark.e6fd1cae9a4e.webp",
+  "favicon": "assets/anantam-favicon.828f76a725ed.png",
+  "touch": "assets/anantam-touch.c8c1ef7c663b.png",
+  "social": "assets/anantam-social.61399dc5c8b3.jpg",
+  "wordmark": "assets/anantam-wordmark.39644e012809.webp"
 }

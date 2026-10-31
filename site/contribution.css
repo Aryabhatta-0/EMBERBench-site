@@ -1,20 +1,39 @@
-/* Anantam | A text-led research introduction framed by the existing gradient shore. */
-.hero-stage{background:radial-gradient(ellipse at 96% 88%,var(--hero-mist),transparent 65%),radial-gradient(ellipse at 3% 86%,var(--hero-pearl),transparent 62%),linear-gradient(180deg,var(--hero-surface),var(--hero-porcelain) 58%,var(--hero-surface));}
+/* Anantam | A text-led research introduction under a dawn sky, closed by a gilded horizon. */
+.hero-stage{background:radial-gradient(130% 62% at 50% 100%,var(--dawn) 0%,color-mix(in srgb,var(--dawn) 52%,var(--ivory)) 42%,transparent 76%),radial-gradient(ellipse at 96% 88%,var(--hero-mist),transparent 62%),linear-gradient(180deg,var(--ivory) 0%,var(--hero-pearl) 58%,color-mix(in srgb,var(--dawn) 70%,var(--ivory)) 100%);}
 .hero-stage .company-hero{background:transparent;}
 .hero-shore{height:clamp(100px,12vw,180px);pointer-events:none;}
 .hero-shore svg{display:block;width:100%;height:calc(100% + 2px);}
 .hero-shore path{fill:var(--surface-0);}
 
-body[data-page='company'] .contributions{display:block;max-width:1440px;padding:48px 48px 72px;}
-.contributions .contribution-heading{display:block;max-width:780px;margin:0;}
-.contributions .contribution-heading h2{font-size:3.5rem;line-height:1.1;letter-spacing:-.025em;text-wrap:balance;margin:0 0 24px;}
-.contributions .contribution-heading .contribution-description{font-size:1.5rem;font-weight:400;line-height:1.6;letter-spacing:-.01em;text-wrap:pretty;max-width:54ch;color:var(--text-primary);margin:0;}
-.contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1.125rem;line-height:1.65;text-wrap:pretty;max-width:64ch;color:var(--text-secondary);margin:20px 0 0;}
+body[data-page='company'] .contributions{position:relative;isolation:isolate;overflow-x:clip;overflow-y:visible;display:block;max-width:1440px;padding:40px 48px 96px;}
+/* A pulli kolam border: two interlaced threads around a row of dots, gathered by the emblem. */
+.kolam-rule{position:relative;height:24px;max-width:880px;margin:0 auto 72px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'%3E%3Cg fill='none' stroke='%23d9a24c' stroke-width='1.1' stroke-linecap='round'%3E%3Cpath d='M0 12C6 3 18 3 24 12S42 21 48 12'/%3E%3Cpath d='M0 12C6 21 18 21 24 12S42 3 48 12'/%3E%3C/g%3E%3Cg fill='%23a96930'%3E%3Ccircle cx='12' cy='12' r='1.6'/%3E%3Ccircle cx='36' cy='12' r='1.6'/%3E%3C/g%3E%3C/svg%3E") center/48px 24px repeat-x;-webkit-mask:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);}
+.kolam-rule::after{content:'';position:absolute;left:50%;top:50%;width:64px;height:64px;translate:-50% -50%;border-radius:50%;background:url('assets/anantam-mark.e6fd1cae9a4e.webp') center/48px no-repeat,var(--surface-0);}
+@supports (animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){.kolam-rule{animation:kolam-draw linear both;animation-timeline:view();animation-range:entry 0% cover 35%;}}
+}
+@keyframes kolam-draw{from{clip-path:inset(0 50% 0 50%);}to{clip-path:inset(0 0 0 0);}}
+/* The emblem returns as a watermark, turning as slowly as the sun. */
+body[data-page='company'] .contributions::before{content:'';position:absolute;z-index:-1;top:120px;right:-260px;width:620px;aspect-ratio:1;background:url('assets/anantam-mark.e6fd1cae9a4e.webp') center/contain no-repeat;opacity:.07;pointer-events:none;animation:sun-corona-turn 300s linear infinite;}
+.contributions .contribution-heading{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-areas:"title title" "lede detail" "lede note";column-gap:clamp(48px,7vw,112px);max-width:1264px;margin:0 auto;}
+.contributions .contribution-heading h2{grid-area:title;font-size:clamp(3.5rem,6.4vw,5.75rem);line-height:1;letter-spacing:-.025em;text-wrap:balance;margin:0 0 40px;color:var(--text-primary);}
+.contributions .contribution-heading .contribution-description{grid-area:lede;align-self:start;font-family:var(--font-display);font-size:clamp(1.75rem,2.5vw,2.375rem);font-weight:400;line-height:1.28;letter-spacing:-.005em;text-wrap:pretty;max-width:22ch;color:var(--text-primary);margin:0;}
+.contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1.0625rem;line-height:1.7;text-wrap:pretty;max-width:60ch;color:var(--text-secondary);margin:0;}
+.contributions .contribution-heading .contribution-detail{grid-area:detail;padding-top:10px;}
+.contributions .contribution-heading .contribution-note{grid-area:note;margin-top:24px;padding-top:24px;border-top:1px solid var(--border);font-size:.9375rem;}
 @media(max-width:1100px){body[data-page='company'] .contributions{padding-inline:32px;}}
+@media(max-width:900px){
+ .contributions .contribution-heading{grid-template-columns:minmax(0,1fr);grid-template-areas:"title" "lede" "detail" "note";}
+ .contributions .contribution-heading .contribution-description{max-width:30ch;margin-bottom:28px;}
+ .contributions .contribution-heading .contribution-detail{padding-top:0;}
+}
 @media(max-width:700px){
  .hero-shore{height:80px;}
- body[data-page='company'] .contributions{padding:28px 20px 44px;}
- .contributions .contribution-heading h2{font-size:2.75rem;margin-bottom:20px;}
- .contributions .contribution-heading .contribution-description{font-size:1.25rem;}
- .contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1rem;margin-top:16px;}
+ body[data-page='company'] .contributions{padding:28px 20px 56px;}
+ body[data-page='company'] .contributions::before{width:360px;right:-170px;top:180px;}
+ .kolam-rule{margin-bottom:44px;}
+ .contributions .contribution-heading h2{font-size:2.75rem;margin-bottom:24px;}
+ .contributions .contribution-heading .contribution-description{font-size:1.5rem;}
+ .contributions .contribution-heading :is(.contribution-detail,.contribution-note){font-size:1rem;}
 }
+@media(prefers-reduced-motion:reduce){body[data-page='company'] .contributions::before{animation:none;}}

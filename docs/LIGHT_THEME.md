@@ -14,9 +14,9 @@ The annotated evacuation visualization is removed from every website route. The 
 
 | Role | Color |
 | --- | --- |
-| Original navy logo / actions | #142e51 |
-| Porcelain canvas | #f8f9fc |
-| Mist-blue hero | #e9eff7 |
+| Earth wordmark / actions | #39291f |
+| Ivory canvas | #faf3e8 |
+| Dawn sky | #f1d4a2 |
 | White controls and cards | #ffffff |
 | Soft analytical surface | #edf1f7 |
 | Primary text | #172c46 |
