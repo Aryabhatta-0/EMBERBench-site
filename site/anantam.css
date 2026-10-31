@@ -50,6 +50,7 @@ main.container { padding: 56px 48px 80px; }
 .quiet-link { display: inline-flex; align-items: center; gap: 10px; color: var(--text-primary); font-size: 13px; font-weight: 500; text-decoration: none; }
 .quiet-link svg { transition: transform var(--duration-quick) var(--ease-out); }
 .page-head { margin-bottom: 40px; align-items: center; }
+.page-head:has(> div:only-child) { align-items: flex-start; }
 .page-head p { max-width: 65ch; font-size: 14px; }
 .panel { border: 0; border-radius: var(--radius-surface); box-shadow: none; padding: 28px; margin-bottom: 28px; }
 .panel .panel { background: var(--surface-0); }

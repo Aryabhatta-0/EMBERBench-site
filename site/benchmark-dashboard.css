@@ -1,7 +1,7 @@
 /* Open multi-model research charts, with provider identity and a shared scale. */
 :root{--plot-grid:#dfe6ef;--plot-bar:#647f9f;--provider-neutral:#171717;}
-body[data-page='leaderboard'] main.container{width:100%;max-width:none;margin:0;padding:36px 32px 64px;}
-body[data-page='leaderboard'] .benchmark-subnav{max-width:none;padding-inline:32px;}
+body[data-page='leaderboard'] main.container{width:100%;max-width:none;margin:0;padding:36px var(--page-edge) 64px;}
+body[data-page='leaderboard'] .benchmark-subnav{max-width:none;padding-inline:var(--page-edge);}
 .benchmark-heading{margin-bottom:28px;}.benchmark-heading h1{font-size:3.5rem;}.benchmark-heading>div>p{font-size:16px;}.benchmark-heading .benchmark-scope{font-size:14px;}.benchmark-scope span{font-size:13px;}
 body[data-page='leaderboard'] .leaderboard-workspace{background:transparent;border:0;border-radius:0;box-shadow:none;padding:0;}
 .results-toolbar{display:flex;align-items:center;gap:12px;margin-bottom:28px;}.results-search{width:300px;max-width:100%;}.results-search input{width:100%;min-height:44px;font-size:15px;}
