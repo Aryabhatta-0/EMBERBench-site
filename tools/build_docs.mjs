@@ -55,8 +55,8 @@ function localLink(href,doc){
  if(base==='LICENSE')return 'SOURCE-LICENSE.txt';
  if(/\.md$/.test(file))return 'evaluation-boundary.html';
  const safeCode=new Set(['scoring.py','metrics.py','simulator.py','observation.py','agent.py','evaluation.py','environment_pack.py','statistics.py','scenario.py','movement.py','fire.py','rng.py','replay.py','cli.py']);
- if(safeCode.has(base))return `https://github.com/Aryabhatta-0/EMBERBench/blob/main/src/emberbench/${base}${fragment?'#'+fragment:''}`;
- if(file.startsWith('../scenarios/public/'))return `https://github.com/Aryabhatta-0/EMBERBench/tree/main/${file.slice(3)}`;
+ if(safeCode.has(base))return `https://github.com/anantamlab/EMBERBench/blob/main/src/emberbench/${base}${fragment?'#'+fragment:''}`;
+ if(file.startsWith('../scenarios/public/'))return `https://github.com/anantamlab/EMBERBench/tree/main/${file.slice(3)}`;
  if(file)return 'evaluation-boundary.html';
  return href;
 }

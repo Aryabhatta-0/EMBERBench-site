@@ -1,9 +1,9 @@
-import { redesignMethodology } from "./workspace.js?v=20261031-dawn-1";
+import { redesignMethodology } from "./workspace.js?v=20261031-dawn-2";
 import {mountEvaluationLoop} from './evaluation-loop.js';
-import { loadResults, shell, esc, fmt } from "./common.js?v=20261031-dawn-1";
+import { loadResults, shell, esc, fmt } from "./common.js?v=20261031-dawn-2";
 
 // The site, its data and the data builder live in their own repository.
-const SITE_REPO = "https://github.com/Aryabhatta-0/EMBERBench-site/blob/main/";
+const SITE_REPO = "https://github.com/anantamlab/EMBERBench-site/blob/main/";
 const source = (path, label) => `<a href="${path.replace('benchmark-methodology.md','archived-validation.html').replace('integrity.md','replay-verification.html').replace('.md','.html')}">${esc(label)}</a>`;
 const siteSource = (path, label) => `<a href="${path === 'README.md' ? 'docs/site-data.html' : SITE_REPO+path}">${esc(label)}</a>`;
 

@@ -10,8 +10,25 @@ EMBERBench evaluates how decision models guide people through simulated fire eva
 
 The website presents the public-development benchmark, its methodology, and the documentation needed to understand or reproduce that public workflow. The displayed results are not emergency guidance or evidence of a contamination-resistant hidden evaluation. Models may train or tune against the public environment, and the current snapshot has one trial per model.
 
+## Founders
+
+### Sathvik A R, Founder
+
+Final-year B.Tech CSE (AI & ML) student at PES University, Bengaluru. An applied-AI and full-stack builder who works on LLM agents (LangChain, LangGraph), retrieval systems with evals (RAG, FAISS, BM25, Qdrant) and speech pipelines.
+
+- Competes in HackerRank Orchestrate AI-agent contests; ranked #58 of 1,771 in June 2026.
+- Builds and ships projects end to end, from model and retrieval design to the deployed web app.
+
+[X](https://x.com/Sathvik_48) · [GitHub](https://github.com/Sathvikar01) · [LinkedIn](https://linkedin.com/in/sathvikar) · [sathvikar.dev](https://sathvikar.dev)
+
+### Sankalp H S, Founder
+
+An AI builder who works on agent tooling, RAG and system architecture. Works with Sathvik on AI projects and hackathons, including EMBERBench and the Gnani AI Internship Challenge.
+
+[X](https://x.com/sankalphs)
+
 ## Open research, clear limits
 
-We publish the task and scoring contracts, public-development evidence and source links through the [Anantam GitHub organization](https://github.com/Aryabhatta-0). We distinguish those materials from any separate, private construction of an official test distribution. No official hidden-test results, hosted evaluation-submission service or other product is offered here.
+We publish the task and scoring contracts, public-development evidence and source links through the [Anantam GitHub organization](https://github.com/anantamlab). We distinguish those materials from any separate, private construction of an official test distribution. No official hidden-test results, hosted evaluation-submission service or other product is offered here.
 
 Explore [EMBERBench](benchmark.html), read the [methodology](methodology.html), or start with the [documentation](docs.html). Questions and corrections can be sent through our [contact page](contact.html).

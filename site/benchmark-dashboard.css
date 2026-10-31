@@ -1,5 +1,5 @@
 /* Open multi-model research charts, with provider identity and a shared scale. */
-:root{--plot-grid:#eadbc2;--plot-bar:#a96930;--provider-neutral:#171717;}
+:root{--plot-grid:#eadbc2;--plot-axis:color-mix(in srgb,var(--copper) 45%,var(--plot-grid));--plot-bar:#a96930;--provider-neutral:#171717;}
 body[data-page='leaderboard'] main.container{width:100%;max-width:none;margin:0;padding:36px var(--page-edge) 64px;}
 body[data-page='leaderboard'] .benchmark-subnav{max-width:none;padding-inline:var(--page-edge);}
 .benchmark-heading{margin-bottom:28px;}.benchmark-heading h1{font-size:var(--title-size);}.benchmark-heading>div>p{font-size:var(--lede-size);}.benchmark-heading .benchmark-scope{font-size:14px;}.benchmark-scope span{font-size:13px;}
@@ -12,16 +12,23 @@ body[data-page='leaderboard'] .leaderboard-workspace{background:transparent;bord
 .dashboard-panel-head{display:flex;justify-content:space-between;align-items:start;gap:20px;margin-bottom:32px;}.dashboard-panel-head h2{font-size:25px;line-height:1.3;margin:0 0 8px;font-weight:500;}.dashboard-panel-head p,.panel-context{font-size:14px;color:var(--text-secondary);margin:0;line-height:1.5;}.panel-context{white-space:nowrap;}
 /* Bars stay vertical at every width. Measured bands and zoom create vertical space. */
 .vertical-chart{--plot-height:var(--base-height);--bar-width:46px;--chart-label-size:12px;min-width:0;padding-top:28px;}
-.chart-bands{display:grid;gap:32px;}.chart-band{display:flex;gap:16px;min-width:0;}.column-y{display:flex;flex-direction:column;justify-content:space-between;height:var(--plot-height);width:40px;flex:none;font-size:12px;color:var(--text-secondary);font-variant-numeric:tabular-nums;}
-.column-chart{display:grid;grid-template-columns:repeat(var(--column-count),minmax(0,1fr));gap:8px;list-style:none;padding:0;margin:0;min-width:0;flex:1;background:repeating-linear-gradient(to top,var(--plot-grid) 0,var(--plot-grid) 1px,transparent 1px,transparent 25%) 0 0/100% var(--plot-height) no-repeat;}.column-chart>li{min-width:0;}
+.chart-bands{display:grid;gap:32px;}.chart-band{display:flex;gap:16px;min-width:0;}.column-y{position:relative;height:var(--plot-height);width:40px;flex:none;font-size:12px;line-height:1;color:var(--text-secondary);font-variant-numeric:tabular-nums;}.column-y>span{position:absolute;right:4px;translate:0 -50%;}.column-y>span:nth-child(2){top:25%;}.column-y>span:nth-child(3){top:50%;}.column-y>span:nth-child(4){top:75%;}.column-y>span:nth-child(5){top:100%;}
+.column-chart{display:grid;grid-template-columns:repeat(var(--column-count),minmax(0,1fr));gap:8px;list-style:none;padding:0;margin:0;min-width:0;flex:1;position:relative;background:linear-gradient(var(--plot-axis),var(--plot-axis)) 0 calc(var(--plot-height) - 1px)/100% 1px no-repeat,linear-gradient(var(--plot-grid),var(--plot-grid)) 0 0/100% 1px no-repeat,repeating-linear-gradient(to top,var(--plot-grid) 0,var(--plot-grid) 1px,transparent 1px,transparent 25%) 0 0/100% var(--plot-height) no-repeat;}.column-chart>li{min-width:0;}
 .vertical-model{position:relative;display:block;width:100%;height:calc(var(--plot-height) + 170px);min-height:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;color:var(--text-primary);font:inherit;text-align:center;text-decoration:none;cursor:pointer;}
 .column-well{position:relative;display:block;width:100%;max-width:var(--bar-width);height:var(--plot-height);margin:0 auto;background:transparent;}.chart-fill{position:absolute;inset:0;width:100%;height:100%;background:var(--model-color,var(--plot-bar));transform:scaleY(var(--bar-value));transform-origin:bottom;border-radius:3px 3px 0 0;}
-.vertical-model>b{position:absolute;left:50%;top:calc(var(--plot-height)*(1 - var(--bar-value)) - 25px);transform:translateX(-50%);font-size:calc(var(--chart-label-size) + 1px);font-weight:500;line-height:20px;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.vertical-model>b{position:absolute;left:50%;top:calc(var(--plot-height)*(1 - var(--bar-value)) - 25px);transform:translateX(-50%);font-size:calc(var(--chart-label-size) + 1px);font-weight:600;line-height:20px;white-space:nowrap;font-variant-numeric:tabular-nums;}
 .column-identity{display:block;position:relative;height:150px;margin-top:12px;}.chart-logo{display:block;object-fit:contain;width:20px;height:20px;margin-inline:auto;flex:none;}.reference-symbol{font-size:20px;line-height:20px;}.column-identity .chart-model-name{position:absolute;right:50%;top:32px;width:155px;max-width:none;text-align:right;font-size:var(--chart-label-size);line-height:1.35;white-space:normal;overflow-wrap:anywhere;transform:rotate(-52deg);transform-origin:right top;}
+/* The top three official ranks carry a small gilded numeral above their value. */
+.column-rank{position:absolute;left:50%;top:calc(var(--plot-height)*(1 - var(--bar-value)) - 52px);translate:-50% 0;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1px solid var(--gold);background:var(--ivory);color:var(--copper-deep);font-size:11px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;}
+/* A dashed line gives the AI scores context: the best hand-coded agent on the same scale. */
+.has-reference::after{content:'';position:absolute;left:0;right:0;top:calc(var(--plot-height)*(1 - var(--reference-value)));border-top:1.5px dashed var(--copper);opacity:.7;pointer-events:none;}
+.has-reference::before{content:attr(data-reference-label);position:absolute;right:0;top:calc(var(--plot-height)*(1 - var(--reference-value)) - 24px);padding:2px 0 2px 8px;font-size:12px;font-weight:500;line-height:18px;color:var(--copper-deep);pointer-events:none;}
+.factor-chart .mini-chart-head{display:block;}.mini-chart-head>p{margin:6px 0 0;font-size:14px;line-height:1.5;color:var(--text-secondary);}
+.scenario-flag{flex:none;padding:4px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;line-height:1.4;color:var(--text-secondary);}
 /* Phones: every model in one row; values and names turn vertical to fit narrow columns. */
 .is-squeezed{padding-top:44px;}.is-squeezed .chart-band{gap:6px;}.is-squeezed .column-y{width:28px;}.is-squeezed .column-chart{gap:1px;overflow-x:clip;}.is-squeezed .column-well{max-width:none;}.is-squeezed .vertical-model{height:calc(var(--plot-height) + 162px);}
 .is-squeezed .vertical-model>b{top:auto;bottom:calc(100% - var(--plot-height)*(1 - var(--bar-value)) + 4px);font-size:var(--chart-label-size);line-height:1;writing-mode:vertical-rl;transform:translateX(-50%) rotate(180deg);}
-.is-squeezed .column-identity{height:150px;margin-top:6px;}.is-squeezed .chart-logo,.is-squeezed .reference-symbol{display:none;}
+.is-squeezed .column-identity{height:150px;margin-top:6px;}.is-squeezed .chart-logo,.is-squeezed .reference-symbol,.is-squeezed .column-rank{display:none;}.is-squeezed .column-y{font-size:11px;}.is-squeezed .column-y>span{right:2px;}
 .is-squeezed .column-identity .chart-model-name{top:0;right:auto;left:50%;width:auto;max-height:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;line-height:1;writing-mode:vertical-rl;transform:translateX(-50%) rotate(180deg);transform-origin:center;}
 .vertical-model.is-inspected,.vertical-model.is-selected{background:transparent;}.vertical-model.is-inspected .column-well,.vertical-model.is-selected .column-well{outline:2px solid var(--focus);outline-offset:3px;}.vertical-model:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
 .chart-heading-actions{display:flex;align-items:center;gap:16px;}.chart-zoom{display:flex;flex:none;gap:2px;}.chart-zoom button{display:grid;place-items:center;min-width:44px;min-height:44px;border:1px solid var(--border);background:transparent;border-radius:4px;font-size:20px;color:var(--text-primary);cursor:pointer;}.chart-zoom button:disabled{opacity:.35;cursor:default;}.chart-zoom button:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
@@ -41,6 +48,14 @@ body[data-page='leaderboard'] .leaderboard-workspace{background:transparent;bord
 .evaluation-scope p{max-width:112ch;}
 .evaluation-scope strong{font-weight:500;color:var(--text-primary);}
 .evaluation-scope a{color:var(--link);text-underline-offset:3px;}
+/* Headline numbers: three open columns divided by gold hairlines, read before any chart. */
+.benchmark-glance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0 0 28px;padding:22px 0;border-block:1px solid var(--border);}
+.benchmark-glance>div{min-width:0;padding:0 28px;border-left:1px solid color-mix(in srgb,var(--gold) 55%,transparent);}.benchmark-glance>div:first-child{padding-left:0;border-left:0;}
+.benchmark-glance dt{font-size:13px;font-weight:500;letter-spacing:.02em;color:var(--copper-deep);}
+.benchmark-glance dd{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 14px;margin:6px 0 0;}
+.benchmark-glance strong{font-family:var(--font-display);font-size:clamp(40px,4.4vw,56px);font-weight:400;line-height:1;letter-spacing:-.01em;color:var(--text-primary);font-variant-numeric:tabular-nums;}
+.benchmark-glance span{min-width:0;font-size:14px;line-height:1.4;color:var(--text-secondary);overflow-wrap:anywhere;}
+@media(max-width:700px){.benchmark-glance{grid-template-columns:minmax(0,1fr);padding:4px 0;}.benchmark-glance>div{padding:14px 0;border-left:0;border-top:1px solid var(--border);}.benchmark-glance>div:first-child{border-top:0;}.benchmark-glance strong{font-size:40px;}}
 .results-toolbar{display:grid;grid-template-columns:minmax(0,300px) max-content;justify-content:start;align-items:center;gap:16px 12px;margin-bottom:40px;}
 .results-search{width:100%;margin:0;}
 .results-search input{display:block;height:44px;padding:10px 14px;}

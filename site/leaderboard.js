@@ -9,14 +9,15 @@ import {
   provider,
   providerInfo,
   errorPage,
-} from "./common.js?v=20261031-dawn-1";
+} from "./common.js?v=20261031-dawn-2";
 import {
   METRICS,
   filterModels,
   sortModels,
   finite,
-} from "./analytics.js?v=20261031-dawn-1";
-import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261031-dawn-1';
+  leaderboardOrder,
+} from "./analytics.js?v=20261031-dawn-2";
+import {resultExplorer, bindResultExplorer} from './result-explorer.js?v=20261031-dawn-2';
 
 const columns = [
   ["score", "EMBER"],
@@ -57,9 +58,14 @@ async function main() {
   const providersForKind=()=>[...new Set(data.models.filter(m=>state.kind==='all'||m.kind===state.kind).map(provider))].sort();
   const normalizeProvider=()=>{if(!providersForKind().includes(state.creator))state.creator='all';};
   normalizeProvider();
+  // Three headline numbers answer the first questions before any chart: who leads, against what, on how much.
+  const decisions=data.models.filter(m=>m.kind==='Decision model'),references=data.models.filter(m=>m.kind==='Reference agent');
+  const topModel=leaderboardOrder(decisions)[0],topReference=leaderboardOrder(references)[0],scenarioCount=new Set(data.models.flatMap(m=>m.scenarios.map(s=>s.name))).size;
+  const glance=(label,value,note)=>`<div><dt>${label}</dt><dd><strong>${value}</strong><span>${note}</span></dd></div>`;
   document.getElementById("main").innerHTML =
-    `<header class="benchmark-heading"><div><h1>EMBERBench</h1><p>Can AI guide people to safety as a fire spreads?</p></div><p class="benchmark-scope">${esc(data.world_count)} worlds · ${data.models.filter(m=>m.kind==='Decision model').length} decision models · ${data.models.filter(m=>m.kind==='Reference agent').length} reference agents<span>Public development snapshot · 1 trial per model</span></p></header>
-    <section class="evaluation-scope" aria-label="Evaluation scope"><h2 class="sr-only">Public development leaderboard</h2><p><strong>Public development results.</strong> Models may train or tune here; scores are reproducible, but not contamination-resistant. Official EMBERBench requires separate hidden evaluation. No official hidden-test results or submission service are published here. <a href="docs/evaluation-boundary.html">About this evaluation</a></p></section>
+    `<header class="benchmark-heading"><div><h1>EMBERBench</h1><p>Can AI guide people to safety as a fire spreads?</p></div><p class="benchmark-scope">${esc(data.world_count)} worlds · ${decisions.length} decision models · ${references.length} reference agents<span>Public development snapshot · 1 trial per model</span></p></header>
+    <dl class="benchmark-glance">${topModel?glance('Best AI model',esc(fmt(topModel.score)),esc(topModel.name)):''}${topReference?glance('Best hand-coded agent',esc(fmt(topReference.score)),esc(topReference.name)):''}${glance('Tested',esc(String(decisions.length)),`AI models across ${esc(String(scenarioCount))} fire scenarios`)}</dl>
+    <section class="evaluation-scope" aria-label="Evaluation scope"><h2 class="sr-only">Public development leaderboard</h2><p><strong>Public development results.</strong> Models may train on this public set, so scores are reproducible but not contamination-resistant. The official hidden test is separate and is not published here. <a href="docs/evaluation-boundary.html">About this evaluation</a></p></section>
     <section class="leaderboard-workspace" aria-label="Model explorer">
       <div class="results-toolbar"><label class="results-search" for="search"><span class="sr-only">Search models</span><input id="search" type="search" placeholder="Search models" value="${esc(state.query)}"></label><details class="results-options"><summary>Filters<span class="filter-count" hidden></span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5"/></svg></summary><div class="results-option-fields"><label class="field">Entry type<select id="kind"><option value="all">All entries</option><option>Decision model</option><option>Reference agent</option></select></label><label class="field">Provider<select id="provider"><option value="all">All providers</option>${[...new Set(data.models.map(provider))].sort().map(p => `<option value="${esc(p)}">${esc(providerInfo(p).name)}</option>`).join('')}</select></label><label class="field">Ranking metric<select id="metric">${columns.map(([key,label]) => `<option value="${key}">${label}</option>`).join('')}</select></label><button class="button small" id="reset-filters" type="button">Reset filters</button></div></details></div>
       <p id="result-count" class="sr-only" aria-live="polite"></p><div id="visual-results"></div>
