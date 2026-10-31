@@ -19,7 +19,7 @@ function inspector(data, model) {
 }
 
 export function resultExplorer(data, models, state, value) {
-  if (!models.length) return `<div class="empty"><h2>No matching models.</h2><p>Try another search or reset filters.</p></div>`;
+  if (!models.length) return `<div class="empty"><h2>No matching models</h2><p>Try another search or reset filters.</p></div>`;
   const selected = models.find(m=>m.id===state.inspect) || null;
   return `${dashboard(data,models,selected,state,value)}${selected?`<section class="selected-evidence" aria-label="Selected model evidence">${inspector(data,selected)}</section>`:''}`;
 }

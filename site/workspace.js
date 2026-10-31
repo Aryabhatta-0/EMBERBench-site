@@ -99,7 +99,7 @@ export function redesignProfile(model) {
 
 export function redesignMethodology() {
   const main = document.getElementById('main');
-  main.querySelector('.page-head').outerHTML = editorHeader('How decisions<br>become evidence.', 'The worlds, the scoring, and the limits behind every result.');
+  main.querySelector('.page-head').outerHTML = editorHeader('How decisions<br>become evidence', 'The worlds, the scoring, and the limits behind every result.');
   const article = document.createElement('article'); article.className = 'method-article';
   const sections = [...main.querySelectorAll('section.panel')];
   const aside = document.createElement('nav'); aside.className = 'method-contents'; aside.setAttribute('aria-label','On this page');

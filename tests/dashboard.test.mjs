@@ -58,7 +58,7 @@ try{
  await openFilters();await page.locator('#metric').selectOption('cost');await page.locator('#kind').selectOption('Reference agent');
  check('Missing API costs are omitted rather than plotted as zero',await page.locator('.column-missing').count()===data.models.filter(m=>m.kind==='Reference agent').length&&await page.locator('.column-model b').allTextContents().then(v=>v.every(t=>t==='—')));
  await audit('Reference data missing API values');
- await page.locator('#search').fill('no-such-model');check('Empty chart filters offer recovery',await page.getByRole('heading',{name:'No matching models.',exact:true}).isVisible());
+ await page.locator('#search').fill('no-such-model');check('Empty chart filters offer recovery',await page.getByRole('heading',{name:'No matching models',exact:true}).isVisible());
  await go('index.html');await page.locator('.company-hero[data-motion="playing"]').waitFor();
  const current=page.locator('.particle-canvas');const initial=await current.evaluate(el=>el.toDataURL());await page.waitForTimeout(250);
  check('Fine particles visibly change during their entrance',await current.evaluate(el=>el.toDataURL())!==initial);
