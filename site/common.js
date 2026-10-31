@@ -1,13 +1,13 @@
-import {siteHeader} from './chrome.js?v=20261031-dawn-3';
-import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261031-dawn-3';
-import {siteFooter,revealCompanyFooter} from './footer.js?v=20261031-dawn-3';
+import {siteHeader} from './chrome.js?v=20261031-dawn-4';
+import {readComparisonSelection,saveComparisonSelection} from './preferences.js?v=20261031-dawn-4';
+import {siteFooter,revealCompanyFooter} from './footer.js?v=20261031-dawn-4';
 import {
   provider,
   providerInfo,
   rankOf,
   selectedIds,
   leaderboardOrder,
-} from "./analytics.js?v=20261031-dawn-3";
+} from "./analytics.js?v=20261031-dawn-4";
 
 export const esc = (v) =>
   String(v ?? "").replace(

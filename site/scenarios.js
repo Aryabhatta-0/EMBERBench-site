@@ -1,4 +1,4 @@
-import { editorHeader, disclosure } from "./workspace.js?v=20261031-dawn-3";
+import { editorHeader, disclosure } from "./workspace.js?v=20261031-dawn-4";
 import {
   loadResults,
   shell,
@@ -13,8 +13,8 @@ import {
   errorPage,
   REPO,
   scenarioName,
-} from "./common.js?v=20261031-dawn-3";
-import { filterModels, finite, worldKey } from "./analytics.js?v=20261031-dawn-3";
+} from "./common.js?v=20261031-dawn-4";
+import { filterModels, finite, worldKey } from "./analytics.js?v=20261031-dawn-4";
 import { heatmap } from "./charts.js";
 
 // Descriptions and fire-model labels come from docs/scenario-suite.md.

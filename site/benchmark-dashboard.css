@@ -46,22 +46,17 @@ body[data-page='leaderboard'] .leaderboard-workspace{background:transparent;bord
 .evaluation-scope strong{font-weight:500;color:var(--text-primary);}
 .evaluation-scope a{color:var(--link);text-underline-offset:3px;}
 /* Headline numbers: three open columns divided by gold hairlines, read before any chart. */
-.benchmark-glance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0 0 28px;padding:22px 0;border-block:1px solid var(--border);}
-.benchmark-glance>div{min-width:0;padding:0 28px;border-left:1px solid color-mix(in srgb,var(--gold) 55%,transparent);}.benchmark-glance>div:first-child{padding-left:0;border-left:0;}
-.benchmark-glance dt{font-size:13px;font-weight:500;letter-spacing:.02em;color:var(--copper-deep);}
-.benchmark-glance dd{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 14px;margin:6px 0 0;}
-.benchmark-glance strong{font-family:var(--font-display);font-size:clamp(40px,4.4vw,56px);font-weight:400;line-height:1;letter-spacing:-.01em;color:var(--text-primary);font-variant-numeric:tabular-nums;}
-.benchmark-glance span{min-width:0;font-size:14px;line-height:1.4;color:var(--text-secondary);overflow-wrap:anywhere;}
-@media(max-width:700px){.benchmark-glance{grid-template-columns:minmax(0,1fr);padding:4px 0;}.benchmark-glance>div{padding:14px 0;border-left:0;border-top:1px solid var(--border);}.benchmark-glance>div:first-child{border-top:0;}.benchmark-glance strong{font-size:40px;}}
 .dashboard-panel{border:0;padding-top:0;}
 .chart-zoom{display:none;}
 /* Touch tablets: chart title links get the same 44px tap area as phones. */
 @media(pointer:coarse){.mini-chart-head h3>a{display:inline-block;padding-block:10px;margin-block:-10px;}}
-/* Round 4: one visible filter bar, a short guide to it, chart jumps, cost and speed charts, and a scenario heatmap. */
+/* Round 4: one visible filter bar, a short guide to it, cost and speed charts, and a scenario heatmap. */
 .benchmark-heading{display:block;}
 .benchmark-heading>p{font-size:var(--lede-size);}
 .evaluation-scope{font-size:14px;line-height:1.65;color:var(--text-secondary);max-width:112ch;}
-.filter-bar{display:grid;grid-template-columns:minmax(200px,1.3fr) auto minmax(150px,1fr) minmax(170px,1fr) auto;align-items:end;gap:16px;padding:18px 20px;border:1px solid var(--border);border-radius:var(--radius-surface);background:color-mix(in srgb,var(--surface-1) 85%,transparent);}
+.benchmark-heading .evaluation-scope{margin:10px 0 0;font-size:14px;}
+.filter-kind>legend{float:left;width:100%;margin-bottom:6px;}.filter-kind>.segmented{clear:both;}
+.filter-bar{display:grid;grid-template-columns:minmax(200px,1.3fr) auto minmax(150px,1fr) minmax(170px,1fr) auto;align-items:end;gap:16px;}
 .filter-field{display:grid;gap:6px;min-width:0;margin:0;padding:0;border:0;}
 .filter-label{padding:0;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);}
 .filter-field input[type=search],.filter-field select{width:100%;height:44px;margin:0;padding:0 14px;border:1px solid var(--input-border);border-radius:10px;background:var(--surface-1);font-size:15px;color:var(--text-primary);}
@@ -76,7 +71,7 @@ body[data-page='leaderboard'] .leaderboard-workspace{background:transparent;bord
 .filter-reset{height:44px;padding:0 18px;border:1px solid transparent;border-radius:999px;background:none;font:500 14px/1 var(--font-body);color:var(--link);cursor:pointer;text-decoration:underline;text-underline-offset:4px;}
 .filter-reset:disabled{color:var(--text-muted);text-decoration:none;cursor:default;opacity:.7;}
 .filter-reset:not(:disabled):active{scale:.97;}
-.filter-foot{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin:14px 2px 0;}
+.filter-foot{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin:14px 2px 40px;}
 .filter-status{margin:0;font-size:14px;color:var(--text-secondary);}
 .filter-help{margin:0;padding:0;border:0;font-size:14px;}
 .filter-help>summary{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-block:-12px;cursor:pointer;list-style:none;font-weight:500;color:var(--link);}
@@ -85,10 +80,6 @@ body[data-page='leaderboard'] .leaderboard-workspace{background:transparent;bord
 .filter-help[open]{flex-basis:100%;}
 .filter-help ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 32px;margin:8px 0 0;padding:16px 20px;border-left:2px solid var(--gold);background:color-mix(in srgb,var(--surface-2) 60%,transparent);list-style:none;line-height:1.55;color:var(--text-secondary);}
 .filter-help b{font-weight:600;color:var(--text-primary);}
-.chart-jump{position:sticky;top:var(--header-offset,64px);z-index:4;margin:28px 0 36px;padding:8px 0;background:color-mix(in srgb,var(--surface-0) 92%,transparent);backdrop-filter:blur(8px);}
-.chart-jump ul{display:flex;gap:6px;margin:0;padding:0;list-style:none;overflow-x:auto;scrollbar-width:none;}
-.chart-jump a{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border:1px solid var(--border);border-radius:999px;font-size:14px;white-space:nowrap;color:var(--text-secondary);text-decoration:none;background:var(--surface-1);transition:border-color var(--duration-quick) var(--ease-out),color var(--duration-quick) var(--ease-out);}
-.chart-jump a:hover{border-color:var(--copper);color:var(--text-primary);}
 .benchmark-dashboard>section{scroll-margin-top:120px;}
 .evidence-detail{margin-top:32px;}
 /* Score against cost and speed. Points carry the provider logo; the gold line is the frontier. */
@@ -141,12 +132,14 @@ body[data-page='leaderboard'] .leaderboard-workspace{background:transparent;bord
 .heat-cell:focus-visible{outline:2px solid var(--focus);outline-offset:1px;}
 @media(max-width:1100px){.filter-bar{grid-template-columns:repeat(2,minmax(0,1fr));}.filter-search{grid-column:1/-1;}.filter-kind{grid-column:1/-1;}.filter-reset{justify-self:start;}.scatter-pair{grid-template-columns:minmax(0,1fr);}}
 @media(max-width:700px){
- .filter-bar{grid-template-columns:minmax(0,1fr);padding:14px;gap:14px;}
+ .filter-bar{gap:12px;}.filter-kind,.filter-search{grid-column:1/-1;}.filter-reset{grid-column:1/-1;height:36px;margin-top:-4px;padding:0;}
+ .filter-field input[type=search],.filter-field select{font-size:16px;}
+ .filter-field select{padding:0 30px 0 12px;}
  .segmented{width:100%;}.segmented label{flex:1;}.segmented span{justify-content:center;width:100%;padding:0 8px;font-size:13px;}
  .filter-help ul{grid-template-columns:minmax(0,1fr);}
+ .filter-foot{gap:6px 16px;margin-bottom:32px;}.filter-status{font-size:13px;}
  .scatter-frame{grid-template-columns:36px minmax(0,1fr);grid-template-rows:260px 28px auto;}
  .scatter-label{display:none;}
  .scenario-heatmap{min-width:720px;}.scenario-heatmap .heat-corner{width:130px;}
- .chart-jump{margin:20px 0 24px;}
 }
 @media(prefers-reduced-motion:reduce){.scatter-point,.heat-cell,.segmented span{transition:none;}}
